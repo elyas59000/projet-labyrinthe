@@ -11,7 +11,7 @@ public class SceneMenuPrincipal extends Stage {
     public SceneMenuPrincipal() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("SceneMenuPrincipal.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        this.setTitle("Hello!");
+        this.setTitle("Jeu Du Labyrinthe©");
         this.setScene(scene);
         this.show();
     }
