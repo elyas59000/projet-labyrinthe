@@ -5,9 +5,9 @@
 
 ### **a Fait** : 
 
-> **Anas** : base du modèle creation des differentes interfaces avec les méthodes ainsi que les bases (attributs et constructeur) de chaque classe utile au modèle
+> **Anas** : base du modèle creation des différentes interfaces avec les méthodes ainsi que les bases (attributs et constructeur) de chaque classe utile au modèle.
 > 
-> **Nathan** : 
+> **Nathan** : Création du readMe avec la description du jeu, et des classes Defi, Celulle et Joueur ainsi que leur interface.
 >
 > **Clement** : 
 > 
