@@ -3,7 +3,17 @@
 ## Semaine 1
 
 
-### Fait 
+### **a Fait** : 
+
+> **Anas** :
+> 
+> **Nathan** : 
+>
+> **Clement** : 
+> 
+> **Elyas** :
+> 
+> **Adam** : 
 
 
 
