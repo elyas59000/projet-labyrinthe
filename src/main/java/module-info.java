@@ -1,4 +1,4 @@
-module j1.sae_labyrinthe {
+module J4.sae_labyrinthe {
     requires javafx.controls;
     requires javafx.fxml;
 
