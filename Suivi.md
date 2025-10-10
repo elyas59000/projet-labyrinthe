@@ -9,7 +9,7 @@
 > 
 > **Nathan** : Création du readMe avec la description du jeu, et des classes Defi, Celulle et Joueur ainsi que leur interface.
 >
-> **Clement** : 
+> **Clement** : Création des scènes suivantes avec SceneBuilder : MenuPrincipal
 > 
 > **Elyas** :
 > 
