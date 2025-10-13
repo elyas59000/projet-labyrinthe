@@ -29,13 +29,13 @@ public interface IModeleJeu {
      *lance la partie en mode progression avec la progression du joueur passé en paramètre
      * @param j
      */
-    void lancerPartieProgresion(IJoueur j);
+    void lancerPartieProgression(IJoueur j);
 
     /**
      *
      * @return
      */
-    Joueur selectionnerJoureur();
+    Joueur selectionnerJoueur();
 
     /**
      *

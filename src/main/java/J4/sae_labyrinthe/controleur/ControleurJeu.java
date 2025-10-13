@@ -19,15 +19,15 @@ public class ControleurJeu{
         this.modeleJeu = new ModeleJeu();
     }
 
-    public void déplacé_joueur(String touche){
+    public void deplacerJoueur(String touche){
 
     }
 
-    public void démarréProgression(){
+    public void demarrerProgression(){
 
-        IJoueur joueur_chosi = modeleJeu.selectionnerJoureur();
-        if(joueur_chosi != null){
-            modeleJeu.lancerPartieProgresion(joueur_chosi);
+        IJoueur joueurChoisi = modeleJeu.selectionnerJoueur();
+        if(joueurChoisi != null){
+            modeleJeu.lancerPartieProgression(joueurChoisi);
             //vue.afficher("lancement mode progressin ...)
 
         }

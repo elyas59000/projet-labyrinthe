@@ -34,12 +34,12 @@ public class ModeleJeu implements  IModeleJeu{
     }
 
     @Override
-    public void lancerPartieProgresion(IJoueur j) {
+    public void lancerPartieProgression(IJoueur j) {
 
     }
 
     @Override
-    public Joueur selectionnerJoureur() {
+    public Joueur selectionnerJoueur() {
         return null;
     }
 
