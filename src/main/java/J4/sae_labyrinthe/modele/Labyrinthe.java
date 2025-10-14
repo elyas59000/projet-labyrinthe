@@ -49,10 +49,4 @@ public class Labyrinthe implements ILabyrinthe{
         }
         return  grille;
     }
-
-    public static void main(String[] args) {
-        Labyrinthe l = new Labyrinthe(10,10);
-        l.genererGrilleVide();
-        System.out.println(l);
-    }
 }
