@@ -11,6 +11,10 @@ public class Cellule implements ICellule{
         this.mur = mur;
     }
 
+    public Cellule(int x,int y){
+        this(x,y,false);
+    }
+
     public int getX() { return x; }
     public int getY() { return y; }
     public boolean estMur() { return mur; }
