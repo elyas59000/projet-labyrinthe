@@ -9,9 +9,11 @@
 > 
 > **Nathan** : Création du readMe avec la description du jeu, et des classes Defi, Celulle et Joueur ainsi que leur interface.
 >
-> **Clement** : Création des scènes suivantes avec SceneBuilder : MenuPrincipal
+> **Clement** : Création des scènes suivantes avec SceneBuilder et de leur controleur : MenuPrincipal, RègleDuJeu
+>               Mise en place de l'architecture du projet
+>               Création de la classe outil SceneManager
 > 
-> **Elyas** :
+> **Elyas** : Création du controleur : ControleurJeu
 > 
 > **Adam** : 
 
