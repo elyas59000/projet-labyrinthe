@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<GridPane alignment="CENTER" prefHeight="600" prefWidth="800" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="J4.sae_labyrinthe.controleur.SceneMenuPrincipalControleur">
+
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20" />
+        <ColumnConstraints hgrow="ALWAYS" percentWidth="60" />
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20" />
+    </columnConstraints>
+
+    <rowConstraints>
+        <RowConstraints percentHeight="20" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="60" vgrow="ALWAYS" />
+        <RowConstraints percentHeight="20" vgrow="SOMETIMES" />
+    </rowConstraints>
+
+    <children>
+        <!-- Titre -->
+        <Text style="-fx-font-size:33px; -fx-font-weight:bold;" text="Labyrinthe" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+
+        <!-- Bloc central : VBox fillWidth pour que les boutons prennent la largeur dispo -->
+        <VBox alignment="CENTER" fillWidth="true" spacing="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <children>
+                <!-- maxWidth mis à une très grande valeur pour permettre l'étirement -->
+                <Button disable="true" maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneProgression" prefHeight="70.0" prefWidth="480.0" text="Mode Progression" />
+                <Button maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneLibre" prefHeight="70.0" prefWidth="480.0" text="Mode Libre" />
+                <Button maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneScores" prefHeight="70.0" prefWidth="480.0" text="Scores" />
+            </children>
+        </VBox>
+
+        <!-- Boutons bas gauche / bas droite -->
+        <Button onMouseClicked="#ouvrirSceneRegleDuJeu" prefHeight="70.0" prefWidth="70.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+         <graphic>
+            <ImageView fitHeight="43.0" fitWidth="41.0" nodeOrientation="INHERIT" preserveRatio="true" smooth="false">
+               <image>
+                  <Image url="@../assets/icons/rules.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+
+        <Button onMouseClicked="#quitterApp" prefHeight="70.0" prefWidth="70.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+         <graphic>
+            <ImageView fitHeight="43.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/icons/exit.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+
+        <!-- Texte "Déconnecté" -->
+        <Text fx:id="textHintConnexion" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: red;" text="Déconnecté" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+         <effect>
+            <Glow level="0.68">
+               <input>
+                  <DropShadow blurType="ONE_PASS_BOX" height="30.36" radius="18.2025" spread="0.38" width="44.45" />
+               </input>
+            </Glow>
+         </effect></Text>
+      <Button onMouseClicked="#ouvrirSceneConnexion" prefHeight="70.0" prefWidth="70.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+         <graphic>
+            <ImageView fitHeight="150.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/icons/account_default_pp.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+    </children>
+</GridPane>
