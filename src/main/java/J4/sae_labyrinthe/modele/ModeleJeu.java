@@ -20,7 +20,9 @@ public class ModeleJeu implements  IModeleJeu{
 
     @Override
     public Joueur creerJoueur(String nom) {
-        return null;
+        Joueur nouveau = new Joueur(nom);
+        this.joueurs.add(nouveau);
+        return nouveau;
     }
 
     @Override
@@ -30,12 +32,11 @@ public class ModeleJeu implements  IModeleJeu{
 
     @Override
     public void lancerPartieLibre(int largeur, int hauteur, int tauxMur) {
-
+        this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
     }
 
     @Override
     public void lancerPartieProgression(IJoueur j) {
-
     }
 
     @Override
@@ -45,12 +46,12 @@ public class ModeleJeu implements  IModeleJeu{
 
     @Override
     public void remove(IObserver observer) {
-
+        this.observers.remove(observer);
     }
 
     @Override
     public void add(IObserver observer) {
-
+        this.observers.add(observer);
     }
 
 
