@@ -10,6 +10,8 @@ public class ModeleJeu implements  IModeleJeu{
     private ILabyrinthe labyrinthe;
     private List<Joueur> joueurs;
     protected List<IObserver> observers;
+    private Joueur joueurActuel;
+    private Cellule positionJoueur;
 
     public ModeleJeu(){
         this.joueurs = new ArrayList<>();
@@ -22,6 +24,7 @@ public class ModeleJeu implements  IModeleJeu{
     public Joueur creerJoueur(String nom) {
         Joueur nouveau = new Joueur(nom);
         this.joueurs.add(nouveau);
+        this.joueurActuel = nouveau;
         return nouveau;
     }
 
@@ -41,7 +44,7 @@ public class ModeleJeu implements  IModeleJeu{
 
     @Override
     public Joueur selectionnerJoueur() {
-        return null;
+        return joueurActuel;
     }
 
     @Override
@@ -59,7 +62,62 @@ public class ModeleJeu implements  IModeleJeu{
         return joueurs;
     }
 
+    public Cellule getPositionJoueur() {
+        return positionJoueur;
+    }
+
+    public Joueur getJoueurActuel() {
+        return joueurActuel;
+    }
+
     public ILabyrinthe getLabyrinthe() {
         return labyrinthe;
+    }
+
+
+    private void notifierObservateurs() {
+        for (IObserver obs : observers) {
+            obs.update((Labyrinthe) labyrinthe);
+        }
+    }
+
+
+    public void deplacerJoueur(String direction) {
+        if (labyrinthe == null || positionJoueur == null) return;
+
+        int x = positionJoueur.getX();
+        int y = positionJoueur.getY();
+
+        int nx = x, ny = y;
+        if(direction.toLowerCase().startsWith("z")){
+            ny--;
+        }
+        else if(direction.toLowerCase().startsWith("s")){
+            ny++;
+        }
+        else if(direction.toLowerCase().startsWith("q")){
+            nx--;
+        }
+        else if(direction.toLowerCase().startsWith("d")){
+            nx++;
+        }
+        else{
+            System.out.println("mauvaise direction");
+            return;
+        }
+
+        if (nx >= 0 && nx < labyrinthe.getLargeur() && ny >= 0 && ny < labyrinthe.getHauteur()) {
+            Cellule next = ((Labyrinthe) labyrinthe).getGrille()[ny][nx];
+            if (!next.estMur()) {
+                positionJoueur = next;
+                if (next == ((Labyrinthe) labyrinthe).getSortie()) {
+                    System.out.println("Bravo ! Vous avez atteint la sortie !");
+                }
+                notifierObservateurs();
+            }
+            else{
+                System.out.println("C'est un mur");
+            }
+        }
     }
 }
