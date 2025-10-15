@@ -9,6 +9,7 @@ public class Defi implements IDefi{
     public Defi(String difficulte, int largeur, int hauteur, double pourcentageMurs) {
         this.difficulte = difficulte;
         this.reussi = false;
+        labyrinthe = new Labyrinthe(largeur, hauteur, pourcentageMurs);
 
     }
 

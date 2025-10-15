@@ -1,4 +1,12 @@
 package J4.sae_labyrinthe.modele;
 
 public interface ILabyrinthe {
+
+    Cellule[][] getGrille();
+    int getLargeur();
+    int getHauteur();
+    Cellule getEntree();
+    Cellule getSortie();
+
+    double getPourcentageMurs();
 }
