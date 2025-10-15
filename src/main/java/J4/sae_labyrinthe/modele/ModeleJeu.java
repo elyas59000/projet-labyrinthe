@@ -70,8 +70,8 @@ public class ModeleJeu implements  IModeleJeu{
         return joueurActuel;
     }
 
-    public ILabyrinthe getLabyrinthe() {
-        return labyrinthe;
+    public Labyrinthe getLabyrinthe() {
+        return (Labyrinthe) this.labyrinthe;
     }
 
 

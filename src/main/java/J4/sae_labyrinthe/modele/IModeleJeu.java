@@ -49,4 +49,5 @@ public interface IModeleJeu {
      */
     void add(IObserver observer);
 
+    Labyrinthe getLabyrinthe();
 }
