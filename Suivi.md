@@ -19,4 +19,20 @@
 
 
 
-#
+## Semaine2
+
+
+### **a Fait** :
+
+> **Anas** : 
+>
+> **Nathan** : Création du labyrinthe fonctionnel avec une largeur, une hauteur, un pourcentage de murs, et un chemin entre l'entrée et la sortie.
+>              Ajout de fonctionnalité dans la classe Etape.
+>              Remplissage de toutes les interfaces du model.
+>              Ajout de la position du joueur et du déplacement dans la classe ModeleJeu.
+>
+> **Clement** : 
+>
+> **Elyas** : 
+>
+> **Adam** : 
