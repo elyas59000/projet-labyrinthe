@@ -14,39 +14,51 @@ public class VueLabyrintheEntier extends Stage implements IObserver{
 
     //ControllerJeu controller;
     IModeleJeu modele;
+    private final GridPane P =new GridPane();
+
 
     public VueLabyrintheEntier(IModeleJeu modele){
-        this.modele= modele;
+        this.modele=  modele;
         this.setTitle("Fenetre laby");
         this.setScene(createSceneContent());
         this.show();
     }
 
     private Scene createSceneContent(){
-        GridPane p=new GridPane();
-        afficherLabyrinthe(p);
-        return new Scene(p);
+        afficherLabyrinthe(P);
+        return new Scene(P);
     }
 
 
     @Override
-    public void update(Labyrinthe l) {
-
+    public void update() {
+        afficherLabyrinthe(P);
     }
 
     private  void afficherLabyrinthe(GridPane p){
+        p.getChildren().clear();
         Rectangle cell;
-        for(int i=0;i<40;i++){
-            for(int j=0;j<40;j++){
-                cell = new Rectangle(25,25);
-                if (this.modele.getLabyrinthe().getGrille()[i][j].estMur()){
+        for(int i=0;i<this.getModele().getLabyrinthe().getHauteur();i++){
+            for(int j=0;j<this.getModele().getLabyrinthe().getLargeur();j++){
+                cell = new Rectangle(10,10);
+                if (this.getModele().getLabyrinthe().getGrille()[i][j].estMur()){
                     cell.setFill(Paint.valueOf("Black"));
-                }else {
+                }else if(this.getModele().getLabyrinthe().getGrille()[i][j].equals(this.getModele().getPositionJoueur())){
                     cell.setFill(Paint.valueOf("blue"));
+                }else {
+                    cell.setFill(Paint.valueOf("White"));
                 }
 
                 p.add(cell,i,j);
             }
         }
+    }
+
+    public ModeleJeu getModele() {
+        return (ModeleJeu) modele;
+    }
+
+    public GridPane getP() {
+        return P;
     }
 }

@@ -36,6 +36,7 @@ public class ModeleJeu implements  IModeleJeu{
     @Override
     public void lancerPartieLibre(int largeur, int hauteur, int tauxMur) {
         this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
+        this.positionJoueur = this.labyrinthe.getEntree();
     }
 
     @Override
@@ -75,9 +76,9 @@ public class ModeleJeu implements  IModeleJeu{
     }
 
 
-    private void notifierObservateurs() {
+    public void notifierObservateurs() {
         for (IObserver obs : observers) {
-            obs.update((Labyrinthe) labyrinthe);
+            obs.update();
         }
     }
 
@@ -90,21 +91,22 @@ public class ModeleJeu implements  IModeleJeu{
 
         int nx = x, ny = y;
         if(direction.toLowerCase().startsWith("z")){
-            ny--;
-        }
-        else if(direction.toLowerCase().startsWith("s")){
-            ny++;
-        }
-        else if(direction.toLowerCase().startsWith("q")){
             nx--;
         }
-        else if(direction.toLowerCase().startsWith("d")){
+        else if(direction.toLowerCase().startsWith("s")){
             nx++;
+        }
+        else if(direction.toLowerCase().startsWith("q")){
+            ny--;
+        }
+        else if(direction.toLowerCase().startsWith("d")){
+            ny++;
         }
         else{
             System.out.println("mauvaise direction");
             return;
         }
+        this.notifierObservateurs();
 
         if (nx >= 0 && nx < labyrinthe.getLargeur() && ny >= 0 && ny < labyrinthe.getHauteur()) {
             Cellule next = ((Labyrinthe) labyrinthe).getGrille()[ny][nx];

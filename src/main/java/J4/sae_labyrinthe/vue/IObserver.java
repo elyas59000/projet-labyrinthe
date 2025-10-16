@@ -4,5 +4,5 @@ import J4.sae_labyrinthe.modele.Labyrinthe;
 
 public interface IObserver {
 
-    public void update(Labyrinthe l);
+    public void update();
 }
