@@ -6,6 +6,8 @@ import J4.sae_labyrinthe.modele.IModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.vue.IObserver;
 import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
+import javafx.animation.KeyValue;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
@@ -22,7 +24,18 @@ public class ControleurJeu{
     }
 
     public void deplacerJoueur(KeyEvent event){
-        String direction = event.getCode().getChar();
+        String direction;
+        if(KeyCode.UP.equals(event.getCode())){
+            direction= "z";
+        } else if (KeyCode.DOWN.equals(event.getCode())) {
+            direction= "s";
+        }else if (KeyCode.LEFT.equals(event.getCode())) {
+            direction= "q";
+        }else if (KeyCode.RIGHT.equals(event.getCode())) {
+            direction= "d";
+        }else {
+            direction = event.getCode().getChar();
+        }
         this.modele.deplacerJoueur(direction);
         System.out.println(this.getModele().getPositionJoueur().getX() + " " + this.getModele().getPositionJoueur().getY());
     }
