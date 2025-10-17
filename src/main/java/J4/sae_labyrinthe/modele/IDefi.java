@@ -1,10 +1,6 @@
 package J4.sae_labyrinthe.modele;
 
 public interface IDefi {
-    /**
-     *
-     */
-    void jouer();
 
     /**
      *

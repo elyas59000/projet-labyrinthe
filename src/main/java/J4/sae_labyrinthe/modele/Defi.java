@@ -14,11 +14,6 @@ public class Defi implements IDefi{
     }
 
     @Override
-    public void jouer() {
-
-    }
-
-    @Override
     public boolean estReussi() {
         return this.reussi;
     }

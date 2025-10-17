@@ -91,16 +91,16 @@ public class ModeleJeu implements  IModeleJeu{
 
         int nx = x, ny = y;
         if(direction.toLowerCase().startsWith("z")){
-            nx--;
-        }
-        else if(direction.toLowerCase().startsWith("s")){
-            nx++;
-        }
-        else if(direction.toLowerCase().startsWith("q")){
             ny--;
         }
-        else if(direction.toLowerCase().startsWith("d")){
+        else if(direction.toLowerCase().startsWith("s")){
             ny++;
+        }
+        else if(direction.toLowerCase().startsWith("q")){
+            nx--;
+        }
+        else if(direction.toLowerCase().startsWith("d")){
+            nx++;
         }
         else{
             System.out.println("mauvaise direction");

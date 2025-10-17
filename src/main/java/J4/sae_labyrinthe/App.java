@@ -20,7 +20,7 @@ public class App extends Application {
         SceneManager.chargerScene("SceneMenuPrincipal");
         stage.setTitle("Jeu du Labyrinthe ©");
         IModeleJeu modele = new ModeleJeu();
-        modele.lancerPartieLibre(10,10,70);
+        modele.lancerPartieLibre(25,25,45);
         IObserver vue1 = new VueLabyrintheEntier(modele);
         ControleurJeu controller = new ControleurJeu(modele,vue1);
         modele.add(vue1);

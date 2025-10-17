@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.beans.binding.Bindings;
 
 public class VueLabyrintheEntier extends Stage implements IObserver{
 
@@ -35,24 +36,44 @@ public class VueLabyrintheEntier extends Stage implements IObserver{
         afficherLabyrinthe(P);
     }
 
-    private  void afficherLabyrinthe(GridPane p){
+    private void afficherLabyrinthe(GridPane p) {
         p.getChildren().clear();
-        Rectangle cell;
-        for(int i=0;i<this.getModele().getLabyrinthe().getHauteur();i++){
-            for(int j=0;j<this.getModele().getLabyrinthe().getLargeur();j++){
-                cell = new Rectangle(10,10);
-                if (this.getModele().getLabyrinthe().getGrille()[i][j].estMur()){
-                    cell.setFill(Paint.valueOf("Black"));
-                }else if(this.getModele().getLabyrinthe().getGrille()[i][j].equals(this.getModele().getPositionJoueur())){
+        Labyrinthe laby = this.getModele().getLabyrinthe();
+        int hauteur = laby.getHauteur();
+        int largeur = laby.getLargeur();
+
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
+                Rectangle cell = new Rectangle();
+
+                // affichage dynamique pour modifier la taille des cellule en meme temps que la page
+                cell.widthProperty().bind(
+                        Bindings.min(
+                                p.widthProperty().divide(largeur),
+                                p.heightProperty().divide(hauteur)
+                        )
+                );
+                cell.heightProperty().bind(
+                        Bindings.min(
+                                p.widthProperty().divide(largeur),
+                                p.heightProperty().divide(hauteur)
+                        )
+                );
+
+                if (laby.getGrille()[i][j].estMur()) {
+                    cell.setFill(Paint.valueOf("black"));
+                } else if (laby.getGrille()[i][j].equals(this.getModele().getPositionJoueur())) {
                     cell.setFill(Paint.valueOf("blue"));
-                }else {
-                    cell.setFill(Paint.valueOf("White"));
+                } else {
+                    cell.setFill(Paint.valueOf("white"));
                 }
 
-                p.add(cell,i,j);
+                p.add(cell, j, i);
             }
         }
     }
+
+
 
     public ModeleJeu getModele() {
         return (ModeleJeu) modele;
