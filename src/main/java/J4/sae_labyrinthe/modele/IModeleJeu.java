@@ -5,10 +5,10 @@ import J4.sae_labyrinthe.vue.IObserver;
 public interface IModeleJeu {
     /**
      * Creer un nouveau joueur à partir de son nom
-     * @param nom
+     * @param nom,mdp
      * @return
      */
-    Joueur creerJoueur(String nom);
+    Joueur creerJoueur(String nom, String mdp);
 
     /**
      * affiche l'étape maximale ainsique les defis remporter par le joueur passé en paramèter

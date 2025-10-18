@@ -5,16 +5,19 @@ import java.util.Map;
 
 public class Joueur implements IJoueur, Serializable {
     private String nom;
+    private String mdp;
     private int etapeMax;
-
     private int etapeActuelle;
-    private int score;
+    private int score;//le nombre d'étoiles gagnées
+    private double tempsMoyenDansLabyrinthe;
 
-    public Joueur(String nom){
+    public Joueur(String nom,String mdp){
         this.nom = nom;
+        this.mdp = mdp;
         this.etapeMax = 1;
         this.etapeActuelle = 1;
         this.score = 0;
+        this.tempsMoyenDansLabyrinthe = 0.0;
     }
 
     public String getNom() {
@@ -32,6 +35,13 @@ public class Joueur implements IJoueur, Serializable {
     public int getScore() {
         return this.score;
     }
+
+    public String getMdp() {return this.mdp;}
+
+    public void setTempsMoyenDansLabyrinthe(double tempsMoyenDansLabyrinthe) {
+        this.tempsMoyenDansLabyrinthe = tempsMoyenDansLabyrinthe;
+    }
+    public double getTempsMoyenDansLabyrinthe() {return this.tempsMoyenDansLabyrinthe;}
 
     public void ajouterScore(int ajout) {
         this.score += ajout;

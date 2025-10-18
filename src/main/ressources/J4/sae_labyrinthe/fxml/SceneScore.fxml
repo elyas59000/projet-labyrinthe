@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="J4.sae_labyrinthe.controleur.SceneScoreControleur">
+   <columnConstraints>
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints fillHeight="false" percentHeight="80.0" valignment="CENTER" vgrow="NEVER" />
+      <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <VBox alignment="CENTER" prefHeight="519.0" prefWidth="1280.0" spacing="20.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tableau des scores" VBox.vgrow="NEVER">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Text>
+            <TableView fx:id="tabScores" prefHeight="485.0" prefWidth="1280.0" VBox.vgrow="NEVER">
+              <columns>
+                  <TableColumn fx:id="namePlayer" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="295.0" resizable="false" sortable="false" text="Nom du joueur" />
+                <TableColumn fx:id="nbStarPlayer" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="295.0" resizable="false" text="Nombre d'étoiles collectées" />
+                <TableColumn fx:id="nbStepPlayer" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="295.0" resizable="false" text="Nombre détapes réussies" />
+                  <TableColumn fx:id="avgTimePlayer" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="295.0" resizable="false" text="Temps moyen de résolution de labyrinthe" />
+              </columns>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="50.0" right="50.0" />
+               </VBox.margin>
+            </TableView>
+         </children>
+         <GridPane.margin>
+            <Insets bottom="10.0" />
+         </GridPane.margin>
+      </VBox>
+      <Button onMouseClicked="#retourScenePrecedente" prefHeight="70.0" prefWidth="70.0" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+         <graphic>
+            <ImageView fitHeight="40.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/icons/back.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <GridPane.margin>
+            <Insets bottom="50.0" left="50.0" />
+         </GridPane.margin>
+      </Button>
+   </children>
+</GridPane>

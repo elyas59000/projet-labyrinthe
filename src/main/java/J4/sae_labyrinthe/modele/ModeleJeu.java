@@ -18,11 +18,9 @@ public class ModeleJeu implements  IModeleJeu{
         this.observers =new ArrayList<>();
     }
 
-
-
     @Override
-    public Joueur creerJoueur(String nom) {
-        Joueur nouveau = new Joueur(nom);
+    public Joueur creerJoueur(String nom, String mdp) {
+        Joueur nouveau = new Joueur(nom,mdp);
         this.joueurs.add(nouveau);
         this.joueurActuel = nouveau;
         return nouveau;

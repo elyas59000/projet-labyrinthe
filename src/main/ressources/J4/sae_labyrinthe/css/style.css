@@ -19,3 +19,19 @@
     -fx-background-position: center;
     -fx-background-size: cover;
 }
+
+#inscription{
+    -fx-fill: #0000c9;
+    -fx-font-weight: bold;
+}
+#inscription:hover {:
+    -fx-underline;
+    -fx-fill: #3749dc;
+    -fx-cursor: hand;
+}
+#inscription:pressed{
+    -fx-effect: dropshadow(gaussian, darkblue,2,0,0,1);
+    -fx-translate-y: 1;
+    -fx-translate-x: 1;
+
+}

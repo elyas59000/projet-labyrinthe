@@ -16,8 +16,8 @@ public class SceneConnexionControleur {
     private TextField champsMDP;
 
     @FXML
-    void ouvrirSceneInscriptions(MouseEvent event) {
-
+    void ouvrirSceneInscriptions(MouseEvent event) throws IOException {
+        SceneManager.chargerScene("SceneInscription");
     }
 
     @FXML

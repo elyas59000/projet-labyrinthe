@@ -13,13 +13,13 @@ public class SceneMenuPrincipalControleur {
     private Text texteIndicationDeConnection;
 
     @FXML
-    void ouvrirSceneConnexion(MouseEvent event) {
-
+    void ouvrirSceneConnexion(MouseEvent event) throws IOException {
+        SceneManager.chargerScene("SceneConnexion");
     }
 
     @FXML
-    void ouvrirSceneLibre(MouseEvent event) {
-
+    void ouvrirSceneLibre(MouseEvent event) throws IOException {
+        SceneManager.chargerScene("SceneModeLibre");
     }
 
     @FXML
@@ -33,8 +33,8 @@ public class SceneMenuPrincipalControleur {
     }
 
     @FXML
-    void ouvrirSceneScores(MouseEvent event) {
-
+    void ouvrirSceneScores(MouseEvent event) throws IOException {
+        SceneManager.chargerScene("SceneScore");
     }
 
     @FXML
