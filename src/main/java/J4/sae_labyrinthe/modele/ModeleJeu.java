@@ -1,5 +1,6 @@
 package J4.sae_labyrinthe.modele;
 
+import J4.sae_labyrinthe.exception.ValidationException;
 import J4.sae_labyrinthe.vue.IObserver;
 
 import java.util.ArrayList;
@@ -19,11 +20,45 @@ public class ModeleJeu implements  IModeleJeu{
     }
 
     @Override
-    public Joueur creerJoueur(String nom, String mdp) {
-        Joueur nouveau = new Joueur(nom,mdp);
-        this.joueurs.add(nouveau);
-        this.joueurActuel = nouveau;
-        return nouveau;
+    public Joueur creerJoueur(String nom, String mdp) throws ValidationException {
+        boolean pseudoDejaExistant=false;
+        for(Joueur joueur : this.joueurs){
+            if(joueur.getNom().equals(nom)){
+                pseudoDejaExistant=true;
+            }
+        }
+        if(!pseudoDejaExistant){
+            Joueur nouveau = new Joueur(nom,mdp);
+            this.joueurs.add(nouveau);
+            this.joueurActuel = nouveau;
+            notifierObservateurs();
+            return nouveau;
+        }
+        else{
+            throw new ValidationException("L'identifant est déjà utilisé");
+        }
+
+    }
+
+    public void connexionJoueur(String nom,String mdp) throws ValidationException {
+        if(this.joueurs.isEmpty()){throw new ValidationException("Aucun joueur n'existe pour l'instant");}
+        for(Joueur joueur : this.joueurs){
+            if(joueur.getNom().equals(nom)){
+                if(joueur.getMdp().equals(mdp)){
+                    joueurActuel = joueur;
+                    notifierObservateurs();
+                }else {
+                    throw new ValidationException("Mot de passe incorrect");
+                }
+            }else {
+                throw new ValidationException("Le joueur n'existe pas");
+            }
+        }
+
+    }
+
+    public void deconnexionJoueur() {
+        this.joueurActuel=null;
     }
 
     @Override

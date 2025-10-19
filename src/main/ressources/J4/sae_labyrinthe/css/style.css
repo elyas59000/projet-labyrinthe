@@ -13,13 +13,13 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 2, 0, 0, 1);
     -fx-translate-y: 1;
 }
-.root {
+/*.root {
     -fx-background-image: url("../assets/textures/background.png");
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-size: cover;
 }
-
+*/
 #inscription{
     -fx-fill: #0000c9;
     -fx-font-weight: bold;
@@ -34,4 +34,11 @@
     -fx-translate-y: 1;
     -fx-translate-x: 1;
 
+}
+
+#buttonDeconnexion{
+    -fx-background-color: red;
+    -fx-border-color: white;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
 }

@@ -34,7 +34,7 @@
         <VBox alignment="CENTER" fillWidth="true" spacing="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <children>
                 <!-- maxWidth mis à une très grande valeur pour permettre l'étirement -->
-                <Button disable="true" maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneProgression" prefHeight="70.0" prefWidth="480.0" text="Mode Progression" />
+                <Button fx:id="buttonModeProgression" disable="true" maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneProgression" prefHeight="70.0" prefWidth="480.0" text="Mode Progression" />
                 <Button maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneLibre" prefHeight="70.0" prefWidth="480.0" text="Mode Libre" />
                 <Button maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneScores" prefHeight="70.0" prefWidth="480.0" text="Scores" />
             </children>
@@ -66,7 +66,7 @@
          </GridPane.margin></Button>
       <Button onMouseClicked="#ouvrirSceneConnexion" prefHeight="70.0" prefWidth="70.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
          <graphic>
-            <ImageView fitHeight="150.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="iconPP" fitHeight="150.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/icons/account_default_pp.png" />
                </image>
@@ -77,7 +77,7 @@
          </GridPane.margin></Button>
 
         <!-- Texte "Déconnecté" -->
-        <Text fx:id="textHintConnexion" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: red;" text="Déconnecté" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+        <Text fx:id="textHintConnexion" style="-fx-font-size: 18px; -fx-font-weight: bold; " GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
          <effect>
             <Glow level="0.68">
                <input>

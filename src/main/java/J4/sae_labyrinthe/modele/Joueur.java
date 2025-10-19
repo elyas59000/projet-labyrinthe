@@ -1,5 +1,7 @@
 package J4.sae_labyrinthe.modele;
 
+import javafx.scene.image.Image;
+
 import java.io.*;
 import java.util.Map;
 
@@ -10,6 +12,7 @@ public class Joueur implements IJoueur, Serializable {
     private int etapeActuelle;
     private int score;//le nombre d'étoiles gagnées
     private double tempsMoyenDansLabyrinthe;
+    private Image imagePP;
 
     public Joueur(String nom,String mdp){
         this.nom = nom;
@@ -18,6 +21,7 @@ public class Joueur implements IJoueur, Serializable {
         this.etapeActuelle = 1;
         this.score = 0;
         this.tempsMoyenDansLabyrinthe = 0.0;
+        //this.imagePP = new Image("@../assets/icons/rules.png");
     }
 
     public String getNom() {
@@ -43,6 +47,13 @@ public class Joueur implements IJoueur, Serializable {
     }
     public double getTempsMoyenDansLabyrinthe() {return this.tempsMoyenDansLabyrinthe;}
 
+    /*public void setImagePP(Image imagePP) {
+        this.imagePP = imagePP;
+    }
+    public Image getImagePP() {
+        return this.imagePP;
+    }
+*/
     public void ajouterScore(int ajout) {
         this.score += ajout;
     }

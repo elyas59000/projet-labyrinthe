@@ -1,5 +1,6 @@
 package J4.sae_labyrinthe.modele;
 
+import J4.sae_labyrinthe.exception.ValidationException;
 import J4.sae_labyrinthe.vue.IObserver;
 
 public interface IModeleJeu {
@@ -8,7 +9,7 @@ public interface IModeleJeu {
      * @param nom,mdp
      * @return
      */
-    Joueur creerJoueur(String nom, String mdp);
+    Joueur creerJoueur(String nom, String mdp) throws ValidationException;
 
     /**
      * affiche l'étape maximale ainsique les defis remporter par le joueur passé en paramèter
@@ -16,6 +17,9 @@ public interface IModeleJeu {
      */
 
     void afficherProgression(IJoueur joueur);
+
+    void connexionJoueur(String nom, String mdp) throws ValidationException;
+
 
     /**
      * Genere ou modifie un labyrinthe  grâce donnés passé en paramètre
