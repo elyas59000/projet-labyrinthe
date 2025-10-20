@@ -41,8 +41,15 @@ public class TestLabyrinthe {
 
         assertEquals(1,nouvellePosition.getX(),"la position X devrait avoir augmenter de 1");
         assertEquals(0,nouvellePosition.getY(),"la position Y ne devrait pas augmenter");
-        
+    }
 
+    @Test
+    void testDeconnexionJoueur() throws ValidationException {
+        modele.creerJoueur("a","b");
+        modele.connexionJoueur("a","b");
+        assertNotNull(((ModeleJeu)modele).getJoueurActuel());
+        ((ModeleJeu) modele).deconnexionJoueur();
+        assertNull(((ModeleJeu)modele).getJoueurActuel());
     }
 
 
