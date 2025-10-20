@@ -5,37 +5,25 @@ import J4.sae_labyrinthe.modele.ILabyrinthe;
 import J4.sae_labyrinthe.modele.IModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.vue.IObserver;
+import J4.sae_labyrinthe.vue.IVueLabyrinthe;
 import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
-import javafx.animation.KeyValue;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 
-public class ControleurJeu{
-    private IObserver vue;
+public class ControleurLabyrinthe {
+    private IVueLabyrinthe vue;
 
     private IModeleJeu modele;
 
 
-    public ControleurJeu(IModeleJeu modele, IObserver vue){
+    public ControleurLabyrinthe(IModeleJeu modele, IVueLabyrinthe vue){
         this.modele =  modele;
         this.vue = vue;
         this.getVue().getScene().setOnKeyPressed(this::deplacerJoueur);
     }
 
     public void deplacerJoueur(KeyEvent event){
-        String direction;
-        if(KeyCode.UP.equals(event.getCode())){
-            direction= "z";
-        } else if (KeyCode.DOWN.equals(event.getCode())) {
-            direction= "s";
-        }else if (KeyCode.LEFT.equals(event.getCode())) {
-            direction= "q";
-        }else if (KeyCode.RIGHT.equals(event.getCode())) {
-            direction= "d";
-        }else {
-            direction = event.getCode().getChar();
-        }
+        String direction = correspodanceTouche(event.getCode());
         this.modele.deplacerJoueur(direction);
         System.out.println(this.getModele().getPositionJoueur().getX() + " " + this.getModele().getPositionJoueur().getY());
     }
@@ -57,4 +45,22 @@ public class ControleurJeu{
     public VueLabyrintheEntier getVue() {
         return (VueLabyrintheEntier) vue;
     }
+
+    private String correspodanceTouche(KeyCode event){
+        String direction = "";
+        if(KeyCode.UP.equals(event)){
+            direction= "z";
+        } else if (KeyCode.DOWN.equals(event)) {
+            direction= "s";
+        }else if (KeyCode.LEFT.equals(event)) {
+            direction= "q";
+        }else if (KeyCode.RIGHT.equals(event)) {
+            direction= "d";
+        }else {
+            direction = event.getChar();
+        }
+        return direction;
+    }
+
+
 }

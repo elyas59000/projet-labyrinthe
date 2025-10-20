@@ -1,6 +1,6 @@
 package J4.sae_labyrinthe.vue;
 
-import J4.sae_labyrinthe.controleur.ControleurJeu;
+import J4.sae_labyrinthe.controleur.ControleurLabyrinthe;
 import J4.sae_labyrinthe.modele.IModeleJeu;
 import J4.sae_labyrinthe.modele.Labyrinthe;
 import J4.sae_labyrinthe.modele.ModeleJeu;
@@ -12,21 +12,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-public class VueLabyrintheEntier extends Stage implements IObserver {
-
-    private final IModeleJeu modele;
-    private final GridPane P = new GridPane();
+public class VueLabyrintheEntier extends VueLabyrintheBase {
 
     public VueLabyrintheEntier(IModeleJeu modele) {
-        this.modele = modele;
-        this.setTitle("Fenetre laby");
-        this.setScene(createSceneContent());
-        ControleurJeu c = new ControleurJeu(modele, this);
-        this.show();
+        super(modele);
     }
 
     private Scene createSceneContent() {
@@ -39,13 +31,13 @@ public class VueLabyrintheEntier extends Stage implements IObserver {
         afficherLabyrinthe(P);
     }
 
-    private void afficherLabyrinthe(GridPane p) {
+    public void afficherLabyrinthe(GridPane p) {
         p.getChildren().clear();
 
-        Image brique = new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/Brique.png").toExternalForm());
-        Image joueur = new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/souris.png").toExternalForm());
-        Image fond = new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/herbe.png").toExternalForm());
-        Image fin = new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/drapeau.png").toExternalForm());
+        Image brique = this.getBrique();
+        Image joueur = this.getJoueur();
+        Image fond = this.getFond();
+        Image fin = this.getFin();
         Labyrinthe laby = this.modele.getLabyrinthe();
         int hauteur = laby.getHauteur();
         int largeur = laby.getLargeur();
@@ -71,8 +63,7 @@ public class VueLabyrintheEntier extends Stage implements IObserver {
                 // --- Choix du contenu ---
                 if (laby.getGrille()[i][j].estMur()) {
                     cell.setFill(new ImagePattern(brique));
-                }
-                else {
+                } else {
                     cell.setFill(new ImagePattern(fond));
 
                     if (laby.getGrille()[i][j].equals(this.getModele().getPositionJoueur())) {
@@ -110,5 +101,22 @@ public class VueLabyrintheEntier extends Stage implements IObserver {
 
     public GridPane getP() {
         return P;
+    }
+
+    public Image getBrique() {
+        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/Brique.png").toExternalForm());
+    }
+
+    public Image getJoueur() {
+        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/souris.png").toExternalForm());
+    }
+
+    public Image getFond() {
+        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/herbe.png").toExternalForm());
+    }
+
+    public Image getFin() {
+        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/drapeau.png").toExternalForm());
+
     }
 }
