@@ -20,9 +20,9 @@ public class TestLabyrinthe {
 
     @Test
     void testCreationLabyrinthe_Dimensions() {
-        // Assertions logiques et correctes
         assertEquals(15, labyrinthe.getLargeur(), "La largeur devrait être de 15.");
         assertEquals(20, labyrinthe.getHauteur(), "La hauteur devrait être de 20.");
+
     }
 
 
