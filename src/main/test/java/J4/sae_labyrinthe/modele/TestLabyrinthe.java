@@ -1,9 +1,6 @@
 package J4.sae_labyrinthe.modele;
 
-import J4.sae_labyrinthe.modele.IModeleJeu;
-import J4.sae_labyrinthe.modele.Labyrinthe;
-import J4.sae_labyrinthe.modele.ModeleJeu;
-import org.junit.jupiter.api.AfterEach;
+import J4.sae_labyrinthe.exception.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,10 +16,18 @@ public class TestLabyrinthe {
     }
 
     @Test
-    void testCreationLabyrinthe_Dimensions() {
+    void testCreationLabyrinth_Dimensions() {
         assertEquals(15, labyrinthe.getLargeur(), "La largeur devrait être de 15.");
         assertEquals(20, labyrinthe.getHauteur(), "La hauteur devrait être de 20.");
 
+    }
+
+    @Test
+    void testCreerJoueur() throws ValidationException {
+        Joueur joueur_créer = new Joueur("a","b");
+        assertNotNull(joueur_créer);
+        assertEquals("a",joueur_créer.getNom());
+        assertEquals("b",joueur_créer.getMdp());
     }
 
 
