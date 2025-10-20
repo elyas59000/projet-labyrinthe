@@ -19,12 +19,12 @@
 
 
 
-## Semaine2
+## Semaine 2
 
 
 ### **a Fait** :
 
-> **Anas** : 
+> **Anas** : Creation de la vue Du labyrinthe entier avec le controleur associé permettant de se déplacer en utilsant les touches zsqd ou les flèches directionnel
 >
 > **Nathan** : Création du labyrinthe fonctionnel avec une largeur, une hauteur, un pourcentage de murs, et un chemin entre l'entrée et la sortie.
 >              Ajout de fonctionnalité dans la classe Etape.
@@ -36,3 +36,20 @@
 > **Elyas** : 
 >
 > **Adam** : 
+
+ ## Semaine 3
+
+
+### **a Fait** :
+
+> **Anas** : - Creation de la vue permettant l'affichage local avec une carte 
+>            - Ajout de texture pour les diférents elements du labyrinthe pour pouvoir donner un thème et rendre le jeu plus beau
+>            - Creation d'une méthode pour les vue permettant de fusionner deux images avec une des deux étant le fond
+>
+> **Nathan** : 
+>
+> **Clement** :
+>
+> **Elyas** :
+>
+> **Adam** :
