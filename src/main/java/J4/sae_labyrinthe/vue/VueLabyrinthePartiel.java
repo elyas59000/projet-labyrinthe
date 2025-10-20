@@ -51,6 +51,7 @@ public class VueLabyrinthePartiel extends VueLabyrintheBase{
         labPartiel.setMinWidth(3 * tailleCelluleMin);
         labPartiel.setMinHeight(3 * tailleCelluleMin);
 
+
         HBox.setHgrow(labEntier, Priority.ALWAYS);
         HBox.setHgrow(labPartiel, Priority.ALWAYS);
 
@@ -68,64 +69,80 @@ public class VueLabyrinthePartiel extends VueLabyrintheBase{
     @Override
     public void afficherLabyrinthe(GridPane p) {
         p.getChildren().clear();
+
+        Image brique = this.getBrique();
+        Image fond = this.getFond();
+        Image fin = this.getFin();
         Labyrinthe laby = this.modele.getLabyrinthe();
         int hauteur = laby.getHauteur();
         int largeur = laby.getLargeur();
 
-        remplirGridPane(p, 0, hauteur - 1, 0, largeur - 1, 0, 0, largeur, hauteur, laby, -1, -1, false);
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
+                Rectangle cell = new Rectangle();
+
+                // Taille dynamique
+                cell.widthProperty().bind(p.widthProperty().divide(largeur));
+                cell.heightProperty().bind(p.heightProperty().divide(hauteur));
+
+                // --- Choix du contenu ---
+                if (laby.getGrille()[i][j].estMur()) {
+                    cell.setFill(new ImagePattern(brique));
+                } else {
+                    cell.setFill(new ImagePattern(fond));
+                     if (laby.getGrille()[i][j].equals(laby.getSortie())) {
+                        cell.setFill(new ImagePattern(fusionnerImages(fond, fin)));
+                    }
+                }
+
+                p.add(cell, j, i);
+            }
+        }
     }
 
     public void afficherLabyrinthePartiel(GridPane p) {
         p.getChildren().clear();
+
+        Image brique = this.getBrique();
+        Image fond = this.getFond();
+        Image joueur = this.getJoueur();
+        Image fin = this.getFin();
         Labyrinthe laby = this.modele.getLabyrinthe();
+        int hauteur = laby.getHauteur();
+        int largeur = laby.getLargeur();
+
         // position du joueur
         int joueurLigne = this.getModele().getPositionJoueur().getY();
         int joueurCol = this.getModele().getPositionJoueur().getX();
 
-        remplirGridPane(p, joueurLigne - 1, joueurLigne + 1, joueurCol - 1, joueurCol + 1, joueurLigne - 1, joueurCol - 1, 3, 3, laby, joueurLigne, joueurCol, true);
-    }
+        // afficher les cases autour du joueur (3x3)
+        for (int i = joueurLigne - 1; i <= joueurLigne + 1; i++) {
+            for (int j = joueurCol - 1; j <= joueurCol + 1; j++) {
 
-    private Rectangle creerCellule(GridPane p, int nbColonnes, int nbLignes, ImagePattern contenu) {
-        Rectangle cell = new Rectangle();
-        cell.widthProperty().bind(p.widthProperty().divide(nbColonnes));
-        cell.heightProperty().bind(p.heightProperty().divide(nbLignes));
-        cell.setFill(contenu);
-        return cell;
-    }
+                Rectangle cell = new Rectangle();
 
-    private ImagePattern getCellContent(int i, int j, int joueurLigne, int joueurCol, Labyrinthe laby, boolean partiel) {
-        Image brique = getBrique();
-        Image fond = getFond();
-        Image fin = getFin();
-        Image joueur = getJoueur();
+                // Taille dynamique
+                cell.widthProperty().bind(p.widthProperty().divide(3));
+                cell.heightProperty().bind(p.heightProperty().divide(3));
 
-        if (i < 0 || i >= laby.getHauteur() || j < 0 || j >= laby.getLargeur()) {
-            return new ImagePattern(brique);
-        }
+                // --- Choix du contenu ---
+                if (i < 0 || i >= hauteur || j < 0 || j >= largeur) {
+                    // hors limites : remplir en mur
+                    cell.setFill(new  ImagePattern(brique));
+                } else {
+                    if (laby.getGrille()[i][j].estMur()) {
+                        cell.setFill(new ImagePattern(brique));
+                    } else if (i == joueurLigne && j == joueurCol) {
+                        cell.setFill(new ImagePattern(fusionnerImages(fond, joueur)));
+                    } else if (laby.getGrille()[i][j].equals(laby.getSortie())) {
+                        cell.setFill(new ImagePattern(fusionnerImages(fond, fin)));
+                    } else {
+                        cell.setFill(new ImagePattern(fond));
+                    }
+                }
 
-        if (laby.getGrille()[i][j].estMur()) {
-            return new ImagePattern(brique);
-        }
-
-        if (partiel && i == joueurLigne && j == joueurCol) {
-            return new ImagePattern(fusionnerImages(fond, joueur));
-        }
-
-        if (laby.getGrille()[i][j].equals(laby.getSortie())) {
-            return new ImagePattern(fusionnerImages(fond, fin));
-        }
-
-        return new ImagePattern(fond);
-    }
-
-    private void remplirGridPane(GridPane p, int startLigne, int endLigne, int startCol, int endCol,
-                                 int offsetLigne, int offsetCol, int nbColonnes, int nbLignes,
-                                 Labyrinthe laby, int joueurLigne, int joueurCol, boolean partiel) {
-
-        for (int i = startLigne; i <= endLigne; i++) {
-            for (int j = startCol; j <= endCol; j++) {
-                Rectangle cell = creerCellule(p, nbColonnes, nbLignes, getCellContent(i, j, joueurLigne, joueurCol, laby, partiel));
-                p.add(cell, j - offsetCol, i - offsetLigne);
+                // ajouter la cellule dans le GridPane partiel
+                p.add(cell, j - (joueurCol - 1), i - (joueurLigne - 1));
             }
         }
     }
@@ -151,7 +168,7 @@ public class VueLabyrinthePartiel extends VueLabyrintheBase{
     }
 
     public Image getFin() {
-        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/drapeau.png").toExternalForm());
+        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/fromage.png").toExternalForm());
 
     }
 }

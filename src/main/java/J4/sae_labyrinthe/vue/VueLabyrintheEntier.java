@@ -103,7 +103,7 @@ public class VueLabyrintheEntier extends VueLabyrintheBase {
     }
 
     public Image getFin() {
-        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/drapeau.png").toExternalForm());
+        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/fromage.png").toExternalForm());
 
     }
 }
