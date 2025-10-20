@@ -13,22 +13,26 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 
 public class VueLabyrintheEntier extends VueLabyrintheBase {
 
     public VueLabyrintheEntier(IModeleJeu modele) {
         super(modele);
+        this.labEntier = new GridPane();
+        this.setTitle("Fenetre labyrinthe entier");
+        this.setScene(createSceneContent());
+        ControleurLabyrinthe c = new ControleurLabyrinthe(modele, this);
+        this.show();
     }
 
-    private Scene createSceneContent() {
-        afficherLabyrinthe(P);
-        return new Scene(P);
+    protected Scene createSceneContent() {
+        afficherLabyrinthe(labEntier);
+        return new Scene(labEntier);
     }
 
     @Override
     public void update() {
-        afficherLabyrinthe(P);
+        afficherLabyrinthe(labEntier);
     }
 
     public void afficherLabyrinthe(GridPane p) {
@@ -67,9 +71,9 @@ public class VueLabyrintheEntier extends VueLabyrintheBase {
                     cell.setFill(new ImagePattern(fond));
 
                     if (laby.getGrille()[i][j].equals(this.getModele().getPositionJoueur())) {
-                        cell.setFill(new ImagePattern(createOverlayedImage(fond, joueur)));
+                        cell.setFill(new ImagePattern(fusionnerImages(fond,joueur)));
                     } else if (laby.getGrille()[i][j].equals(laby.getSortie())) {
-                        cell.setFill(new ImagePattern(createOverlayedImage(fond, fin)));
+                        cell.setFill(new ImagePattern(fusionnerImages(fond, fin)));
                     }
                 }
 
@@ -78,29 +82,12 @@ public class VueLabyrintheEntier extends VueLabyrintheBase {
         }
     }
 
-
-    private Image createOverlayedImage(Image fond, Image dessus) {
-        double width = fond.getWidth();
-        double height = fond.getHeight();
-
-        Canvas canvas = new Canvas(width, height);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        gc.drawImage(fond, 0, 0);
-        gc.drawImage(dessus, 0, 0);
-
-        WritableImage combined = new WritableImage((int) width, (int) height);
-        canvas.snapshot(null, combined);
-        return combined;
-    }
-
-
     public ModeleJeu getModele() {
         return (ModeleJeu) modele;
     }
 
-    public GridPane getP() {
-        return P;
+    public GridPane getLabEntier() {
+        return labEntier;
     }
 
     public Image getBrique() {

@@ -6,6 +6,7 @@ import J4.sae_labyrinthe.modele.IModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.vue.IObserver;
 import J4.sae_labyrinthe.vue.IVueLabyrinthe;
+import J4.sae_labyrinthe.vue.VueLabyrintheBase;
 import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -42,8 +43,8 @@ public class ControleurLabyrinthe {
         return (ModeleJeu)  modele;
     }
 
-    public VueLabyrintheEntier getVue() {
-        return (VueLabyrintheEntier) vue;
+    public VueLabyrintheBase getVue() {
+        return (VueLabyrintheBase) vue;
     }
 
     private String correspodanceTouche(KeyCode event){
