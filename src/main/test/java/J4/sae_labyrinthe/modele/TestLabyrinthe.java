@@ -12,7 +12,7 @@ public class TestLabyrinthe {
     @BeforeEach
     void setUp() {
         modele = new ModeleJeu();
-        labyrinthe = new Labyrinthe(15, 20, 30);
+        labyrinthe = new Labyrinthe(15, 20, 0);
     }
 
     @Test
@@ -24,10 +24,25 @@ public class TestLabyrinthe {
 
     @Test
     void testCreerJoueur() throws ValidationException {
-        Joueur joueur_créer = new Joueur("a","b");
-        assertNotNull(joueur_créer);
-        assertEquals("a",joueur_créer.getNom());
-        assertEquals("b",joueur_créer.getMdp());
+        Joueur joueur_creer = new Joueur("a","b");
+        assertNotNull(joueur_creer);
+        assertEquals("a",joueur_creer.getNom());
+        assertEquals("b",joueur_creer.getMdp());
+    }
+
+    @Test
+    void testDeplacementJoueur(){
+        modele.lancerPartieLibre(15,20,0);
+        assertEquals(0,((ModeleJeu)modele).getPositionJoueur().getX());
+        assertEquals(0,((ModeleJeu)modele).getPositionJoueur().getY());
+
+        modele.deplacerJoueur("d");
+        Cellule nouvellePosition = ((ModeleJeu) modele).getPositionJoueur();
+
+        assertEquals(1,nouvellePosition.getX(),"la position X devrait avoir augmenter de 1");
+        assertEquals(0,nouvellePosition.getY(),"la position Y ne devrait pas augmenter");
+        
+
     }
 
 
