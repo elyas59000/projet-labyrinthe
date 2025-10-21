@@ -1,6 +1,6 @@
 package J4.sae_labyrinthe;
 
-import J4.sae_labyrinthe.controleur.ControleurJeu;
+//import J4.sae_labyrinthe.controleur.ControleurJeu;
 import J4.sae_labyrinthe.modele.IModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
