@@ -13,7 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-
+/*
 public class VueLabyrinthePartiel extends VueLabyrintheBase{
     private GridPane labPartiel;
     HBox hBox = new HBox();
@@ -201,4 +201,7 @@ public class VueLabyrinthePartiel extends VueLabyrintheBase{
         labPartiel.setMaxWidth(Double.MAX_VALUE);
         return this.hBox;
     }
+
+
 }
+ */

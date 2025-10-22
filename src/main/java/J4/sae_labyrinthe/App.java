@@ -6,6 +6,7 @@ import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
 import javafx.application.Application;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -30,9 +31,10 @@ public class App extends Application {
         */
 
         SceneManager.chargerScene("SceneMenuPrincipal");
-        primaryStage.setResizable(false);
-        primaryStage.getScene().setOnKeyPressed(event -> {
-            if (Objects.requireNonNull(event.getCode()) == fullscreen) {
+        primaryStage.setResizable(true);
+        primaryStage.setFullScreen(true);
+        primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.F11) {
                 primaryStage.setFullScreen(!primaryStage.isFullScreen());
             }
         });

@@ -3,7 +3,8 @@ package J4.sae_labyrinthe.utils;
 import J4.sae_labyrinthe.App;
 import J4.sae_labyrinthe.modele.IModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeu;
-import J4.sae_labyrinthe.vue.VueLabyrintheBase;
+//import J4.sae_labyrinthe.vue.VueLabyrintheBase;
+import J4.sae_labyrinthe.vue.IVueLabyrinthe;
 import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,7 +30,7 @@ public class SceneManager {
             System.out.println(e.getMessage());
         }
     }
-
+/*
     public static void chargerUneScene(VueLabyrintheEntier base, Stage stage) throws IOException {
         try{
             if(stage.getScene()==null) {
@@ -43,11 +44,11 @@ public class SceneManager {
             System.out.println(e.getMessage());
         }
     }
+
+   */
     public static void chargerScene(String fichierFxml) throws IOException {
         chargerUneScene(fichierFxml, App.getPrimaryStage());
     }
 
-    public static void chargerScene(VueLabyrintheBase base) throws IOException {
-        if(base instanceof VueLabyrintheEntier) chargerUneScene((VueLabyrintheEntier) base, App.getPrimaryStage());
-    }
+
 }
