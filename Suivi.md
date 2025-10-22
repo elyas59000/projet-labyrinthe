@@ -36,6 +36,9 @@
 > - Ajout de la position du joueur et du déplacement dans la classe ModeleJeu.
 >
 > **Clement** : 
+>  - Création des différentes vues suivante : Connexion, Inscription, Score, et de leur controleur.
+>  - Mise en place du systeme de connexion à travers les classes suivantes : SaisieValidation, ValidationException et modification de la classe ModeleJeu pdans les metthode creerJoueur et connexionJoueur
+>  - La connexion est maintenant aussi établie dans le modele, le text d'indication de connexion se met à jour dynamiquement 
 >
 > **Elyas** : 
 >
@@ -55,7 +58,7 @@
 >
 > **Nathan** : 
 >
-> **Clement** :
+> **Clement** : 
 >
 > **Elyas** :
 >

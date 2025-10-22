@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SceneModeLibreControleur implements Initializable {
+public class SceneModeLibreControleur {
 
     SpinnerValueFactory<Integer> svfHauteur = new SpinnerValueFactory.IntegerSpinnerValueFactory(20, 100, 20);
     SpinnerValueFactory<Integer> svfLargeur = new SpinnerValueFactory.IntegerSpinnerValueFactory(20, 100, 20);
@@ -30,6 +30,12 @@ public class SceneModeLibreControleur implements Initializable {
 
     private final ModeleJeu modeleJeu= ModeleJeuSingleton.getInstance();
 
+    @FXML
+    void initialize() {
+        champsHauteur.setValueFactory(svfHauteur);
+        champsLargeur.setValueFactory(svfLargeur);
+        champsTauxMur.setValueFactory(svfMur);
+    }
 
     @FXML
     void lancerPartieLibre(MouseEvent event) throws IOException {
@@ -44,10 +50,5 @@ public class SceneModeLibreControleur implements Initializable {
         SceneManager.chargerScene("SceneMenuPrincipal");
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        champsHauteur.setValueFactory(svfHauteur);
-        champsLargeur.setValueFactory(svfLargeur);
-        champsTauxMur.setValueFactory(svfMur);
-    }
+
 }
