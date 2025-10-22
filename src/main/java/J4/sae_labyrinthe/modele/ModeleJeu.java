@@ -155,4 +155,8 @@
                 }
             }
         }
+
+        public Cellule getSortie(){
+            return labyrinthe.getSortie();
+        }
     }

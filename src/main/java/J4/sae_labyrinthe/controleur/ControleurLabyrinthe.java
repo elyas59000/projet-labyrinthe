@@ -1,9 +1,7 @@
 package J4.sae_labyrinthe.controleur;
 
-import J4.sae_labyrinthe.modele.IJoueur;
-import J4.sae_labyrinthe.modele.ILabyrinthe;
-import J4.sae_labyrinthe.modele.IModeleJeu;
-import J4.sae_labyrinthe.modele.ModeleJeu;
+import J4.sae_labyrinthe.modele.*;
+import J4.sae_labyrinthe.utils.SceneManager;
 import J4.sae_labyrinthe.vue.IObserver;
 import J4.sae_labyrinthe.vue.IVueLabyrinthe;
 import J4.sae_labyrinthe.vue.VueLabyrintheBase;
@@ -11,6 +9,8 @@ import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
+import java.io.IOException;
 
 public class ControleurLabyrinthe {
     private IVueLabyrinthe vue;
@@ -28,6 +28,13 @@ public class ControleurLabyrinthe {
         String direction = correspodanceTouche(event.getCode());
         this.modele.deplacerJoueur(direction);
         System.out.println(this.getModele().getPositionJoueur().getX() + " " + this.getModele().getPositionJoueur().getY());
+        if((this.getModele().getPositionJoueur().getX() == this.getModele().getSortie().getX())  && (this.getModele().getPositionJoueur().getY()) == this.getModele().getSortie().getY()){
+            try {
+                SceneManager.chargerScene("SceneMenuPrincipal");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public void demarrerProgression(){
