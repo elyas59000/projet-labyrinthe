@@ -57,7 +57,11 @@
 > - Creation d'une méthode pour les vues permettant de fusionner deux images avec une des deux étant le fond
 >
 > **Nathan** : 
->
+> - Ajout de séparateur pour la vue partiel
+> - Amélioration de l'affichage pour créer une taille dynamique pour les labyrinthes
+> - Ajout élement de sortie des labyrinthes
+> - Ajout des étapes et défi dans la classe Joueur
+> 
 > **Clement** : 
 >
 > **Elyas** :
