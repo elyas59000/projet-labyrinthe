@@ -27,4 +27,8 @@ public class Defi implements IDefi{
     public Labyrinthe getLabyrinthe() {
         return this.labyrinthe;
     }
+
+    public void setReussi(boolean reussi) {
+        this.reussi = reussi;
+    }
 }

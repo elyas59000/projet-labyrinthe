@@ -26,4 +26,10 @@ public class Etape implements IEtape{
 
     public int getNumero() { return NUM; }
     public Defi[] getDefis() { return defis; }
+
+    public Defi getDefiParDifficulte(String diff) {
+        for (Defi d : defis)
+            if (d.getDifficulte().equalsIgnoreCase(diff)) return d;
+        return null;
+    }
 }

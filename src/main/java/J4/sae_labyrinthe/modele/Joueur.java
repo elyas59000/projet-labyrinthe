@@ -3,7 +3,8 @@ package J4.sae_labyrinthe.modele;
 import javafx.scene.image.Image;
 
 import java.io.*;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Joueur implements IJoueur, Serializable {
     private String nom;
@@ -14,6 +15,8 @@ public class Joueur implements IJoueur, Serializable {
     private double tempsMoyenDansLabyrinthe;
     private Image imagePP;
 
+    private List<Etape> etapes;
+
     public Joueur(String nom,String mdp){
         this.nom = nom;
         this.mdp = mdp;
@@ -22,6 +25,7 @@ public class Joueur implements IJoueur, Serializable {
         this.score = 0;
         this.tempsMoyenDansLabyrinthe = 0.0;
         //this.imagePP = new Image("@../assets/icons/rules.png");
+        this.etapes = new ArrayList<>();
     }
 
     public String getNom() {
@@ -96,5 +100,21 @@ public class Joueur implements IJoueur, Serializable {
         }
     }
 
+    public void ajouterEtape(Etape e) {
+        if (!etapes.contains(e))
+            etapes.add(e);
+    }
 
+    public void marquerDefiReussi(Etape etape, String difficulte) {
+        ajouterEtape(etape);
+        Defi d = etape.getDefiParDifficulte(difficulte);
+        if (d != null) {
+            d.setReussi(true);
+        }
+    }
+
+    public boolean estDefiReussi(Etape etape, String difficulte) {
+        Defi d = etape.getDefiParDifficulte(difficulte);
+        return d != null && d.estReussi();
+    }
 }
