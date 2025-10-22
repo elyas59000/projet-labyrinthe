@@ -61,6 +61,8 @@
 > - Amélioration de l'affichage pour créer une taille dynamique pour les labyrinthes
 > - Ajout élement de sortie des labyrinthes
 > - Ajout des étapes et défi dans la classe Joueur
+> - Création des règles du jeu, et fonctionnement du boutons Règles
+> - Ajout du retour au menu quand on a atteint la sortie Mode Libre
 > 
 > **Clement** : 
 >
