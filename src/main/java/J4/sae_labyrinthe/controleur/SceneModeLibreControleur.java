@@ -3,15 +3,15 @@ package J4.sae_labyrinthe.controleur;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
+import J4.sae_labyrinthe.vue.IVueLabyrinthe;
+import J4.sae_labyrinthe.vue.VueLabyrintheBase;
+import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class SceneModeLibreControleur {
 
@@ -40,7 +40,10 @@ public class SceneModeLibreControleur {
     @FXML
     void lancerPartieLibre(MouseEvent event) throws IOException {
         modeleJeu.lancerPartieLibre(champsHauteur.getValue(), champsLargeur.getValue(), champsTauxMur.getValue());
-        SceneManager.chargerScene("SceneJeuLibre");      // TODO : mettre le labyrinthe jeu libre
+        VueLabyrintheBase entier = new VueLabyrintheEntier(modeleJeu);
+        modeleJeu.add(entier);
+        ControleurLabyrinthe controleur = new ControleurLabyrinthe(modeleJeu, entier);
+        SceneManager.chargerScene(entier);      // TODO : mettre le labyrinthe jeu libre
     }
 
 

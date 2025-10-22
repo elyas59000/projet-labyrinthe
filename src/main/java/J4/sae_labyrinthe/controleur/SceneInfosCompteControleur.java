@@ -5,7 +5,6 @@ import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
 import J4.sae_labyrinthe.vue.IObserver;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 

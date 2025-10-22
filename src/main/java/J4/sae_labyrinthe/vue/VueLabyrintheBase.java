@@ -3,6 +3,7 @@ package J4.sae_labyrinthe.vue;
 import J4.sae_labyrinthe.controleur.ControleurLabyrinthe;
 import J4.sae_labyrinthe.modele.IModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeu;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,14 +12,13 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public abstract class VueLabyrintheBase  extends Stage implements IVueLabyrinthe {
+public abstract class VueLabyrintheBase implements IVueLabyrinthe {
     protected  IModeleJeu modele;
     protected  GridPane labEntier;
+    ControleurLabyrinthe c;
 
     public VueLabyrintheBase(IModeleJeu modele) {
         this.modele = modele;
-        this.setTitle("Fenetre laby");
-
     }
 
 
@@ -65,4 +65,10 @@ public abstract class VueLabyrintheBase  extends Stage implements IVueLabyrinthe
 
     /** Retourne l'image de la fin */
     public abstract Image getFin();
+
+    public abstract Parent getRoot();
+
+    public ControleurLabyrinthe getControleur(){
+        return c;
+    }
 }

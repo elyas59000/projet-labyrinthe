@@ -1,12 +1,9 @@
 package J4.sae_labyrinthe;
 
 //import J4.sae_labyrinthe.controleur.ControleurJeu;
-import J4.sae_labyrinthe.modele.IModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
-import J4.sae_labyrinthe.vue.IObserver;
-import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
 import javafx.application.Application;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;

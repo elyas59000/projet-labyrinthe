@@ -5,6 +5,7 @@ import J4.sae_labyrinthe.modele.IModeleJeu;
 import J4.sae_labyrinthe.modele.Labyrinthe;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import javafx.beans.binding.Bindings;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,10 +20,7 @@ public class VueLabyrintheEntier extends VueLabyrintheBase {
     public VueLabyrintheEntier(IModeleJeu modele) {
         super(modele);
         this.labEntier = new GridPane();
-        this.setTitle("Fenetre labyrinthe entier");
-        this.setScene(createSceneContent());
-        ControleurLabyrinthe c = new ControleurLabyrinthe(modele, this);
-        this.show();
+         c = new ControleurLabyrinthe(modele, this);
     }
 
     protected Scene createSceneContent() {
@@ -76,7 +74,6 @@ public class VueLabyrintheEntier extends VueLabyrintheBase {
                         cell.setFill(new ImagePattern(fusionnerImages(fond, fin)));
                     }
                 }
-
                 p.add(cell, j, i);
             }
         }
@@ -105,5 +102,11 @@ public class VueLabyrintheEntier extends VueLabyrintheBase {
     public Image getFin() {
         return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/fromage.png").toExternalForm());
 
+    }
+
+    @Override
+    public Parent getRoot() {
+        afficherLabyrinthe(labEntier);
+        return this.labEntier;
     }
 }

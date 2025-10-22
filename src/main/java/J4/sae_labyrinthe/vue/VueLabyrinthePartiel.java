@@ -5,6 +5,7 @@ import J4.sae_labyrinthe.modele.IModeleJeu;
 import J4.sae_labyrinthe.modele.Labyrinthe;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import javafx.beans.binding.Bindings;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
@@ -15,20 +16,17 @@ import javafx.scene.shape.Rectangle;
 
 public class VueLabyrinthePartiel extends VueLabyrintheBase{
     private GridPane labPartiel;
+    HBox hBox = new HBox();
 
     public VueLabyrinthePartiel(IModeleJeu modele) {
         super(modele);
         this.labPartiel = new GridPane();
         this.labEntier = new GridPane();
-        this.setTitle("Fenetre labyrinthe partiel");
-        this.setScene(createSceneContent());
-        ControleurLabyrinthe c = new ControleurLabyrinthe(modele, this);
-        this.show();
+        c = new ControleurLabyrinthe(modele, this);
     }
 
     @Override
     protected Scene createSceneContent() {
-        HBox hBox = new HBox();
         afficherLabyrinthe(labEntier);
         afficherLabyrinthePartiel(labPartiel);
         javafx.scene.control.Separator separator = new javafx.scene.control.Separator();
@@ -170,5 +168,37 @@ public class VueLabyrinthePartiel extends VueLabyrintheBase{
     public Image getFin() {
         return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/fromage.png").toExternalForm());
 
+    }
+
+    public Parent getRoot(){
+        afficherLabyrinthe(labEntier);
+        afficherLabyrinthePartiel(labPartiel);
+        javafx.scene.control.Separator separator = new javafx.scene.control.Separator();
+        separator.setOrientation(javafx.geometry.Orientation.VERTICAL);
+        separator.setStyle("-fx-background-color: black; -fx-pref-width: 50;");
+        hBox.getChildren().add(labEntier);
+        hBox.getChildren().add(separator);
+        hBox.getChildren().add(labPartiel);
+
+        labEntier.prefWidthProperty().bind(hBox.widthProperty().multiply(0.7)); // 70% pour le labyrinthe entier
+        labPartiel.prefWidthProperty().bind(hBox.widthProperty().multiply(0.3)); // 30% pour le labyrinthe partiel
+
+        int hauteurLaby = this.modele.getLabyrinthe().getHauteur();
+        int largeurLaby = this.modele.getLabyrinthe().getLargeur();
+        int tailleCelluleMin = 40;
+
+        labEntier.setMinWidth(largeurLaby * tailleCelluleMin);
+        labEntier.setMinHeight(hauteurLaby * tailleCelluleMin);
+
+        labPartiel.setMinWidth(3 * tailleCelluleMin);
+        labPartiel.setMinHeight(3 * tailleCelluleMin);
+
+
+        HBox.setHgrow(labEntier, Priority.ALWAYS);
+        HBox.setHgrow(labPartiel, Priority.ALWAYS);
+
+        labEntier.setMaxWidth(Double.MAX_VALUE);
+        labPartiel.setMaxWidth(Double.MAX_VALUE);
+        return this.hBox;
     }
 }

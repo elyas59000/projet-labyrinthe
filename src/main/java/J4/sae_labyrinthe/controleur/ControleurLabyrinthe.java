@@ -8,6 +8,7 @@ import J4.sae_labyrinthe.vue.IObserver;
 import J4.sae_labyrinthe.vue.IVueLabyrinthe;
 import J4.sae_labyrinthe.vue.VueLabyrintheBase;
 import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -20,7 +21,7 @@ public class ControleurLabyrinthe {
     public ControleurLabyrinthe(IModeleJeu modele, IVueLabyrinthe vue){
         this.modele =  modele;
         this.vue = vue;
-        this.getVue().getScene().setOnKeyPressed(this::deplacerJoueur);
+        this.getVue().getRoot().setOnKeyPressed(this::deplacerJoueur);
     }
 
     public void deplacerJoueur(KeyEvent event){
@@ -63,5 +64,8 @@ public class ControleurLabyrinthe {
         return direction;
     }
 
+    public void attacherEvents(Scene scene) {
+        scene.setOnKeyPressed(this::deplacerJoueur);
+    }
 
 }
