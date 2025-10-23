@@ -178,4 +178,12 @@
         public void setEtapeChoisi(int etapeChoisi) {
             this.etapeChoisi = new Etape(etapeChoisi);
         }
+
+        public void setDefiChoisi(int defiChoisi) {
+            this.defiChoisi = defiChoisi;
+        }
+
+        public int etapeChoisi() {
+            return etapeChoisi.getNumero();
+        }
     }

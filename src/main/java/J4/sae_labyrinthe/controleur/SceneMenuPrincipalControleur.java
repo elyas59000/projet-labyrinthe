@@ -52,8 +52,9 @@ public class SceneMenuPrincipalControleur implements IObserver {
     }
 
     @FXML
-    void ouvrirSceneProgression(MouseEvent event) {
+    void ouvrirSceneProgression(MouseEvent event) throws IOException {
         modeleJeu.remove(this);
+        SceneManager.chargerScene("SceneProg");
     }
 
     @FXML

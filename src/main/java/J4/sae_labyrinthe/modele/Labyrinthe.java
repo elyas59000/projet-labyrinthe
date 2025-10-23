@@ -77,7 +77,7 @@ public class Labyrinthe implements ILabyrinthe{
     private void genererLabyrinthe() {
 
         creerCellule();
-        if(this.e.getNumero() == 3){
+        if(!(this.e == null) && this.e.getNumero() == 3){
             positionAlea();
         }
         else{
