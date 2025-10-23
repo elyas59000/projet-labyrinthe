@@ -37,9 +37,9 @@ public class SceneDifficulteControleur {
         MODELJEU.setDefiChoisi(3);
         MODELJEU.lancerPartieProgression();
         if(MODELJEU.etapeChoisi() == 3) {
-            SceneManager.chargerScene("SceneLabyrintheEntier");
+            SceneManager.chargerScene("SceneLabyrinthe");
         }else {
-            SceneManager.chargerScene("SceneLabyrintheEntier");
+            SceneManager.chargerScene("SceneLabyrinthe");
         }
     }
 

@@ -9,121 +9,118 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
 
 public class SceneLabyrintheControleur {
 
-    private final int RANGE =1;
-    private final ModeleJeu modele = ModeleJeuSingleton.getInstance();
-    private final VueLabyrintheEntier vue = new VueLabyrintheEntier(modele);
+    private static final int RANGE = 1;
 
-    private final VueLabyrinthePartiel vuePartiel=new VueLabyrinthePartiel(modele, RANGE);
+    private final ModeleJeu modele = ModeleJeuSingleton.getInstance();
+    private final VueLabyrintheEntier vueEntiere = new VueLabyrintheEntier(modele);
+    private final VueLabyrinthePartiel vuePartielle = new VueLabyrinthePartiel(modele, RANGE);
 
     @FXML
     private Button btnPause;
 
     @FXML
-    private Text info1;
-
-    @FXML
-    private Text info2;
-
-    @FXML
-    private Text info3;
+    private Text info1, info2, info3, timerInfo;
 
     @FXML
     private StackPane zoneLaby;
 
     @FXML
-    private Text timerInfo;
-
-    @FXML
     void initialize() {
-        //affichageLocal();
+        // Choisis l’affichage voulu ici :
         affichageEntier();
-        deplacement();
+        // affichageLocal();
 
+        initialiserDeplacement();
     }
 
-    @FXML
-    void afficherMenuPause(MouseEvent event) throws IOException {
-        SceneManager.chargerScene("SceneModeLibre");
-    }
-
-    private void affichageEntier(){
-        zoneLaby.getChildren().add(vue.getLabEntier());
+    /**
+     * Affiche le labyrinthe complet.
+     */
+    private void affichageEntier() {
+        zoneLaby.getChildren().add(vueEntiere.getLabEntier());
         zoneLaby.setAlignment(Pos.CENTER);
         zoneLaby.setPadding(new Insets(5));
-        vue.getLabEntier().setAlignment(Pos.CENTER);
+        vueEntiere.getLabEntier().setAlignment(Pos.CENTER);
 
         zoneLaby.setFocusTraversable(true);
-        zoneLaby.requestFocus();
-        vue.update();
+        Platform.runLater(zoneLaby::requestFocus);
+        vueEntiere.update();
     }
+
+    /**
+     * Affiche une vue partielle autour du joueur.
+     */
     private void affichageLocal() {
-        zoneLaby.getChildren().add(vuePartiel.getLabPartiel());
+        zoneLaby.getChildren().add(vuePartielle.getLabPartiel());
         zoneLaby.setAlignment(Pos.CENTER);
         zoneLaby.setPadding(new Insets(5));
-        vuePartiel.getLabPartiel().setAlignment(Pos.CENTER);
+        vuePartielle.getLabPartiel().setAlignment(Pos.CENTER);
+
         zoneLaby.setFocusTraversable(true);
-        zoneLaby.requestFocus();
+        Platform.runLater(zoneLaby::requestFocus);
+        vuePartielle.update();
     }
 
-    private void deplacement(){
-
-        zoneLaby.sceneProperty().addListener((obs, oldScene, newScene) -> {
-            if (oldScene != null) {
-                oldScene.removeEventHandler(KeyEvent.KEY_PRESSED, this::deplacerJoueur);
-            }
-
-            // On attache les handlers à la nouvelle scène
-            if (newScene != null) {
-                newScene.addEventHandler(KeyEvent.KEY_PRESSED, this::deplacerJoueur);
-
-                // On s'assure que le focus est bien sur la zone du labyrinthe
-                Platform.runLater(() -> zoneLaby.requestFocus());
-            }
-        });
-
+    /**
+     * Initialise la gestion du clavier pour les déplacements.
+     */
+    private void initialiserDeplacement() {
+        zoneLaby.setOnKeyPressed(this::gererDeplacement);
+        zoneLaby.setFocusTraversable(true);
+        Platform.runLater(zoneLaby::requestFocus);
     }
 
-    private void deplacerJoueur(KeyEvent event){
-        String direction = correspodanceTouche(event.getCode());
-        this.modele.deplacerJoueur(direction);
-        System.out.println(this.modele.getPositionJoueur().getX() + " " + this.modele.getPositionJoueur().getY());
-        if((this.modele.getPositionJoueur().getX() == this.modele.getSortie().getX())  && (this.modele.getPositionJoueur().getY()) == this.modele.getSortie().getY()){
+    /**
+     * Déplace le joueur selon la touche pressée.
+     */
+    private void gererDeplacement(KeyEvent event) {
+        String direction = correspondanceTouche(event.getCode());
+        if (direction == null) {
+            return;
+        }
+
+        modele.deplacerJoueur(direction);
+
+        vueEntiere.update();
+
+        if (modele.getPositionJoueur().equals(modele.getSortie())) {
             try {
                 SceneManager.chargerScene("SceneMenuPrincipal");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
+
+        Platform.runLater(zoneLaby::requestFocus);
     }
 
-    private String correspodanceTouche(KeyCode event){
-        String direction = "";
-        if(KeyCode.UP.equals(event)){
-            direction= "z";
-        } else if (KeyCode.DOWN.equals(event)) {
-            direction= "s";
-        }else if (KeyCode.LEFT.equals(event)) {
-            direction= "q";
-        }else if (KeyCode.RIGHT.equals(event)) {
-            direction= "d";
-        }else {
-            direction = event.getChar();
-        }
-        return direction;
+    /**
+     * Associe les touches clavier à une direction.
+     */
+    private String correspondanceTouche(KeyCode code) {
+        if (code == KeyCode.UP || code == KeyCode.Z) return "z";
+        if (code == KeyCode.DOWN || code == KeyCode.S) return "s";
+        if (code == KeyCode.LEFT || code == KeyCode.Q) return "q";
+        if (code == KeyCode.RIGHT || code == KeyCode.D) return "d";
+        return null;
+    }
+
+    /**
+     * Affiche le menu de pause.
+     */
+    @FXML
+    void afficherMenuPause(MouseEvent event) throws IOException {
+        SceneManager.chargerScene("SceneModeLibre");
     }
 }
