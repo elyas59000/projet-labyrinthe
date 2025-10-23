@@ -30,6 +30,7 @@ public class TestLabyrinthe {
         assertEquals("b",joueur_creer.getMdp());
     }
 
+
     @Test
     void testDeplacementJoueur(){
         modele.lancerPartieLibre(15,20,0);
@@ -50,6 +51,15 @@ public class TestLabyrinthe {
         assertNotNull(((ModeleJeu)modele).getJoueurActuel());
         ((ModeleJeu) modele).deconnexionJoueur();
         assertNull(((ModeleJeu)modele).getJoueurActuel());
+    }
+
+    @Test
+    void testScore() throws ValidationException {
+        IJoueur joueur = new Joueur("nom","mpd");
+        assertEquals(0,joueur.getScore());
+        joueur.ajouterScore(15);
+        assertEquals(15,joueur.getScore());
+
     }
 
 

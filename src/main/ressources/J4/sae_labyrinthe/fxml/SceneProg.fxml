@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="J4.sae_labyrinthe.controleur.SceneProgrControleur">
+   <children>
+      <Button fx:id="etape1" layoutX="364.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape1" text="Etape 1" />
+      <Button fx:id="etape2" disable="true" layoutX="578.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape2" text="Etape2" />
+      <Button fx:id="etape3" disable="true" layoutX="790.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape3" text="Etape3" />
+      <Text layoutX="588.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Progression" />
+      <Button layoutX="57.0" layoutY="631.0" mnemonicParsing="false" onMouseClicked="#retourScenePrecendente" text="Retour" />
+   </children>
+</AnchorPane>

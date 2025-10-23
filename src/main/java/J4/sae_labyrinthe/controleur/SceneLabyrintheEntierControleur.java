@@ -55,22 +55,16 @@ public class SceneLabyrintheEntierControleur {
         zoneLaby.setFocusTraversable(true);
         zoneLaby.requestFocus();
 
-        // Préparation des handlers (on garde des références)
-        keyPressedHandler = control::deplacerJoueur;
-        keyReleasedHandler = e -> {}; // si jamais tu veux gérer le relâchement plus tard
 
         // Gestion du changement de scène
         zoneLaby.sceneProperty().addListener((obs, oldScene, newScene) -> {
-            // On nettoie l'ancienne scène
             if (oldScene != null) {
-                oldScene.removeEventHandler(KeyEvent.KEY_PRESSED, keyPressedHandler);
-                oldScene.removeEventHandler(KeyEvent.KEY_RELEASED, keyReleasedHandler);
+                oldScene.removeEventHandler(KeyEvent.KEY_PRESSED, control::deplacerJoueur);
             }
 
             // On attache les handlers à la nouvelle scène
             if (newScene != null) {
-                newScene.addEventHandler(KeyEvent.KEY_PRESSED, keyPressedHandler);
-                newScene.addEventHandler(KeyEvent.KEY_RELEASED, keyReleasedHandler);
+                newScene.addEventHandler(KeyEvent.KEY_PRESSED, control::deplacerJoueur);
 
                 // On s'assure que le focus est bien sur la zone du labyrinthe
                 Platform.runLater(() -> zoneLaby.requestFocus());
