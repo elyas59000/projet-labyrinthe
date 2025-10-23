@@ -15,6 +15,7 @@ public class Defi {
         this.difficulte = difficulte;
         this.reussi = false;
         this.cote = cote;
+        this.pourcentageMurs = pourcentageMurs;
     }
 
 
