@@ -10,10 +10,22 @@ public class Labyrinthe implements ILabyrinthe{
     private Cellule entree;
     private Cellule sortie;
 
+    private Etape e;
+
     public Labyrinthe(int largeur, int hauteur, double pourcentageMurs) {
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.pourcentageMurs = pourcentageMurs;
+        this.e = null;
+        grille = new Cellule[hauteur][largeur];
+        genererLabyrinthe();
+    }
+
+    public Labyrinthe(int largeur, int hauteur, double pourcentageMurs,Etape e) {
+        this.largeur = largeur;
+        this.hauteur = hauteur;
+        this.pourcentageMurs = pourcentageMurs;
+        this.e = e;
         grille = new Cellule[hauteur][largeur];
         genererLabyrinthe();
     }
@@ -65,8 +77,12 @@ public class Labyrinthe implements ILabyrinthe{
     private void genererLabyrinthe() {
 
         creerCellule();
-
-        creerEntreeSortie();
+        if(this.e.getNumero() == 3){
+            positionAlea();
+        }
+        else{
+            creerEntreeSortie();
+        }
 
         int totalMurs = (int) (largeur * hauteur * pourcentageMurs / 100.0);
 
@@ -74,6 +90,7 @@ public class Labyrinthe implements ILabyrinthe{
 
         placerMurs(positions,totalMurs);
     }
+
 
     private void regardeDirection(int x, int y, int[] dx, int[] dy, boolean[][] visite, Stack<int []> stack){
         for (int i = 0; i < 4; i++) {
@@ -128,4 +145,40 @@ public class Labyrinthe implements ILabyrinthe{
     public double getPourcentageMurs() {
         return pourcentageMurs;
     }
+
+    public void positionAlea() {
+        Random r = new Random();
+        List<Cellule> chemin = new ArrayList<>();
+
+        boolean[][] visite = new boolean[hauteur][largeur];
+        Stack<Cellule> stack = new Stack<>();
+        stack.push(entree);
+        visite[entree.getY()][entree.getX()] = true;
+
+        int[] dx = {0, 0, -1, 1};
+        int[] dy = {-1, 1, 0, 0};
+
+        // Parcours de toutes les cellules accessibles depuis l'entrée
+        while (!stack.isEmpty()) {
+            Cellule c = stack.pop();
+            chemin.add(c);
+            for (int i = 0; i < 4; i++) {
+                int nx = c.getX() + dx[i];
+                int ny = c.getY() + dy[i];
+                if (nx >= 0 && nx < largeur && ny >= 0 && ny < hauteur
+                        && !grille[ny][nx].estMur() && !visite[ny][nx]) {
+                    visite[ny][nx] = true;
+                    stack.push(grille[ny][nx]);
+                }
+            }
+        }
+
+        this.entree = chemin.get(r.nextInt(chemin.size()));
+        this.entree.setMur(false);
+
+        // Fixer la sortie tout en bas à droite (assure qu'elle est libre)
+        this.sortie = grille[hauteur - 1][largeur - 1];
+        this.sortie.setMur(false);
+    }
+
 }

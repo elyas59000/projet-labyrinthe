@@ -13,12 +13,6 @@ public interface IModeleJeu {
      */
     Joueur creerJoueur(String nom, String mdp) throws ValidationException, IOException;
 
-    /**
-     * affiche l'étape maximale ainsique les defis remporter par le joueur passé en paramèter
-     * @param joueur
-     */
-
-    void afficherProgression(IJoueur joueur);
 
     void connexionJoueur(String nom, String mdp) throws ValidationException;
 
@@ -33,9 +27,8 @@ public interface IModeleJeu {
 
     /**
      *lance la partie en mode progression avec la progression du joueur passé en paramètre
-     * @param j
      */
-    void lancerPartieProgression(IJoueur j);
+    void lancerPartieProgression();
 
     /**
      *

@@ -1,6 +1,6 @@
 package J4.sae_labyrinthe.modele;
 
-public class Cellule implements ICellule{
+public class Cellule {
     private int x;
     private int y;
     private boolean mur;

@@ -15,6 +15,9 @@
         private Joueur joueurActuel;
         private Cellule positionJoueur;
 
+        private Etape etapeChoisi;
+        private int defiChoisi;
+
         public ModeleJeu(){
             this.joueurs = new ArrayList<>();
             this.observers =new ArrayList<>();
@@ -72,18 +75,16 @@
         }
 
         @Override
-        public void afficherProgression(IJoueur joueur) {
-
-        }
-
-        @Override
         public void lancerPartieLibre(int largeur, int hauteur, int tauxMur) {
             this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
             this.positionJoueur = this.labyrinthe.getEntree();
         }
 
         @Override
-        public void lancerPartieProgression(IJoueur j) {
+        public void lancerPartieProgression() {
+            Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
+            this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote(),d.getPourcentageMurs(),etapeChoisi);
+            this.positionJoueur = this.labyrinthe.getEntree();
         }
 
         @Override
@@ -166,7 +167,15 @@
             }
         }
 
+        public int etapeJoueur(){
+            return joueurActuel.getEtapeMax();
+        }
+
         public Cellule getSortie(){
             return labyrinthe.getSortie();
+        }
+
+        public void setEtapeChoisi(int etapeChoisi) {
+            this.etapeChoisi = new Etape(etapeChoisi);
         }
     }
