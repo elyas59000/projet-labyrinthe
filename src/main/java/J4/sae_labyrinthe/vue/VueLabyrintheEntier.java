@@ -2,6 +2,7 @@ package J4.sae_labyrinthe.vue;
 
 import J4.sae_labyrinthe.modele.Labyrinthe;
 import J4.sae_labyrinthe.modele.ModeleJeu;
+import J4.sae_labyrinthe.utils.Calcul;
 import J4.sae_labyrinthe.utils.FusionImage;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
@@ -14,6 +15,10 @@ public class VueLabyrintheEntier implements IObserver, IVueLabyrinthe {
 
     private final GridPane labEntier;
     private final ModeleJeu modele;
+
+    private final double LARGEUR_DISPONIBLE_ZONE= 1280;
+
+    private final double HAUTEUR_DISPONIBLE_ZONE=700;
 
     public VueLabyrintheEntier(ModeleJeu modele) {
         this.labEntier = new GridPane();
@@ -31,7 +36,7 @@ public class VueLabyrintheEntier implements IObserver, IVueLabyrinthe {
         int lignes = laby.getHauteur();
         int colonnes = laby.getLargeur();
 
-        double tailleCarre = calculTailleCarreOptimal(largeurDispo, hauteurDispo, colonnes, lignes);
+        double tailleCarre = Calcul.calculTailleCarreOptimal(largeurDispo, hauteurDispo, colonnes, lignes);
 
         Image brique = getBrique();
         Image joueur = getJoueur();
@@ -62,15 +67,10 @@ public class VueLabyrintheEntier implements IObserver, IVueLabyrinthe {
      * Calcule la taille optimale d’une cellule pour que le labyrinthe
      * tienne dans la zone visible, sans déborder ni déformer.
      */
-    private double calculTailleCarreOptimal(double largeurZone, double hauteurZone, int nbColonnes, int nbLignes) {
-        double tailleSelonLargeur = largeurZone / nbColonnes;
-        double tailleSelonHauteur = hauteurZone / nbLignes;
-        return Math.floor(Math.min(tailleSelonLargeur, tailleSelonHauteur));
-    }
 
     @Override
     public void update() {
-        afficherLabyrinthe(labEntier,1200,700);
+        afficherLabyrinthe(labEntier,LARGEUR_DISPONIBLE_ZONE,HAUTEUR_DISPONIBLE_ZONE);
     }
 
     public GridPane getLabEntier() {

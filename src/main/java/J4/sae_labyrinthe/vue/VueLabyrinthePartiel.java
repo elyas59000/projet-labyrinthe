@@ -1,96 +1,64 @@
 package J4.sae_labyrinthe.vue;
 
-import J4.sae_labyrinthe.controleur.ControleurLabyrinthe;
-import J4.sae_labyrinthe.modele.IModeleJeu;
+
 import J4.sae_labyrinthe.modele.Labyrinthe;
 import J4.sae_labyrinthe.modele.ModeleJeu;
-import javafx.beans.binding.Bindings;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import J4.sae_labyrinthe.utils.Calcul;
+import J4.sae_labyrinthe.utils.FusionImage;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-/*
-public class VueLabyrinthePartiel extends VueLabyrintheBase{
+
+import static J4.sae_labyrinthe.utils.FusionImage.fusionnerImages;
+
+public class VueLabyrinthePartiel implements IObserver {
     private GridPane labPartiel;
-    HBox hBox = new HBox();
 
-    public VueLabyrinthePartiel(IModeleJeu modele) {
-        super(modele);
+    private GridPane minimap;
+
+    private final ModeleJeu modele;
+    private final int range;
+
+    private final double LARGEUR_DISPONIBLE_ZONE= 1280;
+
+    private final double HAUTEUR_DISPONIBLE_ZONE=700;
+
+    public VueLabyrinthePartiel(ModeleJeu modele, int range) {
         this.labPartiel = new GridPane();
-        this.labEntier = new GridPane();
-        c = new ControleurLabyrinthe(modele, this);
-    }
-
-    @Override
-    protected Scene createSceneContent() {
-        afficherLabyrinthe(labEntier);
-        afficherLabyrinthePartiel(labPartiel);
-        javafx.scene.control.Separator separator = new javafx.scene.control.Separator();
-        separator.setOrientation(javafx.geometry.Orientation.VERTICAL);
-        separator.setStyle("-fx-background-color: black; -fx-pref-width: 50;");
-        hBox.getChildren().add(labEntier);
-        hBox.getChildren().add(separator);
-        hBox.getChildren().add(labPartiel);
-
-        labEntier.prefWidthProperty().bind(hBox.widthProperty().multiply(0.7)); // 70% pour le labyrinthe entier
-        labPartiel.prefWidthProperty().bind(hBox.widthProperty().multiply(0.3)); // 30% pour le labyrinthe partiel
-
-        int hauteurLaby = this.modele.getLabyrinthe().getHauteur();
-        int largeurLaby = this.modele.getLabyrinthe().getLargeur();
-        int tailleCelluleMin = 40;
-
-        labEntier.setMinWidth(largeurLaby * tailleCelluleMin);
-        labEntier.setMinHeight(hauteurLaby * tailleCelluleMin);
-
-        labPartiel.setMinWidth(3 * tailleCelluleMin);
-        labPartiel.setMinHeight(3 * tailleCelluleMin);
-
-
-        HBox.setHgrow(labEntier, Priority.ALWAYS);
-        HBox.setHgrow(labPartiel, Priority.ALWAYS);
-
-        labEntier.setMaxWidth(Double.MAX_VALUE);
-        labPartiel.setMaxWidth(Double.MAX_VALUE);
-        return new Scene(hBox);
+        this.minimap = new GridPane();
+        this.modele=modele;
+        this.modele.add(this);
+        this.range=range;
     }
 
     @Override
     public void update() {
-        afficherLabyrinthe(labEntier);
-        afficherLabyrinthePartiel(labPartiel);
+        afficherMap(minimap);
+        afficherLabyrinthePartiel(labPartiel,LARGEUR_DISPONIBLE_ZONE,HAUTEUR_DISPONIBLE_ZONE,range);
     }
 
-    @Override
-    public void afficherLabyrinthe(GridPane p) {
+    public void afficherMap(GridPane p) {
         p.getChildren().clear();
-
-        Image brique = this.getBrique();
-        Image fond = this.getFond();
-        Image fin = this.getFin();
-        Labyrinthe laby = this.modele.getLabyrinthe();
+        Labyrinthe laby = modele.getLabyrinthe();
         int hauteur = laby.getHauteur();
         int largeur = laby.getLargeur();
 
+        // Taille fixe plus petite que la zone du labyrinthe
+        double tailleCarre = 10; // tu peux ajuster
+
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
-                Rectangle cell = new Rectangle();
+                Rectangle cell = new Rectangle(tailleCarre, tailleCarre);
 
-                // Taille dynamique
-                cell.widthProperty().bind(p.widthProperty().divide(largeur));
-                cell.heightProperty().bind(p.heightProperty().divide(hauteur));
-
-                // --- Choix du contenu ---
                 if (laby.getGrille()[i][j].estMur()) {
-                    cell.setFill(new ImagePattern(brique));
+                    cell.setFill(Color.LIGHTGRAY);
+                } else if (laby.getGrille()[i][j].equals(laby.getSortie())) {
+                    cell.setFill(Color.RED);
                 } else {
-                    cell.setFill(new ImagePattern(fond));
-                     if (laby.getGrille()[i][j].equals(laby.getSortie())) {
-                        cell.setFill(new ImagePattern(fusionnerImages(fond, fin)));
-                    }
+                    cell.setFill(Color.TRANSPARENT);
                 }
 
                 p.add(cell, j, i);
@@ -98,59 +66,56 @@ public class VueLabyrinthePartiel extends VueLabyrintheBase{
         }
     }
 
-    public void afficherLabyrinthePartiel(GridPane p) {
-        p.getChildren().clear();
+    public void afficherLabyrinthePartiel(GridPane p, double largeurDispo, double hauteurDispo, int range) {
+        Labyrinthe laby = this.modele.getLabyrinthe();
+        int hauteur = laby.getHauteur();
+        int largeur = laby.getLargeur();
+        int joueurLigne = this.modele.getPositionJoueur().getY();
+        int joueurCol = this.modele.getPositionJoueur().getX();
 
+        double tailleCarre = Calcul.calculTailleCarreOptimal(largeurDispo, hauteurDispo, 2 * range + 1, 2 * range + 1);
+        // Si la grille est vide, la créer
+        if (p.getChildren().isEmpty()) {
+            for (int i = 0; i < 2 * range + 1; i++) {
+                for (int j = 0; j < 2 * range + 1; j++) {
+                    Rectangle cell = new Rectangle(tailleCarre, tailleCarre);
+                    p.add(cell, j, i);
+                }
+            }
+        }
         Image brique = this.getBrique();
         Image fond = this.getFond();
         Image joueur = this.getJoueur();
         Image fin = this.getFin();
-        Labyrinthe laby = this.modele.getLabyrinthe();
-        int hauteur = laby.getHauteur();
-        int largeur = laby.getLargeur();
+        // Mise à jour des cellules
+        for (int i = 0; i < 2 * range + 1; i++) {
+            for (int j = 0; j < 2 * range + 1; j++) {
+                int labyI = joueurLigne - range + i;
+                int labyJ = joueurCol - range + j;
+                Rectangle cell = (Rectangle) p.getChildren().get(i * (2 * range + 1) + j);
 
-        // position du joueur
-        int joueurLigne = this.getModele().getPositionJoueur().getY();
-        int joueurCol = this.getModele().getPositionJoueur().getX();
-
-        // afficher les cases autour du joueur (3x3)
-        for (int i = joueurLigne - 1; i <= joueurLigne + 1; i++) {
-            for (int j = joueurCol - 1; j <= joueurCol + 1; j++) {
-
-                Rectangle cell = new Rectangle();
-
-                // Taille dynamique
-                cell.widthProperty().bind(p.widthProperty().divide(3));
-                cell.heightProperty().bind(p.heightProperty().divide(3));
-
-                // --- Choix du contenu ---
-                if (i < 0 || i >= hauteur || j < 0 || j >= largeur) {
-                    // hors limites : remplir en mur
-                    cell.setFill(new  ImagePattern(brique));
+                if (labyI < 0 || labyI >= hauteur || labyJ < 0 || labyJ >= largeur) {
+                    cell.setFill(new ImagePattern(brique));
+                } else if (laby.getGrille()[labyI][labyJ].estMur()) {
+                    cell.setFill(new ImagePattern(brique));
+                } else if (labyI == joueurLigne && labyJ == joueurCol) {
+                    cell.setFill(new ImagePattern(FusionImage.fusionnerImages(fond, joueur)));
+                } else if (laby.getGrille()[labyI][labyJ].equals(laby.getSortie())) {
+                    cell.setFill(new ImagePattern(FusionImage.fusionnerImages(fond, fin)));
                 } else {
-                    if (laby.getGrille()[i][j].estMur()) {
-                        cell.setFill(new ImagePattern(brique));
-                    } else if (i == joueurLigne && j == joueurCol) {
-                        cell.setFill(new ImagePattern(fusionnerImages(fond, joueur)));
-                    } else if (laby.getGrille()[i][j].equals(laby.getSortie())) {
-                        cell.setFill(new ImagePattern(fusionnerImages(fond, fin)));
-                    } else {
-                        cell.setFill(new ImagePattern(fond));
-                    }
+                    cell.setFill(new ImagePattern(fond));
                 }
-
-                // ajouter la cellule dans le GridPane partiel
-                p.add(cell, j - (joueurCol - 1), i - (joueurLigne - 1));
             }
         }
     }
 
-    public ModeleJeu getModele() {
-        return (ModeleJeu) modele;
+
+    public GridPane getLabPartiel() {
+        return labPartiel;
     }
 
-    public GridPane getLabEntier() {
-        return labEntier;
+    public GridPane getMinimap(){
+        return minimap;
     }
 
     public Image getBrique() {
@@ -170,38 +135,8 @@ public class VueLabyrinthePartiel extends VueLabyrintheBase{
 
     }
 
-    public Parent getRoot(){
-        afficherLabyrinthe(labEntier);
-        afficherLabyrinthePartiel(labPartiel);
-        javafx.scene.control.Separator separator = new javafx.scene.control.Separator();
-        separator.setOrientation(javafx.geometry.Orientation.VERTICAL);
-        separator.setStyle("-fx-background-color: black; -fx-pref-width: 50;");
-        hBox.getChildren().add(labEntier);
-        hBox.getChildren().add(separator);
-        hBox.getChildren().add(labPartiel);
-
-        labEntier.prefWidthProperty().bind(hBox.widthProperty().multiply(0.7)); // 70% pour le labyrinthe entier
-        labPartiel.prefWidthProperty().bind(hBox.widthProperty().multiply(0.3)); // 30% pour le labyrinthe partiel
-
-        int hauteurLaby = this.modele.getLabyrinthe().getHauteur();
-        int largeurLaby = this.modele.getLabyrinthe().getLargeur();
-        int tailleCelluleMin = 40;
-
-        labEntier.setMinWidth(largeurLaby * tailleCelluleMin);
-        labEntier.setMinHeight(hauteurLaby * tailleCelluleMin);
-
-        labPartiel.setMinWidth(3 * tailleCelluleMin);
-        labPartiel.setMinHeight(3 * tailleCelluleMin);
-
-
-        HBox.setHgrow(labEntier, Priority.ALWAYS);
-        HBox.setHgrow(labPartiel, Priority.ALWAYS);
-
-        labEntier.setMaxWidth(Double.MAX_VALUE);
-        labPartiel.setMaxWidth(Double.MAX_VALUE);
-        return this.hBox;
-    }
 
 
 }
- */
+
+

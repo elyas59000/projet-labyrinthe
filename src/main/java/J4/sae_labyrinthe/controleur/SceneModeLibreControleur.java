@@ -35,7 +35,7 @@ public class SceneModeLibreControleur {
     @FXML
     void lancerPartieLibre(MouseEvent event) throws IOException {
         modeleJeu.lancerPartieLibre(champsLargeur.getValue(), champsHauteur.getValue(), champsTauxMur.getValue());
-        SceneManager.chargerScene("SceneLabyrintheEntier");
+        SceneManager.chargerScene("SceneLabyrinthe");
     }
 
     @FXML
