@@ -95,6 +95,23 @@ public class TestLabyrinthe {
 
     }
 
+    @Test
+    void testDeplacementJoueurCollison() throws IOException {
+
+        modele.lancerPartieLibre(15, 20, 100);
+        Cellule positionInitiale = ((ModeleJeu) modele).getPositionJoueur();
+
+        assertEquals(0, positionInitiale.getX());
+        assertEquals(0, positionInitiale.getY());
+        modele.deplacerJoueur("d");
+
+
+        Cellule positionFinale = ((ModeleJeu) modele).getPositionJoueur();
+
+        assertEquals(0, positionFinale.getX(), "Position X n'aurait pas dû changer (collision mur).");
+        assertEquals(0, positionFinale.getY(), "Position Y n'aurait pas dû changer (collision mur).");
+    }
+
 
 
 
