@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Save {
-    private final static String JOUEUR_PATH = "J4/sae_labyrinthe/txt/joueur.txt";
+    private final static String JOUEUR_PATH = "J4/sae_labyrinthe/txt/joueurs.txt";
 
     public static void saveToFile(ArrayList<Joueur> joueurs) throws IOException {
 
