@@ -46,6 +46,7 @@
 > **Adam** : 
 > - mise en place de SceneModeLibreControleur
 > - animation des fonts quand le button est hover
+> - mise en place du système de saves + fix des vérification.
 > - fix les problèmes de rendu du suivi
 
 ## Semaine 3
