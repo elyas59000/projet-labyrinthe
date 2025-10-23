@@ -54,7 +54,7 @@ public class SceneProgrControleur implements IObserver {
 
     @Override
     public void update() {
-        if(MODELJEU.etapeJoueur() == 2 ) this.etape2.setDisable(false);
-        if(MODELJEU.etapeJoueur() == 3 ) this.etape3.setDisable(false);
+        if(MODELJEU.etapeJoueur() >= 2 ) this.etape2.setDisable(false);
+        if(MODELJEU.etapeJoueur() >= 3 ) this.etape3.setDisable(false);
     }
 }

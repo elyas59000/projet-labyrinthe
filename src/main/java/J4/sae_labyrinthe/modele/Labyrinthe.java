@@ -77,11 +77,9 @@ public class Labyrinthe implements ILabyrinthe{
     private void genererLabyrinthe() {
 
         creerCellule();
+        creerEntreeSortie();
         if(!(this.e == null) && this.e.getNumero() == 3){
             positionAlea();
-        }
-        else{
-            creerEntreeSortie();
         }
 
         int totalMurs = (int) (largeur * hauteur * pourcentageMurs / 100.0);
@@ -146,6 +144,10 @@ public class Labyrinthe implements ILabyrinthe{
         return pourcentageMurs;
     }
 
+    public Etape getEtape() {
+        return e;
+    }
+
     public void positionAlea() {
         Random r = new Random();
         List<Cellule> chemin = new ArrayList<>();
@@ -180,5 +182,6 @@ public class Labyrinthe implements ILabyrinthe{
         this.sortie = grille[hauteur - 1][largeur - 1];
         this.sortie.setMur(false);
     }
+
 
 }
