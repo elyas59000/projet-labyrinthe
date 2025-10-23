@@ -45,7 +45,7 @@ public class SceneDifficulteControleur {
 
     @FXML
     void retourScenePrecedente(MouseEvent event) throws IOException {
-        SceneManager.chargerScene("SceneMenuPrincipal");
+        SceneManager.chargerScene("SceneProg");
     }
 
 }
