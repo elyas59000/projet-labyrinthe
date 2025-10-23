@@ -57,6 +57,7 @@ public class SceneLabyrintheEntierControleur {
 
 
         // Gestion du changement de scène
+
         zoneLaby.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (oldScene != null) {
                 oldScene.removeEventHandler(KeyEvent.KEY_PRESSED, control::deplacerJoueur);

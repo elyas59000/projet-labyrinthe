@@ -49,7 +49,7 @@ public class SceneProgrControleur implements IObserver {
 
     @FXML
     void retourScenePrecendente(MouseEvent event) throws IOException {
-        SceneManager.chargerScene("SceneMenuPrincpal");
+        SceneManager.chargerScene("SceneMenuPrincipal");
     }
 
     @Override
