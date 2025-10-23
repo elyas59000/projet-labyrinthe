@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Save {
-    private static final String JOUEUR_PATH = Objects.requireNonNull(Labyrinthe.class.getResource("/J4/sae_labyrinthe/txt/joueurs.txt")).toExternalForm();
+    private static final String JOUEUR_PATH ="src/main/ressources/J4/sae_labyrinthe/txt/joueurs.txt";
 
     public static void saveToFile(ArrayList<Joueur> joueurs) throws IOException {
 
