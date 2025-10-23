@@ -3,6 +3,7 @@ package J4.sae_labyrinthe.controleur;
 import J4.sae_labyrinthe.exception.ValidationException;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
+import J4.sae_labyrinthe.modele.Save;
 import J4.sae_labyrinthe.utils.SaisieValidation;
 import J4.sae_labyrinthe.utils.SceneManager;
 import javafx.fxml.FXML;
@@ -28,6 +29,12 @@ public class SceneConnexionControleur {
 
     @FXML
     void ouvrirSceneInscriptions(MouseEvent event) throws IOException {
+        try {
+            modeleJeu.joueurs = Save.loadSave();
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
         SceneManager.chargerScene("SceneInscription");
     }
 
@@ -37,9 +44,10 @@ public class SceneConnexionControleur {
     }
 
     @FXML
-    void validerEntreesConnexion(MouseEvent event) {
+    void validerEntreesConnexion(MouseEvent event) throws IOException {
         String login = champLogin.getText();
         String mdp = champsMDP.getText();
+        modeleJeu.joueurs = Save.loadSave();
         try{
             SaisieValidation.validationConnexion(login,mdp);
             modeleJeu.connexionJoueur(login,mdp);

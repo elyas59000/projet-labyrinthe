@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 
+
 public class App extends Application {
 
     private final KeyCode fullscreen=KeyCode.F11;

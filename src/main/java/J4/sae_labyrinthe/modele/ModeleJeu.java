@@ -3,13 +3,14 @@
     import J4.sae_labyrinthe.exception.ValidationException;
     import J4.sae_labyrinthe.vue.IObserver;
 
+    import java.io.IOException;
     import java.util.ArrayList;
     import java.util.List;
 
     public class ModeleJeu implements  IModeleJeu{
 
         private ILabyrinthe labyrinthe;
-        private List<Joueur> joueurs;
+        public List<Joueur> joueurs;    // créer setJoueurs() et remettre en private
         protected List<IObserver> observers;
         private Joueur joueurActuel;
         private Cellule positionJoueur;
@@ -20,17 +21,19 @@
         }
 
         @Override
-        public Joueur creerJoueur(String nom, String mdp) throws ValidationException {
+        public Joueur creerJoueur(String nom, String mdp) throws ValidationException, IOException {
             boolean pseudoDejaExistant=false;
             for(Joueur joueur : this.joueurs){
                 if(joueur.getNom().equals(nom)){
                     pseudoDejaExistant=true;
+                    break;
                 }
             }
             if(!pseudoDejaExistant){
                 Joueur nouveau = new Joueur(nom,mdp);
                 this.joueurs.add(nouveau);
                 this.joueurActuel = nouveau;
+                Save.saveToFile((ArrayList<Joueur>) joueurs);
                 notifierObservateurs();
                 return nouveau;
             }
@@ -42,17 +45,24 @@
 
         public void connexionJoueur(String nom,String mdp) throws ValidationException {
             if(this.joueurs.isEmpty()){throw new ValidationException("Aucun joueur n'existe pour l'instant");}
+
+            boolean joueurTrouve = false;
             for(Joueur joueur : this.joueurs){
                 if(joueur.getNom().equals(nom)){
                     if(joueur.getMdp().equals(mdp)){
                         joueurActuel = joueur;
+                        joueurTrouve = true;
                         notifierObservateurs();
+
                     }else {
                         throw new ValidationException("Mot de passe incorrect");
                     }
-                }else {
-                    throw new ValidationException("Le joueur n'existe pas");
+                    break;
                 }
+            }
+
+            if (!joueurTrouve){
+                throw new ValidationException("Le joueur n'existe pas");
             }
 
         }

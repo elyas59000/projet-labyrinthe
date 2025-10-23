@@ -3,13 +3,15 @@ package J4.sae_labyrinthe.modele;
 import J4.sae_labyrinthe.exception.ValidationException;
 import J4.sae_labyrinthe.vue.IObserver;
 
+import java.io.IOException;
+
 public interface IModeleJeu {
     /**
      * Creer un nouveau joueur à partir de son nom
      * @param nom,mdp
      * @return
      */
-    Joueur creerJoueur(String nom, String mdp) throws ValidationException;
+    Joueur creerJoueur(String nom, String mdp) throws ValidationException, IOException;
 
     /**
      * affiche l'étape maximale ainsique les defis remporter par le joueur passé en paramèter
