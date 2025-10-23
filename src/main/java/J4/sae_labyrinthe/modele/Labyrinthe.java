@@ -126,7 +126,7 @@ public class Labyrinthe implements ILabyrinthe{
             }
         }
     }
-    // Vérifie si un chemin existe entre entrée et sortie (DFS)
+
     private boolean cheminExistant() {
         boolean[][] visite = new boolean[hauteur][largeur];
         Stack<int[]> stack = new Stack<>();
@@ -145,18 +145,6 @@ public class Labyrinthe implements ILabyrinthe{
             regardeDirection(x,y,dx,dy,visite,stack);
         }
         return false;
-    }
-
-
-    public void afficher() {
-        for (int y = 0; y < hauteur; y++) {
-            for (int x = 0; x < largeur; x++) {
-                if (grille[y][x] == entree) System.out.print("E ");
-                else if (grille[y][x] == sortie) System.out.print("S ");
-                else System.out.print(grille[y][x] + " ");
-            }
-            System.out.println();
-        }
     }
 
     public Cellule[][] getGrille() { return grille; }
@@ -186,7 +174,6 @@ public class Labyrinthe implements ILabyrinthe{
         Queue<Cellule> file = new LinkedList<>();
         List<Cellule> accessibles = new ArrayList<>();
 
-        // BFS depuis la sortie pour trouver toutes les cellules atteignables
         file.add(sortie);
         visite[sortie.getY()][sortie.getX()] = true;
 

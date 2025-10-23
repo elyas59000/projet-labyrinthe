@@ -1,6 +1,5 @@
 package J4.sae_labyrinthe;
 
-//import J4.sae_labyrinthe.controleur.ControleurJeu;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
@@ -8,10 +7,6 @@ import javafx.application.Application;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-
-import java.util.Objects;
-
-
 
 public class App extends Application {
 
@@ -23,19 +18,12 @@ public class App extends Application {
     public void start(Stage stage) throws Exception{
         primaryStage=stage;
         primaryStage.setTitle("Jeu du Labyrinthe ©");
-        ModeleJeu modele = ModeleJeuSingleton.getInstance();
-        /*
-        IObserver vue1 = new VueLabyrintheEntier(modele);
-        ControleurJeu controller = new ControleurJeu(modele,vue1);
-        modele.add(vue1);
-        modele.lancerPartieLibre(25,25,45);
-        */
 
         SceneManager.chargerScene("SceneMenuPrincipal");
         primaryStage.setResizable(true);
         primaryStage.setFullScreen(true);
         primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.F11) {
+            if (event.getCode() == fullscreen) {
                 primaryStage.setFullScreen(!primaryStage.isFullScreen());
             }
         });

@@ -22,15 +22,8 @@ public class Etape{
         defis[2] = new Defi("Difficile", cote, 50);
     }
 
-    public boolean aReussiUnDefi() {
-        for (Defi d : defis) {
-            if (d.estReussi()) return true;
-        }
-        return false;
-    }
 
     public int getNumero() { return NUM; }
-    public Defi[] getDefis() { return defis; }
 
     public Defi getDefiParDifficulte(int n) {
         return defis[n-1];

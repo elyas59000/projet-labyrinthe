@@ -11,7 +11,7 @@ import java.util.List;
 public class ModeleJeu implements  IModeleJeu{
 
     private ILabyrinthe labyrinthe;
-    public List<Joueur> joueurs = new ArrayList<>();    // créer setJoueurs() et remettre en private
+    public List<Joueur> joueurs;    // créer setJoueurs() et remettre en private
     protected List<IObserver> observers;
     private Joueur joueurActuel;
     private Cellule positionJoueur;
@@ -64,7 +64,6 @@ public class ModeleJeu implements  IModeleJeu{
                 break;
             }
         }
-
         if (!joueurTrouve){
             throw new ValidationException("Le joueur n'existe pas");
         }
