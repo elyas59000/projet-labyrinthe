@@ -41,7 +41,8 @@
 >  - La connexion est maintenant aussi établie dans le modele, le text d'indication de connexion se met à jour dynamiquement 
 >
 > **Elyas** : 
->
+>  - mise en place des test
+> 
 > **Adam** : 
 > - mise en place de SceneModeLibreControleur
 > - animation des fonts quand le button est hover
@@ -67,5 +68,7 @@
 > **Clement** : 
 >
 > **Elyas** :
->
+> - Ajout de méthode de test
+> 
+> 
 > **Adam** :
