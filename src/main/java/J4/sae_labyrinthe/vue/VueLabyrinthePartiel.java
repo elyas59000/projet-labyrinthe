@@ -42,23 +42,26 @@ public class VueLabyrinthePartiel implements IObserver {
 
     public void afficherMap(GridPane p) {
         p.getChildren().clear();
+        Image brique = this.getBrique();
+        Image fond = this.getFond();
+        Image joueur = this.getJoueur();
+        Image fin = this.getFin();
         Labyrinthe laby = modele.getLabyrinthe();
         int hauteur = laby.getHauteur();
         int largeur = laby.getLargeur();
 
-        // Taille fixe plus petite que la zone du labyrinthe
-        double tailleCarre = 10; // tu peux ajuster
+        double tailleCarre = 20;
 
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
                 Rectangle cell = new Rectangle(tailleCarre, tailleCarre);
 
                 if (laby.getGrille()[i][j].estMur()) {
-                    cell.setFill(Color.LIGHTGRAY);
+                    cell.setFill(new ImagePattern(brique));
                 } else if (laby.getGrille()[i][j].equals(laby.getSortie())) {
-                    cell.setFill(Color.RED);
+                    cell.setFill(new ImagePattern(FusionImage.fusionnerImages(fond, fin)));
                 } else {
-                    cell.setFill(Color.TRANSPARENT);
+                    cell.setFill(new ImagePattern(fond));
                 }
 
                 p.add(cell, j, i);

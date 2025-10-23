@@ -10,10 +10,13 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -37,10 +40,11 @@ public class SceneLabyrintheControleur {
 
     @FXML
     void initialize() {
-        // Choisis l’affichage voulu ici :
-        affichageEntier();
-        // affichageLocal();
-
+        if(modele.getLabyrinthe().getLargeur()>60 || modele.getLabyrinthe().getHauteur()>45){
+            affichageLocal();
+        }else{
+            affichageEntier();
+        }
         initialiserDeplacement();
     }
 
@@ -54,7 +58,6 @@ public class SceneLabyrintheControleur {
         vueEntiere.getLabEntier().setAlignment(Pos.CENTER);
 
         zoneLaby.setFocusTraversable(true);
-        Platform.runLater(zoneLaby::requestFocus);
         vueEntiere.update();
     }
 
@@ -62,13 +65,15 @@ public class SceneLabyrintheControleur {
      * Affiche une vue partielle autour du joueur.
      */
     private void affichageLocal() {
-        zoneLaby.getChildren().add(vuePartielle.getLabPartiel());
+        HBox hb=new HBox(vuePartielle.getLabPartiel(),vuePartielle.getMinimap());
+        hb.setAlignment(Pos.CENTER);
+        hb.setSpacing(40);
         zoneLaby.setAlignment(Pos.CENTER);
         zoneLaby.setPadding(new Insets(5));
-        vuePartielle.getLabPartiel().setAlignment(Pos.CENTER);
-
+        vuePartielle.getLabPartiel().setAlignment(Pos.CENTER_LEFT);
+        vuePartielle.getMinimap().setAlignment(Pos.CENTER_RIGHT);
         zoneLaby.setFocusTraversable(true);
-        Platform.runLater(zoneLaby::requestFocus);
+        zoneLaby.getChildren().add(hb);
         vuePartielle.update();
     }
 
@@ -116,11 +121,83 @@ public class SceneLabyrintheControleur {
         return null;
     }
 
+
+
+
+
+
+
     /**
      * Affiche le menu de pause.
      */
+    private boolean pauseVisible = false;
+    private VBox menuPause;
+
+    /**
+     * Affiche ou masque un menu de pause intégré à la zone du labyrinthe.
+     */
     @FXML
-    void afficherMenuPause(MouseEvent event) throws IOException {
-        SceneManager.chargerScene("SceneModeLibre");
+    void afficherMenuPause(MouseEvent event) {
+        if (pauseVisible) {
+            // Si le menu est déjà affiché, on le retire
+            zoneLaby.getChildren().remove(menuPause);
+            zoneLaby.setOpacity(1);
+            pauseVisible = false;
+            return;
+        }
+
+        // Crée le menu de pause
+        Label titre = new Label("Jeu en pause");
+        titre.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;");
+
+        Button btnReprendre = new Button("Reprendre");
+        Button btnQuitter = new Button("Quitter");
+
+        btnReprendre.setOnAction(e -> {
+            zoneLaby.getChildren().remove(menuPause);
+            zoneLaby.setOpacity(1);
+            pauseVisible = false;
+        });
+
+        btnQuitter.setOnAction(e -> {
+            try {
+                nettoyerJeu();
+                SceneManager.chargerScene("SceneMenuPrincipal");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        menuPause = new VBox(15, titre, btnReprendre, btnQuitter);
+        menuPause.setAlignment(Pos.CENTER);
+        menuPause.setPadding(new Insets(20));
+        menuPause.setStyle(
+                "-fx-background-color: rgba(0,0,0,0.8); " +
+                        "-fx-background-radius: 15;"
+        );
+        menuPause.setPrefSize(300, 250);
+
+        // Ajoute la couche semi-transparente sur le labyrinthe
+        zoneLaby.setOpacity(0.5);
+        zoneLaby.getChildren().add(menuPause);
+        StackPane.setAlignment(menuPause, Pos.CENTER);
+
+        pauseVisible = true;
     }
+
+    private void nettoyerJeu() {
+        // Supprime le menu s’il est visible
+        if (pauseVisible && menuPause != null) {
+            zoneLaby.getChildren().remove(menuPause);
+            pauseVisible = false;
+        }
+
+        // Supprime les listeners pour éviter les doublons
+        zoneLaby.setOnKeyPressed(null);
+        zoneLaby.setOnKeyReleased(null);
+
+        // Supprime le contenu du StackPane
+        zoneLaby.getChildren().clear();
+    }
+
 }
