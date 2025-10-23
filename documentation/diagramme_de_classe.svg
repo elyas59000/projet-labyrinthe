@@ -1,0 +1,334 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1250pt" height="990pt" viewBox="0.00 0.00 1250.00 990.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 985.6)">
+<title>sae_labyrinthe</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-985.6 1246.43,-985.6 1246.43,4 -4,4"/>
+<!-- Cellule -->
+<g id="node1" class="node">
+<title>Cellule</title>
+<polygon fill="none" stroke="black" points="119.62,-242.7 119.62,-367.5 254.71,-367.5 254.71,-242.7 119.62,-242.7"/>
+<text xml:space="preserve" text-anchor="middle" x="187.17" y="-350.9" font-family="Times,serif" font-size="14.00">Cellule</text>
+<polyline fill="none" stroke="black" points="119.62,-342.7 254.71,-342.7"/>
+<text xml:space="preserve" text-anchor="start" x="127.62" y="-326.1" font-family="Times,serif" font-size="14.00">- mur : boolean</text>
+<text xml:space="preserve" text-anchor="start" x="127.62" y="-309.3" font-family="Times,serif" font-size="14.00"> - x : int</text>
+<text xml:space="preserve" text-anchor="start" x="127.62" y="-292.5" font-family="Times,serif" font-size="14.00"> - y : int</text>
+<polyline fill="none" stroke="black" points="119.62,-284.3 254.71,-284.3"/>
+<text xml:space="preserve" text-anchor="start" x="127.62" y="-267.7" font-family="Times,serif" font-size="14.00">+ toString() : String</text>
+<text xml:space="preserve" text-anchor="start" x="127.62" y="-250.9" font-family="Times,serif" font-size="14.00"> + estMur() : boolean</text>
+</g>
+<!-- Defi -->
+<g id="node2" class="node">
+<title>Defi</title>
+<polygon fill="none" stroke="black" points="264.85,-21.7 264.85,-146.5 439.48,-146.5 439.48,-21.7 264.85,-21.7"/>
+<text xml:space="preserve" text-anchor="middle" x="352.17" y="-129.9" font-family="Times,serif" font-size="14.00">Defi</text>
+<polyline fill="none" stroke="black" points="264.85,-121.7 439.48,-121.7"/>
+<text xml:space="preserve" text-anchor="start" x="272.85" y="-105.1" font-family="Times,serif" font-size="14.00">- cote : int</text>
+<text xml:space="preserve" text-anchor="start" x="272.85" y="-88.3" font-family="Times,serif" font-size="14.00"> - pourcentageMurs : double</text>
+<text xml:space="preserve" text-anchor="start" x="272.85" y="-71.5" font-family="Times,serif" font-size="14.00"> - reussi : boolean</text>
+<text xml:space="preserve" text-anchor="start" x="272.85" y="-54.7" font-family="Times,serif" font-size="14.00"> - difficulte : String</text>
+<polyline fill="none" stroke="black" points="264.85,-46.5 439.48,-46.5"/>
+<text xml:space="preserve" text-anchor="middle" x="352.17" y="-29.9" font-family="Times,serif" font-size="14.00"> </text>
+</g>
+<!-- Etape -->
+<g id="node3" class="node">
+<title>Etape</title>
+<polygon fill="none" stroke="black" points="272.83,-259.5 272.83,-350.7 431.5,-350.7 431.5,-259.5 272.83,-259.5"/>
+<text xml:space="preserve" text-anchor="middle" x="352.17" y="-334.1" font-family="Times,serif" font-size="14.00">Etape</text>
+<polyline fill="none" stroke="black" points="272.83,-325.9 431.5,-325.9"/>
+<text xml:space="preserve" text-anchor="start" x="280.83" y="-309.3" font-family="Times,serif" font-size="14.00">- NUM : int</text>
+<text xml:space="preserve" text-anchor="start" x="280.83" y="-292.5" font-family="Times,serif" font-size="14.00"> - defis : Defi[]</text>
+<polyline fill="none" stroke="black" points="272.83,-284.3 431.5,-284.3"/>
+<text xml:space="preserve" text-anchor="start" x="280.83" y="-267.7" font-family="Times,serif" font-size="14.00"># genererDefis(int) : void</text>
+</g>
+<!-- Etape&#45;&gt;Defi -->
+<g id="edge1" class="edge">
+<title>Etape-&gt;Defi</title>
+<path fill="none" stroke="#595959" d="M352.17,-245.99C352.17,-245.99 352.17,-158.08 352.17,-158.08"/>
+<polygon fill="#595959" stroke="#595959" points="352.17,-246.14 356.17,-252.14 352.17,-258.14 348.17,-252.14 352.17,-246.14"/>
+<polygon fill="#595959" stroke="#595959" points="352.17,-148.08 356.67,-158.08 352.17,-151.86 352.17,-158.08 352.17,-158.08 352.17,-158.08 352.17,-151.86 347.67,-158.08 352.17,-148.08"/>
+<text xml:space="preserve" text-anchor="middle" x="338.56" y="-167.86" font-family="Times,serif" font-size="14.00">defis</text>
+<text xml:space="preserve" text-anchor="middle" x="338.56" y="-151.06" font-family="Times,serif" font-size="14.00">*</text>
+<text xml:space="preserve" text-anchor="middle" x="348.67" y="-246.44" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- IJoueur -->
+<g id="node4" class="node">
+<title>IJoueur</title>
+<polygon fill="none" stroke="black" points="754.02,-0.5 754.02,-167.7 916.31,-167.7 916.31,-0.5 754.02,-0.5"/>
+<text xml:space="preserve" text-anchor="middle" x="835.17" y="-151.1" font-family="Times,serif" font-size="14.00">&lt;&lt;interface&gt;&gt;</text>
+<text xml:space="preserve" text-anchor="middle" x="835.17" y="-134.3" font-family="Times,serif" font-size="14.00">IJoueur</text>
+<polyline fill="none" stroke="black" points="754.02,-126.1 916.31,-126.1"/>
+<text xml:space="preserve" text-anchor="start" x="762.02" y="-109.5" font-family="Times,serif" font-size="14.00">+ getNom() : String</text>
+<text xml:space="preserve" text-anchor="start" x="762.02" y="-92.7" font-family="Times,serif" font-size="14.00"> + ajouterScore(int) : void</text>
+<text xml:space="preserve" text-anchor="start" x="762.02" y="-75.9" font-family="Times,serif" font-size="14.00"> + getEtapeMax() : int</text>
+<text xml:space="preserve" text-anchor="start" x="762.02" y="-59.1" font-family="Times,serif" font-size="14.00"> + getEtapeActuelle() : int</text>
+<text xml:space="preserve" text-anchor="start" x="762.02" y="-42.3" font-family="Times,serif" font-size="14.00"> + avancerEtape() : void</text>
+<text xml:space="preserve" text-anchor="start" x="762.02" y="-25.5" font-family="Times,serif" font-size="14.00"> + getScore() : int</text>
+<text xml:space="preserve" text-anchor="start" x="762.02" y="-8.7" font-family="Times,serif" font-size="14.00"> + reculerEtape() : void</text>
+</g>
+<!-- IModeleJeu -->
+<g id="node5" class="node">
+<title>IModeleJeu</title>
+<polygon fill="none" stroke="black" points="449.62,-204.7 449.62,-405.5 696.71,-405.5 696.71,-204.7 449.62,-204.7"/>
+<text xml:space="preserve" text-anchor="middle" x="573.17" y="-388.9" font-family="Times,serif" font-size="14.00">&lt;&lt;interface&gt;&gt;</text>
+<text xml:space="preserve" text-anchor="middle" x="573.17" y="-372.1" font-family="Times,serif" font-size="14.00">IModeleJeu</text>
+<polyline fill="none" stroke="black" points="449.62,-363.9 696.71,-363.9"/>
+<text xml:space="preserve" text-anchor="start" x="457.62" y="-347.3" font-family="Times,serif" font-size="14.00">+ lancerPartieLibre(int, int, int) : void</text>
+<text xml:space="preserve" text-anchor="start" x="457.62" y="-330.5" font-family="Times,serif" font-size="14.00"> + selectionnerJoueur() : Joueur</text>
+<text xml:space="preserve" text-anchor="start" x="457.62" y="-313.7" font-family="Times,serif" font-size="14.00"> + creerJoueur(String, String) : Joueur</text>
+<text xml:space="preserve" text-anchor="start" x="457.62" y="-296.9" font-family="Times,serif" font-size="14.00"> + remove(IObserver) : void</text>
+<text xml:space="preserve" text-anchor="start" x="457.62" y="-280.1" font-family="Times,serif" font-size="14.00"> + connexionJoueur(String, String) : void</text>
+<text xml:space="preserve" text-anchor="start" x="457.62" y="-263.3" font-family="Times,serif" font-size="14.00"> + add(IObserver) : void</text>
+<text xml:space="preserve" text-anchor="start" x="457.62" y="-246.5" font-family="Times,serif" font-size="14.00"> + getLabyrinthe() : Labyrinthe</text>
+<text xml:space="preserve" text-anchor="start" x="457.62" y="-229.7" font-family="Times,serif" font-size="14.00"> + deplacerJoueur(String) : void</text>
+<text xml:space="preserve" text-anchor="start" x="457.62" y="-212.9" font-family="Times,serif" font-size="14.00"> + lancerPartieProgression() : void</text>
+</g>
+<!-- IObserver -->
+<g id="node6" class="node">
+<title>IObserver</title>
+<polygon fill="none" stroke="black" points="973.26,-271.9 973.26,-338.3 1083.07,-338.3 1083.07,-271.9 973.26,-271.9"/>
+<text xml:space="preserve" text-anchor="middle" x="1028.17" y="-321.7" font-family="Times,serif" font-size="14.00">&lt;&lt;interface&gt;&gt;</text>
+<text xml:space="preserve" text-anchor="middle" x="1028.17" y="-304.9" font-family="Times,serif" font-size="14.00">IObserver</text>
+<polyline fill="none" stroke="black" points="973.26,-296.7 1083.07,-296.7"/>
+<text xml:space="preserve" text-anchor="start" x="981.26" y="-280.1" font-family="Times,serif" font-size="14.00">+ update() : void</text>
+</g>
+<!-- IVueLabyrinthe -->
+<g id="node7" class="node">
+<title>IVueLabyrinthe</title>
+<polygon fill="none" stroke="black" points="750.9,-564.1 750.9,-630.5 1071.43,-630.5 1071.43,-564.1 750.9,-564.1"/>
+<text xml:space="preserve" text-anchor="middle" x="911.17" y="-613.9" font-family="Times,serif" font-size="14.00">&lt;&lt;interface&gt;&gt;</text>
+<text xml:space="preserve" text-anchor="middle" x="911.17" y="-597.1" font-family="Times,serif" font-size="14.00">IVueLabyrinthe</text>
+<polyline fill="none" stroke="black" points="750.9,-588.9 1071.43,-588.9"/>
+<text xml:space="preserve" text-anchor="start" x="758.9" y="-572.3" font-family="Times,serif" font-size="14.00">+ afficherLabyrinthe(GridPane, double, double) : void</text>
+</g>
+<!-- Joueur -->
+<g id="node8" class="node">
+<title>Joueur</title>
+<polygon fill="none" stroke="black" points="715.19,-209.1 715.19,-401.1 955.14,-401.1 955.14,-209.1 715.19,-209.1"/>
+<text xml:space="preserve" text-anchor="middle" x="835.17" y="-384.5" font-family="Times,serif" font-size="14.00">Joueur</text>
+<polyline fill="none" stroke="black" points="715.19,-376.3 955.14,-376.3"/>
+<text xml:space="preserve" text-anchor="start" x="723.19" y="-359.7" font-family="Times,serif" font-size="14.00">- nom : String</text>
+<text xml:space="preserve" text-anchor="start" x="723.19" y="-342.9" font-family="Times,serif" font-size="14.00"> - etapeMax : int</text>
+<text xml:space="preserve" text-anchor="start" x="723.19" y="-326.1" font-family="Times,serif" font-size="14.00"> - mdp : String</text>
+<text xml:space="preserve" text-anchor="start" x="723.19" y="-309.3" font-family="Times,serif" font-size="14.00"> - tempsMoyenDansLabyrinthe : double</text>
+<text xml:space="preserve" text-anchor="start" x="723.19" y="-292.5" font-family="Times,serif" font-size="14.00"> - etapeActuelle : int</text>
+<text xml:space="preserve" text-anchor="start" x="723.19" y="-275.7" font-family="Times,serif" font-size="14.00"> - score : int</text>
+<polyline fill="none" stroke="black" points="715.19,-267.5 955.14,-267.5"/>
+<text xml:space="preserve" text-anchor="start" x="723.19" y="-250.9" font-family="Times,serif" font-size="14.00">+ ajouterScore(int) : void</text>
+<text xml:space="preserve" text-anchor="start" x="723.19" y="-234.1" font-family="Times,serif" font-size="14.00"> + avancerEtape() : void</text>
+<text xml:space="preserve" text-anchor="start" x="723.19" y="-217.3" font-family="Times,serif" font-size="14.00"> + reculerEtape() : void</text>
+</g>
+<!-- Joueur&#45;&gt;IJoueur -->
+<g id="edge2" class="edge">
+<title>Joueur-&gt;IJoueur</title>
+<path fill="none" stroke="#008200" stroke-dasharray="5,2" d="M835.17,-208.81C835.17,-208.81 835.17,-179.46 835.17,-179.46"/>
+<polygon fill="#008200" stroke="#008200" points="838.67,-179.46 835.17,-169.46 831.67,-179.46 838.67,-179.46"/>
+</g>
+<!-- Labyrinthe -->
+<g id="node9" class="node">
+<title>Labyrinthe</title>
+<polygon fill="none" stroke="black" points="0,-442.5 0,-752.1 414.33,-752.1 414.33,-442.5 0,-442.5"/>
+<text xml:space="preserve" text-anchor="middle" x="207.17" y="-735.5" font-family="Times,serif" font-size="14.00">Labyrinthe</text>
+<polyline fill="none" stroke="black" points="0,-727.3 414.33,-727.3"/>
+<text xml:space="preserve" text-anchor="start" x="8" y="-710.7" font-family="Times,serif" font-size="14.00">- sortie : Cellule</text>
+<text xml:space="preserve" text-anchor="start" x="8" y="-693.9" font-family="Times,serif" font-size="14.00"> - grille : Cellule[][]</text>
+<text xml:space="preserve" text-anchor="start" x="8" y="-677.1" font-family="Times,serif" font-size="14.00"> - pourcentageMurs : double</text>
+<text xml:space="preserve" text-anchor="start" x="8" y="-660.3" font-family="Times,serif" font-size="14.00"> - entree : Cellule</text>
+<text xml:space="preserve" text-anchor="start" x="8" y="-643.5" font-family="Times,serif" font-size="14.00"> - largeur : int</text>
+<text xml:space="preserve" text-anchor="start" x="8" y="-626.7" font-family="Times,serif" font-size="14.00"> - hauteur : int</text>
+<text xml:space="preserve" text-anchor="start" x="8" y="-609.9" font-family="Times,serif" font-size="14.00"> - e : Etape</text>
+<polyline fill="none" stroke="black" points="0,-601.7 414.33,-601.7"/>
+<text xml:space="preserve" text-anchor="start" x="8" y="-585.1" font-family="Times,serif" font-size="14.00">+ positionAlea() : void</text>
+<text xml:space="preserve" text-anchor="start" x="8" y="-568.3" font-family="Times,serif" font-size="14.00"> - positionPossibles() : List&lt;int[]&gt;</text>
+<text xml:space="preserve" text-anchor="start" x="8" y="-551.5" font-family="Times,serif" font-size="14.00"> - nettoyerZonesInaccessibles() : void</text>
+<text xml:space="preserve" text-anchor="start" x="8" y="-534.7" font-family="Times,serif" font-size="14.00"> - genererLabyrinthe() : void</text>
+<text xml:space="preserve" text-anchor="start" x="8" y="-517.9" font-family="Times,serif" font-size="14.00"> - creerEntreeSortie() : void</text>
+<text xml:space="preserve" text-anchor="start" x="8" y="-501.1" font-family="Times,serif" font-size="14.00"> - regardeDirection(int, int, int[], int[], boolean[][], Stack&lt;int[]&gt;) : void</text>
+<text xml:space="preserve" text-anchor="start" x="8" y="-484.3" font-family="Times,serif" font-size="14.00"> - cheminExistant() : boolean</text>
+<text xml:space="preserve" text-anchor="start" x="8" y="-467.5" font-family="Times,serif" font-size="14.00"> - placerMurs(List&lt;int[]&gt;, int) : void</text>
+<text xml:space="preserve" text-anchor="start" x="8" y="-450.7" font-family="Times,serif" font-size="14.00"> - creerCellule() : void</text>
+</g>
+<!-- Labyrinthe&#45;&gt;Cellule -->
+<g id="edge3" class="edge">
+<title>Labyrinthe-&gt;Cellule</title>
+<path fill="none" stroke="#595959" d="M187.17,-429.16C187.17,-429.16 187.17,-378.97 187.17,-378.97"/>
+<polygon fill="#595959" stroke="#595959" points="187.17,-429.32 191.17,-435.32 187.17,-441.32 183.17,-435.32 187.17,-429.32"/>
+<polygon fill="#595959" stroke="#595959" points="187.17,-368.97 191.67,-378.97 187.17,-372.75 187.17,-378.97 187.17,-378.97 187.17,-378.97 187.17,-372.75 182.67,-378.97 187.17,-368.97"/>
+<text xml:space="preserve" text-anchor="middle" x="172.39" y="-388.75" font-family="Times,serif" font-size="14.00">grille</text>
+<text xml:space="preserve" text-anchor="middle" x="172.39" y="-371.95" font-family="Times,serif" font-size="14.00">*</text>
+<text xml:space="preserve" text-anchor="middle" x="183.67" y="-429.62" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- Labyrinthe&#45;&gt;Etape -->
+<g id="edge4" class="edge">
+<title>Labyrinthe-&gt;Etape</title>
+<path fill="none" stroke="#595959" d="M343.58,-429.16C343.58,-429.16 343.58,-362.3 343.58,-362.3"/>
+<polygon fill="#595959" stroke="#595959" points="343.58,-429.32 347.58,-435.32 343.58,-441.32 339.58,-435.32 343.58,-429.32"/>
+<polygon fill="#595959" stroke="#595959" points="343.58,-352.3 348.08,-362.3 343.58,-356.08 343.58,-362.3 343.58,-362.3 343.58,-362.3 343.58,-356.08 339.08,-362.3 343.58,-352.3"/>
+<text xml:space="preserve" text-anchor="middle" x="340.08" y="-372.08" font-family="Times,serif" font-size="14.00">e</text>
+<text xml:space="preserve" text-anchor="middle" x="340.08" y="-355.28" font-family="Times,serif" font-size="14.00">1</text>
+<text xml:space="preserve" text-anchor="middle" x="340.08" y="-429.62" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- ModeleJeu -->
+<g id="node10" class="node">
+<title>ModeleJeu</title>
+<polygon fill="none" stroke="black" points="451.37,-442.5 451.37,-752.1 694.96,-752.1 694.96,-442.5 451.37,-442.5"/>
+<text xml:space="preserve" text-anchor="middle" x="573.17" y="-735.5" font-family="Times,serif" font-size="14.00">ModeleJeu</text>
+<polyline fill="none" stroke="black" points="451.37,-727.3 694.96,-727.3"/>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-710.7" font-family="Times,serif" font-size="14.00">- defiChoisi : int</text>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-693.9" font-family="Times,serif" font-size="14.00"> - positionJoueur : Cellule</text>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-677.1" font-family="Times,serif" font-size="14.00"> # observers : List&lt;IObserver&gt;</text>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-660.3" font-family="Times,serif" font-size="14.00"> - labyrinthe : ILabyrinthe</text>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-643.5" font-family="Times,serif" font-size="14.00"> - etapeChoisi : Etape</text>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-626.7" font-family="Times,serif" font-size="14.00"> - joueurActuel : Joueur</text>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-609.9" font-family="Times,serif" font-size="14.00"> + joueurs : List&lt;Joueur&gt;</text>
+<polyline fill="none" stroke="black" points="451.37,-601.7 694.96,-601.7"/>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-585.1" font-family="Times,serif" font-size="14.00">+ lancerPartieLibre(int, int, int) : void</text>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-568.3" font-family="Times,serif" font-size="14.00"> + add(IObserver) : void</text>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-551.5" font-family="Times,serif" font-size="14.00"> + deplacerJoueur(String) : void</text>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-534.7" font-family="Times,serif" font-size="14.00"> + creerJoueur(String, String) : Joueur</text>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-517.9" font-family="Times,serif" font-size="14.00"> + notifierObservateurs() : void</text>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-501.1" font-family="Times,serif" font-size="14.00">+ connexionJoueur(String, String) : void</text>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-484.3" font-family="Times,serif" font-size="14.00"> + remove(IObserver) : void</text>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-467.5" font-family="Times,serif" font-size="14.00"> + lancerPartieProgression() : void</text>
+<text xml:space="preserve" text-anchor="start" x="459.37" y="-450.7" font-family="Times,serif" font-size="14.00"> + deconnexionJoueur() : void</text>
+</g>
+<!-- ModeleJeu&#45;&gt;Cellule -->
+<g id="edge5" class="edge">
+<title>ModeleJeu-&gt;Cellule</title>
+<path fill="none" stroke="#595959" d="M437.99,-649C437.99,-649 420.05,-649 420.05,-649 420.05,-649 420.05,-360 420.05,-360 420.05,-360 266.37,-360 266.37,-360"/>
+<polygon fill="#595959" stroke="#595959" points="438.14,-649 444.14,-645 450.14,-649 444.14,-653 438.14,-649"/>
+<polygon fill="#595959" stroke="#595959" points="256.37,-360 266.37,-355.5 260.15,-360 266.37,-360 266.37,-360 266.37,-360 260.15,-360 266.37,-364.5 256.37,-360"/>
+<text xml:space="preserve" text-anchor="middle" x="296.37" y="-381" font-family="Times,serif" font-size="14.00">positionJoueur</text>
+<text xml:space="preserve" text-anchor="middle" x="296.37" y="-364.2" font-family="Times,serif" font-size="14.00">1</text>
+<text xml:space="preserve" text-anchor="middle" x="447.54" y="-653.2" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- ModeleJeu&#45;&gt;Etape -->
+<g id="edge6" class="edge">
+<title>ModeleJeu-&gt;Etape</title>
+<path fill="none" stroke="#595959" d="M438.06,-546C438.06,-546 425.78,-546 425.78,-546 425.78,-546 425.78,-362.2 425.78,-362.2"/>
+<polygon fill="#595959" stroke="#595959" points="438.21,-546 444.21,-542 450.21,-546 444.21,-550 438.21,-546"/>
+<polygon fill="#595959" stroke="#595959" points="425.78,-352.2 430.28,-362.2 425.78,-355.98 425.78,-362.2 425.78,-362.2 425.78,-362.2 425.78,-355.98 421.28,-362.2 425.78,-352.2"/>
+<text xml:space="preserve" text-anchor="middle" x="392.73" y="-371.98" font-family="Times,serif" font-size="14.00">etapeChoisi</text>
+<text xml:space="preserve" text-anchor="middle" x="392.73" y="-355.18" font-family="Times,serif" font-size="14.00">1</text>
+<text xml:space="preserve" text-anchor="middle" x="447.61" y="-550.2" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- ModeleJeu&#45;&gt;IModeleJeu -->
+<g id="edge7" class="edge">
+<title>ModeleJeu-&gt;IModeleJeu</title>
+<path fill="none" stroke="#008200" stroke-dasharray="5,2" d="M573.17,-442.22C573.17,-442.22 573.17,-417.46 573.17,-417.46"/>
+<polygon fill="#008200" stroke="#008200" points="576.67,-417.46 573.17,-407.46 569.67,-417.46 576.67,-417.46"/>
+</g>
+<!-- ModeleJeu&#45;&gt;IObserver -->
+<g id="edge8" class="edge">
+<title>ModeleJeu-&gt;IObserver</title>
+<path fill="none" stroke="#595959" d="M708.36,-523C708.36,-523 1022.34,-523 1022.34,-523 1022.34,-523 1022.34,-349.89 1022.34,-349.89"/>
+<polygon fill="#595959" stroke="#595959" points="708.21,-523 702.21,-527 696.21,-523 702.21,-519 708.21,-523"/>
+<polygon fill="#595959" stroke="#595959" points="1022.34,-339.89 1026.84,-349.89 1022.34,-343.67 1022.34,-349.89 1022.34,-349.89 1022.34,-349.89 1022.34,-343.67 1017.84,-349.89 1022.34,-339.89"/>
+<text xml:space="preserve" text-anchor="middle" x="995.52" y="-359.67" font-family="Times,serif" font-size="14.00">observers</text>
+<text xml:space="preserve" text-anchor="middle" x="995.52" y="-342.87" font-family="Times,serif" font-size="14.00">*</text>
+<text xml:space="preserve" text-anchor="middle" x="698.81" y="-527.2" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- ModeleJeu&#45;&gt;Joueur -->
+<g id="edge9" class="edge">
+<title>ModeleJeu-&gt;Joueur</title>
+<path fill="none" stroke="#595959" d="M708.21,-483C708.21,-483 733.05,-483 733.05,-483 733.05,-483 733.05,-412.82 733.05,-412.82"/>
+<polygon fill="#595959" stroke="#595959" points="708.06,-483 702.06,-487 696.06,-483 702.06,-479 708.06,-483"/>
+<polygon fill="#595959" stroke="#595959" points="733.05,-402.82 737.55,-412.82 733.05,-406.6 733.05,-412.82 733.05,-412.82 733.05,-412.82 733.05,-406.6 728.55,-412.82 733.05,-402.82"/>
+<text xml:space="preserve" text-anchor="middle" x="753.65" y="-422.6" font-family="Times,serif" font-size="14.00">joueurs</text>
+<text xml:space="preserve" text-anchor="middle" x="753.65" y="-405.8" font-family="Times,serif" font-size="14.00">*</text>
+<text xml:space="preserve" text-anchor="middle" x="698.66" y="-487.2" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- ModeleJeuSingleton -->
+<g id="node11" class="node">
+<title>ModeleJeuSingleton</title>
+<polygon fill="none" stroke="black" points="351.77,-847.9 351.77,-922.3 524.56,-922.3 524.56,-847.9 351.77,-847.9"/>
+<text xml:space="preserve" text-anchor="middle" x="438.17" y="-905.7" font-family="Times,serif" font-size="14.00">ModeleJeuSingleton</text>
+<polyline fill="none" stroke="black" points="351.77,-897.5 524.56,-897.5"/>
+<text xml:space="preserve" text-anchor="start" x="359.77" y="-880.9" font-family="Times,serif" font-size="14.00">- INSTANCE : ModeleJeu</text>
+<polyline fill="none" stroke="black" points="351.77,-872.7 524.56,-872.7"/>
+<text xml:space="preserve" text-anchor="start" x="359.77" y="-856.1" font-family="Times,serif" font-size="14.00">+ getInstance() : ModeleJeu</text>
+</g>
+<!-- ModeleJeuSingleton&#45;&gt;ModeleJeu -->
+<g id="edge10" class="edge">
+<title>ModeleJeuSingleton-&gt;ModeleJeu</title>
+<path fill="none" stroke="#595959" d="M487.96,-834.42C487.96,-834.42 487.96,-763.5 487.96,-763.5"/>
+<polygon fill="#595959" stroke="#595959" points="487.96,-834.57 491.96,-840.57 487.96,-846.57 483.96,-840.57 487.96,-834.57"/>
+<polygon fill="#595959" stroke="#595959" points="487.96,-753.5 492.46,-763.5 487.96,-757.28 487.96,-763.5 487.96,-763.5 487.96,-763.5 487.96,-757.28 483.46,-763.5 487.96,-753.5"/>
+<text xml:space="preserve" text-anchor="middle" x="453.35" y="-773.28" font-family="Times,serif" font-size="14.00">INSTANCE</text>
+<text xml:space="preserve" text-anchor="middle" x="453.35" y="-756.48" font-family="Times,serif" font-size="14.00">1</text>
+<text xml:space="preserve" text-anchor="middle" x="484.46" y="-834.88" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- VueLabyrintheEntier -->
+<g id="node12" class="node">
+<title>VueLabyrintheEntier</title>
+<polygon fill="none" stroke="black" points="921.9,-822.7 921.9,-947.5 1242.43,-947.5 1242.43,-822.7 921.9,-822.7"/>
+<text xml:space="preserve" text-anchor="middle" x="1082.17" y="-930.9" font-family="Times,serif" font-size="14.00">VueLabyrintheEntier</text>
+<polyline fill="none" stroke="black" points="921.9,-922.7 1242.43,-922.7"/>
+<text xml:space="preserve" text-anchor="start" x="929.9" y="-906.1" font-family="Times,serif" font-size="14.00">- LARGEUR_DISPONIBLE_ZONE : double</text>
+<text xml:space="preserve" text-anchor="start" x="929.9" y="-889.3" font-family="Times,serif" font-size="14.00"> - modele : ModeleJeu</text>
+<text xml:space="preserve" text-anchor="start" x="929.9" y="-872.5" font-family="Times,serif" font-size="14.00"> - labEntier : GridPane</text>
+<text xml:space="preserve" text-anchor="start" x="929.9" y="-855.7" font-family="Times,serif" font-size="14.00"> - HAUTEUR_DISPONIBLE_ZONE : double</text>
+<polyline fill="none" stroke="black" points="921.9,-847.5 1242.43,-847.5"/>
+<text xml:space="preserve" text-anchor="start" x="929.9" y="-830.9" font-family="Times,serif" font-size="14.00">+ afficherLabyrinthe(GridPane, double, double) : void</text>
+</g>
+<!-- VueLabyrintheEntier&#45;&gt;IObserver -->
+<g id="edge11" class="edge">
+<title>VueLabyrintheEntier-&gt;IObserver</title>
+<path fill="none" stroke="#008200" stroke-dasharray="5,2" d="M1079.19,-822.2C1079.19,-822.2 1079.19,-350.11 1079.19,-350.11"/>
+<polygon fill="#008200" stroke="#008200" points="1082.69,-350.11 1079.19,-340.11 1075.69,-350.11 1082.69,-350.11"/>
+</g>
+<!-- VueLabyrintheEntier&#45;&gt;IVueLabyrinthe -->
+<g id="edge12" class="edge">
+<title>VueLabyrintheEntier-&gt;IVueLabyrinthe</title>
+<path fill="none" stroke="#008200" stroke-dasharray="5,2" d="M1021.59,-822.3C1021.59,-822.3 1021.59,-642.35 1021.59,-642.35"/>
+<polygon fill="#008200" stroke="#008200" points="1025.09,-642.35 1021.59,-632.35 1018.09,-642.35 1025.09,-642.35"/>
+</g>
+<!-- VueLabyrintheEntier&#45;&gt;ModeleJeu -->
+<g id="edge13" class="edge">
+<title>VueLabyrintheEntier-&gt;ModeleJeu</title>
+<path fill="none" stroke="#595959" d="M971.74,-809.35C971.74,-809.35 971.74,-692 971.74,-692 971.74,-692 706.68,-692 706.68,-692"/>
+<polygon fill="#595959" stroke="#595959" points="971.75,-809.5 975.75,-815.5 971.74,-821.5 967.75,-815.5 971.75,-809.5"/>
+<polygon fill="#595959" stroke="#595959" points="696.68,-692 706.68,-687.5 700.46,-692 706.68,-692 706.68,-692 706.68,-692 700.46,-692 706.68,-696.5 696.68,-692"/>
+<text xml:space="preserve" text-anchor="middle" x="716.06" y="-713" font-family="Times,serif" font-size="14.00">modele</text>
+<text xml:space="preserve" text-anchor="middle" x="716.06" y="-696.2" font-family="Times,serif" font-size="14.00">1</text>
+<text xml:space="preserve" text-anchor="middle" x="968.24" y="-809.81" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- VueLabyrinthePartiel -->
+<g id="node13" class="node">
+<title>VueLabyrinthePartiel</title>
+<polygon fill="none" stroke="black" points="542.88,-789.1 542.88,-981.1 903.45,-981.1 903.45,-789.1 542.88,-789.1"/>
+<text xml:space="preserve" text-anchor="middle" x="723.17" y="-964.5" font-family="Times,serif" font-size="14.00">VueLabyrinthePartiel</text>
+<polyline fill="none" stroke="black" points="542.88,-956.3 903.45,-956.3"/>
+<text xml:space="preserve" text-anchor="start" x="550.88" y="-939.7" font-family="Times,serif" font-size="14.00">- labPartiel : GridPane</text>
+<text xml:space="preserve" text-anchor="start" x="550.88" y="-922.9" font-family="Times,serif" font-size="14.00"> - modele : ModeleJeu</text>
+<text xml:space="preserve" text-anchor="start" x="550.88" y="-906.1" font-family="Times,serif" font-size="14.00"> - HAUTEUR_DISPONIBLE_ZONE : double</text>
+<text xml:space="preserve" text-anchor="start" x="550.88" y="-889.3" font-family="Times,serif" font-size="14.00"> - range : int</text>
+<text xml:space="preserve" text-anchor="start" x="550.88" y="-872.5" font-family="Times,serif" font-size="14.00"> - minimap : GridPane</text>
+<text xml:space="preserve" text-anchor="start" x="550.88" y="-855.7" font-family="Times,serif" font-size="14.00"> - LARGEUR_DISPONIBLE_ZONE : double</text>
+<polyline fill="none" stroke="black" points="542.88,-847.5 903.45,-847.5"/>
+<text xml:space="preserve" text-anchor="start" x="550.88" y="-830.9" font-family="Times,serif" font-size="14.00">+ afficherMap(GridPane) : void</text>
+<text xml:space="preserve" text-anchor="start" x="550.88" y="-814.1" font-family="Times,serif" font-size="14.00"> + afficherLabyrinthePartiel(GridPane, double, double) : void</text>
+<text xml:space="preserve" text-anchor="start" x="550.88" y="-797.3" font-family="Times,serif" font-size="14.00"> + update() : void</text>
+</g>
+<!-- VueLabyrinthePartiel&#45;&gt;IObserver -->
+<g id="edge14" class="edge">
+<title>VueLabyrinthePartiel-&gt;IObserver</title>
+<path fill="none" stroke="#008200" stroke-dasharray="5,2" d="M903.88,-805C990.34,-805 1075.31,-805 1075.31,-805 1075.31,-805 1075.31,-350.19 1075.31,-350.19"/>
+<polygon fill="#008200" stroke="#008200" points="1078.81,-350.19 1075.31,-340.19 1071.81,-350.19 1078.81,-350.19"/>
+</g>
+<!-- VueLabyrinthePartiel&#45;&gt;IVueLabyrinthe -->
+<g id="edge16" class="edge">
+<title>VueLabyrinthePartiel-&gt;IVueLabyrinthe</title>
+<path fill="none" stroke="#008200" stroke-dasharray="5,2" d="M827.18,-788.87C827.18,-788.87 827.18,-642.39 827.18,-642.39"/>
+<polygon fill="#008200" stroke="#008200" points="830.68,-642.39 827.18,-632.39 823.68,-642.39 830.68,-642.39"/>
+</g>
+<!-- VueLabyrinthePartiel&#45;&gt;ModeleJeu -->
+<g id="edge15" class="edge">
+<title>VueLabyrinthePartiel-&gt;ModeleJeu</title>
+<path fill="none" stroke="#595959" d="M618.92,-775.81C618.92,-775.81 618.92,-763.72 618.92,-763.72"/>
+<polygon fill="#595959" stroke="#595959" points="618.92,-775.97 622.92,-781.97 618.92,-787.97 614.92,-781.97 618.92,-775.97"/>
+<polygon fill="#595959" stroke="#595959" points="618.92,-753.72 623.42,-763.72 618.92,-757.5 618.92,-763.72 618.92,-763.72 618.92,-763.72 618.92,-757.5 614.42,-763.72 618.92,-753.72"/>
+<text xml:space="preserve" text-anchor="middle" x="639.53" y="-773.5" font-family="Times,serif" font-size="14.00">modele</text>
+<text xml:space="preserve" text-anchor="middle" x="639.53" y="-756.7" font-family="Times,serif" font-size="14.00">1</text>
+<text xml:space="preserve" text-anchor="middle" x="615.42" y="-776.27" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+</g>
+</svg>
