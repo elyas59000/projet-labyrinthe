@@ -4,15 +4,24 @@ import J4.sae_labyrinthe.exception.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestLabyrinthe {
     private Labyrinthe labyrinthe;
     private IModeleJeu modele;
+    private Joueur joueur1;
+    private Joueur joueur2;
+    private Joueur joueur3;
     @BeforeEach
     void setUp() {
         modele = new ModeleJeu();
         labyrinthe = new Labyrinthe(15, 20, 0);
+        joueur1 = new Joueur("j1","mdp1");
+        joueur2 = new Joueur("j2","mdp2");
+        joueur3 = new Joueur("j3","mdp3");
     }
 
     @Test
@@ -32,7 +41,7 @@ public class TestLabyrinthe {
 
 
     @Test
-    void testDeplacementJoueur(){
+    void testDeplacementJoueur() throws IOException {
         modele.lancerPartieLibre(15,20,0);
         assertEquals(0,((ModeleJeu)modele).getPositionJoueur().getX());
         assertEquals(0,((ModeleJeu)modele).getPositionJoueur().getY());
@@ -45,7 +54,7 @@ public class TestLabyrinthe {
     }
 
     @Test
-    void testDeconnexionJoueur() throws ValidationException {
+    void testDeconnexionJoueur() throws ValidationException, IOException {
         modele.creerJoueur("a","b");
         modele.connexionJoueur("a","b");
         assertNotNull(((ModeleJeu)modele).getJoueurActuel());
@@ -61,6 +70,25 @@ public class TestLabyrinthe {
         assertEquals(15,joueur.getScore());
 
     }
+
+    @Test
+    void testSauvegardeEtChargement() throws IOException {
+        joueur2.ajouterScore(10);
+        ArrayList<Joueur> liste = new ArrayList<>();
+        liste.add(joueur1);
+        liste.add(joueur2);
+        liste.add(joueur3);
+        Save.saveToFile(liste);
+        ArrayList<Joueur> joueur_lue = Save.loadSave();
+        assertNotNull(joueur_lue);
+        assertEquals(liste.size(),joueur_lue.size());
+        assertEquals(liste.get(0).getNom(),joueur_lue.get(0).getNom());
+        assertEquals(liste.get(1).getScore(),joueur_lue.get(1).getScore());
+
+
+    }
+
+
 
 
 }
