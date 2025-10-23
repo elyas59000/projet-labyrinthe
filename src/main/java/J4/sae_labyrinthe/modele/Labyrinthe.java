@@ -13,12 +13,7 @@ public class Labyrinthe implements ILabyrinthe{
     private Etape e;
 
     public Labyrinthe(int largeur, int hauteur, double pourcentageMurs) {
-        this.largeur = largeur;
-        this.hauteur = hauteur;
-        this.pourcentageMurs = pourcentageMurs;
-        this.e = null;
-        grille = new Cellule[hauteur][largeur];
-        genererLabyrinthe();
+        this(largeur, hauteur, pourcentageMurs, null);
     }
 
     public Labyrinthe(int largeur, int hauteur, double pourcentageMurs,Etape e) {
@@ -75,20 +70,50 @@ public class Labyrinthe implements ILabyrinthe{
     }
 
     private void genererLabyrinthe() {
-
         creerCellule();
         creerEntreeSortie();
-        if(!(this.e == null) && this.e.getNumero() == 3){
-            positionAlea();
-        }
 
         int totalMurs = (int) (largeur * hauteur * pourcentageMurs / 100.0);
+        placerMurs(positionPossibles(), totalMurs);
 
-        List<int[]> positions = positionPossibles();
+        nettoyerZonesInaccessibles();
 
-        placerMurs(positions,totalMurs);
+        if (e != null && e.getNumero() == 3) {
+            positionAlea();
+        }
     }
 
+    private void nettoyerZonesInaccessibles() {
+        boolean[][] visite = new boolean[hauteur][largeur];
+        Queue<Cellule> file = new LinkedList<>();
+
+        file.add(sortie);
+        visite[sortie.getY()][sortie.getX()] = true;
+
+        int[][] dirs = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+
+        while (!file.isEmpty()) {
+            Cellule c = file.poll();
+            for (int[] d : dirs) {
+                int nx = c.getX() + d[0];
+                int ny = c.getY() + d[1];
+                if (nx >= 0 && nx < largeur && ny >= 0 && ny < hauteur) {
+                    if (!visite[ny][nx] && !grille[ny][nx].estMur()) {
+                        visite[ny][nx] = true;
+                        file.add(grille[ny][nx]);
+                    }
+                }
+            }
+        }
+
+        for (int y = 0; y < hauteur; y++) {
+            for (int x = 0; x < largeur; x++) {
+                if (!visite[y][x]) {
+                    grille[y][x].setMur(true);
+                }
+            }
+        }
+    }
 
     private void regardeDirection(int x, int y, int[] dx, int[] dy, boolean[][] visite, Stack<int []> stack){
         for (int i = 0; i < 4; i++) {
@@ -149,38 +174,56 @@ public class Labyrinthe implements ILabyrinthe{
     }
 
     public void positionAlea() {
-        Random r = new Random();
-        List<Cellule> chemin = new ArrayList<>();
+        // Assure que la sortie existe et est libre
+        if (sortie == null) {
+            sortie = grille[hauteur - 1][largeur - 1];
+            sortie.setMur(false);
+        } else {
+            sortie.setMur(false);
+        }
 
         boolean[][] visite = new boolean[hauteur][largeur];
-        Stack<Cellule> stack = new Stack<>();
-        stack.push(entree);
-        visite[entree.getY()][entree.getX()] = true;
+        Queue<Cellule> file = new LinkedList<>();
+        List<Cellule> accessibles = new ArrayList<>();
 
-        int[] dx = {0, 0, -1, 1};
-        int[] dy = {-1, 1, 0, 0};
+        // BFS depuis la sortie pour trouver toutes les cellules atteignables
+        file.add(sortie);
+        visite[sortie.getY()][sortie.getX()] = true;
 
-        // Parcours de toutes les cellules accessibles depuis l'entrée
-        while (!stack.isEmpty()) {
-            Cellule c = stack.pop();
-            chemin.add(c);
-            for (int i = 0; i < 4; i++) {
-                int nx = c.getX() + dx[i];
-                int ny = c.getY() + dy[i];
-                if (nx >= 0 && nx < largeur && ny >= 0 && ny < hauteur
-                        && !grille[ny][nx].estMur() && !visite[ny][nx]) {
-                    visite[ny][nx] = true;
-                    stack.push(grille[ny][nx]);
+        int[][] dirs = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+
+        while (!file.isEmpty()) {
+            Cellule c = file.poll();
+            accessibles.add(c);
+
+            for (int[] d : dirs) {
+                int nx = c.getX() + d[0];
+                int ny = c.getY() + d[1];
+                if (nx >= 0 && nx < largeur && ny >= 0 && ny < hauteur) {
+                    if (!visite[ny][nx] && !grille[ny][nx].estMur()) {
+                        visite[ny][nx] = true;
+                        file.add(grille[ny][nx]);
+                    }
                 }
             }
         }
 
-        this.entree = chemin.get(r.nextInt(chemin.size()));
-        this.entree.setMur(false);
+        // Si seules la sortie (ou aucune cellule) est accessible, fallback sur (0,0)
+        if (accessibles.size() <= 1) {
+            this.entree = grille[0][0];
+            this.entree.setMur(false);
+            return;
+        }
 
-        // Fixer la sortie tout en bas à droite (assure qu'elle est libre)
-        this.sortie = grille[hauteur - 1][largeur - 1];
-        this.sortie.setMur(false);
+        // Choisir aléatoirement une cellule accessible différente de la sortie
+        Random r = new Random();
+        Cellule choisie;
+        do {
+            choisie = accessibles.get(r.nextInt(accessibles.size()));
+        } while (choisie == sortie); // évite de placer l'entrée exactement sur la sortie
+
+        this.entree = choisie;
+        this.entree.setMur(false);
     }
 
 

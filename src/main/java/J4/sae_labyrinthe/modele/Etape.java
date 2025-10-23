@@ -17,9 +17,9 @@ public class Etape{
     }
 
     private void genererDefis(int cote) {
-        defis[0] = new Defi("Facile", (NUM+4)*(2+NUM), 20);
-        defis[1] = new Defi("Moyen", (NUM+4)*(2+NUM), 30);
-        defis[2] = new Defi("Difficile", (NUM+4)*(2+NUM), 50);
+        defis[0] = new Defi("Facile", cote, 20);
+        defis[1] = new Defi("Moyen", cote, 30);
+        defis[2] = new Defi("Difficile", cote, 50);
     }
 
     public boolean aReussiUnDefi() {
