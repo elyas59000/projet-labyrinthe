@@ -50,5 +50,5 @@ public interface IModeleJeu {
 
     Labyrinthe getLabyrinthe();
 
-    void deplacerJoueur(String direction);
+    void deplacerJoueur(String direction) throws IOException;
 }

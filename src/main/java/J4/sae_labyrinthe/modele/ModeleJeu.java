@@ -5,12 +5,13 @@ import J4.sae_labyrinthe.vue.IObserver;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ModeleJeu implements  IModeleJeu{
 
     private ILabyrinthe labyrinthe;
-    public List<Joueur> joueurs;    // créer setJoueurs() et remettre en private
+    public List<Joueur> joueurs = new ArrayList<>();    // créer setJoueurs() et remettre en private
     protected List<IObserver> observers;
     private Joueur joueurActuel;
     private Cellule positionJoueur;
@@ -159,6 +160,12 @@ public class ModeleJeu implements  IModeleJeu{
                 if (next == ((Labyrinthe) labyrinthe).getSortie()) {
                     if(((Labyrinthe) labyrinthe).getEtape() != null){
                         joueurActuel.avancerEtape();
+                        try{
+                            Save.saveToFile((ArrayList<Joueur>) joueurs);
+                        }
+                        catch(IOException e){
+                            e.printStackTrace();
+                        }
                     }
                 }
                 notifierObservateurs();
@@ -188,4 +195,5 @@ public class ModeleJeu implements  IModeleJeu{
     public int etapeChoisi() {
         return etapeChoisi.getNumero();
     }
+
 }

@@ -117,4 +117,8 @@ public class Joueur implements IJoueur, Serializable {
         Defi d = etape.getDefiParDifficulte(difficulte);
         return d != null && d.estReussi();
     }
+
+    public void setEtapeMax(int e){
+        etapeMax = e;
+    }
 }
