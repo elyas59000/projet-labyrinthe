@@ -28,15 +28,21 @@ public class ControleurLabyrinthe {
 
     public void deplacerJoueur(KeyEvent event){
         String direction = correspodanceTouche(event.getCode());
-        this.modele.deplacerJoueur(direction);
-        System.out.println(this.getModele().getPositionJoueur().getX() + " " + this.getModele().getPositionJoueur().getY());
-        if((this.getModele().getPositionJoueur().getX() == this.getModele().getSortie().getX())  && (this.getModele().getPositionJoueur().getY()) == this.getModele().getSortie().getY()){
-            try {
-                SceneManager.chargerScene("SceneMenuPrincipal");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        try{
+            this.modele.deplacerJoueur(direction);
+            System.out.println(this.getModele().getPositionJoueur().getX() + " " + this.getModele().getPositionJoueur().getY());
+            if((this.getModele().getPositionJoueur().getX() == this.getModele().getSortie().getX())  && (this.getModele().getPositionJoueur().getY()) == this.getModele().getSortie().getY()){
+                try {
+                    SceneManager.chargerScene("SceneMenuPrincipal");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 
     public ModeleJeu getModele() {
