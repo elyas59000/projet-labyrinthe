@@ -15,9 +15,9 @@ public class SceneDifficulteControleur {
         MODELJEU.setDefiChoisi(1);
         MODELJEU.lancerPartieProgression();
         if(MODELJEU.etapeChoisi() == 3) {
-            SceneManager.chargerScene("SceneLabyrintheEntier");
+            SceneManager.chargerScene("SceneLabyrinthe");
         }else {
-            SceneManager.chargerScene("SceneLabyrintheEntier");
+            SceneManager.chargerScene("SceneLabyrinthe");
         }
     }
 
@@ -26,9 +26,9 @@ public class SceneDifficulteControleur {
         MODELJEU.setDefiChoisi(2);
         MODELJEU.lancerPartieProgression();
         if(MODELJEU.etapeChoisi() == 3) {
-            SceneManager.chargerScene("SceneLabyrintheEntier");
+            SceneManager.chargerScene("SceneLabyrinthe");
         }else {
-            SceneManager.chargerScene("SceneLabyrintheEntier");
+            SceneManager.chargerScene("SceneLabyrinthe");
         }
     }
 
