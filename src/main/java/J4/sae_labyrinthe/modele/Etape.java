@@ -1,20 +1,25 @@
 package J4.sae_labyrinthe.modele;
 
 
-public class Etape implements IEtape{
+public class Etape{
     private final int NUM;
     private Defi[] defis;
 
-    public Etape(int num,int largeur, int hauteur){
+    public Etape(int num){
         this.NUM = num;
         defis = new Defi[3];
-        genererDefis(largeur, hauteur);
+        if(NUM!=3){
+            genererDefis((NUM+4)*(2+NUM));
+        }
+        else{
+            genererDefis((NUM+3)*(1+NUM));
+        }
     }
 
-    private void genererDefis(int largeur, int hauteur) {
-        defis[0] = new Defi("Facile", largeur, hauteur, 20);
-        defis[1] = new Defi("Moyen", largeur, hauteur, 30);
-        defis[2] = new Defi("Difficile", largeur, hauteur, 50);
+    private void genererDefis(int cote) {
+        defis[0] = new Defi("Facile", (NUM+4)*(2+NUM), 20);
+        defis[1] = new Defi("Moyen", (NUM+4)*(2+NUM), 30);
+        defis[2] = new Defi("Difficile", (NUM+4)*(2+NUM), 50);
     }
 
     public boolean aReussiUnDefi() {
@@ -27,9 +32,7 @@ public class Etape implements IEtape{
     public int getNumero() { return NUM; }
     public Defi[] getDefis() { return defis; }
 
-    public Defi getDefiParDifficulte(String diff) {
-        for (Defi d : defis)
-            if (d.getDifficulte().equalsIgnoreCase(diff)) return d;
-        return null;
+    public Defi getDefiParDifficulte(int n) {
+        return defis[n-1];
     }
 }
