@@ -121,7 +121,7 @@ public class SceneLabyrintheControleur {
         if (direction == null) return;
         modele.deplacerJoueur(direction);
         if (modele.getPositionJoueur().equals(modele.getSortie())) {
-            ecranFinPartie("Vous avez atteint la sortie !");
+            ecranFinPartie();
         }
     }
 
@@ -194,7 +194,8 @@ public class SceneLabyrintheControleur {
         zoneLaby.getChildren().clear();
     }
 
-    private void ecranFinPartie(String text) {
+    private void ecranFinPartie() {
+        String text = "Vous avez atteint la sortie !";
         zoneLaby.setOnKeyPressed(null);
         VBox ecranV = new VBox(20);
         ecranV.setAlignment(Pos.CENTER);
