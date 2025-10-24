@@ -1,7 +1,6 @@
 package J4.sae_labyrinthe.modele;
 
 import J4.sae_labyrinthe.exception.ValidationException;
-import J4.sae_labyrinthe.utils.Save;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import J4.sae_labyrinthe.utils.Save;
@@ -91,7 +90,7 @@ public class TestLabyrinthe {
     @Test
     void testGenerationLabyrinth(){
         Labyrinthe laby2 = new Labyrinthe(10,10,0);
-        boolean conditon = (laby2.getEntree().getX() == 0 && laby2.getEntree().getY() == 0);
+        boolean conditon = (laby2.getEntree().getX() == 0 & laby2.getEntree().getY() == 0);
         assertTrue(conditon);
 
     }
