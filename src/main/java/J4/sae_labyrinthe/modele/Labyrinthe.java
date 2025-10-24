@@ -122,45 +122,49 @@ public class Labyrinthe implements ILabyrinthe {
         int totalMurs = (int) (largeur * hauteur * pourcentageMurs / 100.0);
         placerMurs(positionPossibles(), totalMurs);
 
-        nettoyerZonesInaccessibles();
+        nettoyerZones();
 
         if (e != null && e.getNumero() == 3) {
             positionAlea();
         }
     }
 
-    private void nettoyerZonesInaccessibles() {
+    private void nettoyerZones() {
         boolean[][] visite = new boolean[hauteur][largeur];
         Queue<Cellule> file = new LinkedList<>();
 
+        // On part de la sortie, qu'on sait accessible
         file.add(sortie);
         visite[sortie.getY()][sortie.getX()] = true;
 
         int[][] dirs = {{1,0}, {-1,0}, {0,1}, {0,-1}};
 
+        // Marque toutes les cellules accessibles depuis la sortie
         while (!file.isEmpty()) {
             Cellule c = file.poll();
+            c.setAccessible(true); // celles atteignables depuis la sortie sont accessibles
             for (int[] d : dirs) {
                 int nx = c.getX() + d[0];
                 int ny = c.getY() + d[1];
                 if (nx >= 0 && nx < largeur && ny >= 0 && ny < hauteur) {
-                    if (!visite[ny][nx] && !grille[ny][nx].estMur()) {
+                    Cellule voisin = grille[ny][nx];
+                    if (!visite[ny][nx] && !voisin.estMur()) {
                         visite[ny][nx] = true;
-                        file.add(grille[ny][nx]);
+                        file.add(voisin);
                     }
                 }
             }
         }
 
+        // Les cellules non visitées (et non murées) deviennent inaccessibles
         for (int y = 0; y < hauteur; y++) {
             for (int x = 0; x < largeur; x++) {
-                if (!visite[y][x]) {
-                    grille[y][x].setMur(true);
+                if (!grille[y][x].estMur() && !visite[y][x]) {
+                    grille[y][x].setAccessible(false);
                 }
             }
         }
     }
-
     private void regardeDirection(int x, int y, int[] dx, int[] dy, boolean[][] visite, Stack<int []> stack){
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i];
