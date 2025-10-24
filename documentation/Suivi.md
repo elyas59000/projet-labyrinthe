@@ -58,7 +58,8 @@
 > - Creation de la vue permettant l'affichage local avec une carte 
 > - Ajout de texture pour les différents elements du labyrinthe pour pouvoir donner un thème et rendre le jeu plus beau
 > - Creation d'une méthode pour les vues permettant de fusionner deux images avec une des deux étant le fond
->
+> - ajout du tableau des scores
+> - Correction de plusieurs problèmes apparus
 > **Nathan** : 
 > - Ajout de séparateur pour la vue partiel
 > - Ajout élement de sortie des labyrinthes
