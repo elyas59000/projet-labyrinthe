@@ -33,6 +33,11 @@ public class SceneModifCompteControleur{
     @FXML
     private Text messageErreur;
 
+    @FXML
+    void initialize() {
+        update();
+    }
+
     public void validerModifPseudo(MouseEvent mouseEvent) {
         if (nomValide() && !champModifPseudo.getText().isEmpty()) {
             String ancienNom = modeleJeu.getJoueurActuel().getNom();
@@ -85,5 +90,10 @@ public class SceneModifCompteControleur{
     @FXML
     void retourScenePrecedente(MouseEvent event) throws IOException {
         SceneManager.chargerScene("SceneInfosCompte");
+    }
+
+    public void update() {
+        String pseudo = modeleJeu.getJoueurActuel().getNom();
+        champsTitreCompte.setText(" "+pseudo);
     }
 }
