@@ -131,6 +131,7 @@ public class ModeleJeu implements IModeleJeu {
     public void lancerPartieLibre(int largeur, int hauteur, int tauxMur) {
         this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
         this.positionJoueur = this.labyrinthe.getEntree();
+        this.setEtapeChoisi(0);
     }
 
     /**

@@ -44,7 +44,7 @@ public class SceneModeLibreControleur {
      * @throws IOException si le chargement de la scène échoue
      */
     @FXML
-    void lancerPartieLibre(MouseEvent event) throws IOException {
+    void lancerPartieLibre(MouseEvent event) throws IOException {;
         modeleJeu.lancerPartieLibre(champsLargeur.getValue(), champsHauteur.getValue(), champsTauxMur.getValue());
         SceneManager.chargerScene("SceneLabyrinthe");
     }
