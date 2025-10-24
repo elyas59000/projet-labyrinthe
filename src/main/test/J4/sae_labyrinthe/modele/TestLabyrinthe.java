@@ -89,8 +89,7 @@ public class TestLabyrinthe {
 
     @Test
     void testGenerationLabyrinth(){
-        Etape e = new Etape(3);
-        Labyrinthe laby2 = new Labyrinthe(10,10,0,e);
+        Labyrinthe laby2 = new Labyrinthe(10,10,0);
         boolean conditon = (laby2.getEntree().getX() == 0 & laby2.getEntree().getY() == 0);
         assertFalse(conditon);
 
