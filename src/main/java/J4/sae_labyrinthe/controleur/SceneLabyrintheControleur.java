@@ -160,7 +160,7 @@ public class SceneLabyrintheControleur {
     private void quitterPartie() {
         try {
             nettoyerJeu();
-            SceneManager.chargerScene("SceneModeLibre");
+            SceneManager.chargerScene("SceneMenuPrincipal");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

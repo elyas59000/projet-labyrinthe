@@ -41,8 +41,9 @@ public class SceneInfosCompteControleur implements IObserver {
      * @param event clic
      */
     @FXML
-    void allerSceneModifProfil(MouseEvent event) {
+    void allerSceneModifProfil(MouseEvent event) throws IOException{
         modeleJeu.remove(this);
+        SceneManager.chargerScene("SceneModifCompte");
     }
 
     /**
