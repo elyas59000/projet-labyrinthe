@@ -50,7 +50,6 @@ public class VueLabyrinthePartiel extends VueLabyrintheAbstraite {
 
     private void afficherMap(GridPane p) {
         Labyrinthe laby = modele.getLabyrinthe();
-        p.getChildren().clear();
         int hauteur = laby.getHauteur();
         int largeur = laby.getLargeur();
         int facteurRetricement = 2;

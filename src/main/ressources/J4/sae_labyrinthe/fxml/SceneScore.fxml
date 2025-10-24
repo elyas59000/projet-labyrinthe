@@ -31,7 +31,7 @@
             </Text>
             <TableView fx:id="tabScores" prefHeight="485.0" prefWidth="1280.0" VBox.vgrow="NEVER">
               <columns>
-                  <TableColumn fx:id="namePlayer" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="295.0" resizable="false" sortable="false" text="Nom du joueur" />
+                  <TableColumn fx:id="namePlayer"  maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="295.0" resizable="false" sortable="false" text="Nom du joueur" />
                 <TableColumn fx:id="nbStarPlayer" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="295.0" resizable="false" text="Nombre d'étoiles collectées" />
                 <TableColumn fx:id="nbStepPlayer" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="295.0" resizable="false" text="Nombre détapes réussies" />
                   <TableColumn fx:id="avgTimePlayer" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="295.0" resizable="false" text="Temps moyen de résolution de labyrinthe" />

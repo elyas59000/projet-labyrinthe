@@ -3,6 +3,7 @@ module J4.sae_labyrinthe {
     requires javafx.fxml;
     requires javafx.graphics;
     requires java.desktop;
+    opens J4.sae_labyrinthe.modele to javafx.base;
     // requires J4.sae_labyrinthe;
 
 

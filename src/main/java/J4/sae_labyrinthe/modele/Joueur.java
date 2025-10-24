@@ -142,4 +142,6 @@ public class Joueur implements IJoueur, Serializable {
     public void setMdp(String mdp) {
         this.mdp = mdp;
     }
+
+
 }

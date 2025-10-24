@@ -3,10 +3,14 @@ package J4.sae_labyrinthe.controleur;
 import java.io.IOException;
 
 import J4.sae_labyrinthe.modele.Joueur;
+import J4.sae_labyrinthe.utils.Save;
 import J4.sae_labyrinthe.utils.SceneManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -24,7 +28,7 @@ public class SceneScoreControleur {
     private TableColumn<?, ?> avgTimePlayer;
 
     @FXML
-    private TableColumn<?, ?> namePlayer;
+    private TableColumn<Joueur, String> namePlayer;
 
     @FXML
     private TableColumn<?, ?> nbStarPlayer;
@@ -45,5 +49,19 @@ public class SceneScoreControleur {
     void retourScenePrecedente(MouseEvent event) throws IOException {
         SceneManager.chargerScene("SceneMenuPrincipal");
     }
+    @FXML
+    void initialize() throws IOException {
+        tabScores.getItems().clear();
+        affficherNom();
+    }
 
+    void affficherNom() throws IOException {
+        namePlayer.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        ObservableList<Joueur> list = FXCollections.observableArrayList(Save.loadSave());
+        tabScores.setItems(list);
+    }
+
+    void afficherEtape(){
+        nbStepPlayer.setCellValueFactory(new PropertyValueFactory<>("etap"));
+    }
 }
