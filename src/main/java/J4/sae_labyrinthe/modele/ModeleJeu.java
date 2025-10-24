@@ -259,6 +259,10 @@ public class ModeleJeu implements IModeleJeu {
             if (!next.estMur()) {
                 positionJoueur = next;
                 if (next == ((Labyrinthe) labyrinthe).getSortie()) {
+                    if(!etapeChoisi.getDefiParDifficulte(defiChoisi).estReussi()){
+                        etapeChoisi.getDefiParDifficulte(defiChoisi).setReussi(true);
+                        joueurActuel.ajouterScore(1);
+                    }
                     if(((Labyrinthe) labyrinthe).getEtape() != null && etapeChoisi.getNumero() == joueurActuel.getEtapeMax()){
                         joueurActuel.avancerEtape();
                         try{

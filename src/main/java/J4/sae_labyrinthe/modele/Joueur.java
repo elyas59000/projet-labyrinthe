@@ -16,6 +16,7 @@ public class Joueur implements IJoueur, Serializable {
     private String mdp;
     private int etapeMax;
     private int etapeActuelle;
+    private int etapeFini;
     private int score;
     private double tempsMoyenDansLabyrinthe;
 
@@ -31,6 +32,7 @@ public class Joueur implements IJoueur, Serializable {
         this.mdp = mdp;
         this.etapeMax = 1;
         this.etapeActuelle = 1;
+        this.etapeFini = 0;
         this.score = 0;
         this.tempsMoyenDansLabyrinthe = 0.0;
     }
@@ -117,6 +119,7 @@ public class Joueur implements IJoueur, Serializable {
     @Override
     public void avancerEtape() {
         ++this.etapeActuelle;
+        ++this.etapeFini;
         if (this.etapeActuelle > this.etapeMax) {
             this.etapeMax = this.etapeActuelle;
         }
