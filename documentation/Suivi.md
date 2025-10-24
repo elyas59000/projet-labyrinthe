@@ -41,13 +41,14 @@
 >  - La connexion est maintenant aussi établie dans le modele, le text d'indication de connexion se met à jour dynamiquement 
 >
 > **Elyas** : 
->  - mise en place des test
+>  - mise en place des tests
 > 
 > **Adam** : 
 > - mise en place de SceneModeLibreControleur
 > - animation des fonts quand le button est hover
-> - mise en place du système de saves + fix des vérification.
+> - mise en place du système de saves + fix de la vérification.
 > - fix les problèmes de rendu du suivi
+> - ajout de la javadoc
 
 ## Semaine 3
 
@@ -55,7 +56,7 @@
 
 > **Anas** : 
 > - Creation de la vue permettant l'affichage local avec une carte 
-> - Ajout de texture pour les diférents elements du labyrinthe pour pouvoir donner un thème et rendre le jeu plus beau
+> - Ajout de texture pour les différents elements du labyrinthe pour pouvoir donner un thème et rendre le jeu plus beau
 > - Creation d'une méthode pour les vues permettant de fusionner deux images avec une des deux étant le fond
 >
 > **Nathan** : 
@@ -63,7 +64,7 @@
 > - Amélioration de l'affichage pour créer une taille dynamique pour les labyrinthes
 > - Ajout élement de sortie des labyrinthes
 > - Ajout des étapes et défi dans la classe Joueur
-> - Création des règles du jeu, et fonctionnement du boutons Règles
+> - Création des règles du jeu, et fonctionnement du bouton Règles
 > - Ajout du retour au menu quand on a atteint la sortie Mode Libre
 > 
 > **Clement** : 

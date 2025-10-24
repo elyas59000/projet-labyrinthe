@@ -109,7 +109,7 @@ public class ModeleJeu implements IModeleJeu {
      * 
      * @author Nathan Philippe
      */
-    @Override
+
     public void deconnexionJoueur() {
         this.joueurActuel = null;
     }
