@@ -1,18 +1,18 @@
 package J4.sae_labyrinthe.controleur;
 
+import java.io.IOException;
+
 import J4.sae_labyrinthe.exception.ValidationException;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
-import J4.sae_labyrinthe.modele.Save;
 import J4.sae_labyrinthe.utils.SaisieValidation;
+import J4.sae_labyrinthe.utils.Save;
 import J4.sae_labyrinthe.utils.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-
-import java.io.IOException;
 
 public class SceneConnexionControleur {
 
