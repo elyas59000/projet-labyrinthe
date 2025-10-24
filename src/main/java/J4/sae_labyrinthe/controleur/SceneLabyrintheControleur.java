@@ -1,5 +1,7 @@
 package J4.sae_labyrinthe.controleur;
 
+import java.io.IOException;
+
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
@@ -19,25 +21,36 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
-
+/**
+ * Contrôleur de la scène principale du jeu de labyrinthe.
+ * Gère l'affichage du labyrinthe, les déplacements du joueur et le menu pause.
+ * Supporte deux modes d'affichage : vue complète et vue partielle avec minimap.
+ * 
+ * @author Clément Roty
+ * @author Nathan Philippe
+ */
 public class SceneLabyrintheControleur {
 
     private static final int RANGE = 1;
 
     private final ModeleJeu modele = ModeleJeuSingleton.getInstance();
     private final VueLabyrintheEntier vueEntiere = new VueLabyrintheEntier(modele);
-    private final VueLabyrinthePartiel vuePartielle = new VueLabyrinthePartiel(modele, RANGE);
+    private final VueLabyrinthePartiel vuePartielle = new VueLabyrinthePartiel(modele, RANGE);    
 
     @FXML
-    private Button btnPause;
-
+    private Button btnPause;   
     @FXML
     private Text info1, info2, info3, timerInfo;
 
+    
     @FXML
     private StackPane zoneLaby;
 
+    /**
+     * Initialise la scène en choisissant le mode d'affichage approprié selon la taille du labyrinthe
+     * et configure les contrôles de déplacement.
+     * @author Clément Roty, Nathan Philippe
+     */
     @FXML
     void initialize() {
         if(modele.getLabyrinthe().getLargeur()>60 || modele.getLabyrinthe().getHauteur()>45){
@@ -123,18 +136,17 @@ public class SceneLabyrintheControleur {
 
 
 
-
-
-
-
-    /**
-     * Affiche le menu de pause.
-     */
     private boolean pauseVisible = false;
+
     private VBox menuPause;
 
     /**
      * Affiche ou masque un menu de pause intégré à la zone du labyrinthe.
+     * Gère la création et l'affichage d'un menu de pause semi-transparent
+     * permettant de reprendre la partie ou de quitter vers le menu principal.
+     * 
+     * @param event L'événement souris déclencheur
+     * @author Clément Roty
      */
     @FXML
     void afficherMenuPause(MouseEvent event) {
@@ -185,6 +197,11 @@ public class SceneLabyrintheControleur {
         pauseVisible = true;
     }
 
+    /**
+     * Nettoie les éléments de l'interface et supprime les écouteurs d'événements
+     * avant de quitter la scène.
+     * @author Clément Roty
+     */
     private void nettoyerJeu() {
         // Supprime le menu s’il est visible
         if (pauseVisible && menuPause != null) {

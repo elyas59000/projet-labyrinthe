@@ -10,9 +10,21 @@ import java.util.List;
 
 import J4.sae_labyrinthe.modele.Joueur;
 
+/**
+ * Classe utilitaire pour la sauvegarde et le chargement des données des joueurs.
+ * @author Adam Stievenard
+ */
 public class Save {
+
     private static final String JOUEUR_PATH ="src/main/ressources/J4/sae_labyrinthe/txt/joueurs.txt";
 
+    /**
+     * Sauvegarde une liste de joueurs dans un fichier.
+     * 
+     * @param joueurs La liste des joueurs à sauvegarder
+     * @throws IOException En cas d'erreur lors de l'écriture du fichier
+     * @author Adam Stievenard
+     */
     public static void saveToFile(ArrayList<Joueur> joueurs) throws IOException {
 
         FileOutputStream fos = new FileOutputStream(JOUEUR_PATH);
@@ -24,6 +36,13 @@ public class Save {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Charge la liste des joueurs à partir du fichier de sauvegarde.
+     * 
+     * @return La liste des joueurs chargée depuis le fichier
+     * @throws IOException En cas d'erreur lors de la lecture du fichier
+     * @author Adam Stievenard
+     */
     public static ArrayList<Joueur> loadSave() throws IOException {
 
         FileInputStream fis = new FileInputStream(JOUEUR_PATH);

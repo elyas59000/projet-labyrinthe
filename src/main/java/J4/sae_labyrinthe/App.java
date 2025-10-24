@@ -1,19 +1,31 @@
 package J4.sae_labyrinthe;
 
-import J4.sae_labyrinthe.modele.ModeleJeu;
-import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
 import javafx.application.Application;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+/**
+ * Classe principale de l'application du labyrinthe.
+ * Gère le lancement de l'application et la fenêtre principale.
+ * 
+ * @author Clément Roty
+ * @author Nathan Philippe
+ */
 public class App extends Application {
 
     private final KeyCode fullscreen=KeyCode.F11;
-
     private static Stage primaryStage;
 
+    /**
+     * Méthode de démarrage de l'application JavaFX.
+     * Configure la fenêtre principale et charge la scène initiale.
+     * 
+     * @param stage La fenêtre principale de l'application
+     * @throws Exception En cas d'erreur lors du chargement de la scène
+     * @author Clément Roty
+     */
     @Override
     public void start(Stage stage) throws Exception{
         primaryStage=stage;
@@ -31,10 +43,21 @@ public class App extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Récupère la fenêtre principale de l'application.
+     * 
+     * @return La fenêtre principale
+     * @author Clément Roty
+     */
     public static Stage getPrimaryStage(){
         return primaryStage;
     }
 
+    /**
+     * Point d'entrée principal de l'application.
+     * 
+     * @author Clément Roty
+     */
     public static void main(String[] args) {
         launch();
     }

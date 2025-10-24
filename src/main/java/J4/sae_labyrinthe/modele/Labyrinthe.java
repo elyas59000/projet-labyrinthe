@@ -1,22 +1,52 @@
 package J4.sae_labyrinthe.modele;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Random;
+import java.util.Stack;
 
-public class Labyrinthe implements ILabyrinthe{
+/**
+ * Implémentation d'un labyrinthe avec génération aléatoire.
+ * Cette classe gère la création et la manipulation d'un labyrinthe,
+ * y compris la génération des murs, la définition des entrées/sorties,
+ * et la vérification des chemins possibles.
+ *
+ * @author Anas ACHOUCH
+ * @author Nathan Philippe
+ */
+public class Labyrinthe implements ILabyrinthe {
+    // TODO : vérifier le Pourcentage entre 0 et 100
     private int largeur;
     private int hauteur;
     private double pourcentageMurs;
     private Cellule[][] grille;
     private Cellule entree;
     private Cellule sortie;
-
     private Etape e;
 
+    /**
+     * Constructeur simplifié du labyrinthe.
+     * 
+     * @param largeur Largeur du labyrinthe
+     * @param hauteur Hauteur du labyrinthe
+     * @param pourcentageMurs Pourcentage de murs souhaité (entre 0 et 100)
+     * @author Nathan Philippe
+     */
     public Labyrinthe(int largeur, int hauteur, double pourcentageMurs) {
         this(largeur, hauteur, pourcentageMurs, null);
     }
 
-    public Labyrinthe(int largeur, int hauteur, double pourcentageMurs,Etape e) {
+    /**
+     * @param largeur Largeur du labyrinthe
+     * @param hauteur Hauteur du labyrinthe
+     * @param pourcentageMurs Pourcentage de murs souhaité (entre 0 et 100)
+     * @param e Étape associée au labyrinthe (peut être null)
+     * @author Nathan Philippe
+     */
+    public Labyrinthe(int largeur, int hauteur, double pourcentageMurs, Etape e) {
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.pourcentageMurs = pourcentageMurs;
@@ -25,7 +55,11 @@ public class Labyrinthe implements ILabyrinthe{
         genererLabyrinthe();
     }
 
-    private void creerCellule(){
+    /**
+     * Initialise la grille du labyrinthe avec des cellules vides.
+     * @author Nathan Philippe
+     */
+    private void creerCellule() {
         // Création de toutes les cellules sans mur pour l'instant
         for (int y = 0; y < hauteur; y++) {
             for (int x = 0; x < largeur; x++) {
@@ -34,14 +68,26 @@ public class Labyrinthe implements ILabyrinthe{
         }
     }
 
-    private void creerEntreeSortie(){
+    /**
+     * Définit les cellules d'entrée et de sortie du labyrinthe.
+     * Par défaut, l'entrée est en (0,0) et la sortie en (largeur-1, hauteur-1).
+     * @author Nathan Philippe
+     */
+    private void creerEntreeSortie() {
         entree = grille[0][0];
         sortie = grille[hauteur - 1][largeur - 1];
         entree.setMur(false);
         sortie.setMur(false);
     }
 
-    private List <int[]> positionPossibles(){
+    /**
+     * Calcule toutes les positions possibles pour placer des murs.
+     * Exclut l'entrée et la sortie du labyrinthe.
+     * 
+     * @return Liste des coordonnées [x,y] où des murs peuvent être placés
+     * @author Nathan Philippe
+     */
+    private List<int[]> positionPossibles() {
         List<int[]> positions = new ArrayList<>();
         for (int y = 0; y < hauteur; y++) {
             for (int x = 0; x < largeur; x++) {
@@ -147,20 +193,66 @@ public class Labyrinthe implements ILabyrinthe{
         return false;
     }
 
+    /**
+     * @return La grille du labyrinthe
+     * @author Nathan Philippe
+     */
+    @Override
     public Cellule[][] getGrille() { return grille; }
+
+    /**
+     * @return La largeur du labyrinthe
+     * @author Nathan Philippe
+     */
+    @Override
     public int getLargeur() { return largeur; }
+
+    /**
+     * @return La hauteur du labyrinthe
+     * @author Nathan Philippe
+     */
+    @Override
     public int getHauteur() { return hauteur; }
+
+    /**
+     * @return La cellule d'entrée du labyrinthe
+     * @author Nathan Philippe
+     */
+    @Override
     public Cellule getEntree() { return entree; }
+
+    /**
+     * @return La cellule de sortie du labyrinthe
+     * @author Nathan Philippe
+     */
+    @Override
     public Cellule getSortie() { return sortie; }
 
+    /**
+     * @return Le pourcentage de murs dans le labyrinthe
+     * @author Nathan Philippe
+     */
+    @Override
     public double getPourcentageMurs() {
         return pourcentageMurs;
     }
 
+    /**
+     * Récupère l'étape associée au labyrinthe.
+     * 
+     * @return L'étape courante, peut être null si aucune étape n'est associée
+     * @author Nathan Philippe
+     */
     public Etape getEtape() {
         return e;
     }
 
+    /**
+     * Place l'entrée du labyrinthe à une position aléatoire accessible depuis la sortie.
+     * Cette méthode garantit qu'il existe un chemin entre la nouvelle entrée et la sortie.
+     * 
+     * @author Nathan Philippe
+     */
     public void positionAlea() {
         // Assure que la sortie existe et est libre
         if (sortie == null) {

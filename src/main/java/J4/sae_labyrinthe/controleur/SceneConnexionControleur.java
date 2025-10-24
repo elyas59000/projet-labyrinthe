@@ -14,6 +14,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+/**
+ * Contrôleur de la scène de connexion permettant aux utilisateurs de se connecter
+ * avec leurs identifiants existants ou d'accéder à la page d'inscription.
+ * Gère la validation des identifiants et l'affichage des erreurs.
+ * 
+ * @author Nathan Philippe
+ * @author Clément Roty
+ */
 public class SceneConnexionControleur {
 
     private final ModeleJeu modeleJeu= ModeleJeuSingleton.getInstance();
@@ -27,6 +35,13 @@ public class SceneConnexionControleur {
     @FXML
     private TextField champsMDP;
 
+    /**
+     * Redirige vers la scène d'inscription après avoir chargé la liste des joueurs.
+     * 
+     * @param event Événement de clic déclencheur
+     * @throws IOException En cas d'erreur lors du chargement de la scène
+     * @author Nathan Philippe
+     */
     @FXML
     void ouvrirSceneInscriptions(MouseEvent event) throws IOException {
         try {
@@ -38,11 +53,26 @@ public class SceneConnexionControleur {
         SceneManager.chargerScene("SceneInscription");
     }
 
+    /**
+     * Retourne au menu principal.
+     * 
+     * @param event Événement de clic déclencheur
+     * @throws IOException En cas d'erreur lors du chargement de la scène
+     * @author Clément Roty
+     */
     @FXML
     void retourScenePrecedente(MouseEvent event) throws IOException {
         SceneManager.chargerScene("SceneMenuPrincipal");
     }
 
+    /**
+     * Vérifie les identifiants saisis et connecte l'utilisateur si valides.
+     * En cas d'erreur, affiche un message approprié.
+     * 
+     * @param event Événement de clic déclencheur
+     * @throws IOException En cas d'erreur lors de la lecture des données ou du chargement de scène
+     * @author Nathan Philippe
+     */
     @FXML
     void validerEntreesConnexion(MouseEvent event) throws IOException {
         String login = champLogin.getText();

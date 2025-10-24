@@ -8,22 +8,47 @@ import J4.sae_labyrinthe.exception.ValidationException;
 import J4.sae_labyrinthe.utils.Save;
 import J4.sae_labyrinthe.vue.IObserver;
 
-public class ModeleJeu implements  IModeleJeu{
+/**
+ * Classe principale gérant la logique du jeu de labyrinthe.
+ * Gère les joueurs, le labyrinthe actuel, la progression et les déplacements.
+ * Implémente le pattern Observer pour notifier les vues des changements.
+ *
+ * @author Nathan Philippe
+ * @author Anas ACHOUCH
+ * @author Clément Roty
+ * @author Elyas Rabhiu
+ */
+public class ModeleJeu implements IModeleJeu {
 
     private ILabyrinthe labyrinthe;
     public List<Joueur> joueurs;    // créer setJoueurs() et remettre en private
     protected List<IObserver> observers;
     private Joueur joueurActuel;
     private Cellule positionJoueur;
-
     private Etape etapeChoisi;
     private int defiChoisi;
 
-    public ModeleJeu(){
+    /**
+     * Constructeur par défaut.
+     * Initialise les listes de joueurs et d'observateurs.
+     * 
+     * @author Nathan Philippe
+     */
+    public ModeleJeu() {
         this.joueurs = new ArrayList<>();
-        this.observers =new ArrayList<>();
+        this.observers = new ArrayList<>();
     }
 
+    /**
+     * Crée un nouveau joueur et l'ajoute à la liste des joueurs.
+     * 
+     * @param nom Nom du nouveau joueur
+     * @param mdp Mot de passe du nouveau joueur
+     * @return Le joueur créé
+     * @throws ValidationException Si le nom est déjà utilisé
+     * @throws IOException En cas d'erreur lors de la sauvegarde
+     * @author Nathan Philippe
+     */
     @Override
     public Joueur creerJoueur(String nom, String mdp) throws ValidationException, IOException {
         boolean pseudoDejaExistant=false;
@@ -47,7 +72,16 @@ public class ModeleJeu implements  IModeleJeu{
 
     }
 
-    public void connexionJoueur(String nom,String mdp) throws ValidationException {
+    /**
+     * Connecte un joueur existant.
+     * 
+     * @param nom Nom du joueur
+     * @param mdp Mot de passe du joueur
+     * @throws ValidationException Si les identifiants sont incorrects ou si aucun joueur n'existe
+     * @author Nathan Philippe
+     */
+    @Override
+    public void connexionJoueur(String nom, String mdp) throws ValidationException {
         if(this.joueurs.isEmpty()){throw new ValidationException("Aucun joueur n'existe pour l'instant");}
 
         boolean joueurTrouve = false;
@@ -70,16 +104,35 @@ public class ModeleJeu implements  IModeleJeu{
 
     }
 
+    /**
+     * Déconnecte le joueur actuel.
+     * 
+     * @author Nathan Philippe
+     */
+    @Override
     public void deconnexionJoueur() {
-        this.joueurActuel=null;
+        this.joueurActuel = null;
     }
 
+    /**
+     * Lance une partie en mode libre avec un labyrinthe personnalisé.
+     * 
+     * @param largeur Largeur du labyrinthe
+     * @param hauteur Hauteur du labyrinthe
+     * @param tauxMur Pourcentage de murs dans le labyrinthe
+     * @author Nathan Philippe
+     */
     @Override
     public void lancerPartieLibre(int largeur, int hauteur, int tauxMur) {
         this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
         this.positionJoueur = this.labyrinthe.getEntree();
     }
 
+    /**
+     * Lance une partie en mode progression
+     * 
+     * @author Nathan Philippe
+     */
     @Override
     public void lancerPartieProgression() {
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
@@ -103,18 +156,35 @@ public class ModeleJeu implements  IModeleJeu{
     }
 
 
+    /**
+     * @return La liste de tous les joueurs enregistrés
+     * @author Nathan Philippe
+     */
     public List<Joueur> getJoueurs() {
         return joueurs;
     }
 
+    /**
+     * @return La position actuelle du joueur dans le labyrinthe
+     * @author Nathan Philippe
+     */
     public Cellule getPositionJoueur() {
         return positionJoueur;
     }
 
+    /**
+     * @return Le joueur actuellement connecté
+     * @author Nathan Philippe
+     */
     public Joueur getJoueurActuel() {
         return joueurActuel;
     }
 
+    /**
+     * @return Le labyrinthe actuel de la partie
+     * @author Nathan Philippe
+     */
+    @Override
     public Labyrinthe getLabyrinthe() {
         return (Labyrinthe) this.labyrinthe;
     }
@@ -127,6 +197,15 @@ public class ModeleJeu implements  IModeleJeu{
     }
 
 
+    /**
+     * Déplace le joueur dans le labyrinthe selon une direction donnée.
+     * Vérifie si le déplacement est possible et met à jour la position.
+     * Notifie les observateurs après chaque déplacement.
+     * 
+     * @param direction Direction du déplacement ("z" pour haut, "s" pour bas, "q" pour gauche, "d" pour droite)
+     * @author Nathan Philippe
+     */
+    @Override
     public void deplacerJoueur(String direction) {
         if (labyrinthe == null || positionJoueur == null) return;
 
@@ -183,14 +262,30 @@ public class ModeleJeu implements  IModeleJeu{
         return labyrinthe.getSortie();
     }
 
+    /**
+     * Définit l'étape choisie pour le mode progression.
+     * 
+     * @param etapeChoisi Numéro de l'étape à définir
+     * @author Nathan Philippe
+     */
     public void setEtapeChoisi(int etapeChoisi) {
         this.etapeChoisi = new Etape(etapeChoisi);
     }
 
+    /**
+     * Définit le niveau de défi choisi pour l'étape courante.
+     * 
+     * @param defiChoisi Niveau de difficulté du défi
+     * @author Nathan Philippe
+     */
     public void setDefiChoisi(int defiChoisi) {
         this.defiChoisi = defiChoisi;
     }
 
+    /**
+     * @return Le numéro de l'étape actuellement choisie
+     * @author Nathan Philippe
+     */
     public int etapeChoisi() {
         return etapeChoisi.getNumero();
     }
