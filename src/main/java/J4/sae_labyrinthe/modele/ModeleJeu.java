@@ -1,11 +1,7 @@
 package J4.sae_labyrinthe.modele;
 
-import J4.sae_labyrinthe.exception.ValidationException;
-import J4.sae_labyrinthe.vue.IObserver;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import J4.sae_labyrinthe.exception.ValidationException;
@@ -29,14 +25,13 @@ public class ModeleJeu implements IModeleJeu {
     protected List<IObserver> observers;
     private Joueur joueurActuel;
     private Cellule positionJoueur;
-
     private Etape etapeChoisi;
     private int defiChoisi;
 
     /**
      * Constructeur par défaut.
      * Initialise les listes de joueurs et d'observateurs.
-     *
+     * 
      * @author Nathan Philippe
      */
     public ModeleJeu() {
@@ -46,7 +41,7 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Crée un nouveau joueur et l'ajoute à la liste des joueurs.
-     *
+     * 
      * @param nom Nom du nouveau joueur
      * @param mdp Mot de passe du nouveau joueur
      * @return Le joueur créé
@@ -79,7 +74,7 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Connecte un joueur existant.
-     *
+     * 
      * @param nom Nom du joueur
      * @param mdp Mot de passe du joueur
      * @throws ValidationException Si les identifiants sont incorrects ou si aucun joueur n'existe
@@ -111,17 +106,17 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Déconnecte le joueur actuel.
-     *
+     * 
      * @author Nathan Philippe
      */
-
+    @Override
     public void deconnexionJoueur() {
-        this.joueurActuel=null;
+        this.joueurActuel = null;
     }
 
     /**
      * Lance une partie en mode libre avec un labyrinthe personnalisé.
-     *
+     * 
      * @param largeur Largeur du labyrinthe
      * @param hauteur Hauteur du labyrinthe
      * @param tauxMur Pourcentage de murs dans le labyrinthe
@@ -131,12 +126,11 @@ public class ModeleJeu implements IModeleJeu {
     public void lancerPartieLibre(int largeur, int hauteur, int tauxMur) {
         this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
         this.positionJoueur = this.labyrinthe.getEntree();
-        this.setEtapeChoisi(0);
     }
 
     /**
      * Lance une partie en mode progression
-     *
+     * 
      * @author Nathan Philippe
      */
     @Override
@@ -158,31 +152,26 @@ public class ModeleJeu implements IModeleJeu {
     }
 
     /**
-     * Ajoute un observateur qui sera notifié lors des changements du modèle.
-     *
-     * @param o Observateur à ajouter
-     */
-    @Override
-    public void add(IObserver o) {
-        observers.add(o);
-
-    }
-    /**
      * Retire un observateur de la liste des observers (utilisé lors de la
      * navigation entre scènes pour éviter des notifications indésirables).
      *
-     * @param o Observateur à retirer
+     * @param observer Observateur à retirer
      */
+    @Override
+    public void remove(IObserver observer) {
+        this.observers.remove(observer);
+    }
 
-    public void remove(IObserver o) {
-        observers.remove(o);
-    }
     /**
-     * Vide la liste des observers
+     * Ajoute un observateur qui sera notifié lors des changements du modèle.
+     *
+     * @param observer Observateur à ajouter
      */
-    public void removeAll(){
-        observers.clear();
+    @Override
+    public void add(IObserver observer) {
+        this.observers.add(observer);
     }
+
 
     /**
      * @return La liste de tous les joueurs enregistrés
@@ -232,7 +221,7 @@ public class ModeleJeu implements IModeleJeu {
      * Déplace le joueur dans le labyrinthe selon une direction donnée.
      * Vérifie si le déplacement est possible et met à jour la position.
      * Notifie les observateurs après chaque déplacement.
-     *
+     * 
      * @param direction Direction du déplacement ("z" pour haut, "s" pour bas, "q" pour gauche, "d" pour droite)
      * @author Nathan Philippe
      */
@@ -267,7 +256,7 @@ public class ModeleJeu implements IModeleJeu {
             if (!next.estMur()) {
                 positionJoueur = next;
                 if (next == ((Labyrinthe) labyrinthe).getSortie()) {
-                    if(((Labyrinthe) labyrinthe).getEtape() != null && etapeChoisi.getNumero() == joueurActuel.getEtapeMax()){
+                    if(((Labyrinthe) labyrinthe).getEtape() != null){
                         joueurActuel.avancerEtape();
                         try{
                             Save.saveToFile((ArrayList<Joueur>) joueurs);
@@ -305,7 +294,7 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Définit l'étape choisie pour le mode progression.
-     *
+     * 
      * @param etapeChoisi Numéro de l'étape à définir
      * @author Nathan Philippe
      */
@@ -315,7 +304,7 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Définit le niveau de défi choisi pour l'étape courante.
-     *
+     * 
      * @param defiChoisi Niveau de difficulté du défi
      * @author Nathan Philippe
      */

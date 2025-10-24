@@ -1,5 +1,7 @@
 package J4.sae_labyrinthe.controleur;
 
+import java.io.IOException;
+
 import J4.sae_labyrinthe.modele.Joueur;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
@@ -8,8 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-
-import java.io.IOException;
 
 public class SceneModifCompteControleur{
 
@@ -29,23 +29,35 @@ public class SceneModifCompteControleur{
     @FXML
     private TextField champsConfirmmdp;
 
+    @FXML
+    private Text messageErreur;
+
     public void validerModifPseudo(MouseEvent mouseEvent) {
-        if (nomValide()){
-            modeleJeu.getJoueurActuel().setMdp(champsNouveaumdp.getText());
-        }else {
-            System.out.println("Erreur mpd");
-            System.out.println(champModifPseudo.getText());
-            System.out.println(modeleJeu.getJoueurActuel().getNom());
+        if (nomValide() && !champModifPseudo.getText().isEmpty()) {
+            String ancienNom = modeleJeu.getJoueurActuel().getNom();
+            modeleJeu.getJoueurActuel().setNom(champModifPseudo.getText());
+            modeleJeu.sauvegarderJoueurs();
+            messageErreur.setText("Pseudo modifié avec succès !");
+            messageErreur.setStyle("-fx-fill: green;");
+        } else {
+            messageErreur.setText("Erreur : Pseudo invalide ou déjà utilisé");
+            messageErreur.setStyle("-fx-fill: red;");
         }
     }
 
     public void validerModifmdp(MouseEvent mouseEvent) {
-        if (mdpValide()){
+        if (mdpValide()) {
             modeleJeu.getJoueurActuel().setMdp(champsNouveaumdp.getText());
-        }else {
-            System.out.println("Erreur mpd");
-            System.out.println(champsNouveaumdp.getText());
-            System.out.println(modeleJeu.getJoueurActuel().getMdp());
+            modeleJeu.sauvegarderJoueurs();
+            messageErreur.setText("Mot de passe modifié avec succès !");
+            messageErreur.setStyle("-fx-fill: green;");
+            // Réinitialiser les champs
+            champsAncienmdp.clear();
+            champsNouveaumdp.clear();
+            champsConfirmmdp.clear();
+        } else {
+            messageErreur.setText("Erreur : Ancien mot de passe incorrect ou les nouveaux mots de passe ne correspondent pas");
+            messageErreur.setStyle("-fx-fill: red;");
         }
     }
 
