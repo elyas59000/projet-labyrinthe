@@ -145,6 +145,30 @@ public class TestLabyrinthe {
         }, "Se connecter avec un mauvais mot de passe doit lever une ValidationException.");
     }
 
+    @Test
+    void testProgressionEtapesJoueur() {
+        // Cas limite: Reculer depuis l'étape 1
+        assertEquals(1, joueur1.getEtapeActuelle());
+        joueur1.reculerEtape();
+        assertEquals(1, joueur1.getEtapeActuelle(), "Ne doit pas reculer sous l'étape 1.");
+
+        // Cas nominal: Avancer met à jour actuelle et max
+        joueur1.avancerEtape();
+        assertEquals(2, joueur1.getEtapeActuelle(), "Doit avancer à l'étape 2.");
+        assertEquals(2, joueur1.getEtapeMax(), "Max doit passer à 2.");
+
+        // Cas: Reculer après avoir avancé
+        joueur1.reculerEtape();
+        assertEquals(1, joueur1.getEtapeActuelle(), "Doit revenir à l'étape 1.");
+        assertEquals(2, joueur1.getEtapeMax(), "Max doit rester à 2.");
+    }
+
+
+
+
+
+
+
 
 
 
