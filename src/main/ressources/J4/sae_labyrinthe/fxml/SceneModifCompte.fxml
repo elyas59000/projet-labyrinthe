@@ -34,12 +34,11 @@
 
     <children>
         <!-- Titre -->
-        <Text fx:id="champsTitreCompte"
-              text="Compte de "
-              style="-fx-font-weight: bold; -fx-font-size: 24px;"
-              GridPane.columnIndex="1"
-              GridPane.halignment="CENTER"
-              GridPane.valignment="CENTER" />
+        <Text fx:id="champsTitreCompte" strokeType="OUTSIDE" strokeWidth="0.0" text="Compte de " GridPane.columnIndex="1">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+        </Text>
 
         <!-- Bouton retour -->
         <Button onMouseClicked="#retourScenePrecedente"
@@ -71,26 +70,26 @@
             <children>
                 <!-- Modifier Pseudo -->
                 <HBox alignment="CENTER_LEFT" spacing="20.0">
-                    <Text text="Modifier pseudo :" style="-fx-font-size: 16px;"/>
+                    <Text text="Modifier pseudo :" style="-fx-font-size: 18px;-fx-font-weight: bold;"/>
                     <TextField fx:id="champModifPseudo" prefWidth="200.0"/>
                     <Button text="Valider" onMouseClicked="#validerModifPseudo"/>
                 </HBox>
 
                 <!-- Ancien mot de passe -->
                 <HBox alignment="CENTER_LEFT" spacing="20.0">
-                    <Text text="Ancien mot de passe :" style="-fx-font-size: 16px;"/>
+                    <Text text="Ancien mot de passe :" style="-fx-font-size: 18px;-fx-font-weight: bold;"/>
                     <PasswordField fx:id="champsAncienmdp" prefWidth="200.0"/>
                 </HBox>
 
                 <!-- Nouveau mot de passe -->
                 <HBox alignment="CENTER_LEFT" spacing="20.0">
-                    <Text text="Nouveau mot de passe :" style="-fx-font-size: 16px;"/>
+                    <Text text="Nouveau mot de passe :" style="-fx-font-size: 18px;-fx-font-weight: bold;"/>
                     <PasswordField fx:id="champsNouveaumdp" prefWidth="200.0"/>
                 </HBox>
 
                 <!-- Confirmation mot de passe -->
                 <HBox alignment="CENTER_LEFT" spacing="20.0">
-                    <Text text="Confirmer mot de passe :" style="-fx-font-size: 16px;"/>
+                    <Text text="Confirmer mot de passe :" style="-fx-font-size: 18px;-fx-font-weight: bold;"/>
                     <PasswordField fx:id="champsConfirmmdp" prefWidth="200.0"/>
                     <Button text="Valider" onMouseClicked="#validerModifmdp"/>
                 </HBox>
