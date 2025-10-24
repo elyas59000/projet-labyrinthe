@@ -135,5 +135,19 @@ public class TestLabyrinthe {
     }
 
 
+    @Test
+    void testConnexionJoueur_QuandMdpIncorrect_LeveException() throws ValidationException, IOException {
+        // Arrange
+        modele.creerJoueur("user", "bonMdp");
+
+        assertThrows(ValidationException.class, () -> {
+            modele.connexionJoueur("user", "mauvaisMdp");
+        }, "Se connecter avec un mauvais mot de passe doit lever une ValidationException.");
+    }
+
+
+
+
+
 
 }
