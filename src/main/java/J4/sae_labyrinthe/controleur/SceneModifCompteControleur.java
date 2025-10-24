@@ -7,6 +7,7 @@ import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
 import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -27,7 +28,7 @@ public class SceneModifCompteControleur{
     @FXML
     private TextField champsNouveaumdp;
     @FXML
-    private TextField champsConfirmmdp;
+    private PasswordField champsConfirmmdp;
 
     @FXML
     private Text messageErreur;
@@ -36,7 +37,7 @@ public class SceneModifCompteControleur{
         if (nomValide() && !champModifPseudo.getText().isEmpty()) {
             String ancienNom = modeleJeu.getJoueurActuel().getNom();
             modeleJeu.getJoueurActuel().setNom(champModifPseudo.getText());
-            modeleJeu.sauvegarderJoueur();
+            modeleJeu.sauvegarderJoueurs();
             messageErreur.setText("Pseudo modifié avec succès !");
             messageErreur.setStyle("-fx-fill: green;");
         } else {
@@ -48,7 +49,7 @@ public class SceneModifCompteControleur{
     public void validerModifmdp(MouseEvent mouseEvent) {
         if (mdpValide()) {
             modeleJeu.getJoueurActuel().setMdp(champsNouveaumdp.getText());
-            modeleJeu.sauvegarderJoueur();
+            modeleJeu.sauvegarderJoueurs();
             messageErreur.setText("Mot de passe modifié avec succès !");
             messageErreur.setStyle("-fx-fill: green;");
             // Réinitialiser les champs
