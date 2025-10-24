@@ -111,7 +111,14 @@ public class TestLabyrinthe {
         Cellule positionfinale = ((ModeleJeu) modele).getPositionJoueur();
         assertEquals(0, positionfinale.getX());
         assertEquals(0, positionfinale.getY());
+    }
 
+    @Test
+    void testCoteDefi(){
+        Etape etape3 = new Etape(3);
+        Defi defiMoyen = etape3.getDefiParDifficulte(2);
+        assertNotNull(defiMoyen);
+        assertEquals(24,defiMoyen.getCote());
     }
 
 
