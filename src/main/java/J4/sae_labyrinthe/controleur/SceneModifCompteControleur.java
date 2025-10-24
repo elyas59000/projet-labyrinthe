@@ -50,7 +50,7 @@ public class SceneModifCompteControleur{
     }
 
     public boolean mdpValide() {
-        return champsNouveaumdp.getText().equals(champsConfirmmdp.getText());
+        return champsAncienmdp.getText().equals(modeleJeu.getJoueurActuel().getMdp()) && champsNouveaumdp.getText().equals(champsConfirmmdp.getText());
     }
 
     public boolean nomValide() {
