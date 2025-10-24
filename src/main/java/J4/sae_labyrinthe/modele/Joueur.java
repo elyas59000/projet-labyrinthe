@@ -12,6 +12,7 @@ import java.io.Serializable;
  * @author Anas ACHOUCH
  */
 public class Joueur implements IJoueur, Serializable {
+    private static final long serialVersionUID = -6956888135510794480L;
     private String nom;
     private String mdp;
     private int etapeMax;
@@ -146,5 +147,7 @@ public class Joueur implements IJoueur, Serializable {
         this.mdp = mdp;
     }
 
-
+    public int getEtapeFini() {
+        return etapeFini;
+    }
 }

@@ -28,12 +28,4 @@ public class Etape{
     public Defi getDefiParDifficulte(int n) {
         return defis[n-1];
     }
-
-    public int nbDefiFini(){
-        int nb = 0;
-        for(int i=0; i<defis.length; i++){
-            if(defis[i].estReussi())nb += 1;
-        }
-        return nb;
-    }
 }

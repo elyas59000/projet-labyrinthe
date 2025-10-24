@@ -31,10 +31,10 @@ public class SceneScoreControleur {
     private TableColumn<Joueur, String> namePlayer;
 
     @FXML
-    private TableColumn<?, ?> nbStarPlayer;
+    private TableColumn<Joueur, Integer> nbStarPlayer;
 
     @FXML
-    private TableColumn<?, ?> nbStepPlayer;
+    private TableColumn<Joueur, Integer> nbStepPlayer;
 
     @FXML
     private TableView<Joueur> tabScores;
@@ -53,6 +53,8 @@ public class SceneScoreControleur {
     void initialize() throws IOException {
         tabScores.getItems().clear();
         affficherNom();
+        afficherEtape();
+        afficherDefi();
     }
 
     void affficherNom() throws IOException {
@@ -61,7 +63,15 @@ public class SceneScoreControleur {
         tabScores.setItems(list);
     }
 
-    void afficherEtape(){
-        nbStepPlayer.setCellValueFactory(new PropertyValueFactory<>("etap"));
+    void afficherEtape() throws IOException {
+        nbStepPlayer.setCellValueFactory(new PropertyValueFactory<>("etapeFini"));
+        ObservableList<Joueur> list = FXCollections.observableArrayList(Save.loadSave());
+        tabScores.setItems(list);
+    }
+
+    void afficherDefi() throws IOException {
+        nbStarPlayer.setCellValueFactory(new PropertyValueFactory<>("score"));
+        ObservableList<Joueur> list = FXCollections.observableArrayList(Save.loadSave());
+        tabScores.setItems(list);
     }
 }
