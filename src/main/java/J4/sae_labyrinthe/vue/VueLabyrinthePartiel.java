@@ -1,145 +1,65 @@
 package J4.sae_labyrinthe.vue;
 
-
 import J4.sae_labyrinthe.modele.Labyrinthe;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.utils.Calcul;
-import J4.sae_labyrinthe.utils.FusionImage;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 
-import static J4.sae_labyrinthe.utils.FusionImage.fusionnerImages;
+public class VueLabyrinthePartiel extends VueLabyrintheAbstraite {
 
-public class VueLabyrinthePartiel implements IObserver {
-    private GridPane labPartiel;
-
-    private GridPane minimap;
-
-    private final ModeleJeu modele;
     private final int range;
-
-    private final double LARGEUR_DISPONIBLE_ZONE= 1280;
-
-    private final double HAUTEUR_DISPONIBLE_ZONE=700;
+    private final GridPane minimap;
 
     public VueLabyrinthePartiel(ModeleJeu modele, int range) {
-        this.labPartiel = new GridPane();
+        super(modele);
+        this.range = range;
         this.minimap = new GridPane();
-        this.modele=modele;
-        this.modele.add(this);
-        this.range=range;
     }
 
     @Override
-    public void update() {
+    public void initialiserAffichage() {
+        int taille = 2 * range + 1;
+        double tailleCarre = Calcul.calculTailleCarreOptimal(
+                LARGEUR_DISPONIBLE_ZONE, HAUTEUR_DISPONIBLE_ZONE, taille, taille
+        );
+        parcoursCreationGridPane(grille,taille,taille, tailleCarre);
+        this.rafraichirAffichage();
         afficherMap(minimap);
-        afficherLabyrinthePartiel(labPartiel,LARGEUR_DISPONIBLE_ZONE,HAUTEUR_DISPONIBLE_ZONE,range);
     }
 
-    public void afficherMap(GridPane p) {
-        p.getChildren().clear();
-        Image brique = this.getBrique();
-        Image fond = this.getFond();
-        Image joueur = this.getJoueur();
-        Image fin = this.getFin();
+    @Override
+    protected void rafraichirAffichage() {
         Labyrinthe laby = modele.getLabyrinthe();
-        int hauteur = laby.getHauteur();
-        int largeur = laby.getLargeur();
+        int joueurX = modele.getPositionJoueur().getX();
+        int joueurY = modele.getPositionJoueur().getY();
+        int taille = 2 * range + 1;
 
-        double tailleCarre = 20;
+        for (int i = 0; i < taille; i++) {
+            for (int j = 0; j < taille; j++) {
+                int labI = joueurY - range + i;
+                int labJ = joueurX - range + j;
+                Rectangle cell = (Rectangle) grille.getChildren().get(i * taille + j);
+                appliquerTexture(cell, laby, labI, labJ, joueurX, joueurY);
+            }
+        }
+    }
 
-        for (int i = 0; i < hauteur; i++) {
-            for (int j = 0; j < largeur; j++) {
-                Rectangle cell = new Rectangle(tailleCarre, tailleCarre);
+    private void afficherMap(GridPane p) {
+        Labyrinthe laby = modele.getLabyrinthe();
+        p.getChildren().clear();
+        double tailleCarreMini = 10;
 
-                if (laby.getGrille()[i][j].estMur()) {
-                    cell.setFill(new ImagePattern(brique));
-                } else if (laby.getGrille()[i][j].equals(laby.getSortie())) {
-                    cell.setFill(new ImagePattern(FusionImage.fusionnerImages(fond, fin)));
-                } else {
-                    cell.setFill(new ImagePattern(fond));
-                }
-
+        for (int i = 0; i < laby.getHauteur(); i++) {
+            for (int j = 0; j < laby.getLargeur(); j++) {
+                Rectangle cell = new Rectangle(tailleCarreMini, tailleCarreMini);
+                appliquerTexture(cell, laby, i, j, -1, -1);
                 p.add(cell, j, i);
             }
         }
     }
 
-    public void afficherLabyrinthePartiel(GridPane p, double largeurDispo, double hauteurDispo, int range) {
-        Labyrinthe laby = this.modele.getLabyrinthe();
-        int hauteur = laby.getHauteur();
-        int largeur = laby.getLargeur();
-        int joueurLigne = this.modele.getPositionJoueur().getY();
-        int joueurCol = this.modele.getPositionJoueur().getX();
-
-        double tailleCarre = Calcul.calculTailleCarreOptimal(largeurDispo, hauteurDispo, 2 * range + 1, 2 * range + 1);
-        // Si la grille est vide, la créer
-        if (p.getChildren().isEmpty()) {
-            for (int i = 0; i < 2 * range + 1; i++) {
-                for (int j = 0; j < 2 * range + 1; j++) {
-                    Rectangle cell = new Rectangle(tailleCarre, tailleCarre);
-                    p.add(cell, j, i);
-                }
-            }
-        }
-        Image brique = this.getBrique();
-        Image fond = this.getFond();
-        Image joueur = this.getJoueur();
-        Image fin = this.getFin();
-        // Mise à jour des cellules
-        for (int i = 0; i < 2 * range + 1; i++) {
-            for (int j = 0; j < 2 * range + 1; j++) {
-                int labyI = joueurLigne - range + i;
-                int labyJ = joueurCol - range + j;
-                Rectangle cell = (Rectangle) p.getChildren().get(i * (2 * range + 1) + j);
-
-                if (labyI < 0 || labyI >= hauteur || labyJ < 0 || labyJ >= largeur) {
-                    cell.setFill(new ImagePattern(brique));
-                } else if (laby.getGrille()[labyI][labyJ].estMur()) {
-                    cell.setFill(new ImagePattern(brique));
-                } else if (labyI == joueurLigne && labyJ == joueurCol) {
-                    cell.setFill(new ImagePattern(FusionImage.fusionnerImages(fond, joueur)));
-                } else if (laby.getGrille()[labyI][labyJ].equals(laby.getSortie())) {
-                    cell.setFill(new ImagePattern(FusionImage.fusionnerImages(fond, fin)));
-                } else {
-                    cell.setFill(new ImagePattern(fond));
-                }
-            }
-        }
-    }
-
-
-    public GridPane getLabPartiel() {
-        return labPartiel;
-    }
-
-    public GridPane getMinimap(){
+    public GridPane getMinimap() {
         return minimap;
     }
-
-    public Image getBrique() {
-        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/Brique.png").toExternalForm());
-    }
-
-    public Image getJoueur() {
-        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/souris.png").toExternalForm());
-    }
-
-    public Image getFond() {
-        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/herbe.png").toExternalForm());
-    }
-
-    public Image getFin() {
-        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/fromage.png").toExternalForm());
-
-    }
-
-
-
 }
-
-

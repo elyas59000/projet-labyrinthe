@@ -93,14 +93,21 @@ public class ModeleJeu implements  IModeleJeu{
     }
 
     @Override
-    public void remove(IObserver observer) {
-        this.observers.remove(observer);
+    public void add(IObserver o) {
+        if (!observers.contains(o)) {
+            observers.add(o);
+        }
+    }
+    @Override
+    public void remove(IObserver o) {
+        observers.removeIf(obs -> obs == o); // comparaison stricte par référence
     }
 
-    @Override
-    public void add(IObserver observer) {
-        this.observers.add(observer);
+    public void removeAll(){
+        observers.clear();
+
     }
+
 
 
     public List<Joueur> getJoueurs() {
@@ -170,7 +177,7 @@ public class ModeleJeu implements  IModeleJeu{
                 notifierObservateurs();
             }
             else{
-                System.out.println("C'est un mur");
+                //System.out.println("C'est un mur");
             }
         }
     }

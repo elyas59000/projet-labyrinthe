@@ -79,7 +79,6 @@ public class SceneMenuPrincipalControleur implements IObserver {
     @Override
     public void update() {
         Joueur joueur = modeleJeu.getJoueurActuel();
-        Platform.runLater(() -> {
             if (joueur == null) {
                 textHintConnexion.setText("Déconnecté");
                 textHintConnexion.setFill(Color.RED);
@@ -93,6 +92,6 @@ public class SceneMenuPrincipalControleur implements IObserver {
                 //iconPP.setImage(modeleJeu.getJoueurActuel().getImagePP());
 
             }
-        });
+
     }
 }
