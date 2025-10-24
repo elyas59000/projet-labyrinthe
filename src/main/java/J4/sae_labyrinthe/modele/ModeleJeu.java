@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import J4.sae_labyrinthe.exception.ValidationException;
 import J4.sae_labyrinthe.utils.Save;
-import J4.sae_labyrinthe.vue.IObserver;
 
 /**
  * Classe principale gérant la logique du jeu de labyrinthe.
@@ -21,12 +19,14 @@ import J4.sae_labyrinthe.vue.IObserver;
 public class ModeleJeu implements IModeleJeu {
 
     private ILabyrinthe labyrinthe;
-    public List<Joueur> joueurs;    // créer setJoueurs() et remettre en private
+    public List<Joueur> joueurs;
     protected List<IObserver> observers;
     private Joueur joueurActuel;
     private Cellule positionJoueur;
     private Etape etapeChoisi;
     private int defiChoisi;
+    private boolean partieLibre;
+    private boolean typeDeVue; /* On part du principe que true -> globale et false -> local*/
 
     /**
      * Constructeur par défaut.
@@ -124,6 +124,7 @@ public class ModeleJeu implements IModeleJeu {
      */
     @Override
     public void lancerPartieLibre(int largeur, int hauteur, int tauxMur) {
+        partieLibre =true;
         this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
         this.positionJoueur = this.labyrinthe.getEntree();
     }
@@ -135,6 +136,7 @@ public class ModeleJeu implements IModeleJeu {
      */
     @Override
     public void lancerPartieProgression() {
+        partieLibre =false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
         this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote(),d.getPourcentageMurs(),etapeChoisi);
         this.positionJoueur = this.labyrinthe.getEntree();
@@ -320,4 +322,7 @@ public class ModeleJeu implements IModeleJeu {
         return etapeChoisi.getNumero();
     }
 
+    public boolean getPartieLibre() {
+        return partieLibre;
+    }
 }
