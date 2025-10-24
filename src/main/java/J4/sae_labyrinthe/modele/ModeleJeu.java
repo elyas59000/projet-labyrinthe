@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import J4.sae_labyrinthe.exception.ValidationException;
 import J4.sae_labyrinthe.utils.Save;
+import J4.sae_labyrinthe.vue.IObserver;
 
 /**
  * Classe principale gérant la logique du jeu de labyrinthe.
@@ -109,7 +111,6 @@ public class ModeleJeu implements IModeleJeu {
      * 
      * @author Nathan Philippe
      */
-    @Override
     public void deconnexionJoueur() {
         this.joueurActuel = null;
     }
@@ -324,5 +325,30 @@ public class ModeleJeu implements IModeleJeu {
 
     public boolean getPartieLibre() {
         return partieLibre;
+    }
+
+    /**
+     * Met à jour le joueur actuel dans la liste des joueurs et sauvegarde les modifications.
+     * Cette méthode trouve l'ancien joueur dans la liste et le remplace par le joueur actuel mis à jour.
+     *
+     * @throws IOException En cas d'erreur lors de la sauvegarde
+     */
+    public void sauvegarderJoueur() {
+        if (joueurActuel != null) {
+            // Cherche l'index du joueur actuel dans la liste
+            for (int i = 0; i < joueurs.size(); i++) {
+                if (joueurs.get(i).getNom().equals(joueurActuel.getNom())) {
+                    // Remplace l'ancien joueur par le joueur actuel mis à jour
+                    joueurs.set(i, joueurActuel);
+                    break;
+                }
+            }
+            try {
+                // Sauvegarde les modifications dans le fichier
+                Save.saveToFile((ArrayList<Joueur>) joueurs);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
