@@ -13,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -42,6 +43,8 @@ public class SceneLabyrintheControleur {
 
     private CheckBox modeDeVue;
 
+    private Spinner<Integer> rangeVue = new Spinner<>(1, 5, RANGE);
+
     @FXML
     private HBox enteteJeu;
     @FXML
@@ -58,6 +61,7 @@ public class SceneLabyrintheControleur {
         info3.setText("Taux de mur : " + modele.getLabyrinthe().getPourcentageMurs() + " %");
         if (!modele.getPartieLibre()) {
             if (modele.etapeChoisi() == 3) {
+                afficherSpinnerEtape3();
                 setVueActive(vuePartielle);
             } else {
                 setVueActive(vueEntiere);
@@ -230,19 +234,56 @@ public class SceneLabyrintheControleur {
     }
 
     /**
-     * Affiche la checkbox de bascule de vue (mode libre uniquement).
+     * Affiche la checkbox et le spinner pour la vue locale (mode libre uniquement).
      */
     private void afficherCheckBox() {
         modeDeVue = new CheckBox("Vue locale");
         enteteJeu.getChildren().add(0, modeDeVue);
 
-        // Un seul écouteur, bascule dynamique
-        modeDeVue.setOnAction(e -> {
+        // Création du spinner (désactivé par défaut)
+        creerSpinner(1);
+        rangeVue.setDisable(true);
+
+        rangeVue.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (modeDeVue.isSelected()) {
-                setVueActive(vuePartielle);
+                VueLabyrinthePartiel nouvelleVue = new VueLabyrinthePartiel(modele, newVal);
+                setVueActive(nouvelleVue);
+            }
+        });
+
+        modeDeVue.setOnAction(e -> {
+            boolean vueLocaleActive = modeDeVue.isSelected();
+            rangeVue.setDisable(!vueLocaleActive);
+            if (vueLocaleActive) {
+                setVueActive(new VueLabyrinthePartiel(modele, rangeVue.getValue()));
             } else {
                 setVueActive(vueEntiere);
             }
         });
     }
+
+    /**
+     * Affiche un spinner pour régler la portée de vue (étape 3 en mode progression).
+     */
+    private void afficherSpinnerEtape3() {
+        creerSpinner(0);
+        rangeVue.valueProperty().addListener((obs, oldVal, newVal) -> {
+                setVueActive(new VueLabyrinthePartiel(modele, newVal));
+        });
+
+
+    }
+
+    private void creerSpinner(int index){
+        rangeVue.setPrefWidth(70);
+        rangeVue.setEditable(false);
+        Label labelRange = new Label("Portée :");
+        labelRange.setPadding(new Insets(0, 5, 0, 15));
+
+        HBox hBoxRange = new HBox(labelRange, rangeVue);
+        hBoxRange.setAlignment(Pos.CENTER_LEFT);
+        hBoxRange.setSpacing(5);
+        enteteJeu.getChildren().add(index, hBoxRange);
+    }
+
 }
