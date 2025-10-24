@@ -131,6 +131,7 @@ public class ModeleJeu implements IModeleJeu {
     public void lancerPartieLibre(int largeur, int hauteur, int tauxMur) {
         this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
         this.positionJoueur = this.labyrinthe.getEntree();
+        this.setEtapeChoisi(0);
     }
 
     /**
@@ -266,7 +267,7 @@ public class ModeleJeu implements IModeleJeu {
             if (!next.estMur()) {
                 positionJoueur = next;
                 if (next == ((Labyrinthe) labyrinthe).getSortie()) {
-                    if(((Labyrinthe) labyrinthe).getEtape() != null){
+                    if(((Labyrinthe) labyrinthe).getEtape() != null && etapeChoisi.getNumero() == joueurActuel.getEtapeMax()){
                         joueurActuel.avancerEtape();
                         try{
                             Save.saveToFile((ArrayList<Joueur>) joueurs);

@@ -30,10 +30,10 @@ import java.io.IOException;
  */
 public class SceneLabyrintheControleur {
 
-    private static final int RANGE = 1;
+    private  final int   range = 1;
     private final ModeleJeu modele = ModeleJeuSingleton.getInstance();
     private final VueLabyrintheEntier vueEntiere = new VueLabyrintheEntier(modele);
-    private final VueLabyrinthePartiel vuePartielle = new VueLabyrinthePartiel(modele, RANGE);
+    private final VueLabyrinthePartiel vuePartielle = new VueLabyrinthePartiel(modele, range);
     private VBox menuPause;
     private boolean pauseActive = false;
 
@@ -50,7 +50,7 @@ public class SceneLabyrintheControleur {
         info1.setText("Hauteur du Labyrinthe : "+modele.getLabyrinthe().getHauteur()+" cases");
         info2.setText("Largeur du Labyrinthe : "+modele.getLabyrinthe().getLargeur()+" cases");
         info3.setText("Taux de mur : "+modele.getLabyrinthe().getPourcentageMurs()+" %");
-        if (modele.getLabyrinthe().getLargeur() > 60 || modele.getLabyrinthe().getHauteur() > 45) {
+        if (modele.etapeChoisi() == 3) {
             affichageLocal();
         } else {
             affichageEntier();
@@ -160,7 +160,7 @@ public class SceneLabyrintheControleur {
     private void quitterPartie() {
         try {
             nettoyerJeu();
-            SceneManager.chargerScene("SceneModeLibre");
+            SceneManager.chargerScene("SceneMenuPrincipal");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

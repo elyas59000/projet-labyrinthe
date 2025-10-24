@@ -1,6 +1,5 @@
 package J4.sae_labyrinthe.controleur;
 
-
 import java.io.IOException;
 
 import J4.sae_labyrinthe.modele.ModeleJeu;
@@ -16,7 +15,7 @@ import javafx.scene.text.Text;
  *
  * Affiche le pseudo du joueur courant et propose des actions : modifier le
  * profil, se déconnecter ou revenir au menu principal. S'abonne au modèle
- * pour recevoir les mises à jour via l'interface `IObserver'.
+ * pour recevoir les mises à jour via l'interface `IObserver`.
  *
  * @author Clément Roty, Nathan Philippe
  */
@@ -24,15 +23,15 @@ public class SceneInfosCompteControleur implements IObserver {
 
     private final ModeleJeu modeleJeu= ModeleJeuSingleton.getInstance();
 
-    @FXML
-    private Text champsTitreCompte;
-
 
     @FXML
     void initialize() {
         modeleJeu.add(this);
         update();
     }
+
+    @FXML
+    private Text champsTitreCompte;
 
     /**
      * Redirige vers la scène de modification du profil.
@@ -42,9 +41,8 @@ public class SceneInfosCompteControleur implements IObserver {
      * @param event clic
      */
     @FXML
-    void allerSceneModifProfil(MouseEvent event) throws IOException {
+    void allerSceneModifProfil(MouseEvent event) {
         modeleJeu.remove(this);
-        SceneManager.chargerScene("SceneModifCompte");
     }
 
     /**
@@ -78,8 +76,7 @@ public class SceneInfosCompteControleur implements IObserver {
      */
     @Override
     public void update() {
-
+        String pseudo = modeleJeu.getJoueurActuel().getNom();
+        champsTitreCompte.setText(" "+pseudo);
     }
-
-
 }
