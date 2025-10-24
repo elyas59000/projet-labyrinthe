@@ -121,6 +121,18 @@ public class TestLabyrinthe {
         assertEquals(24,defiMoyen.getCote());
     }
 
+    @Test
+    void modeleJeuSingleton(){
+        IModeleJeu instance1 = ModeleJeuSingleton.getInstance();
+        IModeleJeu instance2 = ModeleJeuSingleton.getInstance();
+
+        // Assert
+        assertNotNull(instance1, "La première instance ne doit pas être nulle.");
+        assertNotNull(instance2, "La deuxième instance ne doit pas être nulle.");
+        // assertSame vérifie si les deux variables pointent vers le même objet en mémoire
+        assertSame(instance1, instance2, "getInstance() doit toujours retourner la même instance.");
+
+    }
 
 
 
