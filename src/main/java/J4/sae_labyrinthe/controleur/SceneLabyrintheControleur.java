@@ -17,6 +17,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -55,7 +56,6 @@ public class SceneLabyrintheControleur {
         info1.setText("Hauteur du Labyrinthe : " + modele.getLabyrinthe().getHauteur() + " cases");
         info2.setText("Largeur du Labyrinthe : " + modele.getLabyrinthe().getLargeur() + " cases");
         info3.setText("Taux de mur : " + modele.getLabyrinthe().getPourcentageMurs() + " %");
-
         if (!modele.getPartieLibre()) {
             if (modele.etapeChoisi() == 3) {
                 setVueActive(vuePartielle);
@@ -87,6 +87,7 @@ public class SceneLabyrintheControleur {
             HBox hb = new HBox(vuePartielleActive.getGrille(), vuePartielleActive.getMinimap());
             hb.setAlignment(Pos.CENTER);
             hb.setSpacing(40);
+            hb.maxHeight(1);
             zoneLaby.getChildren().add(hb);
         } else if (vue instanceof VueLabyrintheEntier vueEntiereActive) {
             vueEntiereActive.getGrille().setAlignment(Pos.CENTER);
