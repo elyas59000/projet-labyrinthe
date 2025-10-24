@@ -33,7 +33,7 @@ public class ModeleJeu implements IModeleJeu {
     /**
      * Constructeur par défaut.
      * Initialise les listes de joueurs et d'observateurs.
-     * 
+     *
      * @author Nathan Philippe
      */
     public ModeleJeu() {
@@ -43,32 +43,31 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Crée un nouveau joueur et l'ajoute à la liste des joueurs.
-     * 
+     *
      * @param nom Nom du nouveau joueur
      * @param mdp Mot de passe du nouveau joueur
      * @return Le joueur créé
      * @throws ValidationException Si le nom est déjà utilisé
-     * @throws IOException En cas d'erreur lors de la sauvegarde
+     * @throws IOException         En cas d'erreur lors de la sauvegarde
      * @author Nathan Philippe
      */
     @Override
     public Joueur creerJoueur(String nom, String mdp) throws ValidationException, IOException {
-        boolean pseudoDejaExistant=false;
-        for(Joueur joueur : this.joueurs){
-            if(joueur.getNom().equals(nom)){
-                pseudoDejaExistant=true;
+        boolean pseudoDejaExistant = false;
+        for (Joueur joueur : this.joueurs) {
+            if (joueur.getNom().equals(nom)) {
+                pseudoDejaExistant = true;
                 break;
             }
         }
-        if(!pseudoDejaExistant){
-            Joueur nouveau = new Joueur(nom,mdp);
+        if (!pseudoDejaExistant) {
+            Joueur nouveau = new Joueur(nom, mdp);
             this.joueurs.add(nouveau);
             this.joueurActuel = nouveau;
             Save.saveToFile((ArrayList<Joueur>) joueurs);
             notifierObservateurs();
             return nouveau;
-        }
-        else{
+        } else {
             throw new ValidationException("L'identifant est déjà utilisé");
         }
 
@@ -76,7 +75,7 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Connecte un joueur existant.
-     * 
+     *
      * @param nom Nom du joueur
      * @param mdp Mot de passe du joueur
      * @throws ValidationException Si les identifiants sont incorrects ou si aucun joueur n'existe
@@ -84,23 +83,25 @@ public class ModeleJeu implements IModeleJeu {
      */
     @Override
     public void connexionJoueur(String nom, String mdp) throws ValidationException {
-        if(this.joueurs.isEmpty()){throw new ValidationException("Aucun joueur n'existe pour l'instant");}
+        if (this.joueurs.isEmpty()) {
+            throw new ValidationException("Aucun joueur n'existe pour l'instant");
+        }
 
         boolean joueurTrouve = false;
-        for(Joueur joueur : this.joueurs){
-            if(joueur.getNom().equals(nom)){
-                if(joueur.getMdp().equals(mdp)){
+        for (Joueur joueur : this.joueurs) {
+            if (joueur.getNom().equals(nom)) {
+                if (joueur.getMdp().equals(mdp)) {
                     joueurActuel = joueur;
                     joueurTrouve = true;
                     notifierObservateurs();
 
-                }else {
+                } else {
                     throw new ValidationException("Mot de passe incorrect");
                 }
                 break;
             }
         }
-        if (!joueurTrouve){
+        if (!joueurTrouve) {
             throw new ValidationException("Le joueur n'existe pas");
         }
 
@@ -108,7 +109,7 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Déconnecte le joueur actuel.
-     * 
+     *
      * @author Nathan Philippe
      */
     public void deconnexionJoueur() {
@@ -117,7 +118,7 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Lance une partie en mode libre avec un labyrinthe personnalisé.
-     * 
+     *
      * @param largeur Largeur du labyrinthe
      * @param hauteur Hauteur du labyrinthe
      * @param tauxMur Pourcentage de murs dans le labyrinthe
@@ -125,21 +126,21 @@ public class ModeleJeu implements IModeleJeu {
      */
     @Override
     public void lancerPartieLibre(int largeur, int hauteur, int tauxMur) {
-        partieLibre =true;
-        this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
+        partieLibre = true;
+        this.labyrinthe = new Labyrinthe(largeur, hauteur, tauxMur);
         this.positionJoueur = this.labyrinthe.getEntree();
     }
 
     /**
      * Lance une partie en mode progression
-     * 
+     *
      * @author Nathan Philippe
      */
     @Override
     public void lancerPartieProgression() {
-        partieLibre =false;
+        partieLibre = false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
-        this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote(),d.getPourcentageMurs(),etapeChoisi);
+        this.labyrinthe = new Labyrinthe(d.getCote(), d.getCote(), d.getPourcentageMurs(), etapeChoisi);
         this.positionJoueur = this.labyrinthe.getEntree();
     }
 
@@ -224,7 +225,7 @@ public class ModeleJeu implements IModeleJeu {
      * Déplace le joueur dans le labyrinthe selon une direction donnée.
      * Vérifie si le déplacement est possible et met à jour la position.
      * Notifie les observateurs après chaque déplacement.
-     * 
+     *
      * @param direction Direction du déplacement ("z" pour haut, "s" pour bas, "q" pour gauche, "d" pour droite)
      * @author Nathan Philippe
      */
@@ -236,19 +237,15 @@ public class ModeleJeu implements IModeleJeu {
         int y = positionJoueur.getY();
 
         int nx = x, ny = y;
-        if(direction.toLowerCase().startsWith("z")){
+        if (direction.toLowerCase().startsWith("z")) {
             ny--;
-        }
-        else if(direction.toLowerCase().startsWith("s")){
+        } else if (direction.toLowerCase().startsWith("s")) {
             ny++;
-        }
-        else if(direction.toLowerCase().startsWith("q")){
+        } else if (direction.toLowerCase().startsWith("q")) {
             nx--;
-        }
-        else if(direction.toLowerCase().startsWith("d")){
+        } else if (direction.toLowerCase().startsWith("d")) {
             nx++;
-        }
-        else{
+        } else {
             System.out.println("mauvaise direction");
             return;
         }
@@ -259,20 +256,16 @@ public class ModeleJeu implements IModeleJeu {
             if (!next.estMur()) {
                 positionJoueur = next;
                 if (next == ((Labyrinthe) labyrinthe).getSortie()) {
-                    if(((Labyrinthe) labyrinthe).getEtape() != null){
+                    if (((Labyrinthe) labyrinthe).getEtape() != null) {
                         joueurActuel.avancerEtape();
-                        try{
+                        try {
                             Save.saveToFile((ArrayList<Joueur>) joueurs);
-                        }
-                        catch(IOException e){
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
                 }
                 notifierObservateurs();
-            }
-            else{
-                System.out.println("C'est un mur");
             }
         }
     }
@@ -282,7 +275,7 @@ public class ModeleJeu implements IModeleJeu {
      *
      * @return Étape maximale atteinte par le joueur
      */
-    public int etapeJoueur(){
+    public int etapeJoueur() {
         return joueurActuel.getEtapeMax();
     }
 
@@ -291,13 +284,13 @@ public class ModeleJeu implements IModeleJeu {
      *
      * @return Cellule de sortie
      */
-    public Cellule getSortie(){
+    public Cellule getSortie() {
         return labyrinthe.getSortie();
     }
 
     /**
      * Définit l'étape choisie pour le mode progression.
-     * 
+     *
      * @param etapeChoisi Numéro de l'étape à définir
      * @author Nathan Philippe
      */
@@ -307,7 +300,7 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Définit le niveau de défi choisi pour l'étape courante.
-     * 
+     *
      * @param defiChoisi Niveau de difficulté du défi
      * @author Nathan Philippe
      */
@@ -350,5 +343,9 @@ public class ModeleJeu implements IModeleJeu {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void removeAll() {
+       this.observers.clear();
     }
 }
