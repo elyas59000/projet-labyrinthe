@@ -1,16 +1,21 @@
 package J4.sae_labyrinthe.controleur;
 
+import java.io.IOException;
+
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
-import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.input.MouseEvent;
 
-import java.io.IOException;
-
+/**
+ * Contrôleur de la scène "Mode Libre" permettant de lancer une partie personnalisée.
+ * Les utilisateurs peuvent définir la largeur, la hauteur et le taux de murs du labyrinthe.
+ *
+ * @author Clément Roty, Nathan Philippe, Adam Stievenard
+ */
 public class SceneModeLibreControleur {
 
     private final ModeleJeu modeleJeu= ModeleJeuSingleton.getInstance();
@@ -32,12 +37,24 @@ public class SceneModeLibreControleur {
         champsTauxMur.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
     }
 
+    /**
+     * Lance une partie en mode libre avec les paramètres saisis.
+     *
+     * @param event clic
+     * @throws IOException si le chargement de la scène échoue
+     */
     @FXML
     void lancerPartieLibre(MouseEvent event) throws IOException {
         modeleJeu.lancerPartieLibre(champsLargeur.getValue(), champsHauteur.getValue(), champsTauxMur.getValue());
         SceneManager.chargerScene("SceneLabyrinthe");
     }
 
+    /**
+     * Retourne au menu principal.
+     *
+     * @param event clic
+     * @throws IOException si le chargement de la scène échoue
+     */
     @FXML
     void retourScenePrecedente(MouseEvent event) throws IOException {
         SceneManager.chargerScene("SceneMenuPrincipal");

@@ -140,16 +140,33 @@ public class ModeleJeu implements IModeleJeu {
         this.positionJoueur = this.labyrinthe.getEntree();
     }
 
+    /**
+     * Retourne le joueur actuellement sélectionné (connecté).
+     *
+     * @return Le joueur actif ou null s'il n'y en a pas
+     * @author Nathan Philippe
+     */
     @Override
     public Joueur selectionnerJoueur() {
         return joueurActuel;
     }
 
+    /**
+     * Retire un observateur de la liste des observers (utilisé lors de la
+     * navigation entre scènes pour éviter des notifications indésirables).
+     *
+     * @param observer Observateur à retirer
+     */
     @Override
     public void remove(IObserver observer) {
         this.observers.remove(observer);
     }
 
+    /**
+     * Ajoute un observateur qui sera notifié lors des changements du modèle.
+     *
+     * @param observer Observateur à ajouter
+     */
     @Override
     public void add(IObserver observer) {
         this.observers.add(observer);
@@ -190,6 +207,9 @@ public class ModeleJeu implements IModeleJeu {
     }
 
 
+    /**
+     * Notifie tous les observateur
+     */
     public void notifierObservateurs() {
         for (IObserver obs : observers) {
             obs.update();
@@ -254,10 +274,20 @@ public class ModeleJeu implements IModeleJeu {
         }
     }
 
+    /**
+     * Retourne le nombre d'étapes débloquées pour le joueur actuel.
+     *
+     * @return Étape maximale atteinte par le joueur
+     */
     public int etapeJoueur(){
         return joueurActuel.getEtapeMax();
     }
 
+    /**
+     * Retourne la cellule de sortie du labyrinthe courant.
+     *
+     * @return Cellule de sortie
+     */
     public Cellule getSortie(){
         return labyrinthe.getSortie();
     }

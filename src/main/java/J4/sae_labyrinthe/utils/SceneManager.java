@@ -1,20 +1,33 @@
 package J4.sae_labyrinthe.utils;
 
+import java.io.IOException;
+
 import J4.sae_labyrinthe.App;
-import J4.sae_labyrinthe.modele.IModeleJeu;
-import J4.sae_labyrinthe.modele.ModeleJeu;
-//import J4.sae_labyrinthe.vue.VueLabyrintheBase;
-import J4.sae_labyrinthe.vue.IVueLabyrinthe;
-import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
+/**
+ * Petit utilitaire centralisant le chargement des différentes scènes
+ * FXML de l'application. Utilise la classe `App` pour récupérer la
+ * fenêtre principale et remplace la racine de la scène courante.
+ *
+ * Les méthodes exposées permettent de charger une scène par son nom de
+ * fichier FXML (sans l'extension ni le préfixe de dossier).
+ *
+ * @author Nathan Philippe
+ */
 public class SceneManager {
 
+    /**
+     * Charge un fichier FXML et remplace la racine de la scène du stage
+     * fourni. Si le stage n'a pas encore de scène, en crée une nouvelle.
+     *
+     * @param fichierFxml nom du fichier FXML (sans préfixe 'fxml/' et sans '.fxml')
+     * @param stage fenêtre JavaFX cible
+     * @throws IOException en cas d'erreur de chargement
+     */
     private static void chargerUneScene(String fichierFxml, Stage stage) throws IOException {
         try{
             FXMLLoader loader = new FXMLLoader((App.class.getResource("fxml/" + fichierFxml +".fxml" )));

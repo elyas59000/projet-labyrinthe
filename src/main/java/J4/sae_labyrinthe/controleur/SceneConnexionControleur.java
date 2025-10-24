@@ -38,7 +38,7 @@ public class SceneConnexionControleur {
     /**
      * Redirige vers la scène d'inscription après avoir chargé la liste des joueurs.
      * 
-     * @param event Événement de clic déclencheur
+     * @param event clic
      * @throws IOException En cas d'erreur lors du chargement de la scène
      * @author Nathan Philippe
      */
@@ -56,7 +56,7 @@ public class SceneConnexionControleur {
     /**
      * Retourne au menu principal.
      * 
-     * @param event Événement de clic déclencheur
+     * @param event clic
      * @throws IOException En cas d'erreur lors du chargement de la scène
      * @author Clément Roty
      */

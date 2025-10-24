@@ -1,12 +1,20 @@
 package J4.sae_labyrinthe.controleur;
 
+import java.io.IOException;
+
 import J4.sae_labyrinthe.utils.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
-import java.io.IOException;
-
+/**
+ * Contrôleur de la scène présentant les règles du jeu.
+ *
+ * Fournit un texte explicatif détaillant le but du jeu, les commandes et la
+ * progression. Permet de revenir au menu principal.
+ *
+ * @author Clément Roty, Nathan Philippe
+ */
 public class SceneRegleDuJeuControleur {
 
     @FXML
@@ -38,6 +46,12 @@ public class SceneRegleDuJeuControleur {
                 """);
     }
 
+    /**
+     * Retourne au menu principal.
+     *
+     * @param event clic
+     * @throws IOException si le chargement de la scène échoue
+     */
     @FXML
     void retourScenePrecedente(MouseEvent event) throws IOException {
         SceneManager.chargerScene("SceneMenuPrincipal");

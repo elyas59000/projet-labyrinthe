@@ -1,5 +1,7 @@
 package J4.sae_labyrinthe.controleur;
 
+import java.io.IOException;
+
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
@@ -8,11 +10,19 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
-import java.io.IOException;
-
+/**
+ * Contrôleur de la scène de progression (sélection d'étapes de défi).
+ *
+ * L'utilisateur peut sélectionner l'étape (1,2,3). Les étapes supérieures
+ * sont activées en fonction de la progression du joueur. Le contrôleur s'abonne
+ * au modèle pour être notifié des changements.
+ *
+ * @author Clément Roty, Nathan Philippe
+ */
 public class SceneProgrControleur implements IObserver {
 
     private final ModeleJeu MODELJEU = ModeleJeuSingleton.getInstance();
+
     @FXML
     private Button etape1;
 
@@ -28,30 +38,57 @@ public class SceneProgrControleur implements IObserver {
         update();
     }
 
-
+    /**
+     * Ouvre la sélection de difficulté pour l'étape 1.
+     *
+     * @param event clic
+     * @throws IOException si le chargement de la scène échoue
+     */
     @FXML
     void ouvrirEtape1(MouseEvent event) throws IOException {
         MODELJEU.setEtapeChoisi(1);
         SceneManager.chargerScene("SceneDifficulte");
     }
 
+    /**
+     * Ouvre la sélection de difficulté pour l'étape 2.
+     *
+     * @param event clic
+     * @throws IOException si le chargement de la scène échoue
+     */
     @FXML
     void ouvrirEtape2(MouseEvent event) throws IOException {
         MODELJEU.setEtapeChoisi(2);
         SceneManager.chargerScene("SceneDifficulte");
     }
 
+    /**
+     * Ouvre la sélection de difficulté pour l'étape 3.
+     *
+     * @param event clic
+     * @throws IOException si le chargement de la scène échoue
+     */
     @FXML
     void ouvrirEtape3(MouseEvent event) throws IOException {
         MODELJEU.setEtapeChoisi(3);
         SceneManager.chargerScene("SceneDifficulte");
     }
 
+    /**
+     * Retourne au menu principal.
+     *
+     * @param event clic
+     * @throws IOException si le chargement de la scène échoue
+     */
     @FXML
     void retourScenePrecendente(MouseEvent event) throws IOException {
         SceneManager.chargerScene("SceneMenuPrincipal");
     }
 
+    /**
+     * Mise à jour de l'interface : active les boutons des étapes accessibles
+     * en fonction de la progression du joueur.
+     */
     @Override
     public void update() {
         if(MODELJEU.etapeJoueur() >= 2 ) this.etape2.setDisable(false);

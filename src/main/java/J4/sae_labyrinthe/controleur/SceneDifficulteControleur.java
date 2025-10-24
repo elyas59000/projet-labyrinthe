@@ -23,7 +23,7 @@ public class SceneDifficulteControleur {
     /**
      * Lance une partie correspondant au niveau 1.
      *
-     * @param event événement souris déclencheur
+     * @param event clic
      * @throws IOException si le chargement de la scène échoue
      */
     @FXML
@@ -37,7 +37,7 @@ public class SceneDifficulteControleur {
     /**
      * Lance une partie correspondant au niveau 2.
      *
-     * @param event événement souris déclencheur
+     * @param event clic
      * @throws IOException si le chargement de la scène échoue
      */
     @FXML
@@ -50,7 +50,7 @@ public class SceneDifficulteControleur {
     /**
      * Lance une partie correspondant au niveau 3.
      *
-     * @param event événement souris déclencheur
+     * @param event clic
      * @throws IOException si le chargement de la scène échoue
      */
     @FXML
@@ -63,7 +63,7 @@ public class SceneDifficulteControleur {
     /**
      * Retourne à la scène de progression (sélection de défi).
      *
-     * @param event événement souris déclencheur
+     * @param event clic
      * @throws IOException si le chargement de la scène échoue
      */
     @FXML

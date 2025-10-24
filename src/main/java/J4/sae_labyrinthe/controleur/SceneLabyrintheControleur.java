@@ -46,11 +46,7 @@ public class SceneLabyrintheControleur {
     @FXML
     private StackPane zoneLaby;
 
-    /**
-     * Initialise la scène en choisissant le mode d'affichage approprié selon la taille du labyrinthe
-     * et configure les contrôles de déplacement.
-     * @author Clément Roty, Nathan Philippe
-     */
+
     @FXML
     void initialize() {
         if(modele.getLabyrinthe().getLargeur()>60 || modele.getLabyrinthe().getHauteur()>45){
@@ -145,7 +141,7 @@ public class SceneLabyrintheControleur {
      * Gère la création et l'affichage d'un menu de pause semi-transparent
      * permettant de reprendre la partie ou de quitter vers le menu principal.
      * 
-     * @param event L'événement souris déclencheur
+     * @param event clic
      * @author Clément Roty
      */
     @FXML
