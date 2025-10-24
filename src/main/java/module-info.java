@@ -2,7 +2,8 @@ module J4.sae_labyrinthe {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
-    //requires J4.sae_labyrinthe;      cyclic dependency
+    requires java.desktop;
+    // requires J4.sae_labyrinthe;
 
 
     opens J4.sae_labyrinthe to javafx.fxml;

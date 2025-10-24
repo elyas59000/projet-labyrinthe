@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="J4.sae_labyrinthe.controleur.SceneInfosCompteControleur">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="J4.sae_labyrinthe.controleur.SceneModifCompteControleur">
    <columnConstraints>
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="30.0" />
       <ColumnConstraints halignment="CENTER" hgrow="NEVER" percentWidth="40.0" />
@@ -50,8 +50,8 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Modifier Pseudo" />
-                  <TextField />
-                  <Button onMouseClicked="#retourScenePrecedente" prefHeight="70.0" prefWidth="70.0">
+                  <TextField fx:id="champModifPseudo"/>
+                  <Button onMouseClicked="#validerModifPseudo" prefHeight="70.0" prefWidth="70.0">
                      <graphic>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Valider" />
                      </graphic>
@@ -61,20 +61,20 @@
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="45.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ancien mdp" />
-                  <TextField />
+                  <TextField fx:id="champsAncienmdp"/>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="40.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nouveau mdp" />
-                  <TextField />
+                  <TextField fx:id="champsNouveaumdp"/>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="40.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Confirmer mdp" />
-                  <TextField />
-                  <Button onMouseClicked="#retourScenePrecedente" prefHeight="70.0" prefWidth="70.0">
+                  <TextField fx:id="champsConfirmmdp"/>
+                  <Button onMouseClicked="#validerModifmdp" prefHeight="70.0" prefWidth="70.0">
                      <graphic>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Valider" />
                      </graphic>
@@ -83,7 +83,7 @@
             </HBox>
          </children>
       </VBox>
-      <Button id="buttonDeconnexion" onMouseClicked="#deconnexion" prefHeight="70.0" prefWidth="267.0" text="Supprimer compte" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Button id="buttonSuppr" onMouseClicked="#suppression" prefHeight="70.0" prefWidth="267.0" text="Supprimer compte" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="50.0" />
          </GridPane.margin>
