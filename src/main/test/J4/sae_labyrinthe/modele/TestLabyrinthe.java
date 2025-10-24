@@ -3,6 +3,7 @@ package J4.sae_labyrinthe.modele;
 import J4.sae_labyrinthe.exception.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import J4.sae_labyrinthe.utils.Save;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -88,8 +89,7 @@ public class TestLabyrinthe {
 
     @Test
     void testGenerationLabyrinth(){
-        Etape e = new Etape(3);
-        Labyrinthe laby2 = new Labyrinthe(10,10,0,e);
+        Labyrinthe laby2 = new Labyrinthe(10,10,0);
         boolean conditon = (laby2.getEntree().getX() == 0 & laby2.getEntree().getY() == 0);
         assertFalse(conditon);
 

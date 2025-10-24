@@ -134,4 +134,12 @@ public class Joueur implements IJoueur, Serializable {
             --this.etapeActuelle;
         }
     }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setMdp(String mdp) {
+        this.mdp = mdp;
+    }
 }
