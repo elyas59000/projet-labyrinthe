@@ -61,13 +61,15 @@
 >
 > **Nathan** : 
 > - Ajout de séparateur pour la vue partiel
-> - Amélioration de l'affichage pour créer une taille dynamique pour les labyrinthes
 > - Ajout élement de sortie des labyrinthes
 > - Ajout des étapes et défi dans la classe Joueur
 > - Création des règles du jeu, et fonctionnement du bouton Règles
 > - Ajout du retour au menu quand on a atteint la sortie Mode Libre
 > 
 > **Clement** : 
+> - Amélioration de l'affichage pour créer une taille dynamique pour les labyrinthes avec la methodes calculerTailleOptimale dans la classe utils Calcul
+> - Optimisation du code, suppression de la latence → on rafraîchit le cases qui ont changés, et non plus tout le labyrinthe.
+> - Création des overlays de pause et fin de partie
 >
 > **Elyas** :
 > - Ajout de méthode de test
