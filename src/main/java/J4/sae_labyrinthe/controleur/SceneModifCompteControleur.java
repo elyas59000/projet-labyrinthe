@@ -74,9 +74,11 @@ public class SceneModifCompteControleur{
         return true;
     }
 
-    public void suppression(MouseEvent mouseEvent) {
+    public void suppression(MouseEvent mouseEvent) throws IOException {
         modeleJeu.joueurs.remove(modeleJeu.getJoueurActuel());
+        modeleJeu.supprimerJoueur();
         modeleJeu.deconnexionJoueur();
+        SceneManager.chargerScene("SceneMenuPrincipal");
     }
 
     @FXML

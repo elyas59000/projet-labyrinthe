@@ -345,6 +345,24 @@ public class ModeleJeu implements IModeleJeu {
         }
     }
 
+    public void supprimerJoueur(){
+        if (joueurActuel != null) {
+            for (int i = 0; i < joueurs.size(); i++) {
+                if (joueurs.get(i).getNom().equals(joueurActuel.getNom())) {
+                    joueurs.remove(joueurActuel);
+                    break;
+                }
+            }
+
+            try {
+                // Sauvegarde les modifications dans le fichier
+                Save.saveToFile((ArrayList<Joueur>) joueurs);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void removeAll() {
        this.observers.clear();
     }
