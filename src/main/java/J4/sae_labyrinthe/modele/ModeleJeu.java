@@ -333,7 +333,7 @@ public class ModeleJeu implements IModeleJeu {
      *
      * @throws IOException En cas d'erreur lors de la sauvegarde
      */
-    public void sauvegarderJoueurs() {
+    public void sauvegarderJoueur() {
         if (joueurActuel != null) {
             // Cherche l'index du joueur actuel dans la liste
             for (int i = 0; i < joueurs.size(); i++) {

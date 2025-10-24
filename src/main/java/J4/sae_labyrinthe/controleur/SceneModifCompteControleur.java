@@ -37,7 +37,7 @@ public class SceneModifCompteControleur{
         if (nomValide() && !champModifPseudo.getText().isEmpty()) {
             String ancienNom = modeleJeu.getJoueurActuel().getNom();
             modeleJeu.getJoueurActuel().setNom(champModifPseudo.getText());
-            modeleJeu.sauvegarderJoueurs();
+            modeleJeu.sauvegarderJoueur();
             messageErreur.setText("Pseudo modifié avec succès !");
             messageErreur.setStyle("-fx-fill: green;");
         } else {
@@ -49,7 +49,7 @@ public class SceneModifCompteControleur{
     public void validerModifmdp(MouseEvent mouseEvent) {
         if (mdpValide()) {
             modeleJeu.getJoueurActuel().setMdp(champsNouveaumdp.getText());
-            modeleJeu.sauvegarderJoueurs();
+            modeleJeu.sauvegarderJoueur();
             messageErreur.setText("Mot de passe modifié avec succès !");
             messageErreur.setStyle("-fx-fill: green;");
             // Réinitialiser les champs
