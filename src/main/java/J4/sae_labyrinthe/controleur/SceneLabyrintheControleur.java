@@ -3,7 +3,6 @@ package J4.sae_labyrinthe.controleur;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
-import J4.sae_labyrinthe.vue.VueLabyrintheAbstraite;
 import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
 import J4.sae_labyrinthe.vue.VueLabyrinthePartiel;
 import javafx.application.Platform;
@@ -19,9 +18,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
 import java.io.IOException;
 
+/**
+ * Contrôleur de la scène principale du jeu de labyrinthe.
+ * Gère l'affichage du labyrinthe, les déplacements du joueur et le menu pause.
+ * Supporte deux modes d'affichage : vue complète et vue partielle avec minimap.
+ *
+ * @author Clément Roty
+ * @author Nathan Philippe
+ */
 public class SceneLabyrintheControleur {
 
     private static final int RANGE = 1;

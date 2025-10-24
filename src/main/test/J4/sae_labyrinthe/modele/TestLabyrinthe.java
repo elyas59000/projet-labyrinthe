@@ -84,8 +84,32 @@ public class TestLabyrinthe {
         assertEquals(liste.size(),joueur_lue.size());
         assertEquals(liste.get(0).getNom(),joueur_lue.get(0).getNom());
         assertEquals(liste.get(1).getScore(),joueur_lue.get(1).getScore());
+    }
+
+    @Test
+    void testGenerationLabyrinth(){
+        Etape e = new Etape(3);
+        Labyrinthe laby2 = new Labyrinthe(10,10,0,e);
+        boolean conditon = (laby2.getEntree().getX() == 0 & laby2.getEntree().getY() == 0);
+        assertFalse(conditon);
+
+    }
+
+    @Test
+    void testDeplacementJoueurCollison() throws IOException {
+
+        modele.lancerPartieLibre(15, 20, 100);
+        Cellule positionInitiale = ((ModeleJeu) modele).getPositionJoueur();
+
+        assertEquals(0, positionInitiale.getX());
+        assertEquals(0, positionInitiale.getY());
+        modele.deplacerJoueur("d");
 
 
+        Cellule positionFinale = ((ModeleJeu) modele).getPositionJoueur();
+
+        assertEquals(0, positionFinale.getX(), "Position X n'aurait pas dû changer (collision mur).");
+        assertEquals(0, positionFinale.getY(), "Position Y n'aurait pas dû changer (collision mur).");
     }
 
 
