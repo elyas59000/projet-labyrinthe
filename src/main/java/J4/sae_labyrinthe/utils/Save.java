@@ -16,7 +16,7 @@ import J4.sae_labyrinthe.modele.Joueur;
  */
 public class Save {
 
-    private static final String JOUEUR_PATH ="src/main/ressources/J4/sae_labyrinthe/txt/joueurs.txt";
+    private static final String JOUEUR_PATH ="data/save.data";
 
     /**
      * Sauvegarde une liste de joueurs dans un fichier.
