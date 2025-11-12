@@ -20,7 +20,11 @@
                   <Text fx:id="info2" strokeType="OUTSIDE" strokeWidth="0.0" />
                   <Text fx:id="info3" strokeType="OUTSIDE" strokeWidth="0.0" />
                   <Text fx:id="timerInfo" strokeType="OUTSIDE" strokeWidth="0.0" text="Timer : " />
-                  <Button mnemonicParsing="false" onMouseClicked="#afficherMenuPause" prefHeight="67.0" prefWidth="94.0" text="Pause" />
+                    <Button fx:id="btnPause" text="Pause" mnemonicParsing="false" onMouseClicked="#afficherMenuPause">
+                        <padding>
+                            <Insets top="5" right="10" bottom="5" left="10"/>
+                        </padding>
+                    </Button>
                </children>
                <BorderPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
