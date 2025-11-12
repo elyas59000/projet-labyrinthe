@@ -25,6 +25,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Contrôleur de la scène principale du jeu de labyrinthe.
@@ -47,6 +51,8 @@ public class SceneLabyrintheControleur {
 
     private Spinner<Integer> rangeVue = new Spinner<>(1, 5, RANGE);
 
+    private int temps = 0;
+
     @FXML
     private HBox enteteJeu;
     @FXML
@@ -63,6 +69,8 @@ public class SceneLabyrintheControleur {
         info2.setText("Largeur du Labyrinthe : " + laby.getLargeur() + " cases");
         if(laby instanceof Labyrinthe){info3.setText("Taux de mur : " + ((Labyrinthe) laby).getPourcentageMurs() + " %");}
 
+
+
         if (!modele.getPartieLibre()) {
             if (modele.etapeChoisi() == 3) {
                 afficherSpinnerEtape3();
@@ -75,6 +83,7 @@ public class SceneLabyrintheControleur {
             setVueActive(vueEntiere);
         }
 
+        updateTimer();
         initialiserDeplacement();
     }
 
@@ -289,6 +298,12 @@ public class SceneLabyrintheControleur {
         hBoxRange.setAlignment(Pos.CENTER_LEFT);
         hBoxRange.setSpacing(5);
         enteteJeu.getChildren().add(index, hBoxRange);
+    }
+
+    private void updateTimer(){
+        temps++;
+        timerInfo.setText("" + temps);
+        Platform.runLater(zoneLaby::requestFocus);
     }
 
 }
