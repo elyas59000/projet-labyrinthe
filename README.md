@@ -45,3 +45,9 @@ Utilise les touches suivantes pour te déplacer :
 | D | Droite |
 
 ---
+
+## Comment lancer le jeu
+
+Une fois sur votre IDE,  
+Rendez vous dans votre dossier, puis src/main/java/J4.sae_labyrinthe/App et lancer ce programme.
+Bon jeu à vous !!

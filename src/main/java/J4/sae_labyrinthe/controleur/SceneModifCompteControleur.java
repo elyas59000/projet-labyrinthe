@@ -7,6 +7,7 @@ import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
 import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -27,10 +28,15 @@ public class SceneModifCompteControleur{
     @FXML
     private TextField champsNouveaumdp;
     @FXML
-    private TextField champsConfirmmdp;
+    private PasswordField champsConfirmmdp;
 
     @FXML
     private Text messageErreur;
+
+    @FXML
+    void initialize() {
+        update();
+    }
 
     public void validerModifPseudo(MouseEvent mouseEvent) {
         if (nomValide() && !champModifPseudo.getText().isEmpty()) {
@@ -74,13 +80,20 @@ public class SceneModifCompteControleur{
         return true;
     }
 
-    public void suppression(MouseEvent mouseEvent) {
+    public void suppression(MouseEvent mouseEvent) throws IOException {
         modeleJeu.joueurs.remove(modeleJeu.getJoueurActuel());
+        modeleJeu.supprimerJoueur();
         modeleJeu.deconnexionJoueur();
+        SceneManager.chargerScene("SceneMenuPrincipal");
     }
 
     @FXML
     void retourScenePrecedente(MouseEvent event) throws IOException {
         SceneManager.chargerScene("SceneInfosCompte");
+    }
+
+    public void update() {
+        String pseudo = modeleJeu.getJoueurActuel().getNom();
+        champsTitreCompte.setText(" "+pseudo);
     }
 }

@@ -58,13 +58,19 @@
 > - Creation de la vue permettant l'affichage local avec une carte 
 > - Ajout de texture pour les différents elements du labyrinthe pour pouvoir donner un thème et rendre le jeu plus beau
 > - Creation d'une méthode pour les vues permettant de fusionner deux images avec une des deux étant le fond
->
+> - ajout du tableau des scores
+> - Correction de plusieurs problèmes apparus
 > **Nathan** : 
-> - Ajout de séparateur pour la vue partiel
+> - Ajout de séparateur pour la vue partiel (plus actif)
 > - Ajout élement de sortie des labyrinthes
 > - Ajout des étapes et défi dans la classe Joueur
 > - Création des règles du jeu, et fonctionnement du bouton Règles
 > - Ajout du retour au menu quand on a atteint la sortie Mode Libre
+> - Création modèle modeProgression
+> - Suppression élèments inutiles
+> - Création position alétoire du joueur pour l'Etape 3
+> - Création de la page Modification du Profil 
+> - Ajout d'un choix pour la range du Labyrinth Partiel
 > 
 > **Clement** : 
 > - Amélioration de l'affichage pour créer une taille dynamique pour les labyrinthes avec la methodes calculerTailleOptimale dans la classe utils Calcul

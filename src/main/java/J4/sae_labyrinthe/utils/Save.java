@@ -16,7 +16,7 @@ import J4.sae_labyrinthe.modele.Joueur;
  */
 public class Save {
 
-    private static final String JOUEUR_PATH ="src/main/ressources/J4/sae_labyrinthe/txt/joueurs.txt";
+    private static final String JOUEUR_PATH ="data/save.data";
 
     /**
      * Sauvegarde une liste de joueurs dans un fichier.
@@ -26,11 +26,13 @@ public class Save {
      * @author Adam Stievenard
      */
     public static void saveToFile(ArrayList<Joueur> joueurs) throws IOException {
-
         FileOutputStream fos = new FileOutputStream(JOUEUR_PATH);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         try {
+
             oos.writeObject(joueurs);
+            // Chiffrement.chiffrer(JOUEUR_PATH);
+
             oos.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -50,6 +52,7 @@ public class Save {
         List<Joueur> savedData;
 
         try {
+            // Chiffrement.dechiffrer(JOUEUR_PATH);
             savedData = (List<Joueur>) ois.readObject();
             ois.close();
         } catch (IOException | ClassNotFoundException e) {

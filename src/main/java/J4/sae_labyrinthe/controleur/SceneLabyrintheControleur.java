@@ -1,5 +1,9 @@
 package J4.sae_labyrinthe.controleur;
 
+import java.io.IOException;
+
+import J4.sae_labyrinthe.modele.ILabyrinthe;
+import J4.sae_labyrinthe.modele.Labyrinthe;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
@@ -15,6 +19,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -23,7 +28,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import java.io.IOException;
 
 /**
  * Contrôleur de la scène principale du jeu de labyrinthe.
@@ -46,6 +50,10 @@ public class SceneLabyrintheControleur {
 
     private CheckBox modeDeVue;
 
+    private Spinner<Integer> rangeVue = new Spinner<>(1, 5, RANGE);
+
+    private int temps = 0;
+
     @FXML
     private HBox enteteJeu;
     @FXML
@@ -57,12 +65,16 @@ public class SceneLabyrintheControleur {
 
     @FXML
     void initialize() {
-        info1.setText("Hauteur du Labyrinthe : " + modele.getLabyrinthe().getHauteur() + " cases");
-        info2.setText("Largeur du Labyrinthe : " + modele.getLabyrinthe().getLargeur() + " cases");
-        info3.setText("Taux de mur : " + modele.getLabyrinthe().getPourcentageMurs() + " %");
+        ILabyrinthe laby = modele.getLabyrinthe();
+        info1.setText("Hauteur du Labyrinthe : " + laby.getHauteur() + " cases");
+        info2.setText("Largeur du Labyrinthe : " + laby.getLargeur() + " cases");
+        if(laby instanceof Labyrinthe){info3.setText("Taux de mur : " + ((Labyrinthe) laby).getPourcentageMurs() + " %");}
+
+
 
         if (!modele.getPartieLibre()) {
             if (modele.etapeChoisi() == 3) {
+                afficherSpinnerEtape3();
                 setVueActive(vuePartielle);
             } else {
                 setVueActive(vueEntiere);
@@ -93,6 +105,7 @@ public class SceneLabyrintheControleur {
             HBox hb = new HBox(vuePartielleActive.getGrille(), vuePartielleActive.getMinimap());
             hb.setAlignment(Pos.CENTER);
             hb.setSpacing(40);
+            hb.maxHeight(1);
             zoneLaby.getChildren().add(hb);
         } else if (vue instanceof VueLabyrintheEntier vueEntiereActive) {
             vueEntiereActive.getGrille().setAlignment(Pos.CENTER);
@@ -122,7 +135,7 @@ public class SceneLabyrintheControleur {
         if (direction == null) return;
         modele.deplacerJoueur(direction);
         if (modele.getPositionJoueur().equals(modele.getSortie())) {
-            ecranFinPartie("Vous avez atteint la sortie !");
+            ecranFinPartie();
         }
     }
 
@@ -198,7 +211,8 @@ public class SceneLabyrintheControleur {
         zoneLaby.getChildren().clear();
     }
 
-    private void ecranFinPartie(String text) {
+    private void ecranFinPartie() {
+        String text = "Vous avez atteint la sortie !";
         zoneLaby.setOnKeyPressed(null);
         VBox ecranV = new VBox(20);
         ecranV.setAlignment(Pos.CENTER);
@@ -226,7 +240,7 @@ public class SceneLabyrintheControleur {
                 modele.lancerPartieLibre(
                         modele.getLabyrinthe().getLargeur(),
                         modele.getLabyrinthe().getHauteur(),
-                        (int) modele.getLabyrinthe().getPourcentageMurs());
+                        (int) ((Labyrinthe) modele.getLabyrinthe()).getPourcentageMurs());
                 SceneManager.chargerScene("SceneLabyrinthe");
             } else {
                 modele.lancerPartieProgression();
@@ -238,43 +252,58 @@ public class SceneLabyrintheControleur {
     }
 
     /**
-     * Démarre le timer qui s'incrémente chaque seconde.
-     */
-    private void initTimeline() {
-        tempsEcoule = 0;
-        timerInfo.setText("Temps: 0s");
-        
-        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            tempsEcoule++;
-            timerInfo.setText("Temps: " + tempsEcoule + "s");
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
-    }
-
-    /**
-     * Arrête le timer.
-     */
-    private void arreterTimer() {
-        if (timeline != null) {
-            timeline.stop();
-        }
-    }
-
-    /**
-     * Affiche la checkbox de bascule de vue (mode libre uniquement).
+     * Affiche la checkbox et le spinner pour la vue locale (mode libre uniquement).
      */
     private void afficherCheckBox() {
         modeDeVue = new CheckBox("Vue locale");
         enteteJeu.getChildren().add(0, modeDeVue);
 
-        // Un seul écouteur, bascule dynamique
-        modeDeVue.setOnAction(e -> {
+        // Création du spinner (désactivé par défaut)
+        creerSpinner(1);
+        rangeVue.setDisable(true);
+
+        rangeVue.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (modeDeVue.isSelected()) {
-                setVueActive(vuePartielle);
+                VueLabyrinthePartiel nouvelleVue = new VueLabyrinthePartiel(modele, newVal);
+                setVueActive(nouvelleVue);
+            }
+        });
+
+        modeDeVue.setOnAction(e -> {
+            boolean vueLocaleActive = modeDeVue.isSelected();
+            rangeVue.setDisable(!vueLocaleActive);
+            if (vueLocaleActive) {
+                setVueActive(new VueLabyrinthePartiel(modele, rangeVue.getValue()));
             } else {
                 setVueActive(vueEntiere);
             }
         });
     }
+
+    /**
+     * Affiche un spinner pour régler la portée de vue (étape 3 en mode progression).
+     */
+    private void afficherSpinnerEtape3() {
+        creerSpinner(0);
+        rangeVue.valueProperty().addListener((obs, oldVal, newVal) -> {
+                setVueActive(new VueLabyrinthePartiel(modele, newVal));
+        });
+
+
+    }
+
+    private void creerSpinner(int index){
+        rangeVue.setPrefWidth(70);
+        rangeVue.setEditable(false);
+        Label labelRange = new Label("Portée :");
+        labelRange.setPadding(new Insets(0, 5, 0, 15));
+
+        HBox hBoxRange = new HBox(labelRange, rangeVue);
+        hBoxRange.setAlignment(Pos.CENTER_LEFT);
+        hBoxRange.setSpacing(5);
+        enteteJeu.getChildren().add(index, hBoxRange);
+    }
+
+
+
 }

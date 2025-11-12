@@ -9,15 +9,24 @@ public class Defi {
     private int cote;
 
     private double pourcentageMurs;
+    private int distance;
+
 
 
     public Defi(String difficulte, int cote, double pourcentageMurs) {
+        this(difficulte, cote, pourcentageMurs, 0, false);
+    }
+    public Defi(String difficulte, int cote, int distance) {
+        this(difficulte, cote, 0, distance, false);
+    }
+    // Constructeur complet avec tous les champs
+    public Defi(String difficulte, int cote, double pourcentageMurs, int distance, boolean reussi) {
         this.difficulte = difficulte;
-        this.reussi = false;
         this.cote = cote;
         this.pourcentageMurs = pourcentageMurs;
+        this.distance = distance;
+        this.reussi = reussi;
     }
-
 
     public boolean estReussi() {
         return this.reussi;
@@ -38,5 +47,9 @@ public class Defi {
 
     public double getPourcentageMurs() {
         return pourcentageMurs;
+    }
+
+    public int getDistance() {
+        return distance;
     }
 }

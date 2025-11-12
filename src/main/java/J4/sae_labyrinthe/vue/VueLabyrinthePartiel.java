@@ -1,9 +1,13 @@
 package J4.sae_labyrinthe.vue;
 
+import J4.sae_labyrinthe.modele.ILabyrinthe;
 import J4.sae_labyrinthe.modele.Labyrinthe;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.utils.Calcul;
+import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.shape.Rectangle;
 
 public class VueLabyrinthePartiel extends VueLabyrintheAbstraite {
@@ -30,7 +34,7 @@ public class VueLabyrinthePartiel extends VueLabyrintheAbstraite {
 
     @Override
     protected void rafraichirAffichage() {
-        Labyrinthe laby = modele.getLabyrinthe();
+        ILabyrinthe laby = modele.getLabyrinthe();
         int joueurX = modele.getPositionJoueur().getX();
         int joueurY = modele.getPositionJoueur().getY();
         int taille = 2 * range + 1;
@@ -40,20 +44,24 @@ public class VueLabyrinthePartiel extends VueLabyrintheAbstraite {
                 int labI = joueurY - range + i;
                 int labJ = joueurX - range + j;
                 Rectangle cell = (Rectangle) grille.getChildren().get(i * taille + j);
-                appliquerTexture(cell, laby, labI, labJ, joueurX, joueurY);
+                appliquerTexture(cell,(Labyrinthe) laby, labI, labJ, joueurX, joueurY);
             }
         }
     }
 
     private void afficherMap(GridPane p) {
-        Labyrinthe laby = modele.getLabyrinthe();
-        p.getChildren().clear();
-        double tailleCarreMini = 10;
+        ILabyrinthe laby = modele.getLabyrinthe();
+        int hauteur = laby.getHauteur();
+        int largeur = laby.getLargeur();
+        int facteurRetricement = 2;
 
+        double tailleCarre = Calcul.calculTailleCarreOptimal(
+                LARGEUR_DISPONIBLE_ZONE/facteurRetricement, HAUTEUR_DISPONIBLE_ZONE/facteurRetricement, largeur, hauteur
+        );
         for (int i = 0; i < laby.getHauteur(); i++) {
             for (int j = 0; j < laby.getLargeur(); j++) {
-                Rectangle cell = new Rectangle(tailleCarreMini, tailleCarreMini);
-                appliquerTexture(cell, laby, i, j, -1, -1);
+                Rectangle cell = new Rectangle(tailleCarre, tailleCarre);
+                appliquerTexture(cell,(Labyrinthe) laby, i, j, -1, -1);
                 p.add(cell, j, i);
             }
         }

@@ -48,7 +48,7 @@ public interface IModeleJeu {
      */
     void add(IObserver observer);
 
-    Labyrinthe getLabyrinthe();
+    ILabyrinthe getLabyrinthe();
 
     void deplacerJoueur(String direction) throws IOException;
 }

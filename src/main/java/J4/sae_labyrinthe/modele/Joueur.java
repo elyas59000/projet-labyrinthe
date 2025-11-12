@@ -12,10 +12,12 @@ import java.io.Serializable;
  * @author Anas ACHOUCH
  */
 public class Joueur implements IJoueur, Serializable {
+    private static final long serialVersionUID = -6956888135510794480L;
     private String nom;
     private String mdp;
     private int etapeMax;
     private int etapeActuelle;
+    private int etapeFini;
     private int score;
     private double tempsMoyenDansLabyrinthe;
 
@@ -31,6 +33,7 @@ public class Joueur implements IJoueur, Serializable {
         this.mdp = mdp;
         this.etapeMax = 1;
         this.etapeActuelle = 1;
+        this.etapeFini = 0;
         this.score = 0;
         this.tempsMoyenDansLabyrinthe = 0.0;
     }
@@ -117,6 +120,7 @@ public class Joueur implements IJoueur, Serializable {
     @Override
     public void avancerEtape() {
         ++this.etapeActuelle;
+        ++this.etapeFini;
         if (this.etapeActuelle > this.etapeMax) {
             this.etapeMax = this.etapeActuelle;
         }
@@ -141,5 +145,9 @@ public class Joueur implements IJoueur, Serializable {
 
     public void setMdp(String mdp) {
         this.mdp = mdp;
+    }
+
+    public int getEtapeFini() {
+        return etapeFini;
     }
 }

@@ -8,6 +8,7 @@ import J4.sae_labyrinthe.utils.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -35,6 +36,20 @@ public class SceneModeLibreControleur {
         champsHauteur.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(3, Integer.MAX_VALUE, 1));
         champsLargeur.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(3, Integer.MAX_VALUE, 1));
         champsTauxMur.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
+
+        setNumericOnly(champsHauteur);
+        setNumericOnly(champsLargeur);
+        setNumericOnly(champsTauxMur);
+    }
+
+    private void setNumericOnly(Spinner<Integer> spinner) {
+        spinner.getEditor().setTextFormatter(new TextFormatter<Integer>(change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d*")) { // uniquement chiffres
+                return change;
+            }
+            return null; // rejet
+        }));
     }
 
     /**

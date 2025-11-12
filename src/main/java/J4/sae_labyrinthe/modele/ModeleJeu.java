@@ -139,7 +139,12 @@ public class ModeleJeu implements IModeleJeu {
     public void lancerPartieProgression() {
         partieLibre =false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
-        this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote(),d.getPourcentageMurs(),etapeChoisi);
+        if(etapeChoisi.getNumero() > 3){
+            this.labyrinthe = new LabyrintheParfait(20,20,etapeChoisi);
+            //((LabyrintheParfait) this.labyrinthe).placerSortieA(d.getDistance());
+        }else {
+            this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote(),d.getPourcentageMurs(),etapeChoisi);
+        }
         this.positionJoueur = this.labyrinthe.getEntree();
     }
 
@@ -205,8 +210,9 @@ public class ModeleJeu implements IModeleJeu {
      * @author Nathan Philippe
      */
     @Override
-    public Labyrinthe getLabyrinthe() {
-        return (Labyrinthe) this.labyrinthe;
+    public ILabyrinthe getLabyrinthe() {
+
+        return this.labyrinthe;
     }
 
 
@@ -228,54 +234,81 @@ public class ModeleJeu implements IModeleJeu {
      * @param direction Direction du déplacement ("z" pour haut, "s" pour bas, "q" pour gauche, "d" pour droite)
      * @author Nathan Philippe
      */
-    @Override
     public void deplacerJoueur(String direction) {
         if (labyrinthe == null || positionJoueur == null) return;
 
         int x = positionJoueur.getX();
         int y = positionJoueur.getY();
+        int nx = x;
+        int ny = y;
 
-        int nx = x, ny = y;
-        if(direction.toLowerCase().startsWith("z")){
-            ny--;
+        switch (direction.toLowerCase().charAt(0)) {
+            case 'z' -> ny--;
+            case 's' -> ny++;
+            case 'q' -> nx--;
+            case 'd' -> nx++;
+            default -> {
+                System.out.println("mauvaise direction");
+                return;
+            }
         }
-        else if(direction.toLowerCase().startsWith("s")){
-            ny++;
+
+        // Délégation selon le type concret du labyrinthe
+        if (labyrinthe instanceof LabyrintheParfait) {
+            deplacerDansLabyrintheParfait((LabyrintheParfait) labyrinthe, nx, ny);
+        } else if (labyrinthe instanceof Labyrinthe) {
+            deplacerDansLabyrintheClassique((Labyrinthe) labyrinthe, nx, ny);
+        } else {
+            System.out.println("Type de labyrinthe non reconnu.");
         }
-        else if(direction.toLowerCase().startsWith("q")){
-            nx--;
+    }
+
+    private void deplacerDansLabyrintheClassique(Labyrinthe laby, int nx, int ny) {
+        if (nx < 0 || nx >= laby.getLargeur() || ny < 0 || ny >= laby.getHauteur()) return;
+
+        Cellule next = laby.getGrille()[ny][nx];
+        if (!next.estMur()) {
+            positionJoueur = next;
+            verifierSortie(laby, next);
+            notifierObservateurs();
+        } else {
+            System.out.println("C'est un mur");
         }
-        else if(direction.toLowerCase().startsWith("d")){
-            nx++;
-        }
-        else{
-            System.out.println("mauvaise direction");
+    }
+
+    private void deplacerDansLabyrintheParfait(LabyrintheParfait laby, int nx, int ny) {
+        int x = positionJoueur.getX();
+        int y = positionJoueur.getY();
+
+        // Toujours une case adjacente dans la logique du labyrinthe
+        if (!laby.peutAller(y, x, ny, nx)) {
+            System.out.println("C'est un mur");
             return;
         }
-        this.notifierObservateurs();
+        positionJoueur = laby.getGrille()[nx][ny];
+        verifierSortie(laby, laby.getGrille()[nx][ny]);
+        notifierObservateurs();
+    }
 
-        if (nx >= 0 && nx < labyrinthe.getLargeur() && ny >= 0 && ny < labyrinthe.getHauteur()) {
-            Cellule next = ((Labyrinthe) labyrinthe).getGrille()[ny][nx];
-            if (!next.estMur()) {
-                positionJoueur = next;
-                if (next == ((Labyrinthe) labyrinthe).getSortie()) {
-                    if(((Labyrinthe) labyrinthe).getEtape() != null){
-                        joueurActuel.avancerEtape();
-                        try{
-                            Save.saveToFile((ArrayList<Joueur>) joueurs);
-                        }
-                        catch(IOException e){
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                notifierObservateurs();
+
+    private void verifierSortie(ILabyrinthe laby, Cellule next) {
+        if (next == laby.getSortie()) {
+            if (!etapeChoisi.getDefiParDifficulte(defiChoisi).estReussi()) {
+                etapeChoisi.getDefiParDifficulte(defiChoisi).setReussi(true);
+                joueurActuel.ajouterScore(1);
             }
-            else{
-                System.out.println("C'est un mur");
+
+            if (laby.getEtape() != null && etapeChoisi.getNumero() == joueurActuel.getEtapeMax()) {
+                joueurActuel.avancerEtape();
+                try {
+                    Save.saveToFile((ArrayList<Joueur>) joueurs);
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
             }
         }
     }
+
 
     /**
      * Retourne le nombre d'étapes débloquées pour le joueur actuel.
@@ -351,4 +384,27 @@ public class ModeleJeu implements IModeleJeu {
             }
         }
     }
+
+    public void supprimerJoueur(){
+        if (joueurActuel != null) {
+            for (int i = 0; i < joueurs.size(); i++) {
+                if (joueurs.get(i).getNom().equals(joueurActuel.getNom())) {
+                    joueurs.remove(joueurActuel);
+                    break;
+                }
+            }
+
+            try {
+                // Sauvegarde les modifications dans le fichier
+                Save.saveToFile((ArrayList<Joueur>) joueurs);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void removeAll() {
+        observers.clear();
+    }
+
 }

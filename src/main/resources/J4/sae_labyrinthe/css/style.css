@@ -49,6 +49,13 @@
     -fx-font-weight: bold;
 }
 
+#buttonSuppr{
+    -fx-background-color: red;
+    -fx-border-color: white;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
 #overlayPause {
     -fx-background-color: rgba(0, 0, 0, 0.75);
     -fx-pref-width: 100%;
