@@ -236,7 +236,7 @@ public class Labyrinthe implements ILabyrinthe {
      * @return Le pourcentage de murs dans le labyrinthe
      * @author Nathan Philippe
      */
-    @Override
+
     public double getPourcentageMurs() {
         return pourcentageMurs;
     }
@@ -309,5 +309,19 @@ public class Labyrinthe implements ILabyrinthe {
         this.entree.setMur(false);
     }
 
+    public boolean estDansLabyrinthe(int i, int j) {
+        return i >= 0 && i < getHauteur() && j >= 0 && j < getLargeur();
+    }
 
+    public void setSortie(Cellule sortie) {
+        this.sortie = sortie;
+    }
+
+    public void setEntree(Cellule entree) {
+        this.entree = entree;
+    }
+
+    public void setGrille(Cellule[][] grilleSimple) {
+        this.grille = grilleSimple;
+    }
 }

@@ -1,5 +1,7 @@
 package J4.sae_labyrinthe.controleur;
 
+import J4.sae_labyrinthe.modele.ILabyrinthe;
+import J4.sae_labyrinthe.modele.Labyrinthe;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
@@ -56,9 +58,11 @@ public class SceneLabyrintheControleur {
 
     @FXML
     void initialize() {
-        info1.setText("Hauteur du Labyrinthe : " + modele.getLabyrinthe().getHauteur() + " cases");
-        info2.setText("Largeur du Labyrinthe : " + modele.getLabyrinthe().getLargeur() + " cases");
-        info3.setText("Taux de mur : " + modele.getLabyrinthe().getPourcentageMurs() + " %");
+        ILabyrinthe laby = modele.getLabyrinthe();
+        info1.setText("Hauteur du Labyrinthe : " + laby.getHauteur() + " cases");
+        info2.setText("Largeur du Labyrinthe : " + laby.getLargeur() + " cases");
+        if(laby instanceof Labyrinthe){info3.setText("Taux de mur : " + ((Labyrinthe) laby).getPourcentageMurs() + " %");}
+
         if (!modele.getPartieLibre()) {
             if (modele.etapeChoisi() == 3) {
                 afficherSpinnerEtape3();
@@ -223,7 +227,7 @@ public class SceneLabyrintheControleur {
                 modele.lancerPartieLibre(
                         modele.getLabyrinthe().getLargeur(),
                         modele.getLabyrinthe().getHauteur(),
-                        (int) modele.getLabyrinthe().getPourcentageMurs());
+                        (int) ((Labyrinthe) modele.getLabyrinthe()).getPourcentageMurs());
                 SceneManager.chargerScene("SceneLabyrinthe");
             } else {
                 modele.lancerPartieProgression();

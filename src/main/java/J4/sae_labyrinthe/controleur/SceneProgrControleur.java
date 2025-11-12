@@ -70,7 +70,7 @@ public class SceneProgrControleur implements IObserver {
      */
     @FXML
     void ouvrirEtape3(MouseEvent event) throws IOException {
-        MODELJEU.setEtapeChoisi(3);
+        MODELJEU.setEtapeChoisi(4);
         SceneManager.chargerScene("SceneDifficulte");
     }
 

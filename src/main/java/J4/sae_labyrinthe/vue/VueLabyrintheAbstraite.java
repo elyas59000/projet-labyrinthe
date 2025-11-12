@@ -1,5 +1,6 @@
 package J4.sae_labyrinthe.vue;
 
+import J4.sae_labyrinthe.modele.ILabyrinthe;
 import J4.sae_labyrinthe.modele.Labyrinthe;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.utils.FusionImage;
