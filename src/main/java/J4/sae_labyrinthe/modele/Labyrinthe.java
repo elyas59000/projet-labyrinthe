@@ -309,5 +309,7 @@ public class Labyrinthe implements ILabyrinthe {
         this.entree.setMur(false);
     }
 
-
+    public boolean estDansLabyrinthe(int i, int j) {
+        return i >= 0 && i < getHauteur() && j >= 0 && j < getLargeur();
+    }
 }
