@@ -71,6 +71,12 @@ public class Chiffrement {
      * Déchiffre un tableau de bytes qui contient l'IV au début.
      */
     private static String dechiffrer(byte[] input) throws Exception {
+        // Vérifier que les données sont assez longues pour contenir un IV
+        if (input.length < IV_SIZE) {
+            // Les données ne sont pas chiffrées (ancien format), retourner comme String
+            return new String(input, StandardCharsets.UTF_8);
+        }
+        
         // Extraire l'IV et les données chiffrées
         byte[] iv = new byte[IV_SIZE];
         byte[] encryptedData = new byte[input.length - IV_SIZE];
