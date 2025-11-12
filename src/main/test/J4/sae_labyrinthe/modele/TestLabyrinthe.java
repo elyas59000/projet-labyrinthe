@@ -103,7 +103,7 @@ public class TestLabyrinthe {
         assertEquals(0, positionInitiale.getX());
         assertEquals(0, positionInitiale.getY());
 
-        Labyrinthe laby = modele.getLabyrinthe();
+        ILabyrinthe laby = modele.getLabyrinthe();
         Cellule mur = laby.getGrille()[0][1];
         mur.setMur(true);
         modele.deplacerJoueur("d");

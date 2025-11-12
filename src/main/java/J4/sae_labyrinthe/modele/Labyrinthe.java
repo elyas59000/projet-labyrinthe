@@ -236,7 +236,7 @@ public class Labyrinthe implements ILabyrinthe {
      * @return Le pourcentage de murs dans le labyrinthe
      * @author Nathan Philippe
      */
-    @Override
+
     public double getPourcentageMurs() {
         return pourcentageMurs;
     }

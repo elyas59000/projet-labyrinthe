@@ -8,5 +8,5 @@ public interface ILabyrinthe {
     Cellule getEntree();
     Cellule getSortie();
 
-    double getPourcentageMurs();
+    Etape getEtape();
 }
