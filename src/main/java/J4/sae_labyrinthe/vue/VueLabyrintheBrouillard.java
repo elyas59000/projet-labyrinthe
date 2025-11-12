@@ -1,5 +1,6 @@
 package J4.sae_labyrinthe.vue;
 
+import J4.sae_labyrinthe.modele.ILabyrinthe;
 import J4.sae_labyrinthe.modele.Labyrinthe;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import javafx.scene.effect.ColorAdjust;
@@ -18,14 +19,14 @@ public class VueLabyrintheBrouillard extends VueLabyrintheEntier {
 
     @Override
     public void initialiserAffichage() {
-        Labyrinthe laby = modele.getLabyrinthe();
+        ILabyrinthe laby = modele.getLabyrinthe();
         visible = new boolean[laby.getHauteur()][laby.getLargeur()];
         super.initialiserAffichage();
     }
 
     @Override
     protected void rafraichirAffichage() {
-        Labyrinthe laby = modele.getLabyrinthe();
+        Labyrinthe laby = (Labyrinthe) modele.getLabyrinthe();
         int joueurX = modele.getPositionJoueur().getX();
         int joueurY = modele.getPositionJoueur().getY();
 

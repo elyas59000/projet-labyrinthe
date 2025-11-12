@@ -11,8 +11,10 @@ public class Etape{
         if(NUM!=3){
             genererDefis((NUM+4)*(2+NUM));
         }
-        else{
+        else if(NUM==3){
             genererDefis((NUM+3)*(1+NUM));
+        }else if(NUM==4){
+            genererDefisDistance(10);
         }
     }
 
@@ -22,6 +24,11 @@ public class Etape{
         defis[2] = new Defi("Difficile", cote, 50);
     }
 
+    private void genererDefisDistance(int cote) {
+        defis[0] = new Defi("Facile", cote, 1);
+        defis[1] = new Defi("Moyen", cote, 2);
+        defis[2] = new Defi("Difficile", cote, 4);
+    }
 
     public int getNumero() { return NUM; }
 
