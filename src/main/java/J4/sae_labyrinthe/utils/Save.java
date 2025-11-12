@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import J4.sae_labyrinthe.modele.Joueur;
 
 /**
  * Classe utilitaire pour la sauvegarde et le chargement des données des joueurs.
+ * Gère aussi le chiffrement et déchiffrement des données sensibles (nom et mot de passe).
  * @author Adam Stievenard
  */
 public class Save {
@@ -19,47 +19,60 @@ public class Save {
     private static final String JOUEUR_PATH ="data/save.data";
 
     /**
-     * Sauvegarde une liste de joueurs dans un fichier.
+     * Sauvegarde une liste de joueurs dans un fichier avec chiffrement.
+     * Les données sont chiffrées avant la sérialisation.
      * 
      * @param joueurs La liste des joueurs à sauvegarder
      * @throws IOException En cas d'erreur lors de l'écriture du fichier
      * @author Adam Stievenard
      */
     public static void saveToFile(ArrayList<Joueur> joueurs) throws IOException {
-        FileOutputStream fos = new FileOutputStream(JOUEUR_PATH);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
         try {
-
+            // Chiffrer les données avant sérialisation
+            Chiffrement.chiffrer(joueurs);
+            
+            FileOutputStream fos = new FileOutputStream(JOUEUR_PATH);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            
             oos.writeObject(joueurs);
-            // Chiffrement.chiffrer(JOUEUR_PATH);
-
             oos.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            fos.close();
+            
+            // Déchiffrer les données en mémoire pour garder l'application fonctionnelle
+            Chiffrement.dechiffrer(joueurs);
+            
+        } catch (Exception e) {
+            throw new IOException("Erreur lors de la sauvegarde chiffrée", e);
         }
     }
+    
     /**
      * Charge la liste des joueurs à partir du fichier de sauvegarde.
+     * Les données sont déchiffrées après désérialisation.
      * 
      * @return La liste des joueurs chargée depuis le fichier
      * @throws IOException En cas d'erreur lors de la lecture du fichier
      * @author Adam Stievenard
      */
     public static ArrayList<Joueur> loadSave() throws IOException {
-
         FileInputStream fis = new FileInputStream(JOUEUR_PATH);
         ObjectInputStream ois = new ObjectInputStream(fis);
-        List<Joueur> savedData;
+        ArrayList<Joueur> savedData;
 
         try {
-            // Chiffrement.dechiffrer(JOUEUR_PATH);
-            savedData = (List<Joueur>) ois.readObject();
+            savedData = (ArrayList<Joueur>) ois.readObject();
             ois.close();
+            fis.close();
+            
+            // Déchiffrer les données après désérialisation
+            Chiffrement.dechiffrer(savedData);
+            
         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new IOException("Erreur lors du chargement des données", e);
+        } catch (Exception e) {
+            throw new IOException("Erreur lors du déchiffrement des données", e);
         }
-        return (ArrayList<Joueur>) savedData;
+        
+        return savedData;
     }
-
-
 }
