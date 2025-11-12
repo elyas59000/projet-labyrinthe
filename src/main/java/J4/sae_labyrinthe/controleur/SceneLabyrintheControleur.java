@@ -6,6 +6,8 @@ import J4.sae_labyrinthe.utils.SceneManager;
 import J4.sae_labyrinthe.vue.VueLabyrintheAbstraite;
 import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
 import J4.sae_labyrinthe.vue.VueLabyrinthePartiel;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -20,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import java.io.IOException;
 
 /**
@@ -38,6 +41,8 @@ public class SceneLabyrintheControleur {
     private final VueLabyrinthePartiel vuePartielle = new VueLabyrinthePartiel(modele, RANGE);
     private VBox menuPause;
     private boolean pauseActive = false;
+    private Timeline timeline;
+    private int tempsEcoule = 0;
 
     private CheckBox modeDeVue;
 
@@ -68,6 +73,7 @@ public class SceneLabyrintheControleur {
         }
 
         initialiserDeplacement();
+        initTimeline();
     }
 
     /**
@@ -142,6 +148,7 @@ public class SceneLabyrintheControleur {
 
     private void mettreEnPause() {
         pauseActive = true;
+        arreterTimer();
         zoneLaby.setOnKeyPressed(null);
         menuPause = new VBox(40);
         menuPause.setAlignment(Pos.CENTER);
@@ -167,6 +174,7 @@ public class SceneLabyrintheControleur {
         zoneGlobale.getChildren().remove(menuPause);
         menuPause = null;
         initialiserDeplacement();
+        timeline.play();
         Platform.runLater(zoneLaby::requestFocus);
     }
 
@@ -184,6 +192,7 @@ public class SceneLabyrintheControleur {
     }
 
     private void nettoyerJeu() {
+        arreterTimer();
         zoneLaby.setOnKeyPressed(null);
         zoneLaby.setOnKeyReleased(null);
         zoneLaby.getChildren().clear();
@@ -225,6 +234,30 @@ public class SceneLabyrintheControleur {
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Démarre le timer qui s'incrémente chaque seconde.
+     */
+    private void initTimeline() {
+        tempsEcoule = 0;
+        timerInfo.setText("Temps: 0s");
+        
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            tempsEcoule++;
+            timerInfo.setText("Temps: " + tempsEcoule + "s");
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
+
+    /**
+     * Arrête le timer.
+     */
+    private void arreterTimer() {
+        if (timeline != null) {
+            timeline.stop();
         }
     }
 
