@@ -59,7 +59,6 @@ public class Chiffrement {
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv));
         byte[] encryptedData = cipher.doFinal(input);
         
-        // Combiner IV + données chiffrées
         byte[] result = new byte[iv.length + encryptedData.length];
         System.arraycopy(iv, 0, result, 0, iv.length);
         System.arraycopy(encryptedData, 0, result, iv.length, encryptedData.length);
@@ -71,13 +70,10 @@ public class Chiffrement {
      * Déchiffre un tableau de bytes qui contient l'IV au début.
      */
     private static String dechiffrer(byte[] input) throws Exception {
-        // Vérifier que les données sont assez longues pour contenir un IV
         if (input.length < IV_SIZE) {
-            // Les données ne sont pas chiffrées (ancien format), retourner comme String
             return new String(input, StandardCharsets.UTF_8);
         }
         
-        // Extraire l'IV et les données chiffrées
         byte[] iv = new byte[IV_SIZE];
         byte[] encryptedData = new byte[input.length - IV_SIZE];
         

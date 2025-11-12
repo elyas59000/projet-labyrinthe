@@ -28,8 +28,7 @@ public class Save {
      */
     public static void saveToFile(ArrayList<Joueur> joueurs) throws IOException {
         try {
-            // Chiffrer les données avant sérialisation
-            Chiffrement.chiffrer(joueurs);
+            //Chiffrement.chiffrer(joueurs);
             
             FileOutputStream fos = new FileOutputStream(JOUEUR_PATH);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -37,10 +36,9 @@ public class Save {
             oos.writeObject(joueurs);
             oos.close();
             fos.close();
-            
-            // Déchiffrer les données en mémoire pour garder l'application fonctionnelle
-            Chiffrement.dechiffrer(joueurs);
-            
+
+            // Chiffrement.dechiffrer(joueurs);
+
         } catch (Exception e) {
             throw new IOException("Erreur lors de la sauvegarde chiffrée", e);
         }
@@ -63,10 +61,9 @@ public class Save {
             savedData = (ArrayList<Joueur>) ois.readObject();
             ois.close();
             fis.close();
-            
-            // Déchiffrer les données après désérialisation
-            Chiffrement.dechiffrer(savedData);
-            
+
+            // Chiffrement.dechiffrer(savedData);
+
         } catch (IOException | ClassNotFoundException e) {
             throw new IOException("Erreur lors du chargement des données", e);
         } catch (Exception e) {
