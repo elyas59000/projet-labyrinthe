@@ -5,8 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Base64;
 
@@ -16,12 +18,14 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 
 import J4.sae_labyrinthe.modele.Joueur;
 
 
 public class Chiffrement {
     private static final SecretKey secretKey;
+    private static final int IV_SIZE = 16;
 
     static {
         try {
@@ -34,34 +38,52 @@ public class Chiffrement {
     private static SecretKey getSecretKey() throws NoSuchAlgorithmException {
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
         keyGenerator.init(256);
-
         return keyGenerator.generateKey();
     }
 
-    private static Cipher getCipher() throws NoSuchPaddingException, NoSuchAlgorithmException {
-        return Cipher.getInstance("AES");
+    /**
+     * Génère un IV (vecteur d'initialisation) aléatoire.
+     */
+    private static byte[] generateIv() {
+        byte[] iv = new byte[IV_SIZE];
+        new SecureRandom().nextBytes(iv);
+        return iv;
     }
 
     /**
-     * Chiffre un tableau de bytes et le convertit en String Base64.
+     * Chiffre un tableau de bytes et inclut l'IV dans le résultat.
      */
     private static byte[] chiffrer(byte[] input) throws Exception {
-        Cipher cipher = getCipher();
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-        return cipher.doFinal(input);
+        byte[] iv = generateIv();
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv));
+        byte[] encryptedData = cipher.doFinal(input);
+        
+        // Combiner IV + données chiffrées
+        byte[] result = new byte[iv.length + encryptedData.length];
+        System.arraycopy(iv, 0, result, 0, iv.length);
+        System.arraycopy(encryptedData, 0, result, iv.length, encryptedData.length);
+        
+        return result;
     }
 
     /**
-     * Déchiffre un tableau de bytes et le retourne en String.
+     * Déchiffre un tableau de bytes qui contient l'IV au début.
      */
     private static String dechiffrer(byte[] input) throws Exception {
-        Cipher cipher = getCipher();
-        cipher.init(Cipher.DECRYPT_MODE, secretKey);
-        return new String(cipher.doFinal(input), StandardCharsets.UTF_8);
+        // Extraire l'IV et les données chiffrées
+        byte[] iv = new byte[IV_SIZE];
+        byte[] encryptedData = new byte[input.length - IV_SIZE];
+        
+        System.arraycopy(input, 0, iv, 0, IV_SIZE);
+        System.arraycopy(input, IV_SIZE, encryptedData, 0, encryptedData.length);
+        
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
+        
+        return new String(cipher.doFinal(encryptedData), StandardCharsets.UTF_8);
     }
 
-
-    /* marche pas */
 
     protected static void chiffrer(String filename) {
         try {
@@ -69,31 +91,38 @@ public class Chiffrement {
             byte[] inputBytes = new byte[(int) new File(filename).length()];
             fis.read(inputBytes);
 
-            Cipher cipher = getCipher();
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            byte[] iv = generateIv();
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv));
             byte[] encryptedBytes = cipher.doFinal(inputBytes);
 
             FileOutputStream outputStream = new FileOutputStream(filename);
+            outputStream.write(iv);
             outputStream.write(encryptedBytes);
 
             fis.close();
             outputStream.close();
         } catch (IOException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException |
-                 BadPaddingException | InvalidKeyException e) {
+                 BadPaddingException | InvalidKeyException | InvalidAlgorithmParameterException e) {
             throw new RuntimeException(e);
         }
     }
 
     protected static void dechiffrer(String filename) {
         try {
-            Cipher cipher = getCipher();
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
-
             FileInputStream inputStream = new FileInputStream(filename);
             byte[] inputBytes = new byte[(int) new File(filename).length()];
             inputStream.read(inputBytes);
 
-            byte[] decryptedBytes = cipher.doFinal(inputBytes);
+            byte[] iv = new byte[IV_SIZE];
+            byte[] encryptedData = new byte[inputBytes.length - IV_SIZE];
+            
+            System.arraycopy(inputBytes, 0, iv, 0, IV_SIZE);
+            System.arraycopy(inputBytes, IV_SIZE, encryptedData, 0, encryptedData.length);
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
+            byte[] decryptedBytes = cipher.doFinal(encryptedData);
 
             FileOutputStream outputStream = new FileOutputStream(filename);
             outputStream.write(decryptedBytes);
@@ -101,7 +130,7 @@ public class Chiffrement {
             inputStream.close();
             outputStream.close();
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException |
-                 IllegalBlockSizeException | BadPaddingException | IOException e) {
+                 IllegalBlockSizeException | BadPaddingException | IOException | InvalidAlgorithmParameterException e) {
             throw new RuntimeException(e);
         }
     }
@@ -136,7 +165,7 @@ public class Chiffrement {
      * Déchiffre les données sensibles d'un joueur (nom et mot de passe).
      */
     private static void dechiffrer(Joueur joueur) throws Exception {
-        // Décoder la Base64 pour récupérer les bytes chiffrés
+        // Décoder la Base64 pour récupérer les bytes chiffrés (qui contiennent l'IV)
         byte[] mdpChiffre = Base64.getDecoder().decode(joueur.getMdp());
         byte[] nomChiffre = Base64.getDecoder().decode(joueur.getNom());
 
