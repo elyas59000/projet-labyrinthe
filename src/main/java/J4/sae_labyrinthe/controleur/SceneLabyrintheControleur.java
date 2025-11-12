@@ -304,6 +304,28 @@ public class SceneLabyrintheControleur {
         enteteJeu.getChildren().add(index, hBoxRange);
     }
 
+    /**
+     * Initialise et démarre le timer qui s'incrémente chaque seconde.
+     */
+    private void initTimeline() {
+        tempsEcoule = 0;
+        timerInfo.setText("Temps: 0s");
+        
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            tempsEcoule++;
+            timerInfo.setText("Temps: " + tempsEcoule + "s");
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
 
+    /**
+     * Arrête le timer.
+     */
+    private void arreterTimer() {
+        if (timeline != null) {
+            timeline.stop();
+        }
+    }
 
 }
