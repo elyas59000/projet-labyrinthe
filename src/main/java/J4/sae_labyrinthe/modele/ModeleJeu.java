@@ -140,7 +140,8 @@ public class ModeleJeu implements IModeleJeu {
         partieLibre =false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
         if(etapeChoisi.getNumero() > 3){
-            this.labyrinthe = new LabyrintheParfait(10,10,etapeChoisi);
+            this.labyrinthe = new LabyrintheParfait(20,20,etapeChoisi);
+            ((LabyrintheParfait) this.labyrinthe).placerSortieA(d.getDistance());
         }else {
             this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote(),d.getPourcentageMurs(),etapeChoisi);
         }
