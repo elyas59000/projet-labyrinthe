@@ -1,6 +1,8 @@
 package J4.sae_labyrinthe.modele;
 
 import J4.sae_labyrinthe.exception.ValidationException;
+
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import J4.sae_labyrinthe.utils.Save;
