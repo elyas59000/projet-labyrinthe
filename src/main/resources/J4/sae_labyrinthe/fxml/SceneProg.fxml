@@ -12,9 +12,9 @@
       <Button fx:id="etape1" layoutX="364.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape1" text="Etape 1" />
       <Button fx:id="etape2" disable="true" layoutX="578.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape2" text="Etape2" />
       <Button fx:id="etape3" disable="true" layoutX="790.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape3" text="Etape3" />
-       <Button fx:id="etape4" disable="true" layoutX="1002.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape3" text="Etape4" />
-       <Button fx:id="etape5" disable="true" layoutX="1214.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape3" text="Etape5" />
-       <Button fx:id="etape6" disable="true" layoutX="1426.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape3" text="Etape6" />
+       <Button fx:id="etape4" disable="true" layoutX="1002.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape4" text="Etape4" />
+       <Button fx:id="etape5" disable="true" layoutX="1214.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape5" text="Etape5" />
+       <Button fx:id="etape6" disable="true" layoutX="1426.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape6" text="Etape6" />
       <Text layoutX="588.0" textAlignment="CENTER" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Progression" />
       <Button layoutX="57.0" layoutY="631.0" mnemonicParsing="false" onMouseClicked="#retourScenePrecendente">
          <graphic>

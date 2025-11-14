@@ -33,6 +33,15 @@ public class SceneProgrControleur implements IObserver {
     private Button etape3;
 
     @FXML
+    private Button etape4;
+
+    @FXML
+    private Button etape5;
+
+    @FXML
+    private Button etape6;
+
+    @FXML
     private void initialize() {
         MODELJEU.add(this);
         update();
@@ -70,9 +79,28 @@ public class SceneProgrControleur implements IObserver {
      */
     @FXML
     void ouvrirEtape3(MouseEvent event) throws IOException {
+        MODELJEU.setEtapeChoisi(3);
+        SceneManager.chargerScene("SceneDifficulte");
+    }
+
+    @FXML
+    void ouvrirEtape4(MouseEvent event) throws IOException {
         MODELJEU.setEtapeChoisi(4);
         SceneManager.chargerScene("SceneDifficulte");
     }
+
+    @FXML
+    void ouvrirEtape5(MouseEvent event) throws IOException {
+        MODELJEU.setEtapeChoisi(4);
+        SceneManager.chargerScene("SceneDifficulte");
+    }
+
+    @FXML
+    void ouvrirEtape6(MouseEvent event) throws IOException {
+        MODELJEU.setEtapeChoisi(4);
+        SceneManager.chargerScene("SceneDifficulte");
+    }
+
 
     /**
      * Retourne au menu principal.
@@ -93,5 +121,6 @@ public class SceneProgrControleur implements IObserver {
     public void update() {
         if(MODELJEU.etapeJoueur() >= 2 ) this.etape2.setDisable(false);
         if(MODELJEU.etapeJoueur() >= 3 ) this.etape3.setDisable(false);
+        if(MODELJEU.etapeJoueur() >= 4 ) this.etape4.setDisable(false);
     }
 }

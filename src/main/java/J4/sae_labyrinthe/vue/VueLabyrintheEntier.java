@@ -60,29 +60,25 @@ public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
                     }
                 }
 
-                // CASE MUR HORIZONTAL
                 else if (i % 2 == 1 && j % 2 == 0) {
                     int ci = i / 2;
                     int cj = j / 2;
                     if (laby.getMurHorizontaux()[ci][cj].estMur()) {
                         cell.setFill(new ImagePattern(brique));
-                    } else {
-                        cell.setFill(new ImagePattern(fond));
+                    }else{
+                    cell.setFill(new ImagePattern(fond));
                     }
                 }
-
-                // CASE MUR VERTICAL
                 else if (i % 2 == 0 && j % 2 == 1) {
                     int ci = i / 2;
                     int cj = j / 2;
                     if (laby.getMurVerticaux()[cj][ci].estMur()) {
                         cell.setFill(new ImagePattern(brique));
-                    } else {
+                    }else{
                         cell.setFill(new ImagePattern(fond));
                     }
                 }
 
-                // CASE INTERSECTION (toujours un mur)
                 else {
                     cell.setFill(new ImagePattern(brique));
                 }
