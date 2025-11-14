@@ -171,8 +171,48 @@ public class LabyrintheParfait implements ILabyrinthe {
         return !estMur(ligne, colonne, ligne1, colonne1);
     }
 
+
     public Cellule[][] getMurHorizontaux() { return murHorizontaux; }
     public Cellule[][] getMurVerticaux() { return murVerticaux; }
+
+    public void placerSortieA(int distance) {
+        boolean[][] visite = new boolean[hauteur][largeur];
+        Map<Cellule, Integer> dist = new HashMap<>();
+        Queue<Cellule> queue = new LinkedList<>();
+
+        // Initialisation
+        queue.add(entree);
+        visite[entree.getX()][entree.getY()] = true;
+        dist.put(entree, 0);
+
+        List<Cellule> candidats = new ArrayList<>();
+
+        while (!queue.isEmpty()) {
+            Cellule c = queue.poll();
+            int d = dist.get(c);
+
+            if (d == distance) {
+                candidats.add(c);
+                continue; // on ne propage pas au-delà
+            }
+
+            for (Cellule v : voisins(c.getX(), c.getY())) {
+                if (!visite[v.getX()][v.getY()] && peutAller(c.getX(), c.getY(), v.getX(), v.getY())) {
+                    visite[v.getX()][v.getY()] = true;
+                    dist.put(v, d + 1);
+                    queue.add(v);
+                }
+            }
+        }
+
+        if (!candidats.isEmpty()) {
+            // Choisir aléatoirement parmi les candidats
+            sortie = candidats.get(new Random().nextInt(candidats.size()));
+        } else {
+            // Si aucune cellule à cette distance, on garde la sortie par défaut
+            System.out.println("Impossible de placer la sortie à " + distance + " cases.");
+        }
+    }
 
 }
 
