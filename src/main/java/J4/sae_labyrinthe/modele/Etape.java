@@ -19,9 +19,9 @@ public class Etape{
     }
 
     private void genererDefis(int cote) {
-        defis[0] = new Defi("Facile", cote, 20);
-        defis[1] = new Defi("Moyen", cote, 30);
-        defis[2] = new Defi("Difficile", cote, 50);
+        defis[0] = new Defi("Facile", cote, 20.0);
+        defis[1] = new Defi("Moyen", cote, 30.0);
+        defis[2] = new Defi("Difficile", cote, 50.0);
     }
 
     private void genererDefisDistance(int cote) {
