@@ -293,18 +293,18 @@ public class ModeleJeu implements IModeleJeu {
 
     private void verifierSortie(ILabyrinthe laby, Cellule next) {
         if (next == laby.getSortie()) {
+            joueurActuel.ajouterScore(defiChoisi);
             if (!etapeChoisi.getDefiParDifficulte(defiChoisi).estReussi()) {
                 etapeChoisi.getDefiParDifficulte(defiChoisi).setReussi(true);
-                joueurActuel.ajouterScore(1);
             }
 
             if (laby.getEtape() != null && etapeChoisi.getNumero() == joueurActuel.getEtapeMax()) {
                 joueurActuel.avancerEtape();
-                try {
-                    Save.saveToFile((ArrayList<Joueur>) joueurs);
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
-                }
+            }
+            try {
+                Save.saveToFile((ArrayList<Joueur>) joueurs);
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
             }
         }
     }
