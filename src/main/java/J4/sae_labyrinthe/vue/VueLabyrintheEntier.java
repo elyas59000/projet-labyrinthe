@@ -1,11 +1,9 @@
 package J4.sae_labyrinthe.vue;
 
-import J4.sae_labyrinthe.modele.ILabyrinthe;
-import J4.sae_labyrinthe.modele.Labyrinthe;
-import J4.sae_labyrinthe.modele.LabyrintheParfait;
-import J4.sae_labyrinthe.modele.ModeleJeu;
+import J4.sae_labyrinthe.modele.*;
 import J4.sae_labyrinthe.utils.Calcul;
 import J4.sae_labyrinthe.utils.FusionImage;
+import javafx.scene.control.Cell;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
@@ -36,52 +34,13 @@ public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
 
         int largeur = laby.getLargeur();
         int hauteur = laby.getHauteur();
-        int largeurAff = largeur * 2 - 1;
-        int hauteurAff = hauteur * 2 - 1;
 
         double tailleCarre = Calcul.calculTailleCarreOptimal(
-                LARGEUR_DISPONIBLE_ZONE, HAUTEUR_DISPONIBLE_ZONE, largeurAff, hauteurAff
-        );
-
-        parcoursCreationGridPane(grille, largeurAff, hauteurAff, tailleCarre);
-
-        for (int i = 0; i < hauteurAff; i++) {
-            for (int j = 0; j < largeurAff; j++) {
-                Rectangle cell = (Rectangle) grille.getChildren().get(i * largeurAff + j);
-                if (i % 2 == 0 && j % 2 == 0) {
-                    int ci = i / 2;
-                    int cj = j / 2;
-                    if (ci == joueurY && cj == joueurX) {
-                        cell.setFill(new ImagePattern(FusionImage.fusionnerImages(fond, joueur)));
-                    } else if (laby.getGrille()[ci][cj].equals(laby.getSortie())) {
-                        cell.setFill(new ImagePattern(FusionImage.fusionnerImages(fond, fin)));
-                    } else {
-                        cell.setFill(new ImagePattern(fond));
-                    }
-                }
-
-                else if (i % 2 == 1 && j % 2 == 0) {
-                    int ci = i / 2;
-                    int cj = j / 2;
-                    if (laby.getMurHorizontaux()[ci][cj].estMur()) {
-                        cell.setFill(new ImagePattern(brique));
-                    }else{
-                    cell.setFill(new ImagePattern(fond));
-                    }
-                }
-                else if (i % 2 == 0 && j % 2 == 1) {
-                    int ci = i / 2;
-                    int cj = j / 2;
-                    if (laby.getMurVerticaux()[cj][ci].estMur()) {
-                        cell.setFill(new ImagePattern(brique));
-                    }else{
-                        cell.setFill(new ImagePattern(fond));
-                    }
-                }
-
-                else {
-                    cell.setFill(new ImagePattern(brique));
-                }
+                LARGEUR_DISPONIBLE_ZONE, HAUTEUR_DISPONIBLE_ZONE, hauteur, largeur        );
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
+                Rectangle cell = (Rectangle) grille.getChildren().get(i * largeur + j);
+                appliquerTexture(cell, laby, i, j, joueurX, joueurY);
             }
         }
     }
@@ -90,13 +49,16 @@ public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
     @Override
     protected void rafraichirAffichage() {
         ILabyrinthe laby = modele.getLabyrinthe();
-
-        // Sélection automatique selon le type réel du labyrinthe
         if (laby instanceof LabyrintheParfait) {
             rafraichirAffichageParfait();
-            return;
+        }else{
+            rafraichirAleatoire();
         }
-        Labyrinthe lab = (Labyrinthe) laby; // Cast sûr à ce stade
+        return;
+    }
+
+    protected void rafraichirAleatoire(){
+        ILabyrinthe lab =  modele.getLabyrinthe();
         int joueurX = modele.getPositionJoueur().getX();
         int joueurY = modele.getPositionJoueur().getY();
         int largeur = lab.getLargeur();

@@ -50,7 +50,7 @@ public abstract class VueLabyrintheAbstraite implements IObserver {
         rafraichirAffichage();
     }
 
-    protected void appliquerTexture(Rectangle cell, Labyrinthe laby, int i, int j, int joueurX, int joueurY) {
+    protected void appliquerTexture(Rectangle cell, ILabyrinthe laby, int i, int j, int joueurX, int joueurY) {
         if (i < 0 || i >= laby.getHauteur() || j < 0 || j >= laby.getLargeur()) {
             cell.setFill(new ImagePattern(brique));
             return;

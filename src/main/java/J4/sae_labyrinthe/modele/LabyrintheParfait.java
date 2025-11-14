@@ -122,7 +122,7 @@ public class LabyrintheParfait implements ILabyrinthe {
                 || (colonne == colonne1 && Math.abs(ligne - ligne1) == 1);
     }
 
-    private List<Cellule> voisins(int ligne, int colonne) {
+    public List<Cellule> voisins(int ligne, int colonne) {
         List<Cellule> v = new ArrayList<>();
         if (ligne > 0) v.add(grille[ligne - 1][colonne]);
         if (ligne < this.hauteur - 1) v.add(grille[ligne + 1][colonne]);

@@ -140,7 +140,7 @@ public class ModeleJeu implements IModeleJeu {
         partieLibre =false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
         if(etapeChoisi.getNumero() > 3){
-            this.labyrinthe = new LabyrintheParfait(20,20,etapeChoisi);
+            this.labyrinthe = new LabyrintheParfait(10,10,etapeChoisi);
             //((LabyrintheParfait) this.labyrinthe).placerSortieA(d.getDistance());
         }else {
             this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote(),d.getPourcentageMurs(),etapeChoisi);
@@ -279,8 +279,6 @@ public class ModeleJeu implements IModeleJeu {
     private void deplacerDansLabyrintheParfait(LabyrintheParfait laby, int nx, int ny) {
         int x = positionJoueur.getX();
         int y = positionJoueur.getY();
-
-        // Toujours une case adjacente dans la logique du labyrinthe
         if (!laby.peutAller(y, x, ny, nx)) {
             System.out.println("C'est un mur");
             return;
