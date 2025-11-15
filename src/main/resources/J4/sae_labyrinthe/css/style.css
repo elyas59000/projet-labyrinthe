@@ -1,17 +1,19 @@
 .button {
     -fx-font-size: 20px;
     -fx-background-color: #D9D9D9;
-    -fx-background-radius: 5;
-    -fx-border-color: black;
-    -fx-border-radius: 5;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+
+    -fx-background: linear-gradient(to bottom right, #f0f0f0, #cacaca);
+    -fx-box-shadow:  20px 20px 60px #bebebe,-20px -20px 60px #ffffff;
 }
 
 .button:hover {
 
     -fx-background-color: #c0c0c0;
 
-    transition: -fx-background-color 0.5s ease,
-                -fx-font-size 0.5s ease;
+    transition-property: -fx-background-color;
+    transition-duration: -fx-background-color;
 
 
 }
@@ -27,19 +29,21 @@
 }
 
 #inscription{
-    -fx-fill: #0000c9;
+    -fx-fill: darkslateblue;
     -fx-font-weight: bold;
+    -fx-font-size: 18;
 }
 #inscription:hover {:
     -fx-underline;
-    -fx-fill: #3749dc;
+    -fx-fill: #504186;
     -fx-cursor: hand;
 }
 #inscription:pressed{
-    -fx-effect: dropshadow(gaussian, darkblue,2,0,0,1);
+    -fx-effect: dropshadow(gaussian, #3f2e73,1,0,0,1);
     -fx-translate-y: 1;
     -fx-translate-x: 1;
 
+    -fx-transition: -fx-translate-y 0.5s ease, -fx-translate-x 0.5s ease, -fx-effect 0.5s ease;
 }
 
 #buttonDeconnexion{
@@ -71,7 +75,7 @@
 .pause-bouton {
     -fx-background-color: transparent;
     -fx-border-color: white;
-    -fx-border-radius: 5;
+    -fx-border-radius: 12;
     -fx-text-fill: white;
     -fx-font-size: 18px;
     -fx-pref-width: 200;
@@ -79,4 +83,45 @@
 
 .pause-bouton:hover {
     -fx-background-color: rgba(255,255,255,0.2);
+}
+
+#texteRegles{
+    -fx-font-size: 18px;
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+    -fx-padding:20px;
+    -fx-background-radius: 12;
+    -fx-radius: 12;
+}
+
+#textLoginConn, #textMPDConn, #textPseudoInsc, #textMDPInsc,#textConfInsc{
+    -fx-font-family: Calibri;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+#champLogin, #champsMDP, #champsMDPConf{
+    -fx-font-size: 18px;
+    -fx-background-radius: 12;
+    -fx-radius: 12;
+    -fx-font-family: Arial;
+    -fx-font-weight: bold;
+}
+
+#champLogin, #champsMDP :hover{
+    -fx-radius: 14;
+
+    transition: -fx-radius 0.5s ease;
+}
+
+#champLogin, #champsMDP:focused{
+    -fx-radius: 16;
+
+    -fx-transition: -fx-radius 0.5s ease;
+}
+
+#vBoxConn, #vBoxIns{
+    -fx-padding:20px;
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+    -fx-background-radius: 12;
+    -fx-radius: 12;
 }

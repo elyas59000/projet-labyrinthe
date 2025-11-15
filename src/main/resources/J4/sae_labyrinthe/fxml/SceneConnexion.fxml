@@ -55,22 +55,14 @@
             <Insets bottom="50.0" left="50.0" />
          </GridPane.margin>
       </Button>
-       <VBox alignment="CENTER" maxWidth="617.0" prefHeight="417.0" prefWidth="617.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+       <VBox id="vBoxConn" alignment="CENTER" maxWidth="617.0" prefHeight="417.0" prefWidth="617.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
            <children>
-               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Login :">
-                   <font>
-                       <Font name="System Bold Italic" size="18.0" />
-                   </font>
-               </Text>
+               <Text id="textLoginConn" strokeType="OUTSIDE" strokeWidth="0.0" text="Login :"> </Text>
 
                <!-- 🔹 largeur fixe -->
                <TextField fx:id="champLogin" maxWidth="415.0" prefHeight="53.0" prefWidth="415.0" />
 
-               <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Mot de passe :">
-                   <font>
-                       <Font size="18.0" />
-                   </font>
-               </Text>
+               <Text id="textMPDConn" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe :"> </Text>
 
                <!-- 🔹 largeur fixe -->
                <PasswordField fx:id="champsMDP" maxWidth="415.0" prefHeight="53.0" prefWidth="415.0" />

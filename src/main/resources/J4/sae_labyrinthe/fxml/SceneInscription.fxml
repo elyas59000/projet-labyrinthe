@@ -54,25 +54,13 @@
             <Insets bottom="50.0" left="50.0" />
          </GridPane.margin>
       </Button>
-      <VBox alignment="CENTER" maxWidth="617.0" prefHeight="417.0" prefWidth="617.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <VBox id="vBoxIns" alignment="CENTER" maxWidth="617.0" prefHeight="417.0" prefWidth="617.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Entrez votre pseudonyme :">
-               <font>
-                  <Font name="System Bold Italic" size="18.0" />
-               </font>
-            </Text>
+            <Text id="textPseudoInsc" strokeType="OUTSIDE" strokeWidth="0.0" text="Entrez votre pseudonyme :"> </Text>
             <TextField fx:id="champLogin" maxWidth="415.0" prefHeight="53.0" prefWidth="415.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Entrez votre mot de passe :">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Text>
+            <Text id="textMDPInsc" strokeType="OUTSIDE" strokeWidth="0.0" text="Entrez votre mot de passe :"> </Text>
             <PasswordField fx:id="champsMDP" maxWidth="415.0" prefHeight="53.0" prefWidth="415.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Confirmer votre mot de passe :">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Text>
+            <Text id="textConfInsc" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirmer votre mot de passe :"> </Text>
             <PasswordField fx:id="champsMDPConf" maxWidth="415.0" prefHeight="53.0" prefWidth="415.0" />
             <Text fx:id="messageErreur" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="408.53676760196686" />
          </children>
