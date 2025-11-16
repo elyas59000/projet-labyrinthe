@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import J4.sae_labyrinthe.modele.Joueur;
@@ -17,6 +18,8 @@ import J4.sae_labyrinthe.modele.Joueur;
 public class Save {
 
     private static final String JOUEUR_PATH ="data/save.data";
+    private static final String LABYRINTHE_DU_JOUR_PATH = "data/laby_";
+    private static final String SCORES_DU_JOUR_PATH = "data/scores_";
 
     /**
      * Sauvegarde une liste de joueurs dans un fichier avec chiffrement.
@@ -72,4 +75,37 @@ public class Save {
         
         return savedData;
     }
+
+    public static void saveScoresDuJour(ArrayList<ScoreDuJour> scores, LocalDate date) throws IOException {
+        String path = SCORES_DU_JOUR_PATH + date + ".data";
+
+        FileOutputStream fos = new FileOutputStream(path);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+        oos.writeObject(scores);
+
+        oos.close();
+        fos.close();
+    }
+
+    public static ArrayList<ScoreDuJour> loadScoresDuJour(LocalDate date) throws IOException {
+        String path = SCORES_DU_JOUR_PATH + date + ".data";
+
+        FileInputStream fis = new FileInputStream(path);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+
+        ArrayList<ScoreDuJour> scores;
+
+        try {
+            scores = (ArrayList<ScoreDuJour>) ois.readObject();
+        } catch (ClassNotFoundException e) {
+            throw new IOException("Classe inconnue lors du chargement", e);
+        }
+
+        ois.close();
+        fis.close();
+
+        return scores;
+    }
+
 }
