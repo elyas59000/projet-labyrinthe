@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="J4.sae_labyrinthe.controleur.SceneModeSupplementaireControleur">
+
+    <!-- Titre centré en haut -->
+    <top>
+        <Text text="Modes supplémentaires"
+              style="-fx-font-size: 32px; -fx-font-weight: bold;"
+              BorderPane.alignment="CENTER"/>
+    </top>
+
+    <!-- Menu de boutons au centre -->
+    <center>
+        <VBox spacing="20" alignment="CENTER">
+            <Button text="Labyrinthe du jour"
+                    prefWidth="250"
+                    style="-fx-font-size: 18px;"
+                    onMouseClicked="#ouvrirLabyrintheDuJour"/>
+
+            <Button text="Contre-la-montre"
+                    prefWidth="250"
+                    style="-fx-font-size: 18px;"
+                    onMouseClicked="#ouvrirContreLaMontre"/>
+
+            <Button text="Retour"
+                    prefWidth="200"
+                    style="-fx-font-size: 16px;"
+                    onMouseClicked="#revenirMenu"/>
+        </VBox>
+    </center>
+
+    <padding>
+        <Insets top="40" bottom="40" left="40" right="40"/>
+    </padding>
+
+</BorderPane>

@@ -37,6 +37,14 @@
                 <Button fx:id="buttonModeProgression" disable="true" maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneProgression" prefHeight="70.0" prefWidth="480.0" text="Mode Progression" />
                 <Button maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneLibre" prefHeight="70.0" prefWidth="480.0" text="Mode Libre" />
                 <Button maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneScores" prefHeight="70.0" prefWidth="480.0" text="Scores" />
+                <Button fx:id="buttonModeSupplementaire"
+                        maxWidth="1.7976931348623157E308"
+                        disable="true"
+                        onMouseClicked="#ouvrirSceneModeSupplementaire"
+                        prefHeight="70.0"
+                        prefWidth="480.0"
+                        text="Mode Supplémentaire" />
+
             </children>
         </VBox>
 

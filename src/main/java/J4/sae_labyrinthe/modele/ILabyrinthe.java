@@ -9,4 +9,6 @@ public interface ILabyrinthe {
     Cellule getSortie();
 
     Etape getEtape();
+    void sauvegarder(String fichier);
+
 }

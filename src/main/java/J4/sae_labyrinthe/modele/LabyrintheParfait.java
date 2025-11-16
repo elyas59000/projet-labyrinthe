@@ -1,8 +1,10 @@
 package J4.sae_labyrinthe.modele;
 
+import java.io.*;
 import java.util.*;
 
-public class LabyrintheParfait implements ILabyrinthe {
+public class LabyrintheParfait implements ILabyrinthe, Serializable  {
+    private static final long serialVersionUID = 1L;
     private int largeur, hauteur;
     private Cellule[][] grille;
     private Cellule[][] murVerticaux, murHorizontaux;
@@ -211,6 +213,14 @@ public class LabyrintheParfait implements ILabyrinthe {
         } else {
             // Si aucune cellule à cette distance, on garde la sortie par défaut
             System.out.println("Impossible de placer la sortie à " + distance + " cases.");
+        }
+    }
+
+    public void sauvegarder(String fichier) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fichier))) {
+            out.writeObject(this);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

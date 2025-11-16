@@ -1,11 +1,17 @@
 package J4.sae_labyrinthe.modele;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import J4.sae_labyrinthe.exception.ValidationException;
+import J4.sae_labyrinthe.utils.LabyrintheDuJourManager;
 import J4.sae_labyrinthe.utils.Save;
+import J4.sae_labyrinthe.utils.SaveScoreDuJour;
+import J4.sae_labyrinthe.utils.ScoreDuJour;
 import J4.sae_labyrinthe.vue.IObserver;
 
 /**
@@ -29,11 +35,17 @@ public class ModeleJeu implements IModeleJeu {
     private int defiChoisi;
     private boolean partieLibre;
     private boolean typeDeVue; /* On part du principe que true -> globale et false -> local*/
+    private LocalDate dateLabyrintheDuJour;
+    private boolean partieDuJourEnCours = false;
+    private int tempsDuJour = 0;
+    private ScoreDuJour scoresDuJour;
+    private LocalDateTime debutLabyrintheDuJour;
+
 
     /**
      * Constructeur par défaut.
      * Initialise les listes de joueurs et d'observateurs.
-     * 
+     *
      * @author Nathan Philippe
      */
     public ModeleJeu() {
@@ -43,7 +55,7 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Crée un nouveau joueur et l'ajoute à la liste des joueurs.
-     * 
+     *
      * @param nom Nom du nouveau joueur
      * @param mdp Mot de passe du nouveau joueur
      * @return Le joueur créé
@@ -76,7 +88,7 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Connecte un joueur existant.
-     * 
+     *
      * @param nom Nom du joueur
      * @param mdp Mot de passe du joueur
      * @throws ValidationException Si les identifiants sont incorrects ou si aucun joueur n'existe
@@ -108,7 +120,7 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Déconnecte le joueur actuel.
-     * 
+     *
      * @author Nathan Philippe
      */
     public void deconnexionJoueur() {
@@ -117,7 +129,7 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Lance une partie en mode libre avec un labyrinthe personnalisé.
-     * 
+     *
      * @param largeur Largeur du labyrinthe
      * @param hauteur Hauteur du labyrinthe
      * @param tauxMur Pourcentage de murs dans le labyrinthe
@@ -131,8 +143,29 @@ public class ModeleJeu implements IModeleJeu {
     }
 
     /**
+     * Lance le labyrinthe du jour : un labyrinthe unique et fixé pour une date donnée.
+     */
+    public void lancerLabyrintheDuJour() {
+        ILabyrinthe laby = LabyrintheDuJourManager.getLabyrintheDuJour();
+        this.labyrinthe = laby;
+        this.positionJoueur = laby.getEntree();
+        this.debutLabyrintheDuJour = LocalDateTime.now();
+        this.dateLabyrintheDuJour = LocalDate.now(); // <- important !
+        this.partieDuJourEnCours = true;
+    }
+
+    public long terminerLabyrintheDuJour() {
+        if (debutLabyrintheDuJour == null) return 0;
+        Duration duree = Duration.between(debutLabyrintheDuJour, LocalDateTime.now());
+        return duree.getSeconds(); // temps en secondes
+    }
+
+
+
+
+    /**
      * Lance une partie en mode progression
-     * 
+     *
      * @author Nathan Philippe
      */
     @Override
@@ -230,7 +263,7 @@ public class ModeleJeu implements IModeleJeu {
      * Déplace le joueur dans le labyrinthe selon une direction donnée.
      * Vérifie si le déplacement est possible et met à jour la position.
      * Notifie les observateurs après chaque déplacement.
-     * 
+     *
      * @param direction Direction du déplacement ("z" pour haut, "s" pour bas, "q" pour gauche, "d" pour droite)
      * @author Nathan Philippe
      */
@@ -291,14 +324,34 @@ public class ModeleJeu implements IModeleJeu {
 
     private void verifierSortie(ILabyrinthe laby, Cellule next) {
         if (next == laby.getSortie()) {
+            if (partieDuJourEnCours) {
+                tempsDuJour = (int) terminerLabyrintheDuJour();
+                scoresDuJour = new ScoreDuJour(joueurActuel.getNom(), tempsDuJour);
+                SaveScoreDuJour.sauvegarderScore(scoresDuJour);
+
+                partieDuJourEnCours = false;
+                return; // IMPORTANT : empêche le mode progression d'agir
+            }
+
+
+            if (etapeChoisi == null) {
+                System.out.println("Sortie atteinte (mode libre)");
+                return;
+            }
+
             joueurActuel.ajouterScore(defiChoisi);
+
+            // Marquer le défi comme réussi
             if (!etapeChoisi.getDefiParDifficulte(defiChoisi).estReussi()) {
                 etapeChoisi.getDefiParDifficulte(defiChoisi).setReussi(true);
             }
 
+            // Faire avancer l'étape si besoin
             if (laby.getEtape() != null && etapeChoisi.getNumero() == joueurActuel.getEtapeMax()) {
                 joueurActuel.avancerEtape();
             }
+
+            // Sauvegarde classique des joueurs
             try {
                 Save.saveToFile((ArrayList<Joueur>) joueurs);
             } catch (IOException e) {
@@ -328,7 +381,7 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Définit l'étape choisie pour le mode progression.
-     * 
+     *
      * @param etapeChoisi Numéro de l'étape à définir
      * @author Nathan Philippe
      */
@@ -338,7 +391,7 @@ public class ModeleJeu implements IModeleJeu {
 
     /**
      * Définit le niveau de défi choisi pour l'étape courante.
-     * 
+     *
      * @param defiChoisi Niveau de difficulté du défi
      * @author Nathan Philippe
      */
@@ -351,7 +404,10 @@ public class ModeleJeu implements IModeleJeu {
      * @author Nathan Philippe
      */
     public int etapeChoisi() {
-        return etapeChoisi.getNumero();
+        if (this.etapeChoisi == null) {
+            return -1;
+        }
+        return this.etapeChoisi.getNumero();
     }
 
     public boolean getPartieLibre() {

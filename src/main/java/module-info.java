@@ -12,4 +12,5 @@ module J4.sae_labyrinthe {
     exports J4.sae_labyrinthe;
     exports J4.sae_labyrinthe.controleur;
     opens J4.sae_labyrinthe.controleur to javafx.fxml;
+    opens J4.sae_labyrinthe.utils to javafx.base;
 }

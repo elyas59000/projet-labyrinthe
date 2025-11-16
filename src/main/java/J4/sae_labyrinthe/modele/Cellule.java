@@ -1,10 +1,13 @@
 package J4.sae_labyrinthe.modele;
 
-public class Cellule {
+import java.io.Serializable;
+
+public class Cellule implements Serializable {
     private int x;
     private int y;
     private boolean mur;
     private boolean accessible;
+    private static final long serialVersionUID = 1L;
 
     public Cellule(int x, int y, boolean mur) {
         this.x = x;

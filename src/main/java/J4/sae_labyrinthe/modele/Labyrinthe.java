@@ -1,5 +1,6 @@
 package J4.sae_labyrinthe.modele;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -17,8 +18,9 @@ import java.util.Stack;
  * @author Anas ACHOUCH
  * @author Nathan Philippe
  */
-public class Labyrinthe implements ILabyrinthe {
+public class Labyrinthe implements ILabyrinthe, Serializable {
     // TODO : vérifier le Pourcentage entre 0 et 100
+    private static final long serialVersionUID = 1L;
     private int largeur;
     private int hauteur;
     private double pourcentageMurs;
@@ -324,4 +326,21 @@ public class Labyrinthe implements ILabyrinthe {
     public void setGrille(Cellule[][] grilleSimple) {
         this.grille = grilleSimple;
     }
+
+    public void sauvegarder(String fichier) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fichier))) {
+            out.writeObject(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ILabyrinthe charger(String fichier) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fichier))) {
+            return (ILabyrinthe) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            return null;
+        }
+    }
+
 }
