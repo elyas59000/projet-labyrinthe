@@ -42,6 +42,9 @@ public class SceneMenuPrincipalControleur implements IObserver {
     private Button buttonModeProgression;
 
     @FXML
+    private Button buttonModeSupplementaire;
+
+    @FXML
     private Text textHintConnexion;
 
     /**
@@ -122,6 +125,19 @@ public class SceneMenuPrincipalControleur implements IObserver {
     }
 
     /**
+     * Ouvre la scène des modes supplémentaires.
+     *
+     * @param event clic
+     * @throws IOException si le chargement échoue
+     */
+    @FXML
+    void ouvrirSceneModeSupplementaire(MouseEvent event) throws IOException {
+        modeleJeu.remove(this);
+        SceneManager.chargerScene("SceneModeSupplementaire");
+    }
+
+
+    /**
      * Mise à jour demandée par le modèle : met à jour l'affichage selon le joueur courant.
      * Cette méthode s'exécute sur le thread JavaFX via Platform.runLater.
      */
@@ -133,13 +149,14 @@ public class SceneMenuPrincipalControleur implements IObserver {
                 textHintConnexion.setFill(Color.RED);
                 buttonModeProgression.setDisable(true);
                 //conPP.setImage(imagePPDefault);
+                buttonModeSupplementaire.setDisable(true);
 
             } else {
                 textHintConnexion.setText("Connecté – " + joueur.getNom());
                 textHintConnexion.setFill(Color.GREEN);
                 buttonModeProgression.setDisable(false);
                 //iconPP.setImage(modeleJeu.getJoueurActuel().getImagePP());
-
+                buttonModeSupplementaire.setDisable(false);
             }
 
     }
