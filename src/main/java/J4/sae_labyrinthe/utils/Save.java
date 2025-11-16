@@ -24,7 +24,7 @@ public class Save {
     /**
      * Sauvegarde une liste de joueurs dans un fichier avec chiffrement.
      * Les données sont chiffrées avant la sérialisation.
-     * 
+     *
      * @param joueurs La liste des joueurs à sauvegarder
      * @throws IOException En cas d'erreur lors de l'écriture du fichier
      * @author Adam Stievenard
@@ -32,10 +32,10 @@ public class Save {
     public static void saveToFile(ArrayList<Joueur> joueurs) throws IOException {
         try {
             //Chiffrement.chiffrer(joueurs);
-            
+
             FileOutputStream fos = new FileOutputStream(JOUEUR_PATH);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            
+
             oos.writeObject(joueurs);
             oos.close();
             fos.close();
@@ -46,11 +46,11 @@ public class Save {
             throw new IOException("Erreur lors de la sauvegarde chiffrée", e);
         }
     }
-    
+
     /**
      * Charge la liste des joueurs à partir du fichier de sauvegarde.
      * Les données sont déchiffrées après désérialisation.
-     * 
+     *
      * @return La liste des joueurs chargée depuis le fichier
      * @throws IOException En cas d'erreur lors de la lecture du fichier
      * @author Adam Stievenard
@@ -72,40 +72,8 @@ public class Save {
         } catch (Exception e) {
             throw new IOException("Erreur lors du déchiffrement des données", e);
         }
-        
+
         return savedData;
-    }
-
-    public static void saveScoresDuJour(ArrayList<ScoreDuJour> scores, LocalDate date) throws IOException {
-        String path = SCORES_DU_JOUR_PATH + date + ".data";
-
-        FileOutputStream fos = new FileOutputStream(path);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-        oos.writeObject(scores);
-
-        oos.close();
-        fos.close();
-    }
-
-    public static ArrayList<ScoreDuJour> loadScoresDuJour(LocalDate date) throws IOException {
-        String path = SCORES_DU_JOUR_PATH + date + ".data";
-
-        FileInputStream fis = new FileInputStream(path);
-        ObjectInputStream ois = new ObjectInputStream(fis);
-
-        ArrayList<ScoreDuJour> scores;
-
-        try {
-            scores = (ArrayList<ScoreDuJour>) ois.readObject();
-        } catch (ClassNotFoundException e) {
-            throw new IOException("Classe inconnue lors du chargement", e);
-        }
-
-        ois.close();
-        fis.close();
-
-        return scores;
     }
 
 }
