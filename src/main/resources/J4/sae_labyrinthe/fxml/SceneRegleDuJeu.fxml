@@ -27,11 +27,11 @@
 
    <children>
       <!-- Titre -->
-      <Text text="Règle du jeu"
+      <Text id="titreRegle" text="Règle du jeu"
             GridPane.columnIndex="1"
             GridPane.halignment="CENTER"
             GridPane.valignment="CENTER"
-            style="-fx-font-size: 36px; -fx-font-weight: bold;" />
+      />
 
       <!-- Contenu des règles -->
       <Label fx:id="texteRegles"
@@ -41,7 +41,9 @@
              GridPane.rowIndex="1"
              GridPane.halignment="CENTER"
              GridPane.valignment="TOP"
-             style="-fx-text-fill: black;-fx-font-weight: bold;">
+             textFill="aliceblue"
+
+             >
          <GridPane.margin>
             <Insets top="20.0" left="30.0" right="30.0" />
          </GridPane.margin>

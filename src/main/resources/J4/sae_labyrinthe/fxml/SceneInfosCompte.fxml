@@ -23,11 +23,7 @@
       <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Text fx:id="champsTitreCompte" strokeType="OUTSIDE" strokeWidth="0.0" text="Compte de " GridPane.columnIndex="1">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Text>
+      <Text fx:id="titreCompte" strokeType="OUTSIDE" strokeWidth="0.0" text="Compte de " GridPane.columnIndex="1"> </Text>
       <Button onMouseClicked="#retourScenePrecedente" prefHeight="70.0" prefWidth="70.0" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
          <graphic>
             <ImageView fitHeight="40.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">

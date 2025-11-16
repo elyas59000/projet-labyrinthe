@@ -28,7 +28,7 @@
 
     <children>
         <!-- Titre -->
-        <Text style="-fx-font-size:33px; -fx-font-weight:bold;" text="Labyrinthe" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+        <Text id="titrePrin" text="Labyrinthe" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
 
         <!-- Bloc central : VBox fillWidth pour que les boutons prennent la largeur dispo -->
         <VBox alignment="CENTER" fillWidth="true" spacing="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -85,9 +85,9 @@
          </GridPane.margin></Button>
 
         <!-- Texte "Déconnecté" -->
-        <Text fx:id="textHintConnexion" style="-fx-font-size: 18px; -fx-font-weight: bold; " GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+        <Text fx:id="textHintConnexion" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
          <effect>
-            <Glow level="0.68">
+            <Glow level="0.4">
                <input>
                   <DropShadow blurType="ONE_PASS_BOX" height="30.36" radius="18.2025" spread="0.38" width="44.45" />
                </input>

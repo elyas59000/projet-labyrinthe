@@ -25,11 +25,7 @@
       <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mode Libre" GridPane.columnIndex="1">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Text>
+      <Text id="titreLibre" strokeType="OUTSIDE" strokeWidth="0.0" text="Mode Libre" GridPane.columnIndex="1"> </Text>
       <Button onMouseClicked="#lancerPartieLibre" prefHeight="70.0" prefWidth="110.0" text="JOUER ▶ " GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="50.0" right="50.0" />
@@ -50,35 +46,23 @@
             <Insets bottom="50.0" left="50.0" />
          </GridPane.margin>
       </Button>
-      <VBox alignment="CENTER" maxWidth="617.0" prefHeight="358.0" prefWidth="430.0" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <VBox id="vboxLibre" alignment="CENTER" maxWidth="617.0" prefHeight="358.0" prefWidth="430.0" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Largeur du labyrinthe :">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
+                  <Text id="textLargeur" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Largeur du labyrinthe :"> </Text>
                   <Spinner fx:id="champsLargeur" editable="true" prefHeight="42.0" prefWidth="125.0" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Hauteur du labyrinthe :">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
+                  <Text id="textHauteur" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Hauteur du labyrinthe :"> </Text>
                   <Spinner fx:id="champsHauteur" editable="true" prefHeight="42.0" prefWidth="125.0" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="100.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Taux de mur :">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
+                  <Text id="textMur" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Taux de mur :"> </Text>
                   <Spinner fx:id="champsTauxMur" editable="true" prefHeight="42.0" prefWidth="125.0" />
                </children>
             </HBox>

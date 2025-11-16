@@ -31,7 +31,7 @@ public class SceneInfosCompteControleur implements IObserver {
     }
 
     @FXML
-    private Text champsTitreCompte;
+    private Text titreCompte;
 
     /**
      * Redirige vers la scène de modification du profil.
@@ -78,6 +78,6 @@ public class SceneInfosCompteControleur implements IObserver {
     @Override
     public void update() {
         String pseudo = modeleJeu.getJoueurActuel().getNom();
-        champsTitreCompte.setText(" "+pseudo);
+        titreCompte.setText(" "+pseudo);
     }
 }

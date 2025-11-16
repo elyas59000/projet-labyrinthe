@@ -25,11 +25,7 @@
       <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Inscription" GridPane.columnIndex="1">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Text>
+      <Text id="titreInsc" strokeType="OUTSIDE" strokeWidth="0.0" text="Inscription" GridPane.columnIndex="1"> </Text>
       <Button onMouseClicked="#validerInscription" prefHeight="70.0" prefWidth="70.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <graphic>
             <ImageView fitHeight="40.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">

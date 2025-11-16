@@ -8,9 +8,9 @@
 <?import javafx.scene.image.Image?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="J4.sae_labyrinthe.controleur.SceneDifficulteControleur">
    <children>
-      <Button layoutX="585.0" layoutY="241.0" mnemonicParsing="false" onMouseClicked="#lancerPartieNiv1" text="FACILE" />
-      <Button layoutX="583.0" layoutY="330.0" mnemonicParsing="false" onMouseClicked="#lancerPartieNiv2" text="MOYEN" />
-      <Button layoutX="573.0" layoutY="434.0" mnemonicParsing="false" onMouseClicked="#lancerPartieNiv3" text="DIFFICILE" />
+      <Button id="facile" layoutX="585.0" layoutY="241.0" mnemonicParsing="false" onMouseClicked="#lancerPartieNiv1" text="FACILE" />
+      <Button id="moyen" layoutX="583.0" layoutY="330.0" mnemonicParsing="false" onMouseClicked="#lancerPartieNiv2" text="MOYEN" />
+      <Button id="difficile" layoutX="573.0" layoutY="434.0" mnemonicParsing="false" onMouseClicked="#lancerPartieNiv3" text="DIFFICILE" />
       <Button layoutX="70.0" layoutY="611.0" mnemonicParsing="false" onMouseClicked="#retourScenePrecedente">
          <graphic>
             <ImageView fitHeight="40.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">

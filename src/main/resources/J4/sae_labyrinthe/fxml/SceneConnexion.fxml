@@ -26,11 +26,7 @@
       <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Connexion" GridPane.columnIndex="1">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Text>
+      <Text id="titreConn" strokeType="OUTSIDE" strokeWidth="0.0" text="Connexion" GridPane.columnIndex="1"> </Text>
       <Button onMouseClicked="#validerEntreesConnexion" prefHeight="70.0" prefWidth="70.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <graphic>
             <ImageView fitHeight="40.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
@@ -69,7 +65,7 @@
 
                <HBox alignment="CENTER" prefHeight="13.0" prefWidth="250.0" spacing="5.0">
                    <children>
-                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pas encore de compte ?">
+                       <Text id="noCompte" strokeType="OUTSIDE" strokeWidth="0.0" text="Pas encore de compte ?">
                            <font>
                                <Font name="System Italic" size="13.0" />
                            </font>

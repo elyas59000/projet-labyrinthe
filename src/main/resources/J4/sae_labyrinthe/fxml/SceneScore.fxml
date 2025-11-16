@@ -24,11 +24,7 @@
    <children>
       <VBox alignment="CENTER" prefHeight="519.0" prefWidth="1280.0" spacing="20.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tableau des scores" VBox.vgrow="NEVER">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Text>
+            <Text id="titreScore" strokeType="OUTSIDE" strokeWidth="0.0" text="Tableau des scores" VBox.vgrow="NEVER"> </Text>
             <TableView fx:id="tabScores" prefHeight="485.0" prefWidth="1280.0" VBox.vgrow="NEVER">
               <columns>
                   <TableColumn fx:id="namePlayer"  maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="295.0" resizable="false" sortable="false" text="Nom du joueur" />
