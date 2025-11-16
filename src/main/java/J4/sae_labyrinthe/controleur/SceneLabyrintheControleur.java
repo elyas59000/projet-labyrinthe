@@ -71,6 +71,9 @@ public class SceneLabyrintheControleur {
         if(laby instanceof Labyrinthe){info3.setText("Taux de mur : " + ((Labyrinthe) laby).getPourcentageMurs() + " %");}
 
 
+        if (!modele.getPartieLibre() && modele.etapeChoisi() == -1) {
+            setVueActive(vueEntiere);
+        }
 
         if (!modele.getPartieLibre()) {
             if (modele.etapeChoisi() == 3) {
