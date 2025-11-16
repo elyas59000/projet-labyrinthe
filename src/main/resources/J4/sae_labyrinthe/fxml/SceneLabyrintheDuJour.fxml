@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="J4.sae_labyrinthe.controleur.SceneLabyrintheDuJourControleur">
+
+    <top>
+        <Text text="Labyrinthe du jour"
+              style="-fx-font-size: 32px; -fx-font-weight: bold;"
+              BorderPane.alignment="CENTER"/>
+    </top>
+
+    <center>
+        <Text fx:id="txtDescription"
+              text="Un nouveau labyrinthe chaque jour !"
+              style="-fx-font-size: 18px;"/>
+
+        <VBox spacing="20" alignment="CENTER">
+            <Text text="Un nouveau labyrinthe chaque jour !"
+                  style="-fx-font-size: 18px;"/>
+
+            <Button text="Jouer"
+                    prefWidth="250"
+                    style="-fx-font-size: 18px;"
+                    onMouseClicked="#jouerLabyrintheDuJour"/>
+
+            <Button text="Scores"
+                    prefWidth="250"
+                    style="-fx-font-size: 18px;"
+                    onMouseClicked="#ouvrirScoresDuJour"/>
+
+            <Button text="Retour"
+                    prefWidth="200"
+                    style="-fx-font-size: 16px;"
+                    onMouseClicked="#revenirMenu"/>
+        </VBox>
+    </center>
+
+    <padding>
+        <Insets top="40" bottom="40" left="40" right="40"/>
+    </padding>
+
+</BorderPane>
