@@ -1,0 +1,54 @@
+package J4.sae_labyrinthe.controleur;
+
+import java.io.IOException;
+
+import J4.sae_labyrinthe.modele.ModeleJeu;
+import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
+import J4.sae_labyrinthe.vue.IObserver;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.text.Text;
+import J4.sae_labyrinthe.utils.SceneManager;
+
+public class SceneContreLaMontreControleur implements IObserver {
+
+    private final ModeleJeu modele = ModeleJeuSingleton.getInstance();
+
+    @FXML
+    private Button btnJouer;
+    @FXML
+    private Text txtDescription;
+
+    @FXML
+    void initialize() {
+        txtDescription.setText("Complète le labyrinthe avant la fin du chrono !");
+    }
+
+    @FXML
+    void jouerContreLaMontre() {
+        // Génère un labyrinthe aléatoire pour le contre-la-montre (largeur/hauteur 10, 30% murs)
+        modele.lancerPartieLibre(10, 10, 30);
+        // Ici on pourrait ajouter un timer dans SceneLabyrintheControleur pour le chrono
+        try {
+            modele.remove(this);
+            SceneManager.chargerScene("SceneLabyrinthe");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void revenirMenu() {
+        try {
+            modele.remove(this);
+            SceneManager.chargerScene("SceneModeSupplementaire");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void update() {
+
+    }
+}
