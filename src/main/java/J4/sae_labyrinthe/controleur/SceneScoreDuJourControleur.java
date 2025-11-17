@@ -1,28 +1,21 @@
 package J4.sae_labyrinthe.controleur;
 
 import J4.sae_labyrinthe.modele.Joueur;
-import J4.sae_labyrinthe.modele.ModeleJeu;
-import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SaveScoreDuJour;
 import J4.sae_labyrinthe.utils.ScoreDuJour;
-import J4.sae_labyrinthe.utils.Save;
-import J4.sae_labyrinthe.vue.IObserver;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import J4.sae_labyrinthe.utils.SceneManager;
 
-public class SceneScoreDuJourControleur implements IObserver {
-
-    private final ModeleJeu modele = ModeleJeuSingleton.getInstance();
+public class SceneScoreDuJourControleur {
 
     @FXML
     private TableView<ScoreDuJour> tableScores;
@@ -57,15 +50,10 @@ public class SceneScoreDuJourControleur implements IObserver {
     @FXML
     public void revenirMenu() {
         try {
-            modele.remove(this);
             SceneManager.chargerScene("SceneLabyrintheDuJour");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    public void update() {
-
-    }
 }
