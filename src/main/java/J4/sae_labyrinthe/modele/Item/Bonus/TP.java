@@ -1,5 +1,6 @@
 package J4.sae_labyrinthe.modele.Item.Bonus;
 
+import J4.sae_labyrinthe.modele.Cellule;
 import J4.sae_labyrinthe.modele.Item.IItem;
 import J4.sae_labyrinthe.modele.Labyrinthe;
 import J4.sae_labyrinthe.modele.ModeleJeu;
@@ -19,8 +20,11 @@ public class TP implements IItem {
 
     @Override
     public void applyEffect() {
-        modele.setPositionJoueur(modele.getLabyrinthe().positionAleaCell());
-        removeSelf();
+        Cellule pos = modele.getLabyrinthe().positionAleaCell();
+        if (pos != null) {
+            modele.setPositionJoueur(pos);
+            removeSelf();
+        }
     }
 
     @Override

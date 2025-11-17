@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import J4.sae_labyrinthe.exception.ValidationException;
+import J4.sae_labyrinthe.modele.Item.Bonus.PlusVision;
+import J4.sae_labyrinthe.modele.Item.Cleanse;
+import J4.sae_labyrinthe.modele.Item.IItem;
+import J4.sae_labyrinthe.modele.Item.Malus.MoinsVision;
 import J4.sae_labyrinthe.utils.LabyrintheDuJourManager;
 import J4.sae_labyrinthe.utils.Save;
 import J4.sae_labyrinthe.utils.SaveScoreDuJour;
@@ -39,6 +42,10 @@ public class ModeleJeu implements IModeleJeu {
     private int tempsDuJour = 0;
     private ScoreDuJour scoresDuJour;
     private LocalDateTime debutLabyrintheDuJour;
+    // items
+    private HashSet<IItem> setItem;
+    private int visionRange;
+    private HashMap<Cellule, Integer> ward;
 
 
     /**
@@ -481,6 +488,125 @@ public class ModeleJeu implements IModeleJeu {
 
     public void removeAll() {
         observers.clear();
+    }
+
+
+    /* Items */
+
+    public void setPositionJoueur(Cellule pos) {
+        this.positionJoueur = pos;
+    }
+
+    public void setVisionRange(int range){
+        this.visionRange = range;
+    }
+    public int getVisionRange(){
+        return this.visionRange;
+    }
+
+    public HashMap<Cellule, Integer> getWard() {
+        return ward;
+    }
+    public void setWard(HashMap<Cellule, Integer> ward) {
+        this.ward = ward;
+    }
+    public void setWard(Cellule cell, int range) {
+        setWard((HashMap<Cellule, Integer>) Map.of(cell, range));
+    }
+
+
+    public void itemApplyEffect(){
+        if (containCleanse()){
+            cleanse();
+        }
+
+        for (IItem item : setItem){
+            item.applyEffect();
+        }
+    }
+
+    public void cleanse(){
+        setItem.clear();
+    }
+
+    public void removeItem(IItem item){
+        setItem.remove(item);
+    }
+    public void removeItems(Set<IItem> items){
+        setItem.removeAll(items);
+    }
+
+    public void addItem(IItem item){
+        setItem.add(item);
+    }
+
+    public Set<IItem> getSetItem(){
+        return this.setItem;
+    }
+
+    public boolean containPlusVision(){
+        for (IItem item : setItem){
+            if (item.getClass().equals(PlusVision.class) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containCleanse(){
+        for (IItem item : setItem){
+            if (item.getClass().equals(Cleanse.class) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean rangeZero(){
+        return visionRange == 0;
+    }
+
+    public Set<IItem> getVisionItems(){
+        HashSet<IItem> temp = new HashSet<>();
+        for (IItem item : setItem){
+            if (item.getClass().equals(PlusVision.class) ||
+                    item.getClass().equals(MoinsVision.class)) {
+                temp.add(item);
+            }
+        }
+        return temp;
+    }
+
+    public void removeWard(){
+        ward.clear();
+    }
+
+    public Set<IItem> getMalus(){
+        HashSet<IItem> temp = new HashSet<>();
+        for (IItem item : setItem){
+            if (item.isBonus() == -1){
+                temp.add(item);
+            }
+        }
+        return temp;
+    }
+    public Set<IItem> getBonus(){
+        HashSet<IItem> temp = new HashSet<>();
+        for (IItem item : setItem){
+            if (item.isBonus() == 1){
+                temp.add(item);
+            }
+        }
+        return temp;
+    }
+    public Set<IItem> getNeutral(){
+        HashSet<IItem> temp = new HashSet<>();
+        for (IItem item : setItem){
+            if (item.isBonus() == 0){
+                temp.add(item);
+            }
+        }
+        return temp;
     }
 
 }

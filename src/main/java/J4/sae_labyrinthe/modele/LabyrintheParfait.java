@@ -198,4 +198,10 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         }
     }
 
+    @Override
+    public Cellule positionAleaCell() {
+        // TODO : cf Labyrinthe simple
+        return null;
+    }
+
 }

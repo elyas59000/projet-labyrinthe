@@ -269,6 +269,35 @@ public class Labyrinthe implements ILabyrinthe, Serializable {
             sortie.setMur(false);
         }
 
+        List<Cellule> accessibles = listAccesSortie();
+
+        // Si seules la sortie (ou aucune cellule) est accessible, fallback sur (0,0)
+        if (accessibles.size() <= 1) {
+            this.entree = grille[0][0];
+            this.entree.setMur(false);
+            return;
+        }
+
+        this.entree = choisiCellAlea(accessibles);
+        this.entree.setMur(false);
+    }
+
+    /**
+     *
+     * @return Cellule aleatoire de laquelle on peut acceder a la sortie
+     */
+    public Cellule positionAleaCell() {
+        // Assure que la sortie existe et est libre
+        if (sortie == null) {
+            return null;
+        }
+
+        List<Cellule> accessibles = listAccesSortie();
+
+        return choisiCellAlea(accessibles);
+    }
+
+    public List<Cellule> listAccesSortie(){
         boolean[][] visite = new boolean[hauteur][largeur];
         Queue<Cellule> file = new LinkedList<>();
         List<Cellule> accessibles = new ArrayList<>();
@@ -293,24 +322,19 @@ public class Labyrinthe implements ILabyrinthe, Serializable {
                 }
             }
         }
+        return accessibles;
+    }
 
-        // Si seules la sortie (ou aucune cellule) est accessible, fallback sur (0,0)
-        if (accessibles.size() <= 1) {
-            this.entree = grille[0][0];
-            this.entree.setMur(false);
-            return;
-        }
-
+    public Cellule choisiCellAlea(List<Cellule> accessibles){
         // Choisir aléatoirement une cellule accessible différente de la sortie
         Random r = new Random();
         Cellule choisie;
         do {
             choisie = accessibles.get(r.nextInt(accessibles.size()));
         } while (choisie == sortie); // évite de placer l'entrée exactement sur la sortie
-
-        this.entree = choisie;
-        this.entree.setMur(false);
+        return choisie;
     }
+
 
     public boolean estDansLabyrinthe(int i, int j) {
         return i >= 0 && i < getHauteur() && j >= 0 && j < getLargeur();
