@@ -148,4 +148,54 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Place la sortie à une distance précise de l'entrée.
+     * La distance est mesurée en nombre de pas (cellules adjacentes).
+     * Choisit aléatoirement parmi les cellules à cette distance.
+     */
+    public void placerSortieA(int distance) {
+        boolean[][] visite = new boolean[hauteur][largeur]; // cellules jouables
+        Map<int[], Integer> distMap = new HashMap<>();
+        Queue<int[]> file = new LinkedList<>();
+
+        int startX = 0, startY = 0; // cellule de départ jouable
+        file.add(new int[]{startX, startY});
+        visite[startX][startY] = true;
+        distMap.put(new int[]{startX, startY}, 0);
+
+        List<int[]> candidats = new ArrayList<>();
+
+        int[][] dirs = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+
+        while (!file.isEmpty()) {
+            int[] c = file.poll();
+            int cx = c[0], cy = c[1];
+            int d = Math.abs(cx - startX) + Math.abs(cy - startY); // distance en pas
+            if (d == distance) {
+                candidats.add(c);
+                continue;
+            }
+
+            for (int[] dir : dirs) {
+                int nx = cx + dir[0];
+                int ny = cy + dir[1];
+                if (nx >= 0 && nx < hauteur && ny >= 0 && ny < largeur &&
+                        !visite[nx][ny] && !grille[nx*2+1][ny*2+1].estMur()) {
+                    visite[nx][ny] = true;
+                    file.add(new int[]{nx, ny});
+                }
+            }
+        }
+
+        if (!candidats.isEmpty()) {
+            Random r = new Random();
+            int[] choix = candidats.get(r.nextInt(candidats.size()));
+            sortie = grille[choix[0]*2+1][choix[1]*2+1]; // conversion en coordonnées de grille
+            sortie.setMur(false);
+        } else {
+            System.out.println("Aucune cellule à cette distance.");
+        }
+    }
+
 }

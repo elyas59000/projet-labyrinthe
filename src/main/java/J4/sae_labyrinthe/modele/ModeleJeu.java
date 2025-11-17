@@ -173,8 +173,8 @@ public class ModeleJeu implements IModeleJeu {
         partieLibre =false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
         if(etapeChoisi.getNumero() > 3){
-            this.labyrinthe = new LabyrintheParfait(10,10,etapeChoisi);
-            //((LabyrintheParfait) this.labyrinthe).placerSortieA(d.getDistance());
+            this.labyrinthe = new LabyrintheParfait(5,5,etapeChoisi);
+            ((LabyrintheParfait) this.labyrinthe).placerSortieA(5);
         }else {
             this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote(),d.getPourcentageMurs(),etapeChoisi);
         }
@@ -269,34 +269,31 @@ public class ModeleJeu implements IModeleJeu {
      */
     public void deplacerJoueur(String direction) {
         if (labyrinthe == null || positionJoueur == null) return;
-
+        int ny,nx;
         int x = positionJoueur.getX();
         int y = positionJoueur.getY();
-        int nx = x;
-        int ny = y;
-
+        nx = x;
+        ny = y;
         switch (direction.toLowerCase().charAt(0)) {
-            case 'z' -> ny--;
-            case 's' -> ny++;
-            case 'q' -> nx--;
-            case 'd' -> nx++;
+            case 'z' -> nx--;
+            case 's' -> nx++;
+            case 'q' -> ny--;
+            case 'd' -> ny++;
             default -> {
                 System.out.println("mauvaise direction");
                 return;
             }
+
         }
 
-        // Délégation selon le type concret du labyrinthe
-        if (labyrinthe instanceof LabyrintheParfait) {
-            deplacerDansLabyrintheParfait((LabyrintheParfait) labyrinthe, nx, ny);
-        } else if (labyrinthe instanceof Labyrinthe) {
-            deplacerDansLabyrintheClassique((Labyrinthe) labyrinthe, nx, ny);
-        } else {
-            System.out.println("Type de labyrinthe non reconnu.");
+        if(this.labyrinthe instanceof  LabyrintheParfait){
+            deplacerDansLabyrintheParfait((LabyrintheParfait) labyrinthe,nx,ny,direction);
+        }else if(this.labyrinthe instanceof Labyrinthe) {
+            deplacerDansLabyrintheClassique((Labyrinthe) labyrinthe, nx, ny,direction);
         }
     }
 
-    private void deplacerDansLabyrintheClassique(Labyrinthe laby, int nx, int ny) {
+    private void deplacerDansLabyrintheClassique(Labyrinthe laby, int nx, int ny,String direction) {
         if (nx < 0 || nx >= laby.getLargeur() || ny < 0 || ny >= laby.getHauteur()) return;
 
         Cellule next = laby.getGrille()[ny][nx];
@@ -309,17 +306,32 @@ public class ModeleJeu implements IModeleJeu {
         }
     }
 
-    private void deplacerDansLabyrintheParfait(LabyrintheParfait laby, int nx, int ny) {
+    private void deplacerDansLabyrintheParfait(LabyrintheParfait laby, int nx, int ny,String direction) {
+
         int x = positionJoueur.getX();
         int y = positionJoueur.getY();
-        if (!laby.peutAller(y, x, ny, nx)) {
+
+        if (nx < 0 || nx >= laby.getHauteur() || ny < 0 || ny >= laby.getLargeur()) {
+            System.out.println("Hors de la grille !");
+            return;
+        }
+
+        if (!laby.peutAller(x, y, nx, ny)) {
             System.out.println("C'est un mur");
             return;
         }
+
         positionJoueur = laby.getGrille()[nx][ny];
-        verifierSortie(laby, laby.getGrille()[nx][ny]);
+
+
+        if (positionJoueur.getX() == laby.getSortie().getX() &&
+                positionJoueur.getY() == laby.getSortie().getY()) {
+            System.out.println("Bravo ! Vous avez atteint la sortie !");
+        }
+
         notifierObservateurs();
     }
+
 
 
     private void verifierSortie(ILabyrinthe laby, Cellule next) {
