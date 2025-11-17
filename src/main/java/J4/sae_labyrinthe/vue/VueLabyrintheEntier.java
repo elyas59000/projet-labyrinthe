@@ -26,20 +26,23 @@ public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
                 LARGEUR_DISPONIBLE_ZONE, HAUTEUR_DISPONIBLE_ZONE, largeur, hauteur
         );
         parcoursCreationGridPane(grille,largeur,hauteur, tailleCarre);
-        if(laby instanceof Labyrinthe) this.rafraichirAffichage();
-        if(laby instanceof LabyrintheParfait) this.rafraichirAffichageParfait();
+        this.rafraichirAffichage();
     }
 
 
     @Override
     protected void rafraichirAffichage() {
-        ILabyrinthe laby = modele.getLabyrinthe();
-        if (laby instanceof LabyrintheParfait) {
-            rafraichirAffichageParfait();
-        }else{
-            rafraichirAleatoire();
+        ILabyrinthe lab = modele.getLabyrinthe();
+        int joueurX = modele.getPositionJoueur().getX();
+        int joueurY = modele.getPositionJoueur().getY();
+        int largeur = lab.getLargeur();
+
+        for (int j = 0; j < lab.getHauteur(); j++) {
+            for (int i = 0; i < largeur; i++) {
+                Rectangle cell = (Rectangle) grille.getChildren().get(j * largeur + i);
+                appliquerTexture(cell, lab, j, i, joueurY, joueurX);
+            }
         }
-        return;
     }
 
     protected void rafraichirAleatoire(){
@@ -55,66 +58,12 @@ public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
             }
         }
     }
-    private void rafraichirAffichageParfait() {
-        LabyrintheParfait laby = (LabyrintheParfait) modele.getLabyrinthe();
-        int joueurX = modele.getPositionJoueur().getX();
-        int joueurY = modele.getPositionJoueur().getY();
 
-        int largeur = laby.getLargeur();
-        int hauteur = laby.getHauteur();
-        int largeurAff = largeur * 2 - 1;
-        int hauteurAff = hauteur * 2 - 1;
 
-        double tailleCarre = Calcul.calculTailleCarreOptimal(
-                LARGEUR_DISPONIBLE_ZONE, HAUTEUR_DISPONIBLE_ZONE, largeurAff, hauteurAff
-        );
 
-        parcoursCreationGridPane(grille, largeurAff, hauteurAff, tailleCarre);
 
-        for (int i = 0; i < hauteurAff; i++) {
-            for (int j = 0; j < largeurAff; j++) {
-                Rectangle cell = (Rectangle) grille.getChildren().get(i * largeurAff + j);
-                if (i % 2 == 0 && j % 2 == 0) {
-                    int ci = i / 2;
-                    int cj = j / 2;
-                    if (ci == joueurY && cj == joueurX) {
-                        cell.setFill(new ImagePattern(FusionImage.fusionnerImages(fond, joueur)));
-                    } else if (laby.getGrille()[ci][cj].equals(laby.getSortie())) {
-                        cell.setFill(new ImagePattern(FusionImage.fusionnerImages(fond, fin)));
-                    } else {
-                        cell.setFill(new ImagePattern(fond));
-                    }
-                }
 
-                // CASE MUR HORIZONTAL
-                else if (i % 2 == 1 && j % 2 == 0) {
-                    int ci = i / 2;
-                    int cj = j / 2;
-                    if (laby.getMurHorizontaux()[ci][cj].estMur()) {
-                        cell.setFill(new ImagePattern(brique));
-                    } else {
-                        cell.setFill(new ImagePattern(fond));
-                    }
-                }
 
-                // CASE MUR VERTICAL
-                else if (i % 2 == 0 && j % 2 == 1) {
-                    int ci = i / 2;
-                    int cj = j / 2;
-                    if (laby.getMurVerticaux()[cj][ci].estMur()) {
-                        cell.setFill(new ImagePattern(brique));
-                    } else {
-                        cell.setFill(new ImagePattern(fond));
-                    }
-                }
-
-                // CASE INTERSECTION (toujours un mur)
-                else {
-                    cell.setFill(new ImagePattern(brique));
-                }
-            }
-        }
-    }
 
 
 
