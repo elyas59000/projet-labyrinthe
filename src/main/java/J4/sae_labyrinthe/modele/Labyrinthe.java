@@ -125,10 +125,11 @@ public class Labyrinthe implements ILabyrinthe, Serializable {
         placerMurs(positionPossibles(), totalMurs);
 
         nettoyerZones();
-
+        positionSortieAlea();
         if (e != null && e.getNumero() == 3) {
             positionAlea();
         }
+
     }
 
     private void nettoyerZones() {
@@ -342,5 +343,63 @@ public class Labyrinthe implements ILabyrinthe, Serializable {
             return null;
         }
     }
+
+
+    /**
+     * Place la sortie dans une position aléatoire accessible depuis l'entrée.
+     * Ne doit jamais être placée sur la même cellule que l'entrée.
+     *
+     */
+    public void positionSortieAlea() {
+
+        // On fait un BFS simple depuis l'entrée
+        boolean[][] visite = new boolean[hauteur][largeur];
+        Queue<Cellule> file = new LinkedList<>();
+        List<Cellule> accessibles = new ArrayList<>();
+
+        file.add(entree);
+        visite[entree.getY()][entree.getX()] = true;
+
+        int[][] dirs = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+
+        while (!file.isEmpty()) {
+            Cellule c = file.poll();
+            accessibles.add(c);
+
+            for (int[] d : dirs) {
+                int nx = c.getX() + d[0];
+                int ny = c.getY() + d[1];
+
+                if (nx >= 0 && nx < largeur && ny >= 0 && ny < hauteur) {
+                    if (!visite[ny][nx] && !grille[ny][nx].estMur()) {
+                        visite[ny][nx] = true;
+                        file.add(grille[ny][nx]);
+                    }
+                }
+            }
+        }
+
+        // si entrée seule accessible → sortie classique
+        if (accessibles.size() <= 1) {
+            sortie = grille[hauteur - 1][largeur - 1];
+            sortie.setMur(false);
+            System.out.println("Sortie placée par défaut en : (" + sortie.getX() + ", " + sortie.getY() + ")");
+            return;
+        }
+
+        // choix aléatoire ≠ entrée
+        Random r = new Random();
+        Cellule choisie;
+        do {
+            choisie = accessibles.get(r.nextInt(accessibles.size()));
+        } while (choisie == entree);
+
+        sortie = choisie;
+        sortie.setMur(false);
+        System.out.println("DEBUG: Mur avant nettoyage = " + sortie.estMur());
+        System.out.println("Sortie placée aléatoirement en : (" + sortie.getX() + ", " + sortie.getY() + ")");
+    }
+
+
 
 }
