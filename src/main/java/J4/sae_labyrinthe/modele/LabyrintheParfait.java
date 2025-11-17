@@ -3,219 +3,144 @@ package J4.sae_labyrinthe.modele;
 import java.io.*;
 import java.util.*;
 
-public class LabyrintheParfait implements ILabyrinthe, Serializable  {
+public class LabyrintheParfait implements ILabyrinthe, Serializable {
     private static final long serialVersionUID = 1L;
-    private int largeur, hauteur;
+
+    private int largeur, hauteur; // nombre de cellules “jouables”
+    private int gridLargeur, gridHauteur; // taille réelle de la grille avec murs
     private Cellule[][] grille;
-    private Cellule[][] murVerticaux, murHorizontaux;
     private Cellule entree, sortie;
     private Etape e;
 
     public LabyrintheParfait() {
-        this(4, 5);
+        this(5, 5); // labyrinthe 5x5 jouable
     }
 
     public LabyrintheParfait(int largeur, int hauteur) {
-        this(largeur,hauteur,new Etape(0));
+        this(largeur, hauteur, new Etape(0));
     }
 
-    public LabyrintheParfait(int largeur,int hauteur,Etape e) {
+    public LabyrintheParfait(int largeur, int hauteur, Etape e) {
         this.largeur = largeur;
         this.hauteur = hauteur;
-
-        // Initialisation de la grille principale
-        this.grille = new Cellule[hauteur][largeur];
-        for (int i = 0; i < hauteur; i++) {
-            for (int j = 0; j < largeur; j++) {
-                grille[i][j] = new Cellule(i, j, false);
-            }
-        }
-
-        // Murs verticaux et horizontaux
-        this.murVerticaux = new Cellule[largeur - 1][hauteur];
-        this.murHorizontaux = new Cellule[hauteur - 1][largeur];
-
-        for (int i = 0; i < murVerticaux.length; i++) {
-            for (int j = 0; j < murVerticaux[i].length; j++) {
-                murVerticaux[i][j] = new Cellule(i, j, true);
-            }
-        }
-
-        for (int i = 0; i < murHorizontaux.length; i++) {
-            for (int j = 0; j < murHorizontaux[i].length; j++) {
-                murHorizontaux[i][j] = new Cellule(i, j, true);
-            }
-        }
-
-        genereLabyParfait();
-
-        // Définir l’entrée et la sortie (par défaut : coin haut-gauche et bas-droit)
-        this.entree = grille[0][0];
-        this.sortie = grille[hauteur - 1][largeur - 1];
-
         this.e = e;
-    }
 
-    // --- Implémentation de l'interface ILabyrinthe ---
-    @Override
-    public Cellule[][] getGrille() {
-        return grille;
-    }
+        // taille réelle de la grille (ajout des murs)
+        gridLargeur = largeur * 2 + 1;
+        gridHauteur = hauteur * 2 + 1;
 
-    @Override
-    public int getLargeur() {
-        return largeur;
-    }
-
-    @Override
-    public int getHauteur() {
-        return hauteur;
-    }
-
-    @Override
-    public Cellule getEntree() {
-        return entree;
-    }
-
-    @Override
-    public Cellule getSortie() {
-        return sortie;
-    }
-
-    @Override
-    public Etape getEtape() {
-        return e;
-    }
-
-    // --- Fonctions internes ---
-    public boolean estMur(int ligne, int colonne, int ligne1, int colonne1) {
-        if (!adjacent(ligne, colonne, ligne1, colonne1))
-            throw new RuntimeException("Cellules non adjacentes");
-
-        if (!positionCorrecte(ligne, colonne) || !positionCorrecte(ligne1, colonne1))
-            return true;
-
-        if (colonne == colonne1) {
-            return murHorizontaux[Math.min(ligne, ligne1)][colonne].estMur();
+        // initialisation de la grille entière remplie de murs
+        grille = new Cellule[gridHauteur][gridLargeur];
+        for (int i = 0; i < gridHauteur; i++) {
+            for (int j = 0; j < gridLargeur; j++) {
+                grille[j][i] = new Cellule(j, i, true);
+            }
         }
-        if (ligne == ligne1) {
-            return murVerticaux[Math.min(colonne, colonne1)][ligne].estMur();
-        }
-        return true;
+
+        // génération du labyrinthe
+        generationLaby();
+
+        entree = grille[1][1]; // coin haut-gauche (chemin)
+        sortie = grille[gridHauteur - 2][gridLargeur - 2]; // coin bas-droit
     }
 
-    private void enleverMur(int ligne, int colonne, int ligne1, int colonne1) {
-        if (!adjacent(ligne, colonne, ligne1, colonne1))
-            throw new RuntimeException("Cellules non adjacentes");
+    private void generationLaby() {
+        boolean[][] visite = new boolean[hauteur][largeur]; // cellules jouables
+        Stack<int[]> pile = new Stack<>();
+        Random r = new Random();
 
-        if (colonne == colonne1) {
-            murHorizontaux[Math.min(ligne, ligne1)][colonne].setMur(false);
-        } else if (ligne == ligne1) {
-            murVerticaux[Math.min(colonne, colonne1)][ligne].setMur(false);
-        }
-    }
+        int startX = 0, startY = 0;
+        pile.push(new int[]{startX, startY});
+        visite[startX][startY] = true;
 
-    private boolean positionCorrecte(int ligne, int colonne) {
-        return ligne >= 0 && ligne < hauteur && colonne >= 0 && colonne < largeur;
-    }
-
-    private boolean adjacent(int ligne, int colonne, int ligne1, int colonne1) {
-        return (ligne == ligne1 && Math.abs(colonne - colonne1) == 1)
-                || (colonne == colonne1 && Math.abs(ligne - ligne1) == 1);
-    }
-
-    public List<Cellule> voisins(int ligne, int colonne) {
-        List<Cellule> v = new ArrayList<>();
-        if (ligne > 0) v.add(grille[ligne - 1][colonne]);
-        if (ligne < this.hauteur - 1) v.add(grille[ligne + 1][colonne]);
-        if (colonne > 0) v.add(grille[ligne][colonne - 1]);
-        if (colonne < this.largeur - 1) v.add(grille[ligne][colonne + 1]);
-        return v;
-    }
-
-    private void genereLabyParfait() {
-        boolean[][] visite = new boolean[this.hauteur][this.largeur];
-        Stack<Cellule> pile = new Stack<>();
-        Random alea = new Random();
-
-        int ligne = alea.nextInt(this.hauteur);
-        int colonne = alea.nextInt(this.largeur);
-
-        pile.push(grille[ligne][colonne]);
-        visite[ligne][colonne] = true;
+        // Creuse la cellule de départ
+        creuser(startX, startY);
 
         while (!pile.isEmpty()) {
-            Cellule courante = pile.peek();
-            int i = courante.getX();
-            int j = courante.getY();
+            int[] c = pile.peek();
+            int cx = c[0], cy = c[1];
 
-            List<Cellule> pasTraitees = new ArrayList<>();
-            for (Cellule c : voisins(i, j)) {
-                if (!visite[c.getX()][c.getY()]) {
-                    pasTraitees.add(c);
-                }
-            }
+            // voisins non visités
+            List<int[]> voisins = new ArrayList<>();
+            if (cx > 0 && !visite[cx - 1][cy]) voisins.add(new int[]{cx - 1, cy});
+            if (cx < hauteur - 1 && !visite[cx + 1][cy]) voisins.add(new int[]{cx + 1, cy});
+            if (cy > 0 && !visite[cx][cy - 1]) voisins.add(new int[]{cx, cy - 1});
+            if (cy < largeur - 1 && !visite[cx][cy + 1]) voisins.add(new int[]{cx, cy + 1});
 
-            if (!pasTraitees.isEmpty()) {
-                Cellule voisine = pasTraitees.get(alea.nextInt(pasTraitees.size()));
-                enleverMur(i, j, voisine.getX(), voisine.getY());
-                visite[voisine.getX()][voisine.getY()] = true;
-                pile.push(voisine);
-            } else {
+            if (voisins.isEmpty()) {
                 pile.pop();
+            } else {
+                int[] v = voisins.get(r.nextInt(voisins.size()));
+                int vx = v[0], vy = v[1];
+
+                // Creuse le mur entre c et v
+                creuserMur(cx, cy, vx, vy);
+
+                visite[vx][vy] = true;
+                pile.push(v);
             }
         }
     }
 
-    public boolean peutAller(int ligne, int colonne, int ligne1, int colonne1) {
-        if (!adjacent(ligne, colonne, ligne1, colonne1))
+
+    private void creuser(int cx, int cy) {
+        grille[cx * 2 + 1][cy * 2 + 1].setMur(false);
+    }
+
+    // -------------------------------------------------------------------------
+    // Creuser le mur entre deux cellules jouables
+    // -------------------------------------------------------------------------
+    private void creuserMur(int x1, int y1, int x2, int y2) {
+        int gx1 = x1 * 2 + 1, gy1 = y1 * 2 + 1;
+        int gx2 = x2 * 2 + 1, gy2 = y2 * 2 + 1;
+
+        // Creuser la cellule cible
+        grille[gx2][gy2].setMur(false);
+
+        // Creuser le mur entre les deux
+        int mx = (gx1 + gx2) / 2;
+        int my = (gy1 + gy2) / 2;
+        grille[mx][my].setMur(false);
+    }
+
+    // -------------------------------------------------------------------------
+    // Accès à la grille
+    // -------------------------------------------------------------------------
+    @Override
+    public Cellule[][] getGrille() { return grille; }
+
+    @Override
+    public int getLargeur() { return gridLargeur; }
+
+    @Override
+    public int getHauteur() { return gridHauteur; }
+
+    @Override
+    public Cellule getEntree() { return entree; }
+
+    @Override
+    public Cellule getSortie() { return sortie; }
+
+    @Override
+    public Etape getEtape() { return e; }
+
+    // -------------------------------------------------------------------------
+    // Vérification du déplacement
+    // -------------------------------------------------------------------------
+    public boolean peutAller(int x1, int y1, int x2, int y2) {
+        // limites
+        if (x2 < 0 || x2 >= gridHauteur || y2 < 0 || y2 >= gridLargeur) return false;
+
+        // adjacent
+        if (!((x1 == x2 && Math.abs(y1 - y2) == 1) || (y1 == y2 && Math.abs(x1 - x2) == 1)))
             return false;
-        return !estMur(ligne, colonne, ligne1, colonne1);
+
+        return !grille[x2][y2].estMur();
     }
 
-
-    public Cellule[][] getMurHorizontaux() { return murHorizontaux; }
-    public Cellule[][] getMurVerticaux() { return murVerticaux; }
-
-    public void placerSortieA(int distance) {
-        boolean[][] visite = new boolean[hauteur][largeur];
-        Map<Cellule, Integer> dist = new HashMap<>();
-        Queue<Cellule> queue = new LinkedList<>();
-
-        // Initialisation
-        queue.add(entree);
-        visite[entree.getX()][entree.getY()] = true;
-        dist.put(entree, 0);
-
-        List<Cellule> candidats = new ArrayList<>();
-
-        while (!queue.isEmpty()) {
-            Cellule c = queue.poll();
-            int d = dist.get(c);
-
-            if (d == distance) {
-                candidats.add(c);
-                continue; // on ne propage pas au-delà
-            }
-
-            for (Cellule v : voisins(c.getX(), c.getY())) {
-                if (!visite[v.getX()][v.getY()] && peutAller(c.getX(), c.getY(), v.getX(), v.getY())) {
-                    visite[v.getX()][v.getY()] = true;
-                    dist.put(v, d + 1);
-                    queue.add(v);
-                }
-            }
-        }
-
-        if (!candidats.isEmpty()) {
-            // Choisir aléatoirement parmi les candidats
-            sortie = candidats.get(new Random().nextInt(candidats.size()));
-        } else {
-            // Si aucune cellule à cette distance, on garde la sortie par défaut
-            System.out.println("Impossible de placer la sortie à " + distance + " cases.");
-        }
-    }
-
+    // -------------------------------------------------------------------------
+    // Sauvegarde
+    // -------------------------------------------------------------------------
     public void sauvegarder(String fichier) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fichier))) {
             out.writeObject(this);
@@ -223,6 +148,4 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable  {
             e.printStackTrace();
         }
     }
-
 }
-
