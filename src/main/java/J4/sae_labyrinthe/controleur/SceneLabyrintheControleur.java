@@ -197,11 +197,7 @@ public class SceneLabyrintheControleur {
     private void quitterPartie() {
         try {
             nettoyerJeu();
-            if (modele.getPartieLibre()) {
-                SceneManager.chargerScene("SceneModeLibre");
-            } else {
-                SceneManager.chargerScene("SceneProg");
-            }
+            SceneManager.chargerScene(modele.getPartie());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

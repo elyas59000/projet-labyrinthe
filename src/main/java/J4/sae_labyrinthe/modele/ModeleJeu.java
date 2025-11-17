@@ -35,7 +35,6 @@ public class ModeleJeu implements IModeleJeu {
     private int defiChoisi;
     private boolean partieLibre;
     private boolean typeDeVue; /* On part du principe que true -> globale et false -> local*/
-    private LocalDate dateLabyrintheDuJour;
     private boolean partieDuJourEnCours = false;
     private int tempsDuJour = 0;
     private ScoreDuJour scoresDuJour;
@@ -150,7 +149,6 @@ public class ModeleJeu implements IModeleJeu {
         this.labyrinthe = laby;
         this.positionJoueur = laby.getEntree();
         this.debutLabyrintheDuJour = LocalDateTime.now();
-        this.dateLabyrintheDuJour = LocalDate.now(); // <- important !
         this.partieDuJourEnCours = true;
     }
 
@@ -341,7 +339,6 @@ public class ModeleJeu implements IModeleJeu {
                 scoresDuJour = new ScoreDuJour(joueurActuel.getNom(), tempsDuJour);
                 SaveScoreDuJour.sauvegarderScore(scoresDuJour);
 
-                partieDuJourEnCours = false;
                 return; // IMPORTANT : empêche le mode progression d'agir
             }
 
@@ -424,6 +421,19 @@ public class ModeleJeu implements IModeleJeu {
 
     public boolean getPartieLibre() {
         return partieLibre;
+    }
+
+    public String getPartie(){
+        if(partieLibre){
+            return "SceneModeLibre";
+        }
+        else if(partieDuJourEnCours){
+            partieDuJourEnCours = false;
+            return "SceneLabyrintheDuJour";
+        }
+        else{
+            return "SceneProg";
+        }
     }
 
     /**
