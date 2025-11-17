@@ -10,5 +10,6 @@ public interface ILabyrinthe {
 
     Etape getEtape();
     void sauvegarder(String fichier);
+    Cellule positionAleaCell();
 
 }

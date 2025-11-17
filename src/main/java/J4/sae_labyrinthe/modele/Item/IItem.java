@@ -1,5 +1,7 @@
 package J4.sae_labyrinthe.modele.Item;
 
+import J4.sae_labyrinthe.modele.ModeleJeu;
+
 public interface IItem {
     /**
      * Retourne la valeur utile à l'item
@@ -7,4 +9,11 @@ public interface IItem {
      */
     public int getValue();
     public void applyEffect();
+    public void removeSelf();
+    public void resetApplied();
+
+    /**
+     * @return 1 si bonus, 0 si neutral, -1 si malus
+     */
+    public int isBonus();
 }

@@ -1,15 +1,45 @@
 package J4.sae_labyrinthe.modele.Item.Bonus;
 
 import J4.sae_labyrinthe.modele.Item.IItem;
+import J4.sae_labyrinthe.modele.ModeleJeu;
 
 public class Ward implements IItem {
+
+    private int value;      // range de la ward
+    private final ModeleJeu modele;
+    private boolean applied;
+
+    public Ward(ModeleJeu modele, int value) {
+        this.value=value;
+        this.modele=modele;
+    }
+
     @Override
     public int getValue() {
-        return 0;
+        return value;
     }
 
     @Override
     public void applyEffect() {
+        if (!applied) {
+            modele.setWard(modele.getPositionJoueur(), value);
+            applied=true;
+        }
+    }
 
+    @Override
+    public void removeSelf() {
+        modele.removeWard();
+        modele.removeItem(this);
+    }
+
+    @Override
+    public void resetApplied() {
+        applied = false;
+    }
+
+    @Override
+    public int isBonus() {
+        return 1;
     }
 }

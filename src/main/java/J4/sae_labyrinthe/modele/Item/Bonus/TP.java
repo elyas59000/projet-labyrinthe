@@ -1,8 +1,17 @@
 package J4.sae_labyrinthe.modele.Item.Bonus;
 
 import J4.sae_labyrinthe.modele.Item.IItem;
+import J4.sae_labyrinthe.modele.Labyrinthe;
+import J4.sae_labyrinthe.modele.ModeleJeu;
 
 public class TP implements IItem {
+
+    private final ModeleJeu modele;
+
+    public TP(ModeleJeu modele) {
+        this.modele = modele;
+    }
+
     @Override
     public int getValue() {
         return 0;
@@ -10,6 +19,21 @@ public class TP implements IItem {
 
     @Override
     public void applyEffect() {
+        modele.setPositionJoueur(modele.getLabyrinthe().positionAleaCell());
+        removeSelf();
+    }
 
+    @Override
+    public void removeSelf() {
+        modele.removeItem(this);
+    }
+
+    @Override
+    public void resetApplied() {};
+
+    @Override
+    public int isBonus() {
+        // TODO : peut etre mettre neutral car il peut ramener en arriere
+        return 1;
     }
 }
