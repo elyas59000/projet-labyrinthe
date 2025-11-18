@@ -12,4 +12,5 @@ public interface ILabyrinthe {
     void sauvegarder(String fichier);
     Cellule positionAleaCell();
 
+    boolean posValide(int x, int y);
 }

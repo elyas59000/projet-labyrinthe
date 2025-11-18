@@ -15,6 +15,7 @@ import J4.sae_labyrinthe.utils.LabyrintheDuJourManager;
 import J4.sae_labyrinthe.utils.Save;
 import J4.sae_labyrinthe.utils.SaveScoreDuJour;
 import J4.sae_labyrinthe.utils.ScoreDuJour;
+import J4.sae_labyrinthe.vue.Biome;
 import J4.sae_labyrinthe.vue.IObserver;
 
 /**
@@ -46,6 +47,7 @@ public class ModeleJeu implements IModeleJeu {
     private HashSet<IItem> setItem;
     private int visionRange;
     private HashMap<Cellule, Integer> ward;
+    private Biome biome;
 
 
     /**
@@ -142,7 +144,7 @@ public class ModeleJeu implements IModeleJeu {
      * @author Nathan Philippe
      */
     @Override
-    public void lancerPartieLibre(int largeur, int hauteur, int tauxMur) {
+    public void lancerPartieLibre(int largeur, int hauteur, int tauxMur,Biome biome) {
         partieLibre =true;
         this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
         this.positionJoueur = this.labyrinthe.getEntree();
@@ -157,6 +159,7 @@ public class ModeleJeu implements IModeleJeu {
         this.positionJoueur = laby.getEntree();
         this.debutLabyrintheDuJour = LocalDateTime.now();
         this.partieDuJourEnCours = true;
+        this.biome=Biome.values()[(int)(Math.random() * Biome.values().length)];
     }
 
     public long terminerLabyrintheDuJour() {
@@ -251,6 +254,11 @@ public class ModeleJeu implements IModeleJeu {
     public ILabyrinthe getLabyrinthe() {
 
         return this.labyrinthe;
+    }
+
+    @Override
+    public Biome getBiome() {
+        return this.biome;
     }
 
 

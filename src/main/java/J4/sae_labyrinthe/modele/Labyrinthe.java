@@ -1,5 +1,7 @@
 package J4.sae_labyrinthe.modele;
 
+import J4.sae_labyrinthe.utils.CacheMemoire;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,6 +57,7 @@ public class Labyrinthe implements ILabyrinthe, Serializable {
         this.e = e;
         grille = new Cellule[hauteur][largeur];
         genererLabyrinthe();
+        wrapGrille();
     }
 
     /**
@@ -424,6 +427,44 @@ public class Labyrinthe implements ILabyrinthe, Serializable {
         System.out.println("Sortie placée aléatoirement en : (" + sortie.getX() + ", " + sortie.getY() + ")");
     }
 
+    public boolean posValide(int x, int y) {
+        return x >= 0 && x < largeur && y >= 0 && y < hauteur;
+    }
+
+    public void wrapGrille() {
+        int newH = hauteur + 2;
+        int newL = largeur + 2;
+        Cellule[][] newGrille = new Cellule[newH][newL];
+
+        for (int y = 0; y < newH; y++) {
+            for (int x = 0; x < newL; x++) {
+                // Bordure : première/dernière ligne ou colonne
+                if (y == 0 || y == newH - 1 || x == 0 || x == newL - 1) {
+                    newGrille[y][x] = new Cellule(x, y, true); // mur
+                } else {
+                    // cellule intérieure, temporairement vide
+                    newGrille[y][x] = new Cellule(x, y, false);
+                }
+            }
+        }
+
+        // Copier l'ancienne grille au centre
+        for (int y = 0; y < hauteur; y++) {
+            for (int x = 0; x < largeur; x++) {
+                Cellule c = grille[y][x];
+                newGrille[y + 1][x + 1] = new Cellule(c.getX() + 1, c.getY() + 1, c.estMur());
+                newGrille[y + 1][x + 1].setAccessible(true);
+            }
+        }
+        // Mise à jour de la grille et des dimensions
+        this.grille = newGrille;
+        this.hauteur = newH;
+        this.largeur = newL;
+        entree = grille[1][1];
+        sortie = grille[hauteur - 2][largeur - 2];
+        entree.setMur(false);
+        sortie.setMur(false);
+    }
 
 
 }

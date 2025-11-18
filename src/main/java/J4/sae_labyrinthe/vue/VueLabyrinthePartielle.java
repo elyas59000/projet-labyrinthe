@@ -22,7 +22,7 @@ public class VueLabyrinthePartielle extends VueLabyrintheAbstraite {
     @Override
     protected void dessineeLabyrinthe() {
         gc.clearRect(0, 0, LARGEUR_ZONE, HAUTEUR_ZONE);
-        Labyrinthe lab = modele.getLabyrinthe();
+        ILabyrinthe lab = modele.getLabyrinthe();
         Cellule pos = modele.getPositionJoueur();
         int joueurX = pos.getX();
         int joueurY = pos.getY();

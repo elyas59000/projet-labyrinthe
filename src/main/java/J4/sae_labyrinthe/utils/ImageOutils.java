@@ -1,6 +1,7 @@
 package J4.sae_labyrinthe.utils;
 
 import J4.sae_labyrinthe.modele.Cellule;
+import J4.sae_labyrinthe.modele.ILabyrinthe;
 import J4.sae_labyrinthe.modele.Labyrinthe;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import javafx.scene.canvas.Canvas;
@@ -85,7 +86,7 @@ public class ImageOutils {
     }
 
     public static String choixTextureMurComplet(ModeleJeu modele, Cellule c) {
-        Labyrinthe lab=modele.getLabyrinthe();
+        ILabyrinthe lab=modele.getLabyrinthe();
         Cellule[][] grille = lab.getGrille();
         int x = c.getX();
         int y = c.getY();
@@ -278,7 +279,7 @@ public class ImageOutils {
         return textureMur;
     }
     public static List<String> choixTextureAngleInterne(ModeleJeu modele, Cellule c) {
-        Labyrinthe lab = modele.getLabyrinthe();
+        ILabyrinthe lab = modele.getLabyrinthe();
         Cellule[][] grille = lab.getGrille();
         int x = c.getX();
         int y = c.getY();

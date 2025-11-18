@@ -203,5 +203,8 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         // TODO : cf Labyrinthe simple
         return null;
     }
+    public boolean posValide(int x, int y) {
+        return x >= 0 && x < largeur && y >= 0 && y < hauteur;
+    }
 
 }

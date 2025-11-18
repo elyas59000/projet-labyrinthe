@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import java.util.Map;
 
 public enum Biome {
+    /*
     PLAINE("/J4/sae_labyrinthe/assets/textures/biome/plaine/",
             Map.of(
                     "LIGHT_TOP", Color.web("#F0C88B"),
@@ -15,6 +16,7 @@ public enum Biome {
                     "BRICK_INNER", Color.web("#B7874E"),
                     "SHADOW", Color.web("#512702")
             )),
+     */
     DESERT("/J4/sae_labyrinthe/assets/textures/biome/desert/",
             Map.of(
                     "LIGHT_TOP", Color.web("#F0C88B"),

@@ -1,6 +1,7 @@
 package J4.sae_labyrinthe.modele;
 
 import J4.sae_labyrinthe.exception.ValidationException;
+import J4.sae_labyrinthe.vue.Biome;
 import J4.sae_labyrinthe.vue.IObserver;
 
 import java.io.IOException;
@@ -22,8 +23,9 @@ public interface IModeleJeu {
      * @param largeur
      * @param hauteur
      * @param tauxMur
+     * @param biome
      */
-    void lancerPartieLibre(int largeur,int hauteur,int tauxMur);
+    void lancerPartieLibre(int largeur,int hauteur,int tauxMur,Biome biome);
 
     /**
      *lance la partie en mode progression avec la progression du joueur passé en paramètre
@@ -51,4 +53,6 @@ public interface IModeleJeu {
     ILabyrinthe getLabyrinthe();
 
     void deplacerJoueur(String direction) throws IOException;
+
+    public Biome getBiome();
 }

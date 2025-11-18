@@ -35,7 +35,7 @@ public class VueLabyrintheMap extends VueLabyrintheAbstraite {
     private void initialiserVue() {
         double paneWidth = getWidth();
         double paneHeight = getHeight();
-        Labyrinthe lab = modele.getLabyrinthe();
+        ILabyrinthe lab = modele.getLabyrinthe();
         int labLargeur = lab.getLargeur();
         int labHauteur = lab.getHauteur();
         if (paneHeight < 10) {
