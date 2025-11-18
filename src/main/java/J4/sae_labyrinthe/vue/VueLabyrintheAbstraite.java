@@ -1,98 +1,97 @@
 package J4.sae_labyrinthe.vue;
 
-import J4.sae_labyrinthe.modele.ILabyrinthe;
-import J4.sae_labyrinthe.modele.Labyrinthe;
-import J4.sae_labyrinthe.modele.ModeleJeu;
-import J4.sae_labyrinthe.utils.FusionImage;
-import javafx.scene.image.Image;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
+import J4.sae_labyrinthe.modele.*;
+import J4.sae_labyrinthe.utils.ImageOutils;
+import J4.sae_labyrinthe.utils.CacheMemoire;
+import javafx.scene.canvas.*;
+import javafx.scene.image.*;
+import javafx.scene.layout.Pane;
+import java.util.*;
 
-public abstract class VueLabyrintheAbstraite implements IObserver {
+public abstract class VueLabyrintheAbstraite extends Pane implements IObserver {
 
     protected final ModeleJeu modele;
-    protected final GridPane grille;
-
-    protected final Image brique;
-    protected final Image fond;
-    protected final Image joueur;
-    protected final Image fin;
-
-    protected final double LARGEUR_DISPONIBLE_ZONE = 1280;
-    protected final double HAUTEUR_DISPONIBLE_ZONE = 700;
+    protected Canvas canvas;
+    protected GraphicsContext gc;
+    protected Image sortie;
+    protected ImageView joueur;
+    protected final int LARGEUR_ZONE = 1280;
+    protected final int HAUTEUR_ZONE = 650;
+    protected final int TAILLE_TEXTURE = 128;
+    protected int tileSize;
+    protected int offsetX;
+    protected int offsetY;
 
     protected VueLabyrintheAbstraite(ModeleJeu modele) {
         this.modele = modele;
-        this.grille = new GridPane();
-        this.brique = getBrique();
-        this.fond = getFond();
-        this.joueur = getJoueur();
-        this.fin = getFin();
+        this.modele.add(this);
+        this.sortie = modele.getBiome().getSortie();
+        this.joueur = new ImageView(CacheMemoire.getImage("souris0.png"));
+        this.joueur.setPreserveRatio(true);
+        this.canvas = new Canvas(LARGEUR_ZONE, HAUTEUR_ZONE);
+        this.gc = canvas.getGraphicsContext2D();
+        this.getChildren().add(canvas);
+        this.getChildren().add(joueur);
     }
 
-    /**
-     * Construction initiale de la grille (appelée 1 seule fois par le contrôleur)
-     */
-    public abstract void initialiserAffichage();
+    protected void calculTailleCasesTexturees(int largeur, int hauteur) {
+        tileSize = Math.min(Math.min((LARGEUR_ZONE / largeur), (HAUTEUR_ZONE / hauteur)), TAILLE_TEXTURE);
+        offsetX = (LARGEUR_ZONE - tileSize * largeur) / 2;
+        offsetY = (HAUTEUR_ZONE - tileSize * hauteur) / 2;
+    }
+    protected void dessinerMur(Cellule c) {
+        int px = offsetX + c.getX() * tileSize;
+        int py = offsetY + c.getY() * tileSize;
+        Image texture = choixTexturesMur(modele, c);
+        Image recolor = ImageOutils.recolorTexture(texture, modele.getBiome().getPalette());
+        gc.drawImage(recolor, px, py, tileSize, tileSize);
+    }
+    protected void dessinerAngleInterieur(Cellule c) {
+        int px = offsetX + c.getX() * tileSize;
+        int py = offsetY + c.getY() * tileSize;
+        List<Image> listeCoin = choixTextureAngleInterne(modele,c);
+        for(Image i : listeCoin){
+            Image recolored = ImageOutils.recolorTexture(i, modele.getBiome().getPalette());
+            gc.drawImage(recolored, px, py, tileSize, tileSize);
+        }
+    }
+    protected void dessinerSol(Cellule c) {
+        int px = offsetX + c.getX() * tileSize;
+        int py = offsetY + c.getY() * tileSize;
+        gc.drawImage(modele.getBiome().getSol(), px, py, tileSize, tileSize);
+        dessinerAngleInterieur(c);
+    }
+    protected void dessinerSortie(Cellule c) {
+        dessinerSol(c);
+        int px = offsetX + c.getX() * tileSize;
+        int py = offsetY + c.getY() * tileSize;
+        gc.drawImage(sortie, px, py, tileSize, tileSize);
+    }
+    protected void dessinerJoueur() {
+        Cellule pos = modele.getPositionJoueur();
+        joueur.setFitWidth(tileSize);
+        joueur.setFitHeight(tileSize);
+        joueur.setLayoutX(offsetX + pos.getX() * tileSize);
+        joueur.setLayoutY(offsetY + pos.getY() * tileSize);
+    }
+    protected Image choixTexturesMur(ModeleJeu modele, Cellule cellule) {
+        String chemin = ImageOutils.choixTextureMurComplet(modele, cellule);
+        return CacheMemoire.getImage(chemin);
+    }
+    protected  List<Image> choixTextureAngleInterne(ModeleJeu modele, Cellule cellule) {
+        List<String> listeNomAngles=ImageOutils.choixTextureAngleInterne(modele,cellule);
+        List<Image> listeImageAngles=new ArrayList<>();
+        for(String nomAngle:listeNomAngles){
+            listeImageAngles.add(CacheMemoire.getImage(nomAngle));
+        }
+        return  listeImageAngles;
+    }
 
-    /**
-     * Met à jour uniquement les textures existantes (appelée à chaque update du modèle)
-     */
-    protected abstract void rafraichirAffichage();
-
-    /**
-     * Appelée automatiquement lorsque le modèle notifie un changement.
-     * Ne redessine PAS la grille complète.
-     */
     @Override
-    public void update() {
-        rafraichirAffichage();
+    public final void update() {
+        updateVueEnfant();
     }
 
-    protected void appliquerTexture(Rectangle cell, ILabyrinthe laby, int i, int j, int joueurX, int joueurY) {
-        if (i < 0 || i >= laby.getHauteur() || j < 0 || j >= laby.getLargeur()) {
-            cell.setFill(new ImagePattern(brique));
-            return;
-        }
-        if (laby.getGrille()[i][j].estMur()) {
-            cell.setFill(new ImagePattern(brique));
-        } else if (i == joueurY && j == joueurX) {
-            cell.setFill(new ImagePattern(FusionImage.fusionnerImages(fond, joueur)));
-        } else if (laby.getGrille()[i][j].equals(laby.getSortie())) {
-            cell.setFill(new ImagePattern(FusionImage.fusionnerImages(fond, fin)));
-        } else {
-            cell.setFill(new ImagePattern(fond));
-        }
-    }
-
-    protected void parcoursCreationGridPane(GridPane grid, int largeur, int hauteur,double tailleCarre) {
-        grid.getChildren().clear();
-        for (int i = 0; i < hauteur; i++) {
-            for (int j = 0; j < largeur; j++) {
-                Rectangle cell = new Rectangle(tailleCarre, tailleCarre);
-                grille.add(cell, j, i);
-            }
-        }
-    }
-
-    public GridPane getGrille() {
-        return grille;
-    }
-
-    public Image getBrique() {
-        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/Brique.png").toExternalForm());
-    }
-
-    public Image getJoueur() {
-        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/souris.png").toExternalForm());
-    }
-
-    public Image getFond()   {
-        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/herbe.png").toExternalForm());
-    }
-
-    public Image getFin()    {
-        return new Image(getClass().getResource("/J4/sae_labyrinthe/assets/textures/fromage.png").toExternalForm());
-    }
+    protected abstract void updateVueEnfant();
+    protected abstract void dessineeLabyrinthe();
 }
