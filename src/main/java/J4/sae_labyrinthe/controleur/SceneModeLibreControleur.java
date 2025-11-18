@@ -5,6 +5,7 @@ import java.io.IOException;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
+import J4.sae_labyrinthe.vue.Biome;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -60,7 +61,7 @@ public class SceneModeLibreControleur {
      */
     @FXML
     void lancerPartieLibre(MouseEvent event) throws IOException {;
-        modeleJeu.lancerPartieLibre(champsLargeur.getValue(), champsHauteur.getValue(), champsTauxMur.getValue());
+        modeleJeu.lancerPartieLibre(champsLargeur.getValue(), champsHauteur.getValue(), champsTauxMur.getValue(), Biome.DESERT);
         SceneManager.chargerScene("SceneLabyrinthe");
     }
 

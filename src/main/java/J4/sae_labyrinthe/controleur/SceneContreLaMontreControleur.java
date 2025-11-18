@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
+import J4.sae_labyrinthe.vue.Biome;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 import J4.sae_labyrinthe.utils.SceneManager;
@@ -23,7 +24,7 @@ public class SceneContreLaMontreControleur {
     @FXML
     void jouerContreLaMontre() {
         // Génère un labyrinthe aléatoire pour le contre-la-montre (largeur/hauteur 10, 30% murs)
-        modele.lancerPartieLibre(10, 10, 30);
+        modele.lancerPartieLibre(10, 10, 30, Biome.values()[(int)(Math.random() * Biome.values().length)]);
         // Ici on pourrait ajouter un timer dans SceneLabyrintheControleur pour le chrono
         try {
             SceneManager.chargerScene("SceneLabyrinthe");

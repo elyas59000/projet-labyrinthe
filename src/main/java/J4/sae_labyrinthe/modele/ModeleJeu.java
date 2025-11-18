@@ -148,6 +148,7 @@ public class ModeleJeu implements IModeleJeu {
         partieLibre =true;
         this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
         this.positionJoueur = this.labyrinthe.getEntree();
+        this.biome = biome;
     }
 
     /**

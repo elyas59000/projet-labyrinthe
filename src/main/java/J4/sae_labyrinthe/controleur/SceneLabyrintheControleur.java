@@ -9,6 +9,7 @@ import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
 import J4.sae_labyrinthe.vue.VueLabyrintheAbstraite;
 import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
+import J4.sae_labyrinthe.vue.VueLabyrintheMap;
 import J4.sae_labyrinthe.vue.VueLabyrinthePartielle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -29,6 +30,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import static javafx.scene.layout.Region.USE_PREF_SIZE;
+
 /**
  * Contrôleur de la scène principale du jeu de labyrinthe.
  * Gère l'affichage du labyrinthe, les déplacements du joueur et le menu pause.
@@ -40,19 +43,18 @@ import javafx.util.Duration;
 public class SceneLabyrintheControleur {
 
     private static final int RANGE = 1;
+    private static final double LARGEUR_MINI_MAP = 340;
     private final ModeleJeu modele = ModeleJeuSingleton.getInstance();
-    private final VueLabyrintheEntier vueEntiere = new VueLabyrintheEntier(modele);
+    private final VueLabyrintheEntier vueEntiere = new VueLabyrintheEntier(modele,false);
     private final VueLabyrinthePartielle vuePartielle = new VueLabyrinthePartielle(modele, RANGE);
+    private final VueLabyrintheMap vueMiniMap= new VueLabyrintheMap(modele,true,true);
     private VBox menuPause;
     private boolean pauseActive = false;
     private Timeline timeline;
     private int tempsEcoule = 0;
-
     private CheckBox modeDeVue;
-
     private Spinner<Integer> rangeVue = new Spinner<>(1, 5, RANGE);
 
-    private int temps = 0;
 
     @FXML
     private HBox enteteJeu;
@@ -65,26 +67,33 @@ public class SceneLabyrintheControleur {
 
     @FXML
     void initialize() {
+        zoneLaby.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         ILabyrinthe laby = modele.getLabyrinthe();
         info1.setText("Hauteur du Labyrinthe : " + laby.getHauteur() + " cases");
         info2.setText("Largeur du Labyrinthe : " + laby.getLargeur() + " cases");
+        vueMiniMap.setPrefWidth(LARGEUR_MINI_MAP);
+        vueMiniMap.setMaxWidth(LARGEUR_MINI_MAP);
+        vueMiniMap.setMinWidth(LARGEUR_MINI_MAP);
+        vueMiniMap.setPrefHeight(LARGEUR_MINI_MAP);
+        vueMiniMap.setMinHeight(LARGEUR_MINI_MAP);
+        vueMiniMap.setMaxHeight(LARGEUR_MINI_MAP);
         if(laby instanceof Labyrinthe){info3.setText("Taux de mur : " + ((Labyrinthe) laby).getPourcentageMurs() + " %");}
 
 
         if (!modele.getPartieLibre() && modele.etapeChoisi() == -1) {
-            setVueActive(vueEntiere);
+            setVueActive(vueEntiere,false);
         }
 
         if (!modele.getPartieLibre()) {
             if (modele.etapeChoisi() == 3) {
                 afficherSpinnerEtape3();
-                setVueActive(vuePartielle);
+                setVueActive(vuePartielle,true);
             } else {
-                setVueActive(vueEntiere);
+                setVueActive(vueEntiere,false);
             }
         } else {
             afficherCheckBox();
-            setVueActive(vueEntiere);
+            setVueActive(vueEntiere,false);
         }
 
         initialiserDeplacement();
@@ -94,27 +103,28 @@ public class SceneLabyrintheControleur {
     /**
      * Centralise la gestion de l’affichage d’une vue.
      */
-    private void setVueActive(VueLabyrintheAbstraite vue) {
-        // Nettoyer la zone d’affichage actuelle
+    private void setVueActive(VueLabyrintheAbstraite vue, boolean afficherMiniMap) {
         zoneLaby.getChildren().clear();
         modele.removeAll();
-
-        // Initialiser et enregistrer la nouvelle vue
-        vue.initialiserAffichage();
         modele.add(vue);
+        vue.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
 
-        // Ajouter la vue dans la zone d’affichage
-        if (vue instanceof VueLabyrinthePartielle vuePartielleActive) {
-            HBox hb = new HBox(vuePartielleActive.getGrille(), vuePartielleActive.getMinimap());
-            hb.setAlignment(Pos.CENTER);
-            hb.setSpacing(40);
-            hb.maxHeight(1);
-            zoneLaby.getChildren().add(hb);
-        } else if (vue instanceof VueLabyrintheEntier vueEntiereActive) {
-            vueEntiereActive.getGrille().setAlignment(Pos.CENTER);
-            zoneLaby.getChildren().add(vueEntiereActive.getGrille());
+        if (vue instanceof VueLabyrintheEntier vueEntiereActive) {
+            zoneGlobale.setStyle("-fx-background-color: " + modele.getBiome().getBackground());
+            StackPane.setAlignment(vueEntiereActive, Pos.CENTER);
+            zoneLaby.getChildren().add(vueEntiereActive);
+
+        } else {
+            zoneGlobale.setStyle("-fx-background-color: BLACK");
+            StackPane.setAlignment(vue, Pos.CENTER);
+            zoneLaby.getChildren().add(vue);
+            if (afficherMiniMap) {
+                modele.add(vueMiniMap);
+                StackPane.setAlignment(vueMiniMap, Pos.CENTER_LEFT);
+                StackPane.setMargin(vueMiniMap, new Insets(20, 0, 0, 20));
+                zoneLaby.getChildren().add(vueMiniMap);
+            }
         }
-
         zoneLaby.setAlignment(Pos.CENTER);
         zoneLaby.setPadding(new Insets(5));
         zoneLaby.setFocusTraversable(true);
@@ -239,7 +249,8 @@ public class SceneLabyrintheControleur {
                 modele.lancerPartieLibre(
                         modele.getLabyrinthe().getLargeur(),
                         modele.getLabyrinthe().getHauteur(),
-                        (int) ((Labyrinthe) modele.getLabyrinthe()).getPourcentageMurs());
+                        (int) ((Labyrinthe) modele.getLabyrinthe()).getPourcentageMurs(),
+                        modele.getBiome());
                 SceneManager.chargerScene("SceneLabyrinthe");
             } else {
                 modele.lancerPartieProgression();
@@ -264,7 +275,7 @@ public class SceneLabyrintheControleur {
         rangeVue.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (modeDeVue.isSelected()) {
                 VueLabyrinthePartielle nouvelleVue = new VueLabyrinthePartielle(modele, newVal);
-                setVueActive(nouvelleVue);
+                setVueActive(nouvelleVue,true);
             }
         });
 
@@ -272,9 +283,9 @@ public class SceneLabyrintheControleur {
             boolean vueLocaleActive = modeDeVue.isSelected();
             rangeVue.setDisable(!vueLocaleActive);
             if (vueLocaleActive) {
-                setVueActive(new VueLabyrinthePartielle(modele, rangeVue.getValue()));
+                setVueActive(new VueLabyrinthePartielle(modele, rangeVue.getValue()),true);
             } else {
-                setVueActive(vueEntiere);
+                setVueActive(vueEntiere,false);
             }
         });
     }
@@ -285,7 +296,7 @@ public class SceneLabyrintheControleur {
     private void afficherSpinnerEtape3() {
         creerSpinner(0);
         rangeVue.valueProperty().addListener((obs, oldVal, newVal) -> {
-                setVueActive(new VueLabyrinthePartielle(modele, newVal));
+                setVueActive(new VueLabyrinthePartielle(modele, newVal),true);
         });
 
 
