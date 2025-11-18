@@ -292,8 +292,7 @@ public class ModeleJeu implements IModeleJeu {
         int y = positionJoueur.getY();
         nx = x;
         ny = y;
-        if(labyrinthe instanceof Labyrinthe){
-            switch (direction.toLowerCase().charAt(0)) {
+        switch (direction.toLowerCase().charAt(0)) {
                 case 'z' -> ny--;
                 case 's' -> ny++;
                 case 'q' -> nx--;
@@ -303,20 +302,8 @@ public class ModeleJeu implements IModeleJeu {
                     return;
                 }
 
-            }
-        } else if (labyrinthe instanceof  LabyrintheParfait) {
-            switch (direction.toLowerCase().charAt(0)) {
-                case 'z' -> nx--;
-                case 's' -> nx++;
-                case 'q' -> ny--;
-                case 'd' -> ny++;
-                default -> {
-                    System.out.println("mauvaise direction");
-                    return;
-                }
-
-            }
         }
+
 
 
         if(this.labyrinthe instanceof  LabyrintheParfait){
