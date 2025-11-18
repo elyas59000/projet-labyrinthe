@@ -9,7 +9,7 @@ import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
 import J4.sae_labyrinthe.vue.VueLabyrintheAbstraite;
 import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
-import J4.sae_labyrinthe.vue.VueLabyrinthePartiel;
+import J4.sae_labyrinthe.vue.VueLabyrinthePartielle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -42,7 +42,7 @@ public class SceneLabyrintheControleur {
     private static final int RANGE = 1;
     private final ModeleJeu modele = ModeleJeuSingleton.getInstance();
     private final VueLabyrintheEntier vueEntiere = new VueLabyrintheEntier(modele);
-    private final VueLabyrinthePartiel vuePartielle = new VueLabyrinthePartiel(modele, RANGE);
+    private final VueLabyrinthePartielle vuePartielle = new VueLabyrinthePartielle(modele, RANGE);
     private VBox menuPause;
     private boolean pauseActive = false;
     private Timeline timeline;
@@ -104,7 +104,7 @@ public class SceneLabyrintheControleur {
         modele.add(vue);
 
         // Ajouter la vue dans la zone d’affichage
-        if (vue instanceof VueLabyrinthePartiel vuePartielleActive) {
+        if (vue instanceof VueLabyrinthePartielle vuePartielleActive) {
             HBox hb = new HBox(vuePartielleActive.getGrille(), vuePartielleActive.getMinimap());
             hb.setAlignment(Pos.CENTER);
             hb.setSpacing(40);
@@ -263,7 +263,7 @@ public class SceneLabyrintheControleur {
 
         rangeVue.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (modeDeVue.isSelected()) {
-                VueLabyrinthePartiel nouvelleVue = new VueLabyrinthePartiel(modele, newVal);
+                VueLabyrinthePartielle nouvelleVue = new VueLabyrinthePartielle(modele, newVal);
                 setVueActive(nouvelleVue);
             }
         });
@@ -272,7 +272,7 @@ public class SceneLabyrintheControleur {
             boolean vueLocaleActive = modeDeVue.isSelected();
             rangeVue.setDisable(!vueLocaleActive);
             if (vueLocaleActive) {
-                setVueActive(new VueLabyrinthePartiel(modele, rangeVue.getValue()));
+                setVueActive(new VueLabyrinthePartielle(modele, rangeVue.getValue()));
             } else {
                 setVueActive(vueEntiere);
             }
@@ -285,7 +285,7 @@ public class SceneLabyrintheControleur {
     private void afficherSpinnerEtape3() {
         creerSpinner(0);
         rangeVue.valueProperty().addListener((obs, oldVal, newVal) -> {
-                setVueActive(new VueLabyrinthePartiel(modele, newVal));
+                setVueActive(new VueLabyrinthePartielle(modele, newVal));
         });
 
 
