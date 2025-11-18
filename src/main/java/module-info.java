@@ -5,7 +5,6 @@ module J4.sae_labyrinthe {
     requires java.desktop;
     opens J4.sae_labyrinthe.modele to javafx.base;
     requires org.junit.jupiter.api;
-    // requires J4.sae_labyrinthe;
 
 
     opens J4.sae_labyrinthe to javafx.fxml;

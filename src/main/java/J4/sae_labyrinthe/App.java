@@ -1,5 +1,6 @@
 package J4.sae_labyrinthe;
 
+import J4.sae_labyrinthe.utils.CacheMemoire;
 import J4.sae_labyrinthe.utils.SceneManager;
 import javafx.application.Application;
 import javafx.scene.input.KeyCode;
@@ -30,7 +31,7 @@ public class App extends Application {
     public void start(Stage stage) throws Exception{
         primaryStage=stage;
         primaryStage.setTitle("Jeu du Labyrinthe ©");
-
+        CacheMemoire.chargementTextures();
         SceneManager.chargerScene("SceneMenuPrincipal");
         primaryStage.setResizable(true);
         primaryStage.setFullScreen(true);
