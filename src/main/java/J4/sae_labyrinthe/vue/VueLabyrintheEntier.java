@@ -28,10 +28,17 @@ public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
         parcoursCreationGridPane(grille,largeur,hauteur, tailleCarre);
         this.rafraichirAffichage();
     }
-
-
     @Override
-    protected void rafraichirAffichage() {
+    protected void rafraichirAffichage(){
+        ILabyrinthe laby = modele.getLabyrinthe();
+        if(laby instanceof LabyrintheParfait){
+            rafraichirParfait();
+        } else if (laby instanceof Labyrinthe) {
+            rafraichirAleatoire();
+        }
+    }
+
+    protected void rafraichirParfait() {
         ILabyrinthe lab = modele.getLabyrinthe();
         int joueurX = modele.getPositionJoueur().getX();
         int joueurY = modele.getPositionJoueur().getY();
