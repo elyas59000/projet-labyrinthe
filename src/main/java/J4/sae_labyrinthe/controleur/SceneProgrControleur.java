@@ -5,6 +5,7 @@ import java.io.IOException;
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
+import J4.sae_labyrinthe.vue.Biome;
 import J4.sae_labyrinthe.vue.IObserver;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -56,6 +57,7 @@ public class SceneProgrControleur implements IObserver {
     @FXML
     void ouvrirEtape1(MouseEvent event) throws IOException {
         MODELJEU.setEtapeChoisi(1);
+        MODELJEU.setBiome(Biome.DESERT);
         SceneManager.chargerScene("SceneDifficulte");
     }
 
@@ -68,6 +70,7 @@ public class SceneProgrControleur implements IObserver {
     @FXML
     void ouvrirEtape2(MouseEvent event) throws IOException {
         MODELJEU.setEtapeChoisi(2);
+        MODELJEU.setBiome(Biome.DESERT);
         SceneManager.chargerScene("SceneDifficulte");
     }
 
@@ -80,24 +83,28 @@ public class SceneProgrControleur implements IObserver {
     @FXML
     void ouvrirEtape3(MouseEvent event) throws IOException {
         MODELJEU.setEtapeChoisi(3);
+        MODELJEU.setBiome(Biome.DESERT);
         SceneManager.chargerScene("SceneDifficulte");
     }
 
     @FXML
     void ouvrirEtape4(MouseEvent event) throws IOException {
         MODELJEU.setEtapeChoisi(4);
+        MODELJEU.setBiome(Biome.DESERT);
         SceneManager.chargerScene("SceneDifficulte");
     }
 
     @FXML
     void ouvrirEtape5(MouseEvent event) throws IOException {
         MODELJEU.setEtapeChoisi(4);
+        MODELJEU.setBiome(Biome.DESERT);
         SceneManager.chargerScene("SceneDifficulte");
     }
 
     @FXML
     void ouvrirEtape6(MouseEvent event) throws IOException {
         MODELJEU.setEtapeChoisi(4);
+        MODELJEU.setBiome(Biome.DESERT);
         SceneManager.chargerScene("SceneDifficulte");
     }
 

@@ -160,7 +160,8 @@ public class ModeleJeu implements IModeleJeu {
         this.positionJoueur = laby.getEntree();
         this.debutLabyrintheDuJour = LocalDateTime.now();
         this.partieDuJourEnCours = true;
-        this.biome=Biome.values()[(int)(Math.random() * Biome.values().length)];
+        this.biome=Biome.DESERT;
+        //this.biome=Biome.values()[(int)(Math.random() * Biome.values().length)];
     }
 
     public long terminerLabyrintheDuJour() {
@@ -260,6 +261,9 @@ public class ModeleJeu implements IModeleJeu {
     @Override
     public Biome getBiome() {
         return this.biome;
+    }
+    public void setBiome(Biome biome) {
+        this.biome = biome;
     }
 
 
