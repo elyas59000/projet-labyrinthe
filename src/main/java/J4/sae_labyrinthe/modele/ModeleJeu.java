@@ -306,7 +306,6 @@ public class ModeleJeu implements IModeleJeu {
         deplacerDansLabyrinthe(labyrinthe,nx,ny);
 
     }
-
     private void deplacerDansLabyrinthe(ILabyrinthe laby, int nx, int ny) {
         if (nx < 0 || nx >= laby.getLargeur() || ny < 0 || ny >= laby.getHauteur()) return;
         Cellule next = laby.getGrille()[ny][nx];
@@ -318,11 +317,6 @@ public class ModeleJeu implements IModeleJeu {
             System.out.println("C'est un mur");
         }
     }
-
-
-
-
-
     private void verifierSortie(ILabyrinthe laby, Cellule next) {
         if (next == laby.getSortie()) {
             if (partieDuJourEnCours) {

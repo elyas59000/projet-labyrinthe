@@ -74,7 +74,7 @@
 > 
 > **Clement** : 
 > - Amélioration de l'affichage pour créer une taille dynamique pour les labyrinthes avec la methodes calculerTailleOptimale dans la classe utils Calcul
-> - Optimisation du code, suppression de la latence → on rafraîchit le cases qui ont changés, et non plus tout le labyrinthe.
+> - Optimisation du code, suppression de la latence → on rafraîchit les cases qui ont changées, et non plus tout le labyrinthe.
 > - Création des overlays de pause et fin de partie
 >
 > **Elyas** :
@@ -82,3 +82,34 @@
 > 
 > 
 > **Adam** :
+> 
+> ## Semaine 4 jusqu'au rendu final
+
+### **a Fait**
+
+> **Anas** : 
+> 
+> 
+> **Nathan** : 
+> 
+> 
+> **Clément** :
+> - Refonte complète sur notre système d'affichage :
+>   - On passe d'un gridPane lourd à un canvas plus léger.
+>   - Le joueur est desormais visuellement une ImageView qu'on déplace à partir d'un offset et de sa postion = on ne rafraîchit que le sprite du joueur.
+>   - Mise en place d'un systeme de Biome permettant une diversité dans les différents niveaux de la progression ou de choix de paramétrage du mode Libre
+>     - on a donc pour le moment : Désert, <>
+>   - Création donc d'un texture pack, en vue top-down pour simuler un semblant de 3D.
+>     - Introduction à la logique de texture connectée en elle avec des angles
+>     - Création d'une fonction de bit-masking pour choisir quelles textures pour quels murs.
+>     - Création d'une fonction de recolorisation à partir d'une palette stockée dans le biome courant.
+>   - Optimisation des appels aux ressources via la gestion d'un cache qui charge tout dès le lancement
+>   - Adaptation des nouvelles vues crées par mes camarades à ce nouveau systeme
+>     - On a donc deséormais 3 vues (entières, partielles, minimap) qui pour les 2 dernières prennent des paramettres pour modifier leur comportement (exemple: la minicarte peut afficher ou non le joueur ou/la sortie).
+> - Correction du bug du laby-parfait (inversion du i,j dans new Cellule lors de la création de la grille)
+> **Elyas** : 
+> 
+> 
+> **Adam**:
+> 
+> 
