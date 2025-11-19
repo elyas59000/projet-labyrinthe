@@ -33,7 +33,7 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         grille = new Cellule[gridHauteur][gridLargeur];
         for (int i = 0; i < gridHauteur; i++) {
             for (int j = 0; j < gridLargeur; j++) {
-                grille[j][i] = new Cellule(j, i, true);
+                grille[i][j] = new Cellule(j, i, true);
             }
         }
 

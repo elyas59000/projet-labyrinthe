@@ -303,19 +303,12 @@ public class ModeleJeu implements IModeleJeu {
                 }
 
         }
+        deplacerDansLabyrinthe(labyrinthe,nx,ny);
 
-
-
-        if(this.labyrinthe instanceof  LabyrintheParfait){
-            deplacerDansLabyrintheParfait((LabyrintheParfait) labyrinthe,nx,ny,direction);
-        }else if(this.labyrinthe instanceof Labyrinthe) {
-            deplacerDansLabyrintheClassique((Labyrinthe) labyrinthe, nx, ny,direction);
-        }
     }
 
-    private void deplacerDansLabyrintheClassique(Labyrinthe laby, int nx, int ny,String direction) {
+    private void deplacerDansLabyrinthe(ILabyrinthe laby, int nx, int ny) {
         if (nx < 0 || nx >= laby.getLargeur() || ny < 0 || ny >= laby.getHauteur()) return;
-
         Cellule next = laby.getGrille()[ny][nx];
         if (!next.estMur()) {
             positionJoueur = next;
@@ -326,31 +319,7 @@ public class ModeleJeu implements IModeleJeu {
         }
     }
 
-    private void deplacerDansLabyrintheParfait(LabyrintheParfait laby, int nx, int ny,String direction) {
 
-        int x = positionJoueur.getX();
-        int y = positionJoueur.getY();
-
-        if (nx < 0 || nx >= laby.getHauteur() || ny < 0 || ny >= laby.getLargeur()) {
-            System.out.println("Hors de la grille !");
-            return;
-        }
-
-        if (!laby.peutAller(x, y, nx, ny)) {
-            System.out.println("C'est un mur");
-            return;
-        }
-
-        positionJoueur = laby.getGrille()[nx][ny];
-
-
-        if (positionJoueur.getX() == laby.getSortie().getX() &&
-                positionJoueur.getY() == laby.getSortie().getY()) {
-            System.out.println("Bravo ! Vous avez atteint la sortie !");
-        }
-
-        notifierObservateurs();
-    }
 
 
 
@@ -360,10 +329,8 @@ public class ModeleJeu implements IModeleJeu {
                 tempsDuJour = (int) terminerLabyrintheDuJour();
                 scoresDuJour = new ScoreDuJour(joueurActuel.getNom(), tempsDuJour);
                 SaveScoreDuJour.sauvegarderScore(scoresDuJour);
-
-                return; // IMPORTANT : empêche le mode progression d'agir
+                return;
             }
-
 
             if (etapeChoisi == null) {
                 System.out.println("Sortie atteinte (mode libre)");

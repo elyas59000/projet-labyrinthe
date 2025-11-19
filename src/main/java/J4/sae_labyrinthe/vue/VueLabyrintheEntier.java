@@ -37,11 +37,23 @@ public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
         Cellule[][] g = modele.getLabyrinthe().getGrille();
         for (Cellule[] ligne : g)
             for (Cellule c : ligne) {
-                if (c.estMur()) dessinerMur(c);
+                if (c.estMur()){
+                    System.out.println("Position par acces à cellule, mur = ("+c.getX()+","+c.getY()+")");
+                    dessinerMur(c);
+                }
                 else if (c.equals(modele.getLabyrinthe().getSortie())) dessinerSortie(c);
                 else dessinerSol(c);
             }
         dessinerJoueur();
+
+        for(int i=0; i<g.length; i++){
+            for(int j=0; j<g[i].length; j++){
+                if(g[i][j].estMur()){
+                    System.out.println("Position par indice, mur = ("+i+","+j+")");
+                }
+            }
+        }
+
     }
 
     private void updateFog() {
