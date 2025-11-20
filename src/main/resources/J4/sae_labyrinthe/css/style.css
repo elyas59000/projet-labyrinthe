@@ -173,3 +173,7 @@
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
+
+.selectedMode:hover{
+    -fx-background-color: #9b3939; /* rouge */
+}
