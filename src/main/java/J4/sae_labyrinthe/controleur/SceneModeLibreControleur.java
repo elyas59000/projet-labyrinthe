@@ -73,33 +73,34 @@ public class SceneModeLibreControleur {
         modeParfaitActif = false;
 
         btnParfait.getStyleClass().remove("selectedMode");
-        btnAleatoire.getStyleClass().add("selectedMode");
+
+        if (!btnAleatoire.getStyleClass().contains("selectedMode")) {
+            btnAleatoire.getStyleClass().add("selectedMode");
+        }
 
         boxDistance.setVisible(false);
         boxDistance.setManaged(false);
 
         boxTauxMur.setVisible(true);
         boxTauxMur.setManaged(true);
-
-
-
     }
+
 
     @FXML
     void modeParfait(MouseEvent event) {
         modeParfaitActif = true;
 
         btnAleatoire.getStyleClass().remove("selectedMode");
-        btnParfait.getStyleClass().add("selectedMode");
+
+        if (!btnParfait.getStyleClass().contains("selectedMode")) {
+            btnParfait.getStyleClass().add("selectedMode");
+        }
 
         boxDistance.setVisible(true);
         boxDistance.setManaged(true);
 
         boxTauxMur.setVisible(false);
         boxTauxMur.setManaged(false);
-
-
-
     }
 
 
