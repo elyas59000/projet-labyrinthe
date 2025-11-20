@@ -26,11 +26,10 @@ public class MoinsVision implements IItem {
             // retire la vision avec un minimum de 1
             modele.setVisionRange(Math.max(1, modele.getVisionRange()-value));
 
-            // pas mettre comme ça car on modifie la liste pd l'iteration
             // si on enleve toute la vision, on enleve les items plus et moins vision (ils servent plus à rien)
-            // if (modele.rangeZero()){
-            //     removeSelf();
-            // }
+            if (modele.rangeZero()){
+                removeSelf();
+            }
             applied=true;
         }
     }
@@ -52,9 +51,4 @@ public class MoinsVision implements IItem {
     public int isBonus() {
         return 1;
     }
-
-    @Override
-    public String toString(){
-        return "MoinsVision";
-    };
 }

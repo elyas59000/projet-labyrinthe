@@ -29,9 +29,4 @@ public class SentirSortie implements IItem {
     public int isBonus() {
         return 0;
     }
-
-    @Override
-    public String toString(){
-        return "SentirSortie";
-    };
 }

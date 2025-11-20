@@ -29,10 +29,4 @@ public class BriseMur implements IItem {
     public int isBonus() {
         return 0;
     }
-
-    @Override
-    public String toString(){
-        return "BriseMur";
-    };
-
 }
