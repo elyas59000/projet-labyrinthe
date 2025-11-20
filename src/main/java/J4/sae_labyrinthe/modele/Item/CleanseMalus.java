@@ -2,6 +2,8 @@ package J4.sae_labyrinthe.modele.Item;
 
 import J4.sae_labyrinthe.modele.ModeleJeu;
 
+import java.util.Set;
+
 public class CleanseMalus implements IItem {
 
     private final ModeleJeu modele;
@@ -15,7 +17,7 @@ public class CleanseMalus implements IItem {
 
     @Override
     public void applyEffect() {
-        modele.removeItems(modele.getMalus());
+        modele.removeItems((Set<IItem>) modele.getMalus());
         removeSelf();
     }
 

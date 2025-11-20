@@ -2,6 +2,8 @@ package J4.sae_labyrinthe.modele.Item;
 
 import J4.sae_labyrinthe.modele.ModeleJeu;
 
+import java.util.Set;
+
 public class CleanseNeutral implements IItem{
 
     private final ModeleJeu modele;
@@ -15,7 +17,7 @@ public class CleanseNeutral implements IItem{
 
     @Override
     public void applyEffect() {
-        modele.removeItems(modele.getNeutral());
+        modele.removeItems((Set<IItem>) modele.getNeutral());
         removeSelf();
     }
 
