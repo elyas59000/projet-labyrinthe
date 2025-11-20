@@ -150,7 +150,7 @@ public class SceneLabyrintheControleur {
             ecranFinPartie();
         } else {
             if (modele.isCellAnItem(modele.getPositionJoueur())) {
-                modele.addItem();
+                modele.prendreItem();
             }
         }
     }
