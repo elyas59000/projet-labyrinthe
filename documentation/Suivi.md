@@ -86,7 +86,24 @@
 > 
 > 
 > **Nathan** : 
-> 
+> - Création vue Labyrinthe Brouillard 
+> - Gestion de controle de saisie
+> - Ajout des étapes 4-5-6
+> - Création d'un nouveau mode de Jeu:
+>   - Le labyrinthe du jour, qui est composé d'un labyrinthe qui change chaque jour, et un score qui est le temps prix pour réaliser ce labyrinthe 
+>   - Le labyrinthe est généré totalement aléatoirement, il est sérialisé ainsi que le score du jour
+>   
+> - Mise en place de la position de la sortie aléatoire
+> - Amélioration importante de l'efficacité de la génération du labyrinthe Aléatoire
+> - Ajout du labyrinthe Parfait dans le mode libre
+> - Gestion des redirections des boutons quitter une partie et relancer
+> - Création d'un nouveau mode de Jeu:
+>   - Contre la montre, c'est un mode de jeux, avec un labyrinthe générer aléatoirement ou par vos propre paramètres
+>   - Il y a un système de chronomètre qui une fois atteint arrête la partie sur une défaite du joueur
+>   - Vous pouvez vraiment tout choisir sur les labyrinthes, son type, largeur, hauteur, % de murs, distance et le temps
+> - Création de manière aléatoire des paramètres du Mode Contre la montre
+> - Ajout de la distance pour le labyrinthe parfait dans le mode Libre
+> - Mise en place de la position de la sortie aléatoire dans le labyrinthe Parfait
 > 
 > **Clément** :
 > - Refonte complète sur notre système d'affichage :
