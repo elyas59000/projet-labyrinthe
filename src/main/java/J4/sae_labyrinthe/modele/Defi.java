@@ -7,6 +7,7 @@ public class Defi {
     private boolean reussi;
 
     private int cote;
+    private int cote2;
 
     private double pourcentageMurs;
     private int distance;
@@ -17,12 +18,21 @@ public class Defi {
         this(difficulte, cote, pourcentageMurs, 0, false);
     }
     public Defi(String difficulte, int cote, int distance) {
-        this(difficulte, cote, 0, distance, false);
+        this(difficulte, cote, cote, distance, false);
     }
     // Constructeur complet avec tous les champs
     public Defi(String difficulte, int cote, double pourcentageMurs, int distance, boolean reussi) {
+        this(difficulte,cote,cote,pourcentageMurs,distance,reussi);
+    }
+
+    public Defi(String difficulte, int cote, int cote2, int distance) {
+        this(difficulte,cote,cote2,0,distance,false);
+    }
+
+    public Defi(String difficulte, int cote, int cote2 ,double pourcentageMurs, int distance, boolean reussi) {
         this.difficulte = difficulte;
         this.cote = cote;
+        this.cote2 = cote2;
         this.pourcentageMurs = pourcentageMurs;
         this.distance = distance;
         this.reussi = reussi;

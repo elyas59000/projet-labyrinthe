@@ -1,5 +1,7 @@
 package J4.sae_labyrinthe.modele;
 
+import J4.sae_labyrinthe.utils.UnionFind;
+
 import java.io.*;
 import java.util.*;
 
@@ -7,7 +9,7 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
     private static final long serialVersionUID = 1L;
 
     private int largeur, hauteur; // nombre de cellules “jouables”
-    private int gridLargeur, gridHauteur; // taille réelle de la grille avec murs
+    private int gridLargeur, gridHauteur;
     private Cellule[][] grille;
     private Cellule entree, sortie;
     private Etape e;
@@ -24,8 +26,6 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.e = e;
-
-        // taille réelle de la grille (ajout des murs)
         gridLargeur = largeur * 2 + 1;
         gridHauteur = hauteur * 2 + 1;
 
@@ -38,7 +38,7 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         }
 
         // génération du labyrinthe
-        generationLaby();
+        generationFusionAleatoire();
 
         entree = grille[1][1]; // coin haut-gauche (chemin)
         sortie = grille[gridHauteur - 2][gridLargeur - 2]; // coin bas-droit
@@ -81,6 +81,51 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
             }
         }
     }
+    private void generationFusionAleatoire() {
+        // Chaque cellule jouable devient un "noeud" dans l'UnionFind
+        UnionFind uf = new UnionFind(hauteur * largeur);
+
+        // Liste de tous les murs séparant deux cellules adjacentes
+        List<int[][]> murs = new ArrayList<>();
+
+        for (int x = 0; x < hauteur; x++) {
+            for (int y = 0; y < largeur; y++) {
+                // Mur vertical (avec cellule à droite)
+                if (y < largeur - 1) {
+                    murs.add(new int[][]{{x, y}, {x, y + 1}});
+                }
+                // Mur horizontal (avec cellule en bas)
+                if (x < hauteur - 1) {
+                    murs.add(new int[][]{{x, y}, {x + 1, y}});
+                }
+            }
+        }
+
+        // Mélange aléatoire des murs
+        Collections.shuffle(murs, new Random());
+
+        for (int[][] mur : murs) {
+            int x1 = mur[0][0], y1 = mur[0][1];
+            int x2 = mur[1][0], y2 = mur[1][1];
+
+            int id1 = x1 * largeur + y1;
+            int id2 = x2 * largeur + y2;
+
+            // Si les deux cellules ne sont pas encore connectées, supprimer le mur
+            if (uf.find(id1) != uf.find(id2)) {
+                uf.union(id1, id2);
+
+                // Creuser les cellules et le mur entre elles
+                grille[x1 * 2 + 1][y1 * 2 + 1].setMur(false);
+                grille[x2 * 2 + 1][y2 * 2 + 1].setMur(false);
+
+                int mx = (x1 * 2 + 1 + x2 * 2 + 1) / 2;
+                int my = (y1 * 2 + 1 + y2 * 2 + 1) / 2;
+                grille[mx][my].setMur(false);
+            }
+        }
+    }
+
 
 
     private void creuser(int cx, int cy) {
