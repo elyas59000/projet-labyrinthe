@@ -5,6 +5,7 @@ import J4.sae_labyrinthe.utils.SceneManager;
 import javafx.application.Application;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -32,6 +33,7 @@ public class App extends Application {
         primaryStage=stage;
         primaryStage.setTitle("Jeu du Labyrinthe ©");
         CacheMemoire.chargementTextures();
+        Font.loadFont(getClass().getResourceAsStream("/J4/sae_labyrinthe/fonts/PixelGameFont.ttf"), 18);
         SceneManager.chargerScene("SceneMenuPrincipal");
         primaryStage.setResizable(true);
         primaryStage.setFullScreen(true);

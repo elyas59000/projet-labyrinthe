@@ -20,28 +20,5 @@
     -fx-translate-y: 1;
 }
 
-#overlayPause {
-    -fx-background-color: rgba(0, 0, 0, 0.75);
-    -fx-pref-width: 100%;
-    -fx-pref-height: 100%;
-}
 
-.pause-titre {
-    -fx-text-fill: white;
-    -fx-font-size: 28px;
-    -fx-font-weight: bold;
-}
-
-.pause-bouton {
-    -fx-background-color: transparent;
-    -fx-border-color: white;
-    -fx-border-radius: 5;
-    -fx-text-fill: white;
-    -fx-font-size: 18px;
-    -fx-pref-width: 200;
-}
-
-.pause-bouton:hover {
-    -fx-background-color: rgba(255,255,255,0.2);
-}
 
