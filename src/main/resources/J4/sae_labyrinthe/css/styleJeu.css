@@ -1,0 +1,103 @@
+/*###############[BOUTON_STYLE]#############"*/
+.button {
+    /* Police */
+    -fx-font-family: "Pixel Game Font";
+    -fx-font-size: 18px;
+    -fx-text-fill: #f0f0f0;
+    /* Couleur principale paramétrable */
+    -fx-base-color: #7a7a7a;
+    /* Pixelisation du rendu */
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    /* Structure en couches (pixel border multi-niveaux) */
+    -fx-background-color:
+            linear-gradient(#ffffff80, #00000040),   /* highlight + ombre interne */
+            #000000,                                 /* bordure noire 1px */
+            -fx-base-color;                          /* fond du bouton */
+    -fx-background-insets: 0, 1, 2;                 /* effet pixel */
+    -fx-padding: 8 16;
+}
+
+.button:hover {
+    -fx-base-color: derive(-fx-base-color, 20%);
+    -fx-background-color:
+            linear-gradient(#ffffff80, #00000040),
+            #000000,
+            derive(-fx-base-color, 20%);
+}
+
+button:pressed {
+    -fx-translate-y: 1;
+    -fx-background-color:
+            linear-gradient(#00000060, #00000060),
+            #000000,
+            derive(-fx-base-color, -20%);
+}
+
+.button:disabled {
+    -fx-opacity: 0.55;
+    -fx-background-color:
+            linear-gradient(#44444460, #22222260),
+            #000000,
+            derive(-fx-base-color, -40%);
+}
+
+#bouton_vert {
+    -fx-base-color: #4cb050;
+}
+
+#bouton_rouge {
+    -fx-base-color: #d95e74;
+}
+
+#bouton_orange {
+    -fx-base-color: #f2a43b;
+}
+/*#####################################"*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#overlayPause {
+    -fx-background-color: rgba(0, 0, 0, 0.75);
+    -fx-pref-width: 100%;
+    -fx-pref-height: 100%;
+}
+
+.pause-titre {
+    -fx-text-fill: white;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.pause-bouton {
+    -fx-background-color: transparent;
+    -fx-border-color: white;
+    -fx-border-radius: 5;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-pref-width: 200;
+}
+
+.pause-bouton:hover {
+    -fx-background-color: rgba(255,255,255,0.2);
+}

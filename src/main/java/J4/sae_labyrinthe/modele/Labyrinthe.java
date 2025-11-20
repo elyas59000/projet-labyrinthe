@@ -53,7 +53,7 @@ public class Labyrinthe implements ILabyrinthe, Serializable {
         this.hauteur = hauteur + 2;
         this.pourcentageMurs = pourcentageMurs;
         this.e = e;
-        grille = new Cellule[this.largeur][this.hauteur];
+        grille = new Cellule[this.hauteur][this.largeur];
         genererLabyrinthe();
     }
 
@@ -73,8 +73,8 @@ public class Labyrinthe implements ILabyrinthe, Serializable {
             sortieX = r.nextInt(largeur - 2) + 1;
             sortieY = r.nextInt(hauteur - 2) + 1;
         } while (Math.abs(sortieX - entreeX) + Math.abs(sortieY - entreeY) < 3);
-        entree = grille[entreeX][entreeY];
-        sortie = grille[sortieX][sortieY];
+        entree = grille[entreeY][entreeX];
+        sortie = grille[sortieY][sortieX];
         entree.setMur(false);
         sortie.setMur(false);
     }
@@ -308,24 +308,26 @@ public class Labyrinthe implements ILabyrinthe, Serializable {
 
     public static void main(String[] args) {
         Long temps = System.currentTimeMillis();
-        ILabyrinthe test = new Labyrinthe(10,20,40);
-        System.out.println("temps :" + (System.currentTimeMillis() - temps));
+        ILabyrinthe test = new Labyrinthe(20,10,40);
+        System.out.println("temps l=20 h=10 %=40:    " + (System.currentTimeMillis() - temps));
         temps = System.currentTimeMillis();
-        test = new Labyrinthe(50,100,10);
-        System.out.println("temps :" + (System.currentTimeMillis() - temps));
+        test = new Labyrinthe(100,50,10);
+        System.out.println("temps l=100 h=50 %=10:  " + (System.currentTimeMillis() - temps));
         temps = System.currentTimeMillis();
-        test = new Labyrinthe(50,100,40);
-        System.out.println("temps :" + (System.currentTimeMillis() - temps));
-        test = new Labyrinthe(100,200,10);
-        System.out.println("temps :" + (System.currentTimeMillis() - temps));
+        test = new Labyrinthe(100,50,40);
+        System.out.println("temps l=100 h=50 %=40:  " + (System.currentTimeMillis() - temps));
         temps = System.currentTimeMillis();
-        test = new Labyrinthe(100,200,40);
-        System.out.println("temps :" + (System.currentTimeMillis() - temps));
-        test = new Labyrinthe(100,200,80);
-        System.out.println("temps :" + (System.currentTimeMillis() - temps));
+        test = new Labyrinthe(200,100,10);
+        System.out.println("temps l=200 h=100 %=10: " + (System.currentTimeMillis() - temps));
         temps = System.currentTimeMillis();
-        test = new Labyrinthe(500,1000,40);
-        System.out.println("temps :" + (System.currentTimeMillis() - temps));
+        test = new Labyrinthe(200,100,40);
+        System.out.println("temps l=200 h=100 %=40: " + (System.currentTimeMillis() - temps));
+        temps = System.currentTimeMillis();
+        test = new Labyrinthe(200,100,80);
+        System.out.println("temps l=200 h=100 %=80:   " + (System.currentTimeMillis() - temps));
+        temps = System.currentTimeMillis();
+        test = new Labyrinthe(1000,500,40);
+        System.out.println("temps l=1000 h=500 %=40:   " + (System.currentTimeMillis() - temps));
     }
 
 }
