@@ -13,6 +13,7 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
     private Cellule[][] grille;
     private Cellule entree, sortie;
     private Etape e;
+    int distance;
 
     public LabyrintheParfait() {
         this(5, 5,5); // labyrinthe 5x5 jouable
@@ -26,6 +27,7 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.e = e;
+        this.distance = distance;
         gridLargeur = largeur * 2 + 1;
         gridHauteur = hauteur * 2 + 1;
 
@@ -34,9 +36,17 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         // génération du labyrinthe
         generationFusionAleatoire();
 
-        entree = grille[1][1]; // coin haut-gauche (chemin)
+        creerEntree();
         sortie = grille[gridHauteur - 2][gridLargeur - 2];
-        placerSortieA(distance);// coin bas-droit
+        placerSortieA(distance);
+    }
+
+    private void creerEntree() {
+        Random r = new Random();
+        int entreeX = r.nextInt(largeur - 2) + 1;
+        int entreeY = r.nextInt(hauteur - 2) + 1;
+        entree = grille[entreeY][entreeX];
+        entree.setMur(false);
     }
 
     private void initGrid() {
@@ -173,6 +183,9 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
     @Override
     public Etape getEtape() { return e; }
 
+    public int getDistance() {
+        return distance;
+    }
 
     // -------------------------------------------------------------------------
     // Sauvegarde
