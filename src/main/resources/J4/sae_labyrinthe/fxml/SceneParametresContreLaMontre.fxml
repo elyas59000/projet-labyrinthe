@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="J4.sae_labyrinthe.controleur.SceneParametresContreLaMontreControleur"
+            prefWidth="500" prefHeight="600">
+
+    <top>
+        <VBox alignment="CENTER" spacing="10">
+            <padding><Insets top="20" bottom="10"/></padding>
+            <Text text="Paramètres de la partie"
+                  style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="25" alignment="CENTER" style="-fx-padding: 20;">
+
+            <CheckBox fx:id="checkParfait"
+                      text="Labyrinthe Parfait (Chemin unique)"
+                      style="-fx-font-size: 16px;"/>
+
+            <GridPane hgap="15" vgap="15" alignment="CENTER">
+                <Label text="Largeur :" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                <Slider fx:id="sliderLargeur" min="10" max="50" value="15"
+                        showTickLabels="true" showTickMarks="true" prefWidth="200"
+                        GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Hauteur :" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                <Slider fx:id="sliderHauteur" min="10" max="50" value="15"
+                        showTickLabels="true" showTickMarks="true" prefWidth="200"
+                        GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Temps (sec) :" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                <Slider fx:id="sliderTemps" min="30" max="300" value="60" majorTickUnit="30"
+                        showTickLabels="true" showTickMarks="true" prefWidth="200"
+                        GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <padding>
+                <Insets top="10" bottom="10"/>
+            </padding>
+
+            <StackPane>
+                <VBox fx:id="boxTauxMur" spacing="5" alignment="CENTER">
+                    <Label text="Densité des murs (%)" style="-fx-font-weight: bold;"/>
+                    <Slider fx:id="sliderTauxMur" min="10" max="60" value="30"
+                            showTickLabels="true" showTickMarks="true" prefWidth="250"/>
+                </VBox>
+
+                <VBox fx:id="boxDistanceMini" spacing="5" alignment="CENTER" visible="false">
+                    <Label text="Distance minimale Sortie" style="-fx-font-weight: bold;"/>
+                    <Slider fx:id="sliderDistanceMin" min="5" max="50" value="15"
+                            showTickLabels="true" showTickMarks="true" prefWidth="250"/>
+                </VBox>
+            </StackPane>
+
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox spacing="20" alignment="CENTER">
+            <padding><Insets bottom="30"/></padding>
+
+            <Button text="🎲 Aléatoire"
+                    style="-fx-font-size: 16px; -fx-base: #FFC107; -fx-text-fill: black; -fx-cursor: hand;"
+                    prefWidth="120"
+                    onMouseClicked="#resetParametres"/>
+
+            <Button text="Valider et Jouer"
+                    style="-fx-font-size: 16px; -fx-base: #4CAF50; -fx-text-fill: white; -fx-cursor: hand;"
+                    prefWidth="150"
+                    onMouseClicked="#validerParametres"/>
+
+            <Button text="Annuler"
+                    style="-fx-font-size: 16px; -fx-cursor: hand;"
+                    prefWidth="100"
+                    onMouseClicked="#revenirModeCM"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

@@ -13,13 +13,14 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
     private Cellule[][] grille;
     private Cellule entree, sortie;
     private Etape e;
+    private int distance;
 
     public LabyrintheParfait() {
-        this(5, 5); // labyrinthe 5x5 jouable
+        this(5, 5,5); // labyrinthe 5x5 jouable
     }
 
-    public LabyrintheParfait(int largeur, int hauteur) {
-        this(largeur, hauteur, new Etape(0),15);
+    public LabyrintheParfait(int largeur, int hauteur,int distance) {
+        this(largeur, hauteur, new Etape(0),distance);
     }
 
     public LabyrintheParfait(int largeur, int hauteur, Etape e,int distance) {
@@ -28,11 +29,12 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         this.e = e;
         gridLargeur = largeur * 2 + 1;
         gridHauteur = hauteur * 2 + 1;
+        this.distance = distance;
 
         // initialisation de la grille entière remplie de murs
         initGrid();
         // génération du labyrinthe
-        generationLaby();
+        generationFusionAleatoire();
 
         entree = grille[1][1]; // coin haut-gauche (chemin)
         sortie = grille[gridHauteur - 2][gridLargeur - 2];
@@ -251,26 +253,29 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
 
     public static void main(String[] args) {
         Long temps = System.currentTimeMillis();
-        ILabyrinthe test = new LabyrintheParfait(10,20);
-        System.out.println("temps l=20 h=10:    " + (System.currentTimeMillis() - temps));
+        ILabyrinthe test = new LabyrintheParfait(10,20,15);
+        System.out.println("temps l=20 h=10 d=15:    " + (System.currentTimeMillis() - temps));
         temps = System.currentTimeMillis();
-        test = new LabyrintheParfait(50,100);
-        System.out.println("temps l=100 h=50:  " + (System.currentTimeMillis() - temps));
+        test = new LabyrintheParfait(50,100,70);
+        System.out.println("temps l=100 h=50 d=70:  " + (System.currentTimeMillis() - temps));
         temps = System.currentTimeMillis();
-        test = new LabyrintheParfait(50,100);
-        System.out.println("temps l=100 h=50:  " + (System.currentTimeMillis() - temps));
+        test = new LabyrintheParfait(50,100,70);
+        System.out.println("temps l=100 h=50 d=70:  " + (System.currentTimeMillis() - temps));
         temps = System.currentTimeMillis();
-        test = new LabyrintheParfait(100,200);
-        System.out.println("temps l=200 h=100: " + (System.currentTimeMillis() - temps));
+        test = new LabyrintheParfait(100,200,150);
+        System.out.println("temps l=200 h=100 d=150: " + (System.currentTimeMillis() - temps));
         temps = System.currentTimeMillis();
-        test = new LabyrintheParfait(100,200);
-        System.out.println("temps l=200 h=100: " + (System.currentTimeMillis() - temps));
+        test = new LabyrintheParfait(100,200,150);
+        System.out.println("temps l=200 h=100 d=150: " + (System.currentTimeMillis() - temps));
         temps = System.currentTimeMillis();
-        test = new LabyrintheParfait(100,200);
-        System.out.println("temps l=200 h=100:   " + (System.currentTimeMillis() - temps));
+        test = new LabyrintheParfait(100,200,150);
+        System.out.println("temps l=200 h=100 d=150:   " + (System.currentTimeMillis() - temps));
         temps = System.currentTimeMillis();
-        test = new LabyrintheParfait(500,1000);
-        System.out.println("temps l=1000 h=500:   " + (System.currentTimeMillis() - temps));
+        test = new LabyrintheParfait(500,1000,700);
+        System.out.println("temps l=1000 h=500 d=700:   " + (System.currentTimeMillis() - temps));
     }
 
+    public Object getDistance() {
+        return this.distance;
+    }
 }

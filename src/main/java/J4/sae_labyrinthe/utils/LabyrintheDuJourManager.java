@@ -48,7 +48,8 @@ public class LabyrintheDuJourManager {
         int largeur = 5 + random.nextInt(26);
         int longueur = 5 + random.nextInt(26);
         if (choixParfait) {
-            return new LabyrintheParfait(largeur, longueur);
+            int distance = (largeur + longueur)/2;
+            return new LabyrintheParfait(largeur, longueur,distance);
         } else {
             double pourcentageMurs = 20.0 + random.nextDouble() * 30.0;
             return new Labyrinthe(largeur, longueur, pourcentageMurs);

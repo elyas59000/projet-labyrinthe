@@ -37,8 +37,4 @@ public class Cellule implements Serializable {
             return ".";
         }
     }
-
-    public String toStringV() {
-        return getX() + "," + getY();
-    }
 }
