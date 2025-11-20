@@ -47,7 +47,14 @@
          </GridPane.margin>
       </Button>
       <VBox id="vboxLibre" alignment="CENTER" maxWidth="617.0" prefHeight="358.0" prefWidth="430.0" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-         <children>
+          <HBox alignment="CENTER" spacing="30">
+              <children>
+                  <Button fx:id="btnAleatoire" text="Labyrinthe Aléatoire" onMouseClicked="#modeAleatoire"/>
+                  <Button fx:id="btnParfait" text="Labyrinthe Parfait" onMouseClicked="#modeParfait"/>
+              </children>
+          </HBox>
+
+          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0">
                <children>
                   <Text id="textLargeur" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Largeur du labyrinthe :"> </Text>
@@ -60,13 +67,23 @@
                   <Spinner fx:id="champsHauteur" editable="true" prefHeight="42.0" prefWidth="125.0" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="100.0">
-               <children>
+              <HBox fx:id="boxTauxMur" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+              <children>
                   <Text id="textMur" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Taux de mur :"> </Text>
                   <Spinner fx:id="champsTauxMur" editable="true" prefHeight="42.0" prefWidth="125.0" />
                </children>
             </HBox>
-         </children>
+              <HBox fx:id="boxDistance" prefHeight="100.0" prefWidth="200.0" spacing="40.0" visible="false" managed="false">
+                  <children>
+                      <Text id="textDistance" strokeType="OUTSIDE" strokeWidth="0.0"
+                            style="-fx-font-weight: bold; -fx-font-style: italic;"
+                            text="Distance minimale :"/>
+
+                      <Spinner fx:id="champsDistance" editable="true" prefHeight="42.0" prefWidth="125.0"/>
+                  </children>
+              </HBox>
+
+          </children>
          <GridPane.margin>
             <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
          </GridPane.margin>
