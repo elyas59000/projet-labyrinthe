@@ -7,10 +7,11 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import J4.sae_labyrinthe.exception.ValidationException;
-import J4.sae_labyrinthe.modele.Item.Bonus.PlusVision;
-import J4.sae_labyrinthe.modele.Item.Cleanse;
-import J4.sae_labyrinthe.modele.Item.IItem;
+import J4.sae_labyrinthe.modele.Item.*;
+import J4.sae_labyrinthe.modele.Item.Bonus.*;
+import J4.sae_labyrinthe.modele.Item.Malus.MixCtrl;
 import J4.sae_labyrinthe.modele.Item.Malus.MoinsVision;
+import J4.sae_labyrinthe.modele.Item.Malus.TpDebut;
 import J4.sae_labyrinthe.utils.LabyrintheDuJourManager;
 import J4.sae_labyrinthe.utils.Save;
 import J4.sae_labyrinthe.utils.SaveScoreDuJour;
@@ -44,9 +45,15 @@ public class ModeleJeu implements IModeleJeu {
     private ScoreDuJour scoresDuJour;
     private LocalDateTime debutLabyrintheDuJour;
     // items
-    private HashSet<IItem> setItem;
+    private HashSet<IItem> setItem;     // items recupéré par le joueur
+    private HashMap<Cellule, IItem> items;  // items dans le labyrinthe
     private int visionRange;
     private HashMap<Cellule, Integer> ward;
+
+    private final int NBBONUS = 3;
+    private final int NBMALUS = 2;
+    private final int NBNEUTRE = 4;
+
     private Biome biome;
 
 
@@ -585,4 +592,110 @@ public class ModeleJeu implements IModeleJeu {
         return temp;
     }
 
+    public HashMap<Cellule, IItem> getItemLabyrinthe(){
+        return this.items;
+    }
+
+    public HashMap<Cellule, Integer> getWardLabyrinthe(){
+        return this.ward;
+    }
+
+    public HashMap<Cellule, IItem> genererItems(int nbItems){
+        HashMap<Cellule, IItem> temp = new HashMap<>();
+
+        for (int i = 0; i < nbItems; i++) {
+            temp.put(labyrinthe.positionAleaCell(), getRandomItem());
+        }
+
+        return temp;
+    }
+
+    public IItem getRandomItem(){
+        Random rand = new Random();
+
+        int rnd = rand.nextInt(0, NBBONUS + NBMALUS + NBNEUTRE);
+        int neutre = 1;     // ici on admet que tout les cleanse forment un seul item
+
+        // bonus
+        if (rnd > (neutre + NBMALUS)) {
+            return getRandomBonus();
+        }
+        // neutre
+        if (rnd > (NBMALUS)) {
+            return getRandomNeutre();
+
+        }
+        // malus
+        return getRandomMalus();
+    }
+
+    public IItem getRandomBonus(){
+        Random rand = new Random();
+
+        int rnd = rand.nextInt(0, NBBONUS);
+
+        switch (rnd) {
+            case 0:
+                return new PlusVision(this, rand.nextInt(1,4));     // donne un bonus de vision entre 1 et 4 cases
+            case 1:
+                return new TP(this);
+            case 2:
+                return new Ward(this, rand.nextInt(1,4));           // place une ward de range entre 1 et 4 cases
+
+            // pas encore implémenté
+            case 3:
+                System.out.println("getRandomBonus() : erreur, OOB du nextInt");
+                // return new BriseMur();
+            case 4:
+                System.out.println("getRandomBonus() : erreur, OOB du nextInt");
+                // return new SentirSortie();
+        }
+
+        System.out.println("getRandomBonus() : erreur de génération d'un item, return null");
+        return null;
+    }
+
+    public IItem getRandomNeutre(){
+        Random rand = new Random();
+
+        int rnd = rand.nextInt(0, NBNEUTRE);
+
+        switch (rnd) {
+            case 0:
+                return new CleanseMalus(this);
+
+            case 1:
+                return new CleanseNeutral(this);
+
+            case 2:
+                return new CleanseBonus(this);
+
+            case 4:
+                return new Cleanse(this);
+
+        }
+
+        System.out.println("getRandomNeutre() : erreur de génération d'un item, return null");
+        return null;
+    }
+
+    public IItem getRandomMalus(){
+        Random rand = new Random();
+
+        int rnd = rand.nextInt(0, NBMALUS);
+
+        switch (rnd) {
+            case 0:
+                return new MoinsVision(this, rand.nextInt(1,4));
+            case 1:
+                return new TpDebut(this);
+            case 2:
+                System.out.println("getRandomMalus() : erreur, OOB du nextInt");
+                // return new MixCtrl(this);
+
+        }
+
+        System.out.println("getRandomBonus() : erreur de génération d'un item, return null");
+        return null;
+    }
 }

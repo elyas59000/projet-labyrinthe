@@ -9,7 +9,7 @@ public class PlusVision implements IItem {
     private int value;      // range de la vision ajouté
     private boolean applied;
 
-    public  PlusVision(ModeleJeu modele) {
+    public  PlusVision(ModeleJeu modele,  int value) {
         this.modele = modele;
     }
 
