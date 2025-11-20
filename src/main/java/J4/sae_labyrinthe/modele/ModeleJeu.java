@@ -147,7 +147,7 @@ public class ModeleJeu implements IModeleJeu {
     public void lancerPartieLibre(int largeur, int hauteur, int tauxMur,Biome biome) {
         partieLibre =true;
         if(tauxMur == 0){
-            this.labyrinthe = new LabyrintheParfait(largeur,hauteur);
+            this.labyrinthe = new LabyrintheParfait(largeur/2,hauteur/2);
         }
         else{
             this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
@@ -188,7 +188,7 @@ public class ModeleJeu implements IModeleJeu {
         partieLibre =false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
         if(etapeChoisi.getNumero() > 3){
-            this.labyrinthe = new LabyrintheParfait(5,5,etapeChoisi);
+            this.labyrinthe = new LabyrintheParfait(d.getCote()/2,d.getCote()/2,etapeChoisi);
             ((LabyrintheParfait) this.labyrinthe).placerSortieA(5);
         }else {
             this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote(),d.getPourcentageMurs(),etapeChoisi);
