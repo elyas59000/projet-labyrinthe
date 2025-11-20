@@ -124,15 +124,14 @@ public class SceneModeLibreControleur {
     void lancerPartieLibre(MouseEvent event) throws IOException {
         int l = champsLargeur.getValue();
         int h = champsHauteur.getValue();
-        int taux;
+        int taux = champsTauxMur.getValue();
+        int d = 0;
         if (modeParfaitActif) {
-            //int d = champsDistance.getValue();
+            d = champsDistance.getValue();
             taux = 0;
-        } else {
-            taux = champsTauxMur.getValue();
         }
 
-        modeleJeu.lancerPartieLibre(l, h, taux, Biome.DESERT);
+        modeleJeu.lancerPartieLibre(l, h, taux, Biome.DESERT,d);
         SceneManager.chargerScene("SceneLabyrinthe");
     }
 
