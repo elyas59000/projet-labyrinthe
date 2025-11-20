@@ -149,6 +149,10 @@ public class SceneLabyrintheControleur {
         modele.deplacerJoueur(direction);
         if (modele.getPositionJoueur().equals(modele.getSortie())) {
             ecranFinPartie();
+        } else {
+            if (modele.isCellAnItem(modele.getPositionJoueur())) {
+                modele.addItem();
+            }
         }
     }
 

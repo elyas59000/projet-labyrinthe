@@ -45,7 +45,7 @@ public class ModeleJeu implements IModeleJeu {
     private ScoreDuJour scoresDuJour;
     private LocalDateTime debutLabyrintheDuJour;
     // items
-    private HashSet<IItem> setItem;     // items recupéré par le joueur
+    private ArrayList<IItem> listItem;     // items recupéré par le joueur
     private HashMap<Cellule, IItem> items;  // items dans le labyrinthe
     private int visionRange;
     private HashMap<Cellule, Integer> ward;
@@ -192,6 +192,8 @@ public class ModeleJeu implements IModeleJeu {
      */
     @Override
     public void lancerPartieProgression() {
+        // TODO : fix labyrintheParfais
+
         partieLibre =false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
         if(etapeChoisi.getNumero() > 3){
@@ -508,32 +510,30 @@ public class ModeleJeu implements IModeleJeu {
             cleanse();
         }
 
-        for (IItem item : setItem){
+        for (IItem item : listItem){
             item.applyEffect();
         }
     }
 
     public void cleanse(){
-        setItem.clear();
+        listItem.clear();
     }
 
     public void removeItem(IItem item){
-        setItem.remove(item);
+        listItem.remove(item);
     }
     public void removeItems(Set<IItem> items){
-        setItem.removeAll(items);
+        listItem.removeAll(items);
     }
 
-    public void addItem(IItem item){
-        setItem.add(item);
-    }
+    public void addItem(IItem item){listItem.add(item);}
 
-    public Set<IItem> getSetItem(){
-        return this.setItem;
+    public ArrayList<IItem> getListItem(){
+        return this.listItem;
     }
 
     public boolean containPlusVision(){
-        for (IItem item : setItem){
+        for (IItem item : listItem){
             if (item.getClass().equals(PlusVision.class) ) {
                 return true;
             }
@@ -542,7 +542,7 @@ public class ModeleJeu implements IModeleJeu {
     }
 
     public boolean containCleanse(){
-        for (IItem item : setItem){
+        for (IItem item : listItem){
             if (item.getClass().equals(Cleanse.class) ) {
                 return true;
             }
@@ -554,9 +554,9 @@ public class ModeleJeu implements IModeleJeu {
         return visionRange == 0;
     }
 
-    public Set<IItem> getVisionItems(){
-        HashSet<IItem> temp = new HashSet<>();
-        for (IItem item : setItem){
+    public ArrayList<IItem> getVisionItems(){
+        ArrayList<IItem> temp = new ArrayList<>();
+        for (IItem item : listItem){
             if (item.getClass().equals(PlusVision.class) ||
                     item.getClass().equals(MoinsVision.class)) {
                 temp.add(item);
@@ -569,27 +569,27 @@ public class ModeleJeu implements IModeleJeu {
         ward.clear();
     }
 
-    public Set<IItem> getMalus(){
-        HashSet<IItem> temp = new HashSet<>();
-        for (IItem item : setItem){
+    public ArrayList<IItem> getMalus(){
+        ArrayList<IItem> temp = new ArrayList<>();
+        for (IItem item : listItem){
             if (item.isBonus() == -1){
                 temp.add(item);
             }
         }
         return temp;
     }
-    public Set<IItem> getBonus(){
-        HashSet<IItem> temp = new HashSet<>();
-        for (IItem item : setItem){
+    public ArrayList<IItem> getBonus(){
+        ArrayList<IItem> temp = new ArrayList<>();
+        for (IItem item : listItem){
             if (item.isBonus() == 1){
                 temp.add(item);
             }
         }
         return temp;
     }
-    public Set<IItem> getNeutral(){
-        HashSet<IItem> temp = new HashSet<>();
-        for (IItem item : setItem){
+    public ArrayList<IItem> getNeutral(){
+        ArrayList<IItem> temp = new ArrayList<>();
+        for (IItem item : listItem){
             if (item.isBonus() == 0){
                 temp.add(item);
             }
@@ -702,5 +702,15 @@ public class ModeleJeu implements IModeleJeu {
 
         System.out.println("getRandomBonus() : erreur de génération d'un item, return null");
         return null;
+    }
+
+    public boolean isCellAnItem(Cellule cellule){
+        return items.containsKey(cellule);
+    }
+
+    public void prendreItem(){
+        Random rand = new Random();
+        int rnd = rand.nextInt(0, listItem.size());
+        addItem(listItem.get(rnd));
     }
 }
