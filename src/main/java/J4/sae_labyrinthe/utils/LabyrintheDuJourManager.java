@@ -52,7 +52,8 @@ public class LabyrintheDuJourManager {
             return new LabyrintheParfait(largeur, longueur,distance);
         } else {
             double pourcentageMurs = 20.0 + random.nextDouble() * 30.0;
-            return new Labyrinthe(largeur, longueur, pourcentageMurs);
+            int mur = (int) Math.floor(pourcentageMurs);
+            return new Labyrinthe(largeur, longueur, mur);
         }
     }
 }
