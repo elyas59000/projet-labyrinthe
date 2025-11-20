@@ -43,4 +43,9 @@ public class TP implements IItem {
         // TODO : peut etre mettre neutral car il peut ramener en arriere
         return 1;
     }
+
+    @Override
+    public String toString(){
+        return "TP";
+    };
 }

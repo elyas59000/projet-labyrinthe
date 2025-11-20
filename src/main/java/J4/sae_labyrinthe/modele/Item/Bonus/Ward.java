@@ -23,8 +23,9 @@ public class Ward implements IItem {
     public void applyEffect() {
         if (!applied) {
             modele.setWard(modele.getPositionJoueur(), value);
-            applied=true;
         }
+        applied=true;
+
     }
 
     @Override

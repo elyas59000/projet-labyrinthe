@@ -799,8 +799,10 @@ public class ModeleJeu implements IModeleJeu {
             Random rand = new Random();
             int rnd = rand.nextInt(0, items.size());
             IItem item = getItem(rnd);
-            addItem(item);
             Cellule cell = getKey(item);
+            printItem(cell);
+
+            addItem(item);
             items.remove(cell);
             itemApplyEffect();
         } else {
@@ -840,6 +842,20 @@ public class ModeleJeu implements IModeleJeu {
 
     public void nouveauListItem(){
         listItem = new ArrayList<IItem>();
+    }
+
+    public void printItem(Cellule cell){
+        System.out.println(getItem(cell).toString() + " : " + cell.toStringV());
+    }
+
+    public IItem getItem(Cellule cell){
+        for (Map.Entry<Cellule, IItem> entry : items.entrySet()){
+            if (entry.getKey().equals(cell)){
+                return entry.getValue();
+            }
+        }
+        System.out.println("getItem(item) : item absent de items");
+        return null;
     }
 
     public void lancerContreLaMontre(ParametresContreLaMontre params) {

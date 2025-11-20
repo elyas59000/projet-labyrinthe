@@ -19,6 +19,7 @@ public class CleanseNeutral implements IItem{
         if (!applied) {
             modele.removeItems(modele.getNeutral());
         }
+        applied = true;
     }
 
     @Override
@@ -31,4 +32,9 @@ public class CleanseNeutral implements IItem{
 
     @Override
     public int isBonus() {return 0;}
+
+    @Override
+    public String toString(){
+        return "CleanseNeutral";
+    };
 }

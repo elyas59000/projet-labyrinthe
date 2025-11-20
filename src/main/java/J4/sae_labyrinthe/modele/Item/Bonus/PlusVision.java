@@ -22,8 +22,8 @@ public class PlusVision implements IItem {
     public void applyEffect() {
         if (!applied) {
             modele.setVisionRange(modele.getVisionRange() + value);
-            applied = true;
         }
+        applied = true;
     }
 
     @Override
@@ -43,6 +43,6 @@ public class PlusVision implements IItem {
 
     @Override
     public String toString(){
-        return "BriseMur";
+        return "PlusVision";
     };
 }

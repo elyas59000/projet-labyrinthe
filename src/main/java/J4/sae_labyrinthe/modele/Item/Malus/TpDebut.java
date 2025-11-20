@@ -22,8 +22,9 @@ public class TpDebut implements IItem {
     public void applyEffect() {
         if (!applied) {
             modele.setPositionJoueur(modele.getLabyrinthe().getEntree());
-            applied = true;
         }
+        applied = true;
+
     }
 
     @Override

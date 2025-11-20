@@ -19,6 +19,7 @@ public class CleanseBonus implements IItem{
         if (!applied) {
             modele.removeItems(modele.getMalus());
         }
+        applied = true;
     }
 
     @Override
@@ -31,4 +32,9 @@ public class CleanseBonus implements IItem{
 
     @Override
     public int isBonus() {return 0;}
+
+    @Override
+    public String toString(){
+        return "CleanseBonus";
+    };
 }

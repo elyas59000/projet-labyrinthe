@@ -20,6 +20,7 @@ public class CleanseMalus implements IItem {
         if (!applied) {
             modele.removeItems(modele.getMalus());
         }
+        applied = true;
     }
 
     @Override
@@ -32,4 +33,9 @@ public class CleanseMalus implements IItem {
 
     @Override
     public int isBonus() {return 0;}
+
+    @Override
+    public String toString(){
+        return "CleanseMalus";
+    };
 }
