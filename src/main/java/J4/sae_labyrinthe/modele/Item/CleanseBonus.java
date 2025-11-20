@@ -4,6 +4,7 @@ import J4.sae_labyrinthe.modele.ModeleJeu;
 
 public class CleanseBonus implements IItem{
 
+    private boolean applied;
     private final ModeleJeu modele;
 
     public CleanseBonus(ModeleJeu modele){
@@ -15,8 +16,9 @@ public class CleanseBonus implements IItem{
 
     @Override
     public void applyEffect() {
-        modele.removeItems(modele.getBonus());
-        removeSelf();
+        if (!applied) {
+            modele.removeItems(modele.getMalus());
+        }
     }
 
     @Override

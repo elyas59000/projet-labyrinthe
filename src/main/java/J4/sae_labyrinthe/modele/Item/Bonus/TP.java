@@ -7,6 +7,7 @@ import J4.sae_labyrinthe.modele.ModeleJeu;
 
 public class TP implements IItem {
 
+    private boolean applied = false;
     private final ModeleJeu modele;
 
     public TP(ModeleJeu modele) {
@@ -20,10 +21,12 @@ public class TP implements IItem {
 
     @Override
     public void applyEffect() {
-        Cellule pos = modele.getLabyrinthe().positionAleaCell();
-        if (pos != null) {
-            modele.setPositionJoueur(pos);
-            removeSelf();
+        if (!applied) {
+            Cellule pos = modele.getLabyrinthe().positionAleaCell();
+            if (pos != null) {
+                modele.setPositionJoueur(pos);
+            }
+            applied = true;
         }
     }
 

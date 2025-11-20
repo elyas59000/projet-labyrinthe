@@ -28,4 +28,9 @@ public class Cleanse implements IItem {
 
     @Override
     public int isBonus() {return 0;}
+
+    @Override
+    public String toString(){
+        return "Cleanse";
+    };
 }

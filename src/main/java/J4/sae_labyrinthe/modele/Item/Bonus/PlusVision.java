@@ -40,4 +40,9 @@ public class PlusVision implements IItem {
     public int isBonus() {
         return 1;
     }
+
+    @Override
+    public String toString(){
+        return "BriseMur";
+    };
 }
