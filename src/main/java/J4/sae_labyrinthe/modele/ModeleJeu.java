@@ -2,20 +2,15 @@ package J4.sae_labyrinthe.modele;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import J4.sae_labyrinthe.exception.ValidationException;
 import J4.sae_labyrinthe.modele.Item.*;
 import J4.sae_labyrinthe.modele.Item.Bonus.*;
-import J4.sae_labyrinthe.modele.Item.Malus.MixCtrl;
 import J4.sae_labyrinthe.modele.Item.Malus.MoinsVision;
 import J4.sae_labyrinthe.modele.Item.Malus.TpDebut;
-import J4.sae_labyrinthe.utils.LabyrintheDuJourManager;
-import J4.sae_labyrinthe.utils.Save;
-import J4.sae_labyrinthe.utils.SaveScoreDuJour;
-import J4.sae_labyrinthe.utils.ScoreDuJour;
+import J4.sae_labyrinthe.utils.*;
 import J4.sae_labyrinthe.vue.Biome;
 import J4.sae_labyrinthe.vue.IObserver;
 
@@ -44,6 +39,9 @@ public class ModeleJeu implements IModeleJeu {
     private int tempsDuJour = 0;
     private ScoreDuJour scoresDuJour;
     private LocalDateTime debutLabyrintheDuJour;
+    private boolean partieContreLaMontre = false;
+    private int tempsLimite = 0; // En secondes
+
     // items
     private ArrayList<IItem> listItem;     // items recupéré par le joueur
     private HashMap<Cellule, IItem> items;  // items dans le labyrinthe
@@ -182,7 +180,39 @@ public class ModeleJeu implements IModeleJeu {
         return duree.getSeconds(); // temps en secondes
     }
 
+    public boolean getPartieDuJourEnCours() {
+        return this.partieDuJourEnCours;
+    }
 
+    public void lancerContreLaMontre(ParametresContreLaMontre params) {
+        this.partieContreLaMontre = true;
+        this.partieLibre = false;
+        this.partieDuJourEnCours = false;
+
+        this.tempsLimite = params.getTemps();
+
+        if (params.isEstParfait()) {
+            this.labyrinthe = new LabyrintheParfait(
+                    params.getLargeur()/2,
+                    params.getHauteur()/2,
+                    new Etape(0),
+                    params.getDistanceMin()
+            );
+        } else {
+            this.labyrinthe = new Labyrinthe(
+                    params.getLargeur(),
+                    params.getHauteur(),
+                    (double) params.getTauxMur()
+            );
+        }
+
+        this.positionJoueur = this.labyrinthe.getEntree();
+        this.biome = Biome.DESERT;
+        notifierObservateurs();
+    }
+
+    public boolean isPartieContreLaMontre() { return partieContreLaMontre; }
+    public int getTempsLimite() { return tempsLimite; }
 
 
     /**
@@ -197,7 +227,7 @@ public class ModeleJeu implements IModeleJeu {
         partieLibre =false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
         if(etapeChoisi.getNumero() > 3){
-            this.labyrinthe = new LabyrintheParfait(d.getCote()/2,d.getCote()/2,etapeChoisi);
+            this.labyrinthe = new LabyrintheParfait(d.getCote()/2,d.getCote()/2,etapeChoisi,3);
             ((LabyrintheParfait) this.labyrinthe).placerSortieA(5);
         }else {
             this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote(),d.getPourcentageMurs(),etapeChoisi);
@@ -427,8 +457,10 @@ public class ModeleJeu implements IModeleJeu {
         else if(partieDuJourEnCours){
             partieDuJourEnCours = false;
             return "SceneLabyrintheDuJour";
-        }
-        else{
+        } else if (partieContreLaMontre) {
+            partieContreLaMontre = false;
+            return "SceneModeContreLaMontre";
+        } else{
             return "SceneProg";
         }
     }
@@ -522,7 +554,7 @@ public class ModeleJeu implements IModeleJeu {
     public void removeItem(IItem item){
         listItem.remove(item);
     }
-    public void removeItems(Set<IItem> items){
+    public void removeItems(ArrayList<IItem> items){
         listItem.removeAll(items);
     }
 
