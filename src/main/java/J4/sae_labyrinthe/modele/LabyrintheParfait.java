@@ -194,4 +194,26 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         return x >= 0 && x < largeur && y >= 0 && y < hauteur;
     }
 
+    public static void main(String[] args) {
+        Long temps = System.currentTimeMillis();
+        ILabyrinthe test = new LabyrintheParfait(10,20);
+        System.out.println("temps :" + (System.currentTimeMillis() - temps));
+        temps = System.currentTimeMillis();
+        test = new LabyrintheParfait(50,100);
+        System.out.println("temps :" + (System.currentTimeMillis() - temps));
+        temps = System.currentTimeMillis();
+        test = new LabyrintheParfait(50,100);
+        System.out.println("temps :" + (System.currentTimeMillis() - temps));
+        test = new LabyrintheParfait(100,200);
+        System.out.println("temps :" + (System.currentTimeMillis() - temps));
+        temps = System.currentTimeMillis();
+        test = new LabyrintheParfait(100,200);
+        System.out.println("temps :" + (System.currentTimeMillis() - temps));
+        test = new LabyrintheParfait(100,200);
+        System.out.println("temps :" + (System.currentTimeMillis() - temps));
+        temps = System.currentTimeMillis();
+        test = new LabyrintheParfait(500,1000);
+        System.out.println("temps :" + (System.currentTimeMillis() - temps));
+    }
+
 }
