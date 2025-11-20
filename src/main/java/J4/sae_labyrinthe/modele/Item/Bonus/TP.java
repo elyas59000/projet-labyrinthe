@@ -8,6 +8,7 @@ import J4.sae_labyrinthe.modele.ModeleJeu;
 public class TP implements IItem {
 
     private final ModeleJeu modele;
+    private boolean applied = false;
 
     public TP(ModeleJeu modele) {
         this.modele = modele;
@@ -20,11 +21,14 @@ public class TP implements IItem {
 
     @Override
     public void applyEffect() {
-        Cellule pos = modele.getLabyrinthe().positionAleaCell();
-        if (pos != null) {
-            modele.setPositionJoueur(pos);
-            removeSelf();
+        if (!applied){
+            Cellule pos = modele.getLabyrinthe().positionAleaCell();
+            if (pos != null) {
+                modele.setPositionJoueur(pos);
+            }
+            applied = true;
         }
+
     }
 
     @Override
@@ -33,11 +37,16 @@ public class TP implements IItem {
     }
 
     @Override
-    public void resetApplied() {};
+    public void resetApplied() {applied = false;};
 
     @Override
     public int isBonus() {
         // TODO : peut etre mettre neutral car il peut ramener en arriere
         return 1;
     }
+
+    @Override
+    public String toString(){
+        return "TP";
+    };
 }

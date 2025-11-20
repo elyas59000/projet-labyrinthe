@@ -197,7 +197,7 @@ public class ModeleJeu implements IModeleJeu {
         partieLibre =false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
         if(etapeChoisi.getNumero() > 3){
-            this.labyrinthe = new LabyrintheParfait(d.getCote()/2,d.getCote()/2,etapeChoisi);
+            //this.labyrinthe = new LabyrintheParfait(d.getCote()/2,d.getCote()/2,etapeChoisi);
             ((LabyrintheParfait) this.labyrinthe).placerSortieA(5);
         }else {
             this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote(),d.getPourcentageMurs(),etapeChoisi);
@@ -481,6 +481,8 @@ public class ModeleJeu implements IModeleJeu {
     }
 
 
+
+
     /* Items */
 
     public void setPositionJoueur(Cellule pos) {
@@ -501,7 +503,9 @@ public class ModeleJeu implements IModeleJeu {
         this.ward = ward;
     }
     public void setWard(Cellule cell, int range) {
-        setWard((HashMap<Cellule, Integer>) Map.of(cell, range));
+        HashMap<Cellule, Integer> ward = new HashMap<>();
+        ward.put(cell, range);
+        setWard(ward);
     }
 
 
@@ -509,11 +513,47 @@ public class ModeleJeu implements IModeleJeu {
         if (containCleanse()){
             cleanse();
         }
-
-        for (IItem item : listItem){
-            item.applyEffect();
+        else if (containCleanseMalus()){
+            getCleanseMalus().applyEffect();
+        }
+        else if (containCleanseNeutral()){
+            getCleanseNeutral().applyEffect();
+        }
+        else if (containCleanse()){
+            getCleanseBonus().applyEffect();
+        } else {
+            for (IItem item : listItem){
+                item.applyEffect();
+            }
         }
     }
+
+
+    public IItem getCleanseBonus(){
+        for (IItem item : listItem){
+            if (item instanceof CleanseBonus){
+                return (CleanseBonus) item;
+            }
+        }
+        return null;
+    }
+    public IItem getCleanseNeutral(){
+        for (IItem item : listItem){
+            if (item instanceof CleanseNeutral){
+                return (CleanseNeutral) item;
+            }
+        }
+        return null;
+    }
+    public IItem getCleanseMalus(){
+        for (IItem item : listItem){
+            if (item instanceof CleanseNeutral){
+                return (CleanseNeutral) item;
+            }
+        }
+        return null;
+    }
+
 
     public void cleanse(){
         listItem.clear();
@@ -522,7 +562,7 @@ public class ModeleJeu implements IModeleJeu {
     public void removeItem(IItem item){
         listItem.remove(item);
     }
-    public void removeItems(Set<IItem> items){
+    public void removeItems(ArrayList<IItem> items){
         listItem.removeAll(items);
     }
 
@@ -544,6 +584,33 @@ public class ModeleJeu implements IModeleJeu {
     public boolean containCleanse(){
         for (IItem item : listItem){
             if (item.getClass().equals(Cleanse.class) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containCleanseBonus(){
+        for (IItem item : listItem){
+            if (item.getClass().equals(CleanseBonus.class) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containCleanseMalus(){
+        for (IItem item : listItem){
+            if (item.getClass().equals(CleanseMalus.class) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containCleanseNeutral(){
+        for (IItem item : listItem){
+            if (item.getClass().equals(CleanseNeutral.class) ) {
                 return true;
             }
         }
@@ -605,21 +672,24 @@ public class ModeleJeu implements IModeleJeu {
         return this.ward;
     }
 
-    public HashMap<Cellule, IItem> genererItems(int nbItems){
-        HashMap<Cellule, IItem> temp = new HashMap<>();
+    public void genererItems(int nbItems){
+        HashMap<Cellule, IItem> temp = new HashMap<Cellule, IItem>();
+        Cellule cell;
 
         for (int i = 0; i < nbItems; i++) {
-            temp.put(labyrinthe.positionAleaCell(), getRandomItem());
+            cell = labyrinthe.positionAleaCell();
+            temp.put(cell, getRandomItem());
+            System.out.println(cell.toStringV());
         }
-
-        return temp;
+        System.out.println("Items genere");
+        items = temp;
     }
 
     public IItem getRandomItem(){
         Random rand = new Random();
 
-        int rnd = rand.nextInt(0, NBBONUS + NBMALUS + NBNEUTRE);
         int neutre = 1;     // ici on admet que tout les cleanse forment un seul item
+        int rnd = rand.nextInt(0, NBBONUS + NBMALUS + neutre);
 
         // bonus
         if (rnd > (neutre + NBMALUS)) {
@@ -641,10 +711,15 @@ public class ModeleJeu implements IModeleJeu {
 
         switch (rnd) {
             case 0:
+                System.out.println("genere plus vision");
                 return new PlusVision(this, rand.nextInt(1,4));     // donne un bonus de vision entre 1 et 4 cases
             case 1:
+                System.out.println("genere TP");
+
                 return new TP(this);
             case 2:
+                System.out.println("genere Ward");
+
                 return new Ward(this, rand.nextInt(1,4));           // place une ward de range entre 1 et 4 cases
 
             // pas encore implémenté
@@ -667,15 +742,23 @@ public class ModeleJeu implements IModeleJeu {
 
         switch (rnd) {
             case 0:
+                System.out.println("genere cleanse malus");
+
                 return new CleanseMalus(this);
 
             case 1:
+                System.out.println("genere cleanse neutral");
+
                 return new CleanseNeutral(this);
 
             case 2:
+                System.out.println("genere cleanse bonus");
+
                 return new CleanseBonus(this);
 
-            case 4:
+            case 3:
+                System.out.println("genere cleanse");
+
                 return new Cleanse(this);
 
         }
@@ -691,10 +774,15 @@ public class ModeleJeu implements IModeleJeu {
 
         switch (rnd) {
             case 0:
+                System.out.println("genere moins vision");
+
                 return new MoinsVision(this, rand.nextInt(1,4));
             case 1:
+                System.out.println("genere tpdebut");
+
                 return new TpDebut(this);
             case 2:
+
                 System.out.println("getRandomMalus() : erreur, OOB du nextInt");
                 // return new MixCtrl(this);
 
@@ -709,8 +797,55 @@ public class ModeleJeu implements IModeleJeu {
     }
 
     public void prendreItem(){
-        Random rand = new Random();
-        int rnd = rand.nextInt(0, listItem.size());
-        addItem(listItem.get(rnd));
+        if (items != null && !items.isEmpty()){
+            Random rand = new Random();
+            int rnd = rand.nextInt(0, items.size());
+            IItem item = getItem(rnd);
+            addItem(item);
+            printItem(item);
+            Cellule cell = getKey(item);
+            items.remove(cell);
+            itemApplyEffect();
+        } else {
+            System.out.println("prendreItem() : essaie de prendre un item alors qu'il n'y en as plus dans le labyrinthe");
+        }
+    }
+
+    public IItem getItem(int idx){
+        if (idx > items.size()){
+            System.out.println("getItem() : idx > size()");
+            return null;
+        }
+
+        Collection<IItem> list = items.values();
+
+        int cpt = 0;
+        for (IItem item : list){
+            if (cpt == idx){
+                return item;
+            }
+            cpt ++;
+        }
+        System.out.println("getItem() : erreur");
+        return null;
+
+    }
+
+    public void printItem(IItem item){
+        System.out.println(item.toString() + " : " + getKey(item).toStringV());
+    }
+
+    public Cellule getKey(IItem item){
+        for (Map.Entry<Cellule, IItem> entry : items.entrySet()){
+            if (entry.getValue().equals(item)){
+                return entry.getKey();
+            }
+        }
+        System.out.println("getKey(item) : item absent de items");
+        return null;
+    }
+
+    public void nouveauListItem(){
+        listItem = new ArrayList<IItem>();
     }
 }

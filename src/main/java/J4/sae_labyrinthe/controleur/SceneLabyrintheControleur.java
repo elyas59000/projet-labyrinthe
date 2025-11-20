@@ -78,6 +78,8 @@ public class SceneLabyrintheControleur {
         vueMiniMap.setMinHeight(LARGEUR_MINI_MAP);
         vueMiniMap.setMaxHeight(LARGEUR_MINI_MAP);
         if(laby instanceof Labyrinthe){info3.setText("Taux de mur : " + ((Labyrinthe) laby).getPourcentageMurs() + " %");}
+        modele.genererItems(5);
+        modele.nouveauListItem();
 
 
         if (!modele.getPartieLibre() && modele.etapeChoisi() == -1) {
@@ -151,7 +153,7 @@ public class SceneLabyrintheControleur {
             ecranFinPartie();
         } else {
             if (modele.isCellAnItem(modele.getPositionJoueur())) {
-                modele.addItem();
+                modele.prendreItem();
             }
         }
     }

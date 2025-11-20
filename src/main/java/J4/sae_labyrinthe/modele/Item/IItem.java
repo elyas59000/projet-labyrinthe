@@ -11,6 +11,7 @@ public interface IItem {
     public void applyEffect();
     public void removeSelf();
     public void resetApplied();
+    public String toString();
 
     /**
      * @return 1 si bonus, 0 si neutral, -1 si malus

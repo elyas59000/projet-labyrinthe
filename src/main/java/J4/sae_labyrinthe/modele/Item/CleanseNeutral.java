@@ -5,6 +5,7 @@ import J4.sae_labyrinthe.modele.ModeleJeu;
 public class CleanseNeutral implements IItem{
 
     private final ModeleJeu modele;
+    private boolean applied;
 
     public CleanseNeutral(ModeleJeu modele){
         this.modele = modele;
@@ -15,8 +16,9 @@ public class CleanseNeutral implements IItem{
 
     @Override
     public void applyEffect() {
-        modele.removeItems(modele.getNeutral());
-        removeSelf();
+        if (!applied) {
+            modele.removeItems(modele.getNeutral());
+        }
     }
 
     @Override
@@ -29,4 +31,9 @@ public class CleanseNeutral implements IItem{
 
     @Override
     public int isBonus() {return 0;}
+
+    @Override
+    public String toString(){
+        return "CleanseNeutral";
+    };
 }
