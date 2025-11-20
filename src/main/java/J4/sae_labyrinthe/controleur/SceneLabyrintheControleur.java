@@ -2,10 +2,7 @@ package J4.sae_labyrinthe.controleur;
 
 import java.io.IOException;
 
-import J4.sae_labyrinthe.modele.ILabyrinthe;
-import J4.sae_labyrinthe.modele.Labyrinthe;
-import J4.sae_labyrinthe.modele.ModeleJeu;
-import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
+import J4.sae_labyrinthe.modele.*;
 import J4.sae_labyrinthe.utils.SceneManager;
 import J4.sae_labyrinthe.vue.VueLabyrintheAbstraite;
 import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
@@ -29,6 +26,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import J4.sae_labyrinthe.utils.ParametresContreLaMontre;
+import javafx.scene.paint.Color;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
@@ -151,7 +150,7 @@ public class SceneLabyrintheControleur {
             ecranFinPartie();
         } else {
             if (modele.isCellAnItem(modele.getPositionJoueur())) {
-                modele.addItem();
+                modele.prendreItem();
             }
         }
     }
@@ -211,7 +210,15 @@ public class SceneLabyrintheControleur {
     private void quitterPartie() {
         try {
             nettoyerJeu();
-            SceneManager.chargerScene(modele.getPartie());
+
+            String sceneCible;
+            if (modele.isPartieContreLaMontre()) {
+                sceneCible = "SceneContreLaMontre";
+            } else {
+                sceneCible = modele.getPartie();
+            }
+
+            SceneManager.chargerScene(sceneCible);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -249,17 +256,33 @@ public class SceneLabyrintheControleur {
 
     private void relancerPartie() {
         try {
-            if (modele.getPartieLibre()) {
+            if (modele.isPartieContreLaMontre()) {
+                modele.lancerContreLaMontre(ParametresContreLaMontre.getInstance());
+
+            }
+            else if (modele.getPartieLibre()) {
+                int t;
+                int l = modele.getLabyrinthe().getLargeur();
+                int h = modele.getLabyrinthe().getHauteur();
+                if(modele.getLabyrinthe() instanceof LabyrintheParfait) {
+                    t = 0;
+                }
+                else{
+                    t = (int) ((Labyrinthe) modele.getLabyrinthe()).getPourcentageMurs();
+                    l -= 2;
+                    h -= 2;
+                }
                 modele.lancerPartieLibre(
-                        modele.getLabyrinthe().getLargeur(),
-                        modele.getLabyrinthe().getHauteur(),
-                        (int) ((Labyrinthe) modele.getLabyrinthe()).getPourcentageMurs(),
+                        l,
+                        h,
+                        t,
                         modele.getBiome());
-                SceneManager.chargerScene("SceneLabyrinthe");
+            } else if (modele.getPartieDuJourEnCours()) {
+                modele.lancerLabyrintheDuJour();
             } else {
                 modele.lancerPartieProgression();
-                SceneManager.chargerScene("SceneLabyrinthe");
             }
+            SceneManager.chargerScene("SceneLabyrinthe");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -322,17 +345,37 @@ public class SceneLabyrintheControleur {
      * Initialise et démarre le timer qui s'incrémente chaque seconde.
      */
     private void initTimeline() {
-        tempsEcoule = 0;
-        timerInfo.setText("Temps: 0s");
-        
+        timerInfo.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: black;");
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            tempsEcoule++;
-            timerInfo.setText("Temps: " + tempsEcoule + "s");
+            if (modele.isPartieContreLaMontre()) {
+                // --- LOGIQUE CONTRE LA MONTRE ---
+                tempsEcoule--;
+                timerInfo.setText("Temps restant: " + tempsEcoule + "s");
+                if (tempsEcoule <= 10) timerInfo.setFill(Color.RED);
+                else timerInfo.setFill(Color.BLACK);
+
+                if (tempsEcoule <= 0) {
+                    arreterTimer();
+                    ecranDefaite();
+                }
+            } else {
+                // --- LOGIQUE CLASSIQUE (Ne change pas) ---
+                tempsEcoule++;
+                timerInfo.setText("Temps: " + tempsEcoule + "s");
+            }
         }));
+
+        if (modele.isPartieContreLaMontre()) {
+            tempsEcoule = modele.getTempsLimite();
+            timerInfo.setText("Temps restant: " + tempsEcoule + "s");
+        } else {
+            tempsEcoule = 0;
+            timerInfo.setText("Temps: 0s");
+        }
+
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
-
     /**
      * Arrête le timer.
      */
@@ -341,5 +384,30 @@ public class SceneLabyrintheControleur {
             timeline.stop();
         }
     }
+
+    private void ecranDefaite() {
+        zoneLaby.setOnKeyPressed(null);
+
+        VBox ecranV = new VBox(20);
+        ecranV.setAlignment(Pos.CENTER);
+        ecranV.setId("overlayPause");
+
+        Label titre = new Label("Temps écoulé ! Vous avez perdu.");
+        titre.getStyleClass().add("pause-titre");
+        titre.setStyle("-fx-text-fill: #ff5555;");
+
+        Button rejouer = new Button("Réessayer");
+        rejouer.getStyleClass().add("pause-bouton");
+        rejouer.setOnAction(e -> relancerPartie());
+
+        Button quitter = new Button("Quitter");
+        quitter.getStyleClass().add("pause-bouton");
+        quitter.setOnAction(e -> quitterPartie());
+
+        ecranV.getChildren().addAll(titre, rejouer, quitter);
+        zoneGlobale.getChildren().add(ecranV);
+        StackPane.setAlignment(ecranV, Pos.CENTER);
+    }
+
 
 }
