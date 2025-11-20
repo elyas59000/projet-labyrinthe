@@ -19,10 +19,10 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
     }
 
     public LabyrintheParfait(int largeur, int hauteur) {
-        this(largeur, hauteur, new Etape(0));
+        this(largeur, hauteur, new Etape(0),15);
     }
 
-    public LabyrintheParfait(int largeur, int hauteur, Etape e) {
+    public LabyrintheParfait(int largeur, int hauteur, Etape e,int distance) {
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.e = e;
@@ -30,18 +30,22 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         gridHauteur = hauteur * 2 + 1;
 
         // initialisation de la grille entière remplie de murs
+        initGrid();
+        // génération du labyrinthe
+        generationLaby();
+
+        entree = grille[1][1]; // coin haut-gauche (chemin)
+        sortie = grille[gridHauteur - 2][gridLargeur - 2];
+        placerSortieA(distance);// coin bas-droit
+    }
+
+    private void initGrid() {
         grille = new Cellule[gridHauteur][gridLargeur];
         for (int i = 0; i < gridHauteur; i++) {
             for (int j = 0; j < gridLargeur; j++) {
                 grille[i][j] = new Cellule(j, i, true);
             }
         }
-
-        // génération du labyrinthe
-        generationFusionAleatoire();
-
-        entree = grille[1][1]; // coin haut-gauche (chemin)
-        sortie = grille[gridHauteur - 2][gridLargeur - 2]; // coin bas-droit
     }
 
     private void generationLaby() {
@@ -186,36 +190,42 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
      * La distance est mesurée en nombre de pas (cellules adjacentes).
      * Choisit aléatoirement parmi les cellules à cette distance.
      */
-    public void placerSortieA(int distance) {
-        boolean[][] visite = new boolean[hauteur][largeur]; // cellules jouables
-        Map<int[], Integer> distMap = new HashMap<>();
-        Queue<int[]> file = new LinkedList<>();
+    public void placerSortieA(int distanceVoulu) {
+        int[][] dist = new int[hauteur][largeur];
+        for (int i = 0; i < hauteur; i++) {
+            Arrays.fill(dist[i], -1);
+        }
 
-        int startX = 0, startY = 0; // cellule de départ jouable
+        Queue<int[]> file = new LinkedList<>();
+        int startX = 0, startY = 0;
+        dist[startX][startY] = 0;
         file.add(new int[]{startX, startY});
-        visite[startX][startY] = true;
-        distMap.put(new int[]{startX, startY}, 0);
 
         List<int[]> candidats = new ArrayList<>();
-
         int[][] dirs = {{1,0}, {-1,0}, {0,1}, {0,-1}};
 
         while (!file.isEmpty()) {
             int[] c = file.poll();
             int cx = c[0], cy = c[1];
-            int d = Math.abs(cx - startX) + Math.abs(cy - startY); // distance en pas
-            if (d == distance) {
-                candidats.add(c);
-                continue;
-            }
 
             for (int[] dir : dirs) {
                 int nx = cx + dir[0];
                 int ny = cy + dir[1];
-                if (nx >= 0 && nx < hauteur && ny >= 0 && ny < largeur &&
-                        !visite[nx][ny] && !grille[nx*2+1][ny*2+1].estMur()) {
-                    visite[nx][ny] = true;
+
+                if (nx < 0 || nx >= hauteur || ny < 0 || ny >= largeur) continue;
+
+                // Vérifier si le mur entre les cellules existe
+                int mx = cx * 2 + 1 + dir[0];
+                int my = cy * 2 + 1 + dir[1];
+                if (grille[mx][my].estMur()) continue;
+
+                if (dist[nx][ny] == -1) {
+                    dist[nx][ny] = dist[cx][cy] + 1;
                     file.add(new int[]{nx, ny});
+
+                    if (dist[nx][ny] == distanceVoulu) {
+                        candidats.add(new int[]{nx, ny});
+                    }
                 }
             }
         }
@@ -226,7 +236,7 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
             sortie = grille[choix[0]*2+1][choix[1]*2+1]; // conversion en coordonnées de grille
             sortie.setMur(false);
         } else {
-            System.out.println("Aucune cellule à cette distance.");
+            System.out.println("Aucune cellule trouvée à cette distance exacte.");
         }
     }
 
