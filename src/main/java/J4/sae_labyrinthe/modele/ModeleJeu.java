@@ -12,10 +12,7 @@ import J4.sae_labyrinthe.modele.Item.Bonus.*;
 import J4.sae_labyrinthe.modele.Item.Malus.MixCtrl;
 import J4.sae_labyrinthe.modele.Item.Malus.MoinsVision;
 import J4.sae_labyrinthe.modele.Item.Malus.TpDebut;
-import J4.sae_labyrinthe.utils.LabyrintheDuJourManager;
-import J4.sae_labyrinthe.utils.Save;
-import J4.sae_labyrinthe.utils.SaveScoreDuJour;
-import J4.sae_labyrinthe.utils.ScoreDuJour;
+import J4.sae_labyrinthe.utils.*;
 import J4.sae_labyrinthe.vue.Biome;
 import J4.sae_labyrinthe.vue.IObserver;
 
@@ -41,9 +38,11 @@ public class ModeleJeu implements IModeleJeu {
     private boolean partieLibre;
     private boolean typeDeVue; /* On part du principe que true -> globale et false -> local*/
     private boolean partieDuJourEnCours = false;
+    private boolean partieContreLaMontre =false;
     private int tempsDuJour = 0;
     private ScoreDuJour scoresDuJour;
     private LocalDateTime debutLabyrintheDuJour;
+    private int tempsLimite = 0;
     // items
     private ArrayList<IItem> listItem;     // items recupéré par le joueur
     private HashMap<Cellule, IItem> items;  // items dans le labyrinthe
@@ -148,13 +147,15 @@ public class ModeleJeu implements IModeleJeu {
      * @param largeur Largeur du labyrinthe
      * @param hauteur Hauteur du labyrinthe
      * @param tauxMur Pourcentage de murs dans le labyrinthe
+     * @param distance distance minimal entre entré et sortie
+     * @param biome texture de la map
      * @author Nathan Philippe
      */
     @Override
-    public void lancerPartieLibre(int largeur, int hauteur, int tauxMur,Biome biome) {
+    public void lancerPartieLibre(int largeur, int hauteur, int tauxMur, int distance, Biome biome) {
         partieLibre =true;
         if(tauxMur == 0){
-            this.labyrinthe = new LabyrintheParfait(largeur/2,hauteur/2);
+            this.labyrinthe = new LabyrintheParfait(largeur/2,hauteur/2,distance);
         }
         else{
             this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
@@ -182,8 +183,9 @@ public class ModeleJeu implements IModeleJeu {
         return duree.getSeconds(); // temps en secondes
     }
 
-
-
+    public boolean getPartieDuJourEnCours() {
+        return this.partieDuJourEnCours;
+    }
 
     /**
      * Lance une partie en mode progression
@@ -192,13 +194,10 @@ public class ModeleJeu implements IModeleJeu {
      */
     @Override
     public void lancerPartieProgression() {
-        // TODO : fix labyrintheParfais
-
         partieLibre =false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
         if(etapeChoisi.getNumero() > 3){
-            this.labyrinthe = new LabyrintheParfait(d.getCote()/2,d.getCote()/2,etapeChoisi);
-            ((LabyrintheParfait) this.labyrinthe).placerSortieA(5);
+            this.labyrinthe = new LabyrintheParfait(d.getCote()/2,d.getCote()/2,etapeChoisi,d.getDistance());
         }else {
             this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote(),d.getPourcentageMurs(),etapeChoisi);
         }
@@ -500,8 +499,11 @@ public class ModeleJeu implements IModeleJeu {
     public void setWard(HashMap<Cellule, Integer> ward) {
         this.ward = ward;
     }
+
     public void setWard(Cellule cell, int range) {
-        setWard((HashMap<Cellule, Integer>) Map.of(cell, range));
+        HashMap<Cellule, Integer> ward = new HashMap<>();
+        ward.put(cell, range);
+        setWard(ward);
     }
 
 
@@ -509,11 +511,47 @@ public class ModeleJeu implements IModeleJeu {
         if (containCleanse()){
             cleanse();
         }
-
-        for (IItem item : listItem){
-            item.applyEffect();
+        else if (containCleanseMalus()){
+            getCleanseMalus().applyEffect();
+        }
+        else if (containCleanseNeutral()){
+            getCleanseNeutral().applyEffect();
+        }
+        else if (containCleanse()){
+            getCleanseBonus().applyEffect();
+        } else {
+            for (IItem item : listItem){
+                item.applyEffect();
+            }
         }
     }
+
+
+    public IItem getCleanseBonus(){
+        for (IItem item : listItem){
+            if (item instanceof CleanseBonus){
+                return (CleanseBonus) item;
+            }
+        }
+        return null;
+    }
+    public IItem getCleanseNeutral(){
+        for (IItem item : listItem){
+            if (item instanceof CleanseNeutral){
+                return (CleanseNeutral) item;
+            }
+        }
+        return null;
+    }
+    public IItem getCleanseMalus(){
+        for (IItem item : listItem){
+            if (item instanceof CleanseNeutral){
+                return (CleanseNeutral) item;
+            }
+        }
+        return null;
+    }
+
 
     public void cleanse(){
         listItem.clear();
@@ -522,7 +560,7 @@ public class ModeleJeu implements IModeleJeu {
     public void removeItem(IItem item){
         listItem.remove(item);
     }
-    public void removeItems(Set<IItem> items){
+    public void removeItems(ArrayList<IItem> items){
         listItem.removeAll(items);
     }
 
@@ -549,6 +587,34 @@ public class ModeleJeu implements IModeleJeu {
         }
         return false;
     }
+
+    public boolean containCleanseBonus(){
+        for (IItem item : listItem){
+            if (item.getClass().equals(CleanseBonus.class) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containCleanseMalus(){
+        for (IItem item : listItem){
+            if (item.getClass().equals(CleanseMalus.class) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containCleanseNeutral(){
+        for (IItem item : listItem){
+            if (item.getClass().equals(CleanseNeutral.class) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public boolean rangeZero(){
         return visionRange == 0;
@@ -605,21 +671,23 @@ public class ModeleJeu implements IModeleJeu {
         return this.ward;
     }
 
-    public HashMap<Cellule, IItem> genererItems(int nbItems){
-        HashMap<Cellule, IItem> temp = new HashMap<>();
+    public void genererItems(int nbItems){
+        HashMap<Cellule, IItem> temp = new HashMap<Cellule, IItem>();
+        Cellule cell;
 
         for (int i = 0; i < nbItems; i++) {
-            temp.put(labyrinthe.positionAleaCell(), getRandomItem());
+            cell = labyrinthe.positionAleaCell();
+            temp.put(cell, getRandomItem());
         }
-
-        return temp;
+        System.out.println("Items genere");
+        items = temp;
     }
 
     public IItem getRandomItem(){
         Random rand = new Random();
 
-        int rnd = rand.nextInt(0, NBBONUS + NBMALUS + NBNEUTRE);
         int neutre = 1;     // ici on admet que tout les cleanse forment un seul item
+        int rnd = rand.nextInt(0, NBBONUS + NBMALUS + neutre);
 
         // bonus
         if (rnd > (neutre + NBMALUS)) {
@@ -641,10 +709,15 @@ public class ModeleJeu implements IModeleJeu {
 
         switch (rnd) {
             case 0:
+                System.out.println("genere plus vision");
                 return new PlusVision(this, rand.nextInt(1,4));     // donne un bonus de vision entre 1 et 4 cases
             case 1:
+                System.out.println("genere TP");
+
                 return new TP(this);
             case 2:
+                System.out.println("genere Ward");
+
                 return new Ward(this, rand.nextInt(1,4));           // place une ward de range entre 1 et 4 cases
 
             // pas encore implémenté
@@ -667,15 +740,23 @@ public class ModeleJeu implements IModeleJeu {
 
         switch (rnd) {
             case 0:
+                System.out.println("genere cleanse malus");
+
                 return new CleanseMalus(this);
 
             case 1:
+                System.out.println("genere cleanse neutral");
+
                 return new CleanseNeutral(this);
 
             case 2:
+                System.out.println("genere cleanse bonus");
+
                 return new CleanseBonus(this);
 
-            case 4:
+            case 3:
+                System.out.println("genere cleanse");
+
                 return new Cleanse(this);
 
         }
@@ -691,10 +772,15 @@ public class ModeleJeu implements IModeleJeu {
 
         switch (rnd) {
             case 0:
+                System.out.println("genere moins vision");
+
                 return new MoinsVision(this, rand.nextInt(1,4));
             case 1:
+                System.out.println("genere tpdebut");
+
                 return new TpDebut(this);
             case 2:
+
                 System.out.println("getRandomMalus() : erreur, OOB du nextInt");
                 // return new MixCtrl(this);
 
@@ -709,8 +795,80 @@ public class ModeleJeu implements IModeleJeu {
     }
 
     public void prendreItem(){
-        Random rand = new Random();
-        int rnd = rand.nextInt(0, listItem.size());
-        addItem(listItem.get(rnd));
+        if (items != null && !items.isEmpty()){
+            Random rand = new Random();
+            int rnd = rand.nextInt(0, items.size());
+            IItem item = getItem(rnd);
+            addItem(item);
+            Cellule cell = getKey(item);
+            items.remove(cell);
+            itemApplyEffect();
+        } else {
+            System.out.println("prendreItem() : essaie de prendre un item alors qu'il n'y en as plus dans le labyrinthe");
+        }
     }
+
+    public IItem getItem(int idx){
+        if (idx > items.size()){
+            System.out.println("getItem() : idx > size()");
+            return null;
+        }
+
+        Collection<IItem> list = items.values();
+
+        int cpt = 0;
+        for (IItem item : list){
+            if (cpt == idx){
+                return item;
+            }
+            cpt ++;
+        }
+        System.out.println("getItem() : erreur");
+        return null;
+
+    }
+
+    public Cellule getKey(IItem item){
+        for (Map.Entry<Cellule, IItem> entry : items.entrySet()){
+            if (entry.getValue().equals(item)){
+                return entry.getKey();
+            }
+        }
+        System.out.println("getKey(item) : item absent de items");
+        return null;
+    }
+
+    public void nouveauListItem(){
+        listItem = new ArrayList<IItem>();
+    }
+
+    public void lancerContreLaMontre(ParametresContreLaMontre params) {
+        this.partieContreLaMontre = true;
+        this.partieLibre = false;
+        this.partieDuJourEnCours = false;
+
+        this.tempsLimite = params.getTemps();
+
+        if (params.isEstParfait()) {
+            this.labyrinthe = new LabyrintheParfait(
+                    params.getLargeur()/2,
+                    params.getHauteur()/2,
+                    new Etape(0),
+                    params.getDistanceMin()
+            );
+        } else {
+            this.labyrinthe = new Labyrinthe(
+                    params.getLargeur(),
+                    params.getHauteur(),
+                    (double) params.getTauxMur()
+            );
+        }
+
+        this.positionJoueur = this.labyrinthe.getEntree();
+        this.biome = Biome.DESERT;
+        notifierObservateurs();
+    }
+
+    public boolean isPartieContreLaMontre() { return partieContreLaMontre; }
+    public int getTempsLimite() { return tempsLimite; }
 }
