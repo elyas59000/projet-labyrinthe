@@ -146,7 +146,12 @@ public class ModeleJeu implements IModeleJeu {
     @Override
     public void lancerPartieLibre(int largeur, int hauteur, int tauxMur,Biome biome) {
         partieLibre =true;
-        this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
+        if(tauxMur == 0){
+            this.labyrinthe = new LabyrintheParfait(largeur,hauteur);
+        }
+        else{
+            this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
+        }
         this.positionJoueur = this.labyrinthe.getEntree();
         this.biome = biome;
     }

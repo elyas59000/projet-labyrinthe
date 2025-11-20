@@ -7,10 +7,12 @@ import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
 import J4.sae_labyrinthe.vue.Biome;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 
 /**
  * Contrôleur de la scène "Mode Libre" permettant de lancer une partie personnalisée.
@@ -31,6 +33,25 @@ public class SceneModeLibreControleur {
     @FXML
     private Spinner<Integer> champsTauxMur;
 
+    @FXML
+    private HBox boxDistance;
+
+    @FXML
+    private Spinner<Integer> champsDistance;
+
+    private boolean modeParfaitActif = false;
+
+    @FXML
+    private HBox boxTauxMur;
+
+    @FXML
+    private Button btnAleatoire;
+
+    @FXML
+    private Button btnParfait;
+
+
+
 
     @FXML
     void initialize() {
@@ -41,7 +62,42 @@ public class SceneModeLibreControleur {
         setNumericOnly(champsHauteur);
         setNumericOnly(champsLargeur);
         setNumericOnly(champsTauxMur);
+        champsDistance.setValueFactory(
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE, 1)
+        );
+        setNumericOnly(champsDistance);
     }
+
+    @FXML
+    void modeAleatoire(MouseEvent event) {
+        modeParfaitActif = false;
+
+        boxDistance.setVisible(false);
+        boxDistance.setManaged(false);
+
+        boxTauxMur.setVisible(true);
+        boxTauxMur.setManaged(true);
+
+        btnParfait.getStyleClass().remove("selectedMode");
+        btnAleatoire.getStyleClass().add("selectedMode");
+
+    }
+
+    @FXML
+    void modeParfait(MouseEvent event) {
+        modeParfaitActif = true;
+
+        boxDistance.setVisible(true);
+        boxDistance.setManaged(true);
+
+        boxTauxMur.setVisible(false);
+        boxTauxMur.setManaged(false);
+
+        btnAleatoire.getStyleClass().remove("selectedMode");
+        btnParfait.getStyleClass().add("selectedMode");
+
+    }
+
 
     private void setNumericOnly(Spinner<Integer> spinner) {
         spinner.getEditor().setTextFormatter(new TextFormatter<Integer>(change -> {
@@ -60,8 +116,18 @@ public class SceneModeLibreControleur {
      * @throws IOException si le chargement de la scène échoue
      */
     @FXML
-    void lancerPartieLibre(MouseEvent event) throws IOException {;
-        modeleJeu.lancerPartieLibre(champsLargeur.getValue(), champsHauteur.getValue(), champsTauxMur.getValue(), Biome.DESERT);
+    void lancerPartieLibre(MouseEvent event) throws IOException {
+        int l = champsLargeur.getValue();
+        int h = champsHauteur.getValue();
+        int taux;
+        if (modeParfaitActif) {
+            //int d = champsDistance.getValue();
+            taux = 0;
+        } else {
+            taux = champsTauxMur.getValue();
+        }
+
+        modeleJeu.lancerPartieLibre(l, h, taux, Biome.DESERT);
         SceneManager.chargerScene("SceneLabyrinthe");
     }
 

@@ -91,7 +91,7 @@
 
 
 /* text dans div */
-#textLoginConn, #textMPDConn, #textPseudoInsc, #textMDPInsc,#textConfInsc, #textLargeur, #textHauteur, #textMur{
+#textLoginConn, #textMPDConn, #textPseudoInsc, #textMDPInsc,#textConfInsc, #textLargeur, #textHauteur, #textMur, #textDistance{
     -fx-font-size: 24px;
     -fx-font-weight: bold;
     -fx-fill: white !important;
@@ -100,7 +100,7 @@
 /* champs */
 #champsLargeur, #champsHauteur, #champsTauxMur,
 #champLogin, #champsMDP, #champsMDPConf,
-#champModifPseudo, #champsAncienmdp, #champsNouveaumdp, #champsConfirmmdp{
+#champModifPseudo, #champsAncienmdp, #champsNouveaumdp, #champsConfirmmdp, #champsDistance{
     -fx-font-size: 18px;
     -fx-font-weight: bold;
     /* -fx-background-color:  rgba(255,255,255,0.5); */
@@ -165,5 +165,11 @@
 /* titres */
 #titrePrin, #titreRegle, #titreScore, #titreConn, #titreInsc, #titreCompte, #titreLibre, #titreProg{
     -fx-font-size: 36px;
+    -fx-font-weight: bold;
+}
+
+.selectedMode {
+    -fx-background-color: #d9534f; /* rouge */
+    -fx-text-fill: white;
     -fx-font-weight: bold;
 }
