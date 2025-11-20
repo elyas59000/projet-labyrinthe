@@ -2,14 +2,12 @@ package J4.sae_labyrinthe.modele;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import J4.sae_labyrinthe.exception.ValidationException;
 import J4.sae_labyrinthe.modele.Item.*;
 import J4.sae_labyrinthe.modele.Item.Bonus.*;
-import J4.sae_labyrinthe.modele.Item.Malus.MixCtrl;
 import J4.sae_labyrinthe.modele.Item.Malus.MoinsVision;
 import J4.sae_labyrinthe.modele.Item.Malus.TpDebut;
 import J4.sae_labyrinthe.utils.*;
@@ -150,10 +148,10 @@ public class ModeleJeu implements IModeleJeu {
      * @author Nathan Philippe
      */
     @Override
-    public void lancerPartieLibre(int largeur, int hauteur, int tauxMur,Biome biome) {
+    public void lancerPartieLibre(int largeur, int hauteur, int tauxMur, int distance, Biome biome) {
         partieLibre =true;
         if(tauxMur == 0){
-            this.labyrinthe = new LabyrintheParfait(largeur/2,hauteur/2,tauxMur);
+            this.labyrinthe = new LabyrintheParfait(largeur/2,hauteur/2,distance);
         }
         else{
             this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
@@ -191,8 +189,6 @@ public class ModeleJeu implements IModeleJeu {
      */
     @Override
     public void lancerPartieProgression() {
-        // TODO : fix labyrintheParfais
-
         partieLibre =false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
         if(etapeChoisi.getNumero() > 3){

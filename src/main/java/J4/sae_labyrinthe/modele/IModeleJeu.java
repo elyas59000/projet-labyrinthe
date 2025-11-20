@@ -25,7 +25,8 @@ public interface IModeleJeu {
      * @param tauxMur
      * @param biome
      */
-    void lancerPartieLibre(int largeur,int hauteur,int tauxMur,Biome biome);
+
+    void lancerPartieLibre(int largeur, int hauteur, int tauxMur, int distance, Biome biome);
 
     /**
      *lance la partie en mode progression avec la progression du joueur passé en paramètre

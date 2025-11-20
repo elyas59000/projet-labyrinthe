@@ -13,6 +13,7 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
     private Cellule[][] grille;
     private Cellule entree, sortie;
     private Etape e;
+    private int distance;
 
     public LabyrintheParfait() {
         this(5, 5,5); // labyrinthe 5x5 jouable
@@ -28,6 +29,7 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         this.e = e;
         gridLargeur = largeur * 2 + 1;
         gridHauteur = hauteur * 2 + 1;
+        this.distance = distance;
 
         // initialisation de la grille entière remplie de murs
         initGrid();
@@ -273,4 +275,7 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         System.out.println("temps l=1000 h=500 d=700:   " + (System.currentTimeMillis() - temps));
     }
 
+    public Object getDistance() {
+        return this.distance;
+    }
 }

@@ -264,18 +264,22 @@ public class SceneLabyrintheControleur {
                 int t;
                 int l = modele.getLabyrinthe().getLargeur();
                 int h = modele.getLabyrinthe().getHauteur();
+                int d;
                 if(modele.getLabyrinthe() instanceof LabyrintheParfait) {
                     t = 0;
+                    d = (int) ((LabyrintheParfait)modele.getLabyrinthe()).getDistance();
                 }
                 else{
                     t = (int) ((Labyrinthe) modele.getLabyrinthe()).getPourcentageMurs();
                     l -= 2;
                     h -= 2;
+                    d = 0;
                 }
                 modele.lancerPartieLibre(
                         l,
                         h,
                         t,
+                        d,
                         modele.getBiome());
             } else if (modele.getPartieDuJourEnCours()) {
                 modele.lancerLabyrintheDuJour();
