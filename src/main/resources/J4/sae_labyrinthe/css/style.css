@@ -22,11 +22,11 @@
 }
 
 .button:hover {
-    -fx-base-color: derive(#f0f0f0, 20%);
+    -fx-base-color: derive(#7a7a7a, 20%);
     -fx-background-color:
             linear-gradient(#ffffff80, #00000040),
             #000000,
-            derive(#7a7a7a, 20%);
+            -fx-base-color;
 }
 
 .button:pressed {
