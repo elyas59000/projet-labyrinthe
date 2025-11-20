@@ -2,15 +2,20 @@ package J4.sae_labyrinthe.modele;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import J4.sae_labyrinthe.exception.ValidationException;
 import J4.sae_labyrinthe.modele.Item.*;
 import J4.sae_labyrinthe.modele.Item.Bonus.*;
+import J4.sae_labyrinthe.modele.Item.Malus.MixCtrl;
 import J4.sae_labyrinthe.modele.Item.Malus.MoinsVision;
 import J4.sae_labyrinthe.modele.Item.Malus.TpDebut;
-import J4.sae_labyrinthe.utils.*;
+import J4.sae_labyrinthe.utils.LabyrintheDuJourManager;
+import J4.sae_labyrinthe.utils.Save;
+import J4.sae_labyrinthe.utils.SaveScoreDuJour;
+import J4.sae_labyrinthe.utils.ScoreDuJour;
 import J4.sae_labyrinthe.vue.Biome;
 import J4.sae_labyrinthe.vue.IObserver;
 
@@ -36,11 +41,9 @@ public class ModeleJeu implements IModeleJeu {
     private boolean partieLibre;
     private boolean typeDeVue; /* On part du principe que true -> globale et false -> local*/
     private boolean partieDuJourEnCours = false;
-    private boolean partieContreLaMontre =false;
     private int tempsDuJour = 0;
     private ScoreDuJour scoresDuJour;
     private LocalDateTime debutLabyrintheDuJour;
-    private int tempsLimite = 0;
     // items
     private ArrayList<IItem> listItem;     // items recupéré par le joueur
     private HashMap<Cellule, IItem> items;  // items dans le labyrinthe
@@ -148,10 +151,10 @@ public class ModeleJeu implements IModeleJeu {
      * @author Nathan Philippe
      */
     @Override
-    public void lancerPartieLibre(int largeur, int hauteur, int tauxMur, int distance, Biome biome) {
+    public void lancerPartieLibre(int largeur, int hauteur, int tauxMur,Biome biome) {
         partieLibre =true;
         if(tauxMur == 0){
-            this.labyrinthe = new LabyrintheParfait(largeur/2,hauteur/2,distance);
+            this.labyrinthe = new LabyrintheParfait(largeur/2,hauteur/2);
         }
         else{
             this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
@@ -189,10 +192,13 @@ public class ModeleJeu implements IModeleJeu {
      */
     @Override
     public void lancerPartieProgression() {
+        // TODO : fix labyrintheParfais
+
         partieLibre =false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
         if(etapeChoisi.getNumero() > 3){
-            this.labyrinthe = new LabyrintheParfait(d.getCote()/2,d.getCote()/2,etapeChoisi,d.getDistance());
+            this.labyrinthe = new LabyrintheParfait(d.getCote()/2,d.getCote()/2,etapeChoisi);
+            ((LabyrintheParfait) this.labyrinthe).placerSortieA(5);
         }else {
             this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote(),d.getPourcentageMurs(),etapeChoisi);
         }
@@ -421,10 +427,8 @@ public class ModeleJeu implements IModeleJeu {
         else if(partieDuJourEnCours){
             partieDuJourEnCours = false;
             return "SceneLabyrintheDuJour";
-        } else if (partieContreLaMontre) {
-            partieContreLaMontre = false;
-            return "SceneModeContreLaMontre";
-        } else{
+        }
+        else{
             return "SceneProg";
         }
     }
@@ -709,39 +713,4 @@ public class ModeleJeu implements IModeleJeu {
         int rnd = rand.nextInt(0, listItem.size());
         addItem(listItem.get(rnd));
     }
-
-    public boolean getPartieDuJourEnCours() {
-        return this.partieDuJourEnCours;
-    }
-
-    public void lancerContreLaMontre(ParametresContreLaMontre params) {
-        this.partieContreLaMontre = true;
-        this.partieLibre = false;
-        this.partieDuJourEnCours = false;
-
-        this.tempsLimite = params.getTemps();
-
-        if (params.isEstParfait()) {
-            this.labyrinthe = new LabyrintheParfait(
-                    params.getLargeur()/2,
-                    params.getHauteur()/2,
-                    new Etape(0),
-                    params.getDistanceMin()
-            );
-        } else {
-            this.labyrinthe = new Labyrinthe(
-                    params.getLargeur(),
-                    params.getHauteur(),
-                    (double) params.getTauxMur()
-            );
-        }
-
-        this.positionJoueur = this.labyrinthe.getEntree();
-        this.biome = Biome.DESERT;
-        notifierObservateurs();
-    }
-
-    public boolean isPartieContreLaMontre() { return partieContreLaMontre; }
-    public int getTempsLimite() { return tempsLimite; }
-
 }
