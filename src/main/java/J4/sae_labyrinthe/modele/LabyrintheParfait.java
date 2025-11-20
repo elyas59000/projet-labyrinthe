@@ -124,19 +124,6 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
     @Override
     public Etape getEtape() { return e; }
 
-    // -------------------------------------------------------------------------
-    // Vérification du déplacement
-    // -------------------------------------------------------------------------
-    public boolean peutAller(int x1, int y1, int x2, int y2) {
-        // limites
-        if (x2 < 0 || x2 >= gridHauteur || y2 < 0 || y2 >= gridLargeur) return false;
-
-        // adjacent
-        if (!((x1 == x2 && Math.abs(y1 - y2) == 1) || (y1 == y2 && Math.abs(x1 - x2) == 1)))
-            return false;
-
-        return !grille[x2][y2].estMur();
-    }
 
     // -------------------------------------------------------------------------
     // Sauvegarde
