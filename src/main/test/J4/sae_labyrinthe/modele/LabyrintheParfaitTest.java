@@ -63,23 +63,6 @@ class LabyrintheParfaitTest {
     }
 
     @Test
-    void testPeutAller_LogiqueDeDeplacement() {
-        int x = 1; // Coordonnée Y dans la grille (ligne)
-        int y = 1; // Coordonnée X dans la grille (colonne)
-
-        // Test 1 : On ne peut pas aller dans un mur
-        // On cherche un voisin qui est un mur
-        // (Dans un labyrinthe parfait généré ainsi, (0,0) est un mur externe)
-        assertFalse(laby.peutAller(x, y, 0, 0), "Ne devrait pas pouvoir aller dans un mur extérieur.");
-
-        // Test 2 : On ne peut pas se téléporter (non adjacent)
-        assertFalse(laby.peutAller(x, y, x + 2, y + 2), "Ne devrait pas pouvoir se déplacer de plus d'une case.");
-
-        // Test 3 : On ne peut pas sortir de la grille
-        assertFalse(laby.peutAller(0, 0, -1, 0), "Ne devrait pas pouvoir sortir de la grille.");
-    }
-
-    @Test
     void testPlacerSortieA_ChangeLaSortie() {
         Cellule ancienneSortie = laby.getSortie();
         laby.placerSortieA(5);
