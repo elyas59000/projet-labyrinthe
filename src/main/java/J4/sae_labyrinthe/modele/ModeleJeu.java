@@ -148,7 +148,7 @@ public class ModeleJeu implements IModeleJeu {
      * @author Nathan Philippe
      */
     @Override
-    public void lancerPartieLibre(int largeur, int hauteur, int tauxMur, Biome biome, int distance) {
+    public void lancerPartieLibre(int largeur, int hauteur, int tauxMur, int distance, Biome biome) {
         partieLibre =true;
         if(tauxMur == 0){
             this.labyrinthe = new LabyrintheParfait(largeur/2,hauteur/2,distance);
@@ -189,8 +189,6 @@ public class ModeleJeu implements IModeleJeu {
      */
     @Override
     public void lancerPartieProgression() {
-        // TODO : fix labyrintheParfais
-
         partieLibre =false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
         if(etapeChoisi.getNumero() > 3){
@@ -718,6 +716,8 @@ public class ModeleJeu implements IModeleJeu {
 
     public void lancerContreLaMontre(ParametresContreLaMontre params) {
         this.partieContreLaMontre = true;
+        this.partieLibre = false;
+        this.partieDuJourEnCours = false;
 
         this.tempsLimite = params.getTemps();
 

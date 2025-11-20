@@ -261,26 +261,26 @@ public class SceneLabyrintheControleur {
 
             }
             else if (modele.getPartieLibre()) {
+                int t;
                 int l = modele.getLabyrinthe().getLargeur();
                 int h = modele.getLabyrinthe().getHauteur();
-                int d = 0;
-                int t;
+                int d;
                 if(modele.getLabyrinthe() instanceof LabyrintheParfait) {
-                    LabyrintheParfait laby = (LabyrintheParfait) modele.getLabyrinthe();
                     t = 0;
-                    d = laby.getDistance();
+                    d = (int) ((LabyrintheParfait)modele.getLabyrinthe()).getDistance();
                 }
                 else{
                     t = (int) ((Labyrinthe) modele.getLabyrinthe()).getPourcentageMurs();
                     l -= 2;
                     h -= 2;
+                    d = 0;
                 }
                 modele.lancerPartieLibre(
                         l,
                         h,
                         t,
-                        modele.getBiome(),
-                        d);
+                        d,
+                        modele.getBiome());
             } else if (modele.getPartieDuJourEnCours()) {
                 modele.lancerLabyrintheDuJour();
             } else {
