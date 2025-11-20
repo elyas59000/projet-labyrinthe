@@ -16,7 +16,7 @@ class LabyrintheParfaitTest {
 
     @BeforeEach
     void setUp() {
-        laby = new LabyrintheParfait(largeurAbstraite, hauteurAbstraite);
+        laby = new LabyrintheParfait(largeurAbstraite, hauteurAbstraite,0);
     }
 
     @Test
