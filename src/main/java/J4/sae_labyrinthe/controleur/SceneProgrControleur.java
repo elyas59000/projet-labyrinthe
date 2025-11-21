@@ -70,7 +70,7 @@ public class SceneProgrControleur implements IObserver {
     @FXML
     void ouvrirEtape2(MouseEvent event) throws IOException {
         MODELJEU.setEtapeChoisi(2);
-        MODELJEU.setBiome(Biome.DESERT);
+        MODELJEU.setBiome(Biome.PLAINE);
         SceneManager.chargerScene("SceneDifficulte");
     }
 
@@ -83,28 +83,28 @@ public class SceneProgrControleur implements IObserver {
     @FXML
     void ouvrirEtape3(MouseEvent event) throws IOException {
         MODELJEU.setEtapeChoisi(3);
-        MODELJEU.setBiome(Biome.DESERT);
+        MODELJEU.setBiome(Biome.FORET);
         SceneManager.chargerScene("SceneDifficulte");
     }
 
     @FXML
     void ouvrirEtape4(MouseEvent event) throws IOException {
         MODELJEU.setEtapeChoisi(4);
-        MODELJEU.setBiome(Biome.DESERT);
+        MODELJEU.setBiome(Biome.NEIGE);
         SceneManager.chargerScene("SceneDifficulte");
     }
 
     @FXML
     void ouvrirEtape5(MouseEvent event) throws IOException {
         MODELJEU.setEtapeChoisi(5);
-        MODELJEU.setBiome(Biome.DESERT);
+        MODELJEU.setBiome(Biome.GROTTE);
         SceneManager.chargerScene("SceneDifficulte");
     }
 
     @FXML
     void ouvrirEtape6(MouseEvent event) throws IOException {
         MODELJEU.setEtapeChoisi(6);
-        MODELJEU.setBiome(Biome.DESERT);
+        MODELJEU.setBiome(Biome.ENFER);
         SceneManager.chargerScene("SceneDifficulte");
     }
 

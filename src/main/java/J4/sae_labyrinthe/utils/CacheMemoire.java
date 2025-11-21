@@ -115,12 +115,28 @@ public class CacheMemoire {
     }
 
     private static void chargementBiome(){
-        String desert="/J4/sae_labyrinthe/assets/textures/biome/desert/";
+        String desert=Biome.DESERT.getPath();
+        String plaine=Biome.PLAINE.getPath();
+        String foret=Biome.FORET.getPath();
+        String neige=Biome.NEIGE.getPath();
+        String grotte=Biome.GROTTE.getPath();
+        String enfer=Biome.ENFER.getPath();
+
         String sol="sol0.png";
         String sortie="sortie0.png";
         String[] chemin= new String[]{
                 desert+sol,
-                desert+sortie
+                desert+sortie,
+                plaine+sol,
+                plaine+sortie,
+                foret+sol,
+                foret+sortie,
+                neige+sol,
+                neige+sortie,
+                grotte+sol,
+                grotte+sortie,
+                enfer+sol,
+                enfer+sortie
         };
         for (String key : chemin) {
             cache.put(key, new Image(Objects.requireNonNull(CacheMemoire.class.getResourceAsStream(key))));
