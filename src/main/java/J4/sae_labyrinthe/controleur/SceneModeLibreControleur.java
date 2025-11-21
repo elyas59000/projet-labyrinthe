@@ -20,6 +20,7 @@ import javafx.scene.layout.HBox;
 public class SceneModeLibreControleur {
 
     private final ModeleJeu modeleJeu= ModeleJeuSingleton.getInstance();
+    public ComboBox comboBiome;
 
     @FXML
     private Spinner<Integer> champsHauteur;
@@ -66,6 +67,9 @@ public class SceneModeLibreControleur {
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE, 1)
         );
         setNumericOnly(champsDistance);
+        comboBiome.getItems().addAll("FORET", "DESERT", "PLAINE", "NEIGE", "GROTTE", "ENFER");
+        comboBiome.getSelectionModel().select("DESERT");
+
     }
 
     @FXML
@@ -138,8 +142,18 @@ public class SceneModeLibreControleur {
             taux = champsTauxMur.getValue();
             d = 0;
         }
-
-        modeleJeu.lancerPartieLibre(l, h, taux,d,Biome.DESERT,avecBrouillard);
+        String biomeNom = comboBiome.getSelectionModel().getSelectedItem().toString();
+        Biome biomeChoisi ;
+        switch (biomeNom) {
+            case "DESERT" -> biomeChoisi = Biome.DESERT;
+            case "FORET" -> biomeChoisi = Biome.FORET;
+            case "PLAINE" -> biomeChoisi = Biome.PLAINE;
+            case "NEIGE" -> biomeChoisi = Biome.NEIGE;
+            case "GROTTE" -> biomeChoisi = Biome.GROTTE;
+            case "ENFER" -> biomeChoisi = Biome.ENFER;
+            default -> biomeChoisi = Biome.PLAINE;
+        }    // valeur par défaut si problème
+            modeleJeu.lancerPartieLibre(l, h, taux,d,biomeChoisi,avecBrouillard);
         SceneManager.chargerScene("SceneLabyrinthe");
     }
 
