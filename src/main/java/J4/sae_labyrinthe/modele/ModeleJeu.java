@@ -161,8 +161,8 @@ public class ModeleJeu implements IModeleJeu {
             this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
         }
         this.positionJoueur = this.labyrinthe.getEntree();
-        genererItems(5);
-        nouveauListItem();
+        //genererItems(5);
+        //nouveauListItem();
         this.biome = biome;
     }
 
@@ -206,8 +206,8 @@ public class ModeleJeu implements IModeleJeu {
             this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote2(),d.getPourcentageMurs(),etapeChoisi);
         }
         this.positionJoueur = this.labyrinthe.getEntree();
-        genererItems(5);
-        nouveauListItem();
+        //genererItems(5);
+        //nouveauListItem();
     }
 
     /**

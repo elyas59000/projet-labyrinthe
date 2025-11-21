@@ -227,10 +227,7 @@ public class SceneLabyrintheControleur {
                         if (modele.getPositionJoueur().equals(modele.getSortie())) {
                             ecranFinPartie();
                             stop();
-                        } else if (modele.isCellAnItem(modele.getPositionJoueur())) {
-                            modele.prendreItem();
                         }
-
                         lastMoveTime = now;
                     }
                 }
