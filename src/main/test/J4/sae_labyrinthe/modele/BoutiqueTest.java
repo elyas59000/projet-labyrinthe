@@ -37,7 +37,7 @@ class BoutiqueTest {
         assertTrue(achatReussi, "L'achat devrait réussir.");
         assertEquals(50, joueur.getScore(), "Le prix aurait dû être débité (100 - 50).");
 
-        boutique.retirerItem(itemTest);
+        //boutique.retirerItem(itemTest);
     }
 
     @Test
@@ -52,7 +52,7 @@ class BoutiqueTest {
         assertFalse(achatReussi, "L'achat devrait échouer par manque de fonds.");
         assertEquals(10, joueur.getScore(), "Le score ne doit pas changer.");
 
-        boutique.retirerItem(itemChere);
+        //boutique.retirerItem(itemChere);
     }
 
     @Test
