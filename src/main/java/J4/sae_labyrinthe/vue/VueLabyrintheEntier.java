@@ -1,8 +1,12 @@
 package J4.sae_labyrinthe.vue;
 
 import J4.sae_labyrinthe.modele.*;
+import J4.sae_labyrinthe.modele.Item.IItem;
 import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
 
@@ -53,6 +57,14 @@ public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
         fogGC.clearRect(0, 0, LARGEUR_ZONE, HAUTEUR_ZONE);
         Cellule pos = modele.getPositionJoueur();
         fog.updateAround(pos.getX(), pos.getY(), RAYON_DECOUVERTE);
+        HashMap<Cellule, IItem> mapWard = modele.getWards();
+        if (!mapWard.isEmpty()) {
+            for (Map.Entry<Cellule, IItem> item : mapWard.entrySet()) {
+                Cellule c = item.getKey();
+                IItem i = item.getValue();
+                fog.updateAround(c.getX(), c.getY(), i.getValue());
+            }
+        }
         fog.drawFog(fogGC, offsetX, offsetY, tileSize);
     }
 

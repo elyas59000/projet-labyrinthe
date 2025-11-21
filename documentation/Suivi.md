@@ -137,7 +137,7 @@
 > **Adam**:
 > - création des Items
 >   - Item neutre
->     - les cleanse ("nettoient" les effets des items)
+>     - les cleanse ("nettoient" les effets des items) 
 >   - Bonus
 >     - PlusVision
 >     - TP (à voir si on le met en item neutre, il peut TP en arrière dans le labyrinthe)

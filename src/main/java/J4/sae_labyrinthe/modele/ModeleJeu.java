@@ -47,7 +47,6 @@ public class ModeleJeu implements IModeleJeu {
     private ArrayList<IItem> listItem;     // items recupéré par le joueur
     private HashMap<Cellule, IItem> items;  // items dans le labyrinthe
     private int visionRange;
-    private HashMap<Cellule, Integer> ward;
 
     private final int NBBONUS = 3;
     private final int NBMALUS = 2;
@@ -156,11 +155,14 @@ public class ModeleJeu implements IModeleJeu {
         partieLibre =true;
         if(tauxMur == 0){
             this.labyrinthe = new LabyrintheParfait(largeur/2,hauteur/2,distance);
+
         }
         else{
             this.labyrinthe = new Labyrinthe(largeur,hauteur,tauxMur);
         }
         this.positionJoueur = this.labyrinthe.getEntree();
+        genererItems(5);
+        nouveauListItem();
         this.biome = biome;
     }
 
@@ -202,6 +204,8 @@ public class ModeleJeu implements IModeleJeu {
             this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote2(),d.getPourcentageMurs(),etapeChoisi);
         }
         this.positionJoueur = this.labyrinthe.getEntree();
+        genererItems(5);
+        nouveauListItem();
     }
 
     /**
@@ -497,17 +501,14 @@ public class ModeleJeu implements IModeleJeu {
         return this.visionRange;
     }
 
-    public HashMap<Cellule, Integer> getWard() {
-        return ward;
-    }
-    public void setWard(HashMap<Cellule, Integer> ward) {
-        this.ward = ward;
-    }
-
-    public void setWard(Cellule cell, int range) {
-        HashMap<Cellule, Integer> ward = new HashMap<>();
-        ward.put(cell, range);
-        setWard(ward);
+    public HashMap<Cellule, IItem> getWards() {
+        HashMap<Cellule, IItem> mapWard = new HashMap<>();
+        for (Map.Entry<Cellule, IItem> item : items.entrySet()) {
+            if (item instanceof Ward){
+                mapWard.put(item.getKey(), item.getValue());
+            }
+        }
+        return mapWard;
     }
 
 
@@ -555,7 +556,6 @@ public class ModeleJeu implements IModeleJeu {
         }
         return null;
     }
-
 
     public void cleanse(){
         listItem.clear();
@@ -635,10 +635,6 @@ public class ModeleJeu implements IModeleJeu {
         return temp;
     }
 
-    public void removeWard(){
-        ward.clear();
-    }
-
     public ArrayList<IItem> getMalus(){
         ArrayList<IItem> temp = new ArrayList<>();
         for (IItem item : listItem){
@@ -671,19 +667,17 @@ public class ModeleJeu implements IModeleJeu {
         return this.items;
     }
 
-    public HashMap<Cellule, Integer> getWardLabyrinthe(){
-        return this.ward;
-    }
-
     public void genererItems(int nbItems){
         HashMap<Cellule, IItem> temp = new HashMap<Cellule, IItem>();
         Cellule cell;
 
         for (int i = 0; i < nbItems; i++) {
             cell = labyrinthe.positionAleaCell();
-            temp.put(cell, getRandomItem());
+            IItem item = getRandomItem();
+            temp.put(cell, item);
+            System.out.println(item + " : " + cell.toStringV());
         }
-        System.out.println("Items genere");
+        System.out.println("Items génèrés");
         items = temp;
     }
 
@@ -713,14 +707,14 @@ public class ModeleJeu implements IModeleJeu {
 
         switch (rnd) {
             case 0:
-                System.out.println("genere plus vision");
+                // System.out.println("genere plus vision");
                 return new PlusVision(this, rand.nextInt(1,4));     // donne un bonus de vision entre 1 et 4 cases
             case 1:
-                System.out.println("genere TP");
+                // System.out.println("genere TP");
 
                 return new TP(this);
             case 2:
-                System.out.println("genere Ward");
+                // System.out.println("genere Ward");
 
                 return new Ward(this, rand.nextInt(1,4));           // place une ward de range entre 1 et 4 cases
 
@@ -744,22 +738,22 @@ public class ModeleJeu implements IModeleJeu {
 
         switch (rnd) {
             case 0:
-                System.out.println("genere cleanse malus");
+                // System.out.println("genere cleanse malus");
 
                 return new CleanseMalus(this);
 
             case 1:
-                System.out.println("genere cleanse neutral");
+                // System.out.println("genere cleanse neutral");
 
                 return new CleanseNeutral(this);
 
             case 2:
-                System.out.println("genere cleanse bonus");
+                // System.out.println("genere cleanse bonus");
 
                 return new CleanseBonus(this);
 
             case 3:
-                System.out.println("genere cleanse");
+                // System.out.println("genere cleanse");
 
                 return new Cleanse(this);
 
@@ -776,11 +770,11 @@ public class ModeleJeu implements IModeleJeu {
 
         switch (rnd) {
             case 0:
-                System.out.println("genere moins vision");
+                // System.out.println("genere moins vision");
 
                 return new MoinsVision(this, rand.nextInt(1,4));
             case 1:
-                System.out.println("genere tpdebut");
+                // System.out.println("genere tpdebut");
 
                 return new TpDebut(this);
             case 2:
@@ -895,5 +889,9 @@ public class ModeleJeu implements IModeleJeu {
     public void utiliserItem(IItem bonus){
         bonus.applyEffect();
         joueurActuel.retirerItem(bonus);
+    }
+
+    public void nouveauMapItem(){
+        items = new HashMap<Cellule, IItem>();
     }
 }
