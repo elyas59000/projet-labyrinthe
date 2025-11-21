@@ -131,14 +131,6 @@ public class VueLabyrintheMap extends VueLabyrintheAbstraite {
         fogGC.clearRect(0, 0, fogCanvas.getWidth(), fogCanvas.getHeight());
         Cellule pos = modele.getPositionJoueur();
         fog.updateAround(pos.getX(), pos.getY(), RAYON_DECOUVERTE);
-        HashMap<Cellule, IItem> mapWard = modele.getWards();
-        if (!mapWard.isEmpty()) {
-            for (Map.Entry<Cellule, IItem> item : mapWard.entrySet()) {
-                Cellule c = item.getKey();
-                IItem i = item.getValue();
-                fog.updateAround(c.getX(), c.getY(), i.getValue());
-            }
-        }
         fog.drawFog(fogGC, 0, 0, tileSize);
 
     }
