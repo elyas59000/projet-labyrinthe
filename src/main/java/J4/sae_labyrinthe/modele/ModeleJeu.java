@@ -384,6 +384,9 @@ public class ModeleJeu implements IModeleJeu {
         return labyrinthe.getSortie();
     }
 
+    public int getDefiChoisi(){
+        return defiChoisi;
+    }
     /**
      * Définit l'étape choisie pour le mode progression.
      *
@@ -415,9 +418,10 @@ public class ModeleJeu implements IModeleJeu {
         return this.etapeChoisi.getNumero();
     }
 
-    public boolean getPartieLibre() {
+    public boolean isPartieLibre() {
         return partieLibre;
     }
+
 
     public String getPartie(){
         if(partieLibre){

@@ -45,22 +45,22 @@ public class SceneLabyrintheControleur {
 
     private static final int RANGE = 1;
     private static final double LARGEUR_MINI_MAP = 340;
+    private static final long MOVE_COOLDOWN = 150_000_000;
+
     private final ModeleJeu modele = ModeleJeuSingleton.getInstance();
-    private final VueLabyrintheEntier vueEntiere = new VueLabyrintheEntier(modele,false);
+    private final VueLabyrintheEntier vueEntiere = new VueLabyrintheEntier(modele,false,false);
     private final VueLabyrinthePartielle vuePartielle = new VueLabyrinthePartielle(modele, RANGE);
-    private final VueLabyrintheMap vueMiniMap= new VueLabyrintheMap(modele,true,true);
+    private final VueLabyrintheMap vueMiniMap= new VueLabyrintheMap(modele,false,false,false,false);
+
     private VBox menuPause;
     private boolean pauseActive = false;
     private Timeline timeline;
     private int tempsEcoule = 0;
-    private CheckBox modeDeVue;
-    private Spinner<Integer> rangeVue = new Spinner<>(1, 5, RANGE);
-
+    private final CheckBox modeDeVue=new CheckBox("Vue locale");
+    private final Spinner<Integer> rangeVue = new Spinner<>(1, 5, RANGE);
     private boolean isUp, isDown, isLeft, isRight;
     private AnimationTimer gameLoop;
     private long lastMoveTime = 0;
-    private static final long MOVE_COOLDOWN = 150_000_000;
-
 
     @FXML
     private HBox enteteJeu;
@@ -74,33 +74,50 @@ public class SceneLabyrintheControleur {
     @FXML
     void initialize() {
         zoneLaby.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        vueMiniMap.setPrefWidth(LARGEUR_MINI_MAP);vueMiniMap.setMaxWidth(LARGEUR_MINI_MAP);vueMiniMap.setMinWidth(LARGEUR_MINI_MAP);vueMiniMap.setPrefHeight(LARGEUR_MINI_MAP);vueMiniMap.setMinHeight(LARGEUR_MINI_MAP);vueMiniMap.setMaxHeight(LARGEUR_MINI_MAP);
         ILabyrinthe laby = modele.getLabyrinthe();
-        info1.setText("Hauteur du Labyrinthe : " + laby.getHauteur() + " cases");
-        info2.setText("Largeur du Labyrinthe : " + laby.getLargeur() + " cases");
-        vueMiniMap.setPrefWidth(LARGEUR_MINI_MAP);
-        vueMiniMap.setMaxWidth(LARGEUR_MINI_MAP);
-        vueMiniMap.setMinWidth(LARGEUR_MINI_MAP);
-        vueMiniMap.setPrefHeight(LARGEUR_MINI_MAP);
-        vueMiniMap.setMinHeight(LARGEUR_MINI_MAP);
-        vueMiniMap.setMaxHeight(LARGEUR_MINI_MAP);
-        if(laby instanceof Labyrinthe){info3.setText("Taux de mur : " + ((Labyrinthe) laby).getPourcentageMurs() + " %");}
+        info1.setText("Hauteur du Labyrinthe : " + (laby.getHauteur()-2) + " cases");
+        info2.setText("Largeur du Labyrinthe : " + (laby.getLargeur()-2) + " cases");
+        if(laby instanceof Labyrinthe) {
+            info3.setText("Taux de mur : " + ((Labyrinthe) laby).getPourcentageMurs() + " %");
+        }
         modele.genererItems(5);
         modele.nouveauListItem();
 
-        if (!modele.getPartieLibre() && modele.etapeChoisi() == -1) {
-            setVueActive(vueEntiere,false);
-        }
+        if(!modele.isPartieLibre()){
+            switch (modele.etapeChoisi()) {
+                case 1,2,4 -> setVueActive(vueEntiere,false);
+                case 3 -> {
+                    vuePartielle.setRange(3);
+                    setVueActive(vuePartielle,true);
 
-        if (!modele.getPartieLibre()) {
-            if (modele.etapeChoisi() == 3) {
-                afficherSpinnerEtape3();
+                }
+                case 5 -> {
+                    switch (modele.getDefiChoisi()) {
+                        case 1 -> vuePartielle.setRange(6);
+                        case 2 -> vuePartielle.setRange(5);
+                        case 3 -> vuePartielle.setRange(4);
+                    }
+                    setVueActive(vuePartielle,false);
+                }
+                case 6 -> {
+                    vueMiniMap.setPrintJoueur(true);
+                    vueMiniMap.setMurADecouvrir(true);
+                    vueMiniMap.setDecouvertePersistante(true);
+                    setVueActive(vuePartielle,true);
+
+                }
+            }
+        }else{
+            afficherCheckBox();
+            if(modele.getLabyrinthe().getHauteur()>60 || modele.getLabyrinthe().getLargeur()>80) {
                 setVueActive(vuePartielle,true);
-            } else {
+                modeDeVue.setSelected(true);
+                rangeVue.setDisable(false);
+
+            }else{
                 setVueActive(vueEntiere,false);
             }
-        } else {
-            afficherCheckBox();
-            setVueActive(vueEntiere,false);
         }
 
         initialiserDeplacement();
@@ -112,7 +129,6 @@ public class SceneLabyrintheControleur {
      */
     private void setVueActive(VueLabyrintheAbstraite vue, boolean afficherMiniMap) {
         zoneLaby.getChildren().clear();
-        modele.removeAll();
         modele.add(vue);
         vue.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
 
@@ -151,7 +167,6 @@ public class SceneLabyrintheControleur {
             }
             event.consume();
         });
-
         zoneLaby.setOnKeyReleased(event -> {
             switch (event.getCode()) {
                 case Z, UP -> isUp = false;
@@ -161,11 +176,9 @@ public class SceneLabyrintheControleur {
             }
             event.consume();
         });
-
         zoneLaby.setOnMouseClicked(e -> zoneLaby.requestFocus());
         zoneLaby.setFocusTraversable(true);
         Platform.runLater(zoneLaby::requestFocus);
-
         lancerBoucleDeMouvement();
     }
 
@@ -203,33 +216,6 @@ public class SceneLabyrintheControleur {
         gameLoop.start();
     }
 
-    /**
-     * Déplace le joueur selon la touche pressée.
-     */
-    private void gererDeplacement(KeyEvent event) {
-        String direction = correspondanceTouche(event.getCode());
-        if (direction == null) return;
-        event.consume();
-        modele.deplacerJoueur(direction);
-        if (modele.getPositionJoueur().equals(modele.getSortie())) {
-            ecranFinPartie();
-        } else {
-            if (modele.isCellAnItem(modele.getPositionJoueur())) {
-                modele.prendreItem();
-            }
-        }
-    }
-
-    /**
-     * Associe les touches clavier à une direction.
-     */
-    private String correspondanceTouche(KeyCode code) {
-        if (code == KeyCode.UP || code == KeyCode.Z) return "z";
-        if (code == KeyCode.DOWN || code == KeyCode.S) return "s";
-        if (code == KeyCode.LEFT || code == KeyCode.Q) return "q";
-        if (code == KeyCode.RIGHT || code == KeyCode.D) return "d";
-        return null;
-    }
 
     @FXML
     void afficherMenuPause(MouseEvent event) {
@@ -327,7 +313,7 @@ public class SceneLabyrintheControleur {
                 modele.lancerContreLaMontre(ParametresContreLaMontre.getInstance());
 
             }
-            else if (modele.getPartieLibre()) {
+            else if (modele.isPartieLibre()) {
                 int t;
                 int l = modele.getLabyrinthe().getLargeur();
                 int h = modele.getLabyrinthe().getHauteur();
@@ -363,7 +349,6 @@ public class SceneLabyrintheControleur {
      * Affiche la checkbox et le spinner pour la vue locale (mode libre uniquement).
      */
     private void afficherCheckBox() {
-        modeDeVue = new CheckBox("Vue locale");
         enteteJeu.getChildren().add(0, modeDeVue);
 
         // Création du spinner (désactivé par défaut)
@@ -372,8 +357,8 @@ public class SceneLabyrintheControleur {
 
         rangeVue.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (modeDeVue.isSelected()) {
-                VueLabyrinthePartielle nouvelleVue = new VueLabyrinthePartielle(modele, newVal);
-                setVueActive(nouvelleVue,true);
+                vuePartielle.setRange(newVal);
+                setVueActive(vuePartielle,true);
             }
         });
 
@@ -381,7 +366,7 @@ public class SceneLabyrintheControleur {
             boolean vueLocaleActive = modeDeVue.isSelected();
             rangeVue.setDisable(!vueLocaleActive);
             if (vueLocaleActive) {
-                setVueActive(new VueLabyrinthePartielle(modele, rangeVue.getValue()),true);
+                setVueActive(vuePartielle,true);
             } else {
                 setVueActive(vueEntiere,false);
             }

@@ -6,30 +6,24 @@ import javafx.scene.paint.Color;
 
 public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
 
-    private final boolean aDecouvrir;
-    private boolean[][] decouvert;
-    private final int RAYON_DECOUVERTE=1;
+    private boolean aDecouvrir;
+    private Fog fog;
     private GraphicsContext fogGC;
+    private int RAYON_DECOUVERTE = 1;
+    private boolean decouvertePersistante;
 
-    public VueLabyrintheEntier(ModeleJeu modele, boolean aDecouvrir) {
+    public VueLabyrintheEntier(ModeleJeu modele, boolean aDecouvrir,boolean decouvertePersistante) {
         super(modele);
         this.aDecouvrir = aDecouvrir;
+        this.decouvertePersistante = decouvertePersistante;
         int L = modele.getLabyrinthe().getLargeur();
         int H = modele.getLabyrinthe().getHauteur();
         calculTailleCasesTexturees(L, H);
-        if (aDecouvrir) initFog();
+        if (aDecouvrir) initFog(L,H);
         dessineeLabyrinthe();
         updateVueEnfant();
     }
 
-    private void initFog() {
-        int L = modele.getLabyrinthe().getLargeur();
-        int H = modele.getLabyrinthe().getHauteur();
-        decouvert = new boolean[H][L];
-        Canvas fogCanvas = new Canvas(LARGEUR_ZONE, HAUTEUR_ZONE);
-        fogGC = fogCanvas.getGraphicsContext2D();
-        this.getChildren().add(fogCanvas);
-    }
 
     @Override
     protected void dessineeLabyrinthe() {
@@ -37,41 +31,29 @@ public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
         Cellule[][] g = modele.getLabyrinthe().getGrille();
         for (Cellule[] ligne : g)
             for (Cellule c : ligne) {
-                if (c.estMur()){
-                    System.out.println("Position par acces à cellule, mur = ("+c.getX()+","+c.getY()+")");
-                    dessinerMur(c);
-                }
-                else if (c.equals(modele.getLabyrinthe().getSortie())) dessinerSortie(c);
-                else dessinerSol(c);
+                int px = offsetX + c.getX() * tileSize;
+                int py = offsetY + c.getY() * tileSize;
+                if (c.estMur()) dessinerMur(c,px,py);
+                else if (c.equals(modele.getLabyrinthe().getSortie())) dessinerSortie(c,px,py);
+                else dessinerSol(c,px,py);
             }
         dessinerJoueur();
 
-        for(int i=0; i<g.length; i++){
-            for(int j=0; j<g[i].length; j++){
-                if(g[i][j].estMur()){
-                    System.out.println("Position par indice, mur = ("+i+","+j+")");
-                }
-            }
-        }
 
+    }
+    private void initFog(int L, int H) {
+        fog = new Fog(L, H, Color.rgb(16, 16, 16, 1), decouvertePersistante);
+        Canvas fogCanvas = new Canvas(LARGEUR_ZONE, HAUTEUR_ZONE);
+        fogGC = fogCanvas.getGraphicsContext2D();
+        fogCanvas.setMouseTransparent(true);
+        this.getChildren().add(fogCanvas);
     }
 
     private void updateFog() {
         fogGC.clearRect(0, 0, LARGEUR_ZONE, HAUTEUR_ZONE);
         Cellule pos = modele.getPositionJoueur();
-        int jx = pos.getX();
-        int jy = pos.getY();
-        int rayon = this.RAYON_DECOUVERTE;
-        for (int y = jy - rayon; y <= jy + rayon; y++)
-            for (int x = jx - rayon; x <= jx + rayon; x++)
-                if (modele.getLabyrinthe().posValide(x, y))
-                    decouvert[y][x] = true;
-        fogGC.setFill(Color.rgb(16,16,16,1));
-        Cellule[][] g = modele.getLabyrinthe().getGrille();
-        for (int y = 0; y < g.length; y++)
-            for (int x = 0; x < g[y].length; x++)
-                if (!decouvert[y][x])
-                    fogGC.fillRect(offsetX + x*tileSize, offsetY + y*tileSize, tileSize, tileSize);
+        fog.updateAround(pos.getX(), pos.getY(), RAYON_DECOUVERTE);
+        fog.drawFog(fogGC, offsetX, offsetY, tileSize);
     }
 
     @Override
@@ -86,5 +68,46 @@ public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
         }
         */
 
+    }
+    protected void dessinerJoueur() {
+        Cellule pos = modele.getPositionJoueur();
+
+        double targetX = offsetX + pos.getX() * tileSize;
+        double targetY = offsetY + pos.getY() * tileSize;
+
+        joueur.setFitWidth(tileSize);
+        joueur.setFitHeight(tileSize);
+
+        double dist = Math.abs(targetX - joueur.getTranslateX()) + Math.abs(targetY - joueur.getTranslateY());
+
+        if (dist > tileSize * 1.5) {
+            animationJoueur.stop();
+            joueur.setTranslateX(targetX);
+            joueur.setTranslateY(targetY);
+        }
+        else {
+            animationJoueur.stop();
+            animationJoueur.setToX(targetX);
+            animationJoueur.setToY(targetY);
+
+
+            if (targetX > joueur.getTranslateX()) joueur.setRotate(90);
+            else if (targetX < joueur.getTranslateX()) joueur.setRotate(-90);
+            else if (targetY > joueur.getTranslateY()) joueur.setRotate(180);
+            else if (targetY < joueur.getTranslateY()) joueur.setRotate(0);
+
+            animationJoueur.play();
+        }
+    }
+
+    public void setDecouvertePersistante(boolean decouvertePersistante) {
+        this.decouvertePersistante = decouvertePersistante;
+    }
+    public void setaDecouvrir(boolean aDecouvrir) {
+        this.aDecouvrir = aDecouvrir;
+    }
+
+    public void setRAYON_DECOUVERTE(int RAYON_DECOUVERTE) {
+        this.RAYON_DECOUVERTE = RAYON_DECOUVERTE;
     }
 }

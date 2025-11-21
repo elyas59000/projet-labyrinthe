@@ -33,6 +33,7 @@ public class App extends Application {
         primaryStage=stage;
         primaryStage.setTitle("Jeu du Labyrinthe ©");
         CacheMemoire.chargementTextures();
+        CacheMemoire.preloadAllBiomes();
         Font.loadFont(getClass().getResourceAsStream("/J4/sae_labyrinthe/fonts/PixelGameFont.ttf"), 18);
         SceneManager.chargerScene("SceneMenuPrincipal");
         primaryStage.setResizable(true);

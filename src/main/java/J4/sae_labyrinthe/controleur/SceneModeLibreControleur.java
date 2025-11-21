@@ -124,6 +124,10 @@ public class SceneModeLibreControleur {
     void lancerPartieLibre(MouseEvent event) throws IOException {
         int l = champsLargeur.getValue();
         int h = champsHauteur.getValue();
+        if (champsHauteur.getValue()>=champsLargeur.getValue()) {
+            h=champsLargeur.getValue();
+            l=champsHauteur.getValue();;
+        }
         int d;
         int taux;
         if (modeParfaitActif) {

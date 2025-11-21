@@ -1,6 +1,8 @@
 package J4.sae_labyrinthe.vue;
 
 import J4.sae_labyrinthe.modele.*;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
@@ -8,16 +10,24 @@ import javafx.scene.shape.Rectangle;
 
 public class VueLabyrintheMap extends VueLabyrintheAbstraite {
 
-    private final boolean printJoueur;
-    private final boolean printSortie;
+    private boolean printJoueur;
+    private boolean printSortie;
+    private boolean murADecouvrir;
     private double offsetX = 0;
     private double offsetY = 0;
     private boolean estInitialise = false;
+    private Fog fog;
+    private Canvas fogCanvas;
+    private GraphicsContext fogGC;
+    private int RAYON_DECOUVERTE=1;
+    private boolean decouvertePersistante;
 
-    public VueLabyrintheMap(ModeleJeu modele, boolean printJoueur, boolean printSortie) {
+    public VueLabyrintheMap(ModeleJeu modele, boolean printJoueur, boolean printSortie,boolean murADecouvrir,boolean decouvertePersistante) {
         super(modele);
         this.printJoueur = printJoueur;
         this.printSortie = printSortie;
+        this.murADecouvrir = murADecouvrir;
+        this.decouvertePersistante = decouvertePersistante;
         this.getChildren().remove(joueur);
         this.setStyle("-fx-background-color: #333333; -fx-background-radius: 5;");
         this.widthProperty().addListener((obs, oldVal, newVal) -> {
@@ -32,6 +42,7 @@ public class VueLabyrintheMap extends VueLabyrintheAbstraite {
             }
         });
     }
+
     private void initialiserVue() {
         double paneWidth = getWidth();
         double paneHeight = getHeight();
@@ -53,9 +64,25 @@ public class VueLabyrintheMap extends VueLabyrintheAbstraite {
         if (joueur != null) {
             this.getChildren().remove(joueur);
         }
+
+        if(murADecouvrir) {
+            if (fog == null) {
+                fog = new Fog(labLargeur, labHauteur, Color.rgb(16,16,16,1), decouvertePersistante);
+                fogCanvas = new Canvas(canvasWidth, canvasHeight);
+                fogGC = fogCanvas.getGraphicsContext2D();
+                fogCanvas.setMouseTransparent(true);
+                fogCanvas.setLayoutX(offsetX);
+                fogCanvas.setLayoutY(offsetY);
+                this.getChildren().add(fogCanvas);
+            } else {
+                fogCanvas.setWidth(canvasWidth);
+                fogCanvas.setHeight(canvasHeight);
+            }
+        }
+
         initPlayerImage();
         dessineeLabyrinthe();
-        updatePlayerPos();
+        updateVueEnfant();
     }
 
     private void initPlayerImage() {
@@ -95,9 +122,39 @@ public class VueLabyrintheMap extends VueLabyrintheAbstraite {
         joueur.setLayoutX(this.offsetX + p.getX() * tileSize);
         joueur.setLayoutY(this.offsetY + p.getY() * tileSize);
     }
+    private void updateFog(){
+        if(fog == null) return;
+        fogGC.clearRect(0, 0, fogCanvas.getWidth(), fogCanvas.getHeight());
+        Cellule pos = modele.getPositionJoueur();
+        fog.updateAround(pos.getX(), pos.getY(), RAYON_DECOUVERTE);
+        fog.drawFog(fogGC, 0, 0, tileSize);
+
+    }
 
     @Override
     protected void updateVueEnfant() {
+        if(murADecouvrir) {
+            updateFog();
+        }
         updatePlayerPos();
+    }
+
+
+    public void setDecouvertePersistante(boolean decouvertePersistante) {
+        this.decouvertePersistante = decouvertePersistante;
+    }
+    public void setMurADecouvrir(boolean murADecouvrir) {
+        this.murADecouvrir = murADecouvrir;
+    }
+
+    public void setPrintJoueur(boolean printJoueur) {
+        this.printJoueur = printJoueur;
+    }
+    public void setPrintSortie(boolean printSortie) {
+        this.printSortie = printSortie;
+    }
+
+    public void setRAYON_DECOUVERTE(int RAYON_DECOUVERTE) {
+        this.RAYON_DECOUVERTE = RAYON_DECOUVERTE;
     }
 }

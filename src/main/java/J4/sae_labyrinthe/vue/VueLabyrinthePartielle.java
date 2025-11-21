@@ -9,12 +9,13 @@ import java.util.List;
 
 public class VueLabyrinthePartielle extends VueLabyrintheAbstraite {
 
-    private final int range;
+    private int range;
+    private int side;
 
     public VueLabyrinthePartielle(ModeleJeu modele, int range) {
         super(modele);
         this.range = range;
-        int side = 2 * range + 1;
+        this.side = 2 * range + 1;
         this.tileSize = Math.min(LARGEUR_ZONE / side, HAUTEUR_ZONE / side);
         dessineeLabyrinthe();
     }
@@ -33,7 +34,6 @@ public class VueLabyrinthePartielle extends VueLabyrintheAbstraite {
         int gridHeight = canvasTiles * tileSize;
         int frameX = (LARGEUR_ZONE - gridWidth) / 2;
         int frameY = (HAUTEUR_ZONE - gridHeight) / 2;
-
         for (int dy = 0; dy < canvasTiles; dy++) {
             for (int dx = 0; dx < canvasTiles; dx++) {
                 int mapX = joueurX + (dx - range);
@@ -45,7 +45,10 @@ public class VueLabyrinthePartielle extends VueLabyrintheAbstraite {
                     gc.fillRect(px, py, tileSize, tileSize);
                 } else {
                     Cellule c = lab.getGrille()[mapY][mapX];
-                    if (c.estMur()) dessinerMur(c, px, py);
+                    if (c.estMur()) {
+                        dessinerSol(c, px, py);
+                        dessinerMur(c, px, py);
+                    }
                     else if (c.equals(lab.getSortie())) dessinerSortie(c, px, py);
                     else dessinerSol(c, px, py);
                 }
@@ -58,27 +61,16 @@ public class VueLabyrinthePartielle extends VueLabyrintheAbstraite {
         joueur.setFitWidth(tileSize);
         joueur.setFitHeight(tileSize);
     }
-    private void dessinerMur(Cellule c, int px, int py) {
-        gc.setFill(Paint.valueOf(modele.getBiome().getBackground()));
-        gc.fillRect(px, py, tileSize, tileSize);
-        Image texture = choixTexturesMur(modele, c);
-        Image recolor = ImageOutils.recolorTexture(texture, modele.getBiome().getPalette());
-        gc.drawImage(recolor, px, py, tileSize, tileSize);
-    }
-    private void dessinerSol(Cellule c, int px, int py) {
-        gc.drawImage(modele.getBiome().getSol(), px, py, tileSize, tileSize);
-        List<Image> coins = choixTextureAngleInterne(modele, c);
-        for (Image i : coins) {
-            Image recolored = ImageOutils.recolorTexture(i, modele.getBiome().getPalette());
-            gc.drawImage(recolored, px, py, tileSize, tileSize);
-        }
-    }
-    private void dessinerSortie(Cellule c, int px, int py) {
-        dessinerSol(c, px, py);
-        gc.drawImage(sortie, px, py, tileSize, tileSize);
-    }
+
     @Override
     protected void updateVueEnfant() {
+        dessineeLabyrinthe();
+    }
+
+    public void setRange(int range) {
+        this.range = range;
+        this.side = 2 * range + 1;
+        this.tileSize = Math.min(LARGEUR_ZONE / side, HAUTEUR_ZONE / side);
         dessineeLabyrinthe();
     }
 }
