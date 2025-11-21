@@ -164,18 +164,18 @@ Nous implémentons deux algorithmes de géneration pour le labyrinthe parfait :
 Cette algorithme tester creer les murs puis a chaque creation de mur faisais un parcour du labyrinthe 
 pour savoir si un chemin était possible.
 
-| Largeur  | Hauteur    | Pourcentage de Murs | Temps (ms) |
-|----------|------------|---------------------|------------|
-| 20       | 10         | 40                  | 5          |
-| 100      | 50         | 10                  | 76         |
-| 100      | 50         | 40                  | 125        |
-| 200      | 100        | 10                  | 639        |
-| 200      | 100        | 40                  | 1588       |
-| 200      | 100        | 10                  | 3015       |
-| 1000     | 500        | 40                  | ?          |
+| Largeur  | Hauteur    | Pourcentage de Murs | Temps (ms)  |
+|----------|------------|---------------------|-------------|
+| 20       | 10         | 40                  | 5           |
+| 100      | 50         | 10                  | 76          |
+| 100      | 50         | 40                  | 125         |
+| 200      | 100        | 10                  | 639         |
+| 200      | 100        | 40                  | 1588        |
+| 200      | 100        | 10                  | 3015        |
+| 1000     | 500        | 40                  | 1274247     |
 
 On peut voir un changement énorme, il fallait absolument changé cet algorithme de génération.
-Car il était vraiment très très long.
+Car il était vraiment très très long.(Surtout pour le 1000 * 500 comme on peut le voir)
 ## Labyrinthe Parfait
 
 ### Algorithme de parcours en profondeur
