@@ -13,10 +13,11 @@ class LabyrintheParfaitTest {
     private LabyrintheParfait laby;
     private int largeurAbstraite = 10;
     private int hauteurAbstraite = 10;
+    private int distanceInitiale = 5;
 
     @BeforeEach
     void setUp() {
-        laby = new LabyrintheParfait(largeurAbstraite, hauteurAbstraite,0);
+        laby = new LabyrintheParfait(largeurAbstraite, hauteurAbstraite,distanceInitiale);
     }
 
     @Test
@@ -74,6 +75,16 @@ class LabyrintheParfaitTest {
 
     }
 
+    @Test
+    void testConstructeurParDefaut() {
+        LabyrintheParfait labyDefaut = new LabyrintheParfait();
+        assertNotNull(labyDefaut.getGrille());
+        assertEquals(11, labyDefaut.getLargeur());
+        assertEquals(11, labyDefaut.getHauteur());
+        assertEquals(5, labyDefaut.getDistance());
+    }
+
+
     private boolean unCheminExiste(LabyrintheParfait labyrinthe) {
         Cellule start = labyrinthe.getEntree();
         Cellule end = labyrinthe.getSortie();
@@ -98,7 +109,7 @@ class LabyrintheParfaitTest {
             }
 
             for (int[] dir : directions) {
-                int newX = courante.getX() + dir[0]; // Attention : dans ta classe Cellule, verifie si X est colonne ou ligne
+                int newX = courante.getX() + dir[0];
                 int newY = courante.getY() + dir[1];
 
                 if (newY >= 0 && newY < h && newX >= 0 && newX < w) {
@@ -111,5 +122,40 @@ class LabyrintheParfaitTest {
             }
         }
         return false;
+    }
+
+    @Test
+    void testGetDistance() {
+        assertEquals(distanceInitiale, laby.getDistance());
+    }
+
+
+
+    @Test
+    void testEntree_EstAleatoire() {
+        Cellule premiereEntree = laby.getEntree();
+        boolean aChange = false;
+
+        for (int i = 0; i < 10; i++) {
+            LabyrintheParfait autreLaby = new LabyrintheParfait(largeurAbstraite, hauteurAbstraite, 0);
+            if (autreLaby.getEntree().getX() != premiereEntree.getX() ||
+                    autreLaby.getEntree().getY() != premiereEntree.getY()) {
+                aChange = true;
+                break;
+            }
+        }
+        assertTrue(aChange, "L'entrée devrait être placée aléatoirement.");
+    }
+
+    @Test
+    void testPlacerSortieA_DistanceImpossible() {
+        int distanceImpossible = 1000;
+        Cellule ancienneSortie = laby.getSortie();
+        laby.placerSortieA(distanceImpossible);
+
+        assertEquals(ancienneSortie, laby.getSortie(), "La sortie ne devrait pas changer si la distance est impossible.");
+        assertNotNull(laby.getSortie());
+        assertFalse(laby.getSortie().estMur());
+
     }
 }
