@@ -91,7 +91,7 @@
 
 
 /* text dans div */
-#textLoginConn, #textMPDConn, #textPseudoInsc, #textMDPInsc,#textConfInsc, #textLargeur, #textHauteur, #textMur, #textDistance{
+#textLoginConn, #textMPDConn, #textPseudoInsc, #textMDPInsc,#textConfInsc, #textLargeur, #textHauteur, #textMur, #textDistance, #textBrouillard{
     -fx-font-size: 24px;
     -fx-font-weight: bold;
     -fx-fill: white !important;
