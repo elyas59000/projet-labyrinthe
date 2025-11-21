@@ -7,6 +7,9 @@ import javafx.scene.canvas.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
 import java.util.*;
+import javafx.animation.Interpolator;
+import javafx.animation.TranslateTransition;
+import javafx.util.Duration;
 
 public abstract class VueLabyrintheAbstraite extends Pane implements IObserver {
 
@@ -21,6 +24,8 @@ public abstract class VueLabyrintheAbstraite extends Pane implements IObserver {
     protected int tileSize;
     protected int offsetX;
     protected int offsetY;
+    protected TranslateTransition animationJoueur;
+
 
     protected VueLabyrintheAbstraite(ModeleJeu modele) {
         this.modele = modele;
@@ -32,6 +37,8 @@ public abstract class VueLabyrintheAbstraite extends Pane implements IObserver {
         this.gc = canvas.getGraphicsContext2D();
         this.getChildren().add(canvas);
         this.getChildren().add(joueur);
+        this.animationJoueur = new TranslateTransition(Duration.millis(200), joueur);
+        this.animationJoueur.setInterpolator(Interpolator.LINEAR); // Mouvement constant
     }
 
     protected void calculTailleCasesTexturees(int largeur, int hauteur) {
@@ -67,12 +74,36 @@ public abstract class VueLabyrintheAbstraite extends Pane implements IObserver {
         int py = offsetY + c.getY() * tileSize;
         gc.drawImage(sortie, px, py, tileSize, tileSize);
     }
+
     protected void dessinerJoueur() {
         Cellule pos = modele.getPositionJoueur();
+
+        double targetX = offsetX + pos.getX() * tileSize;
+        double targetY = offsetY + pos.getY() * tileSize;
+
         joueur.setFitWidth(tileSize);
         joueur.setFitHeight(tileSize);
-        joueur.setLayoutX(offsetX + pos.getX() * tileSize);
-        joueur.setLayoutY(offsetY + pos.getY() * tileSize);
+
+        double dist = Math.abs(targetX - joueur.getTranslateX()) + Math.abs(targetY - joueur.getTranslateY());
+
+        if (dist > tileSize * 1.5) {
+            animationJoueur.stop();
+            joueur.setTranslateX(targetX);
+            joueur.setTranslateY(targetY);
+        }
+        else {
+            animationJoueur.stop();
+            animationJoueur.setToX(targetX);
+            animationJoueur.setToY(targetY);
+
+
+            if (targetX > joueur.getTranslateX()) joueur.setRotate(90);
+            else if (targetX < joueur.getTranslateX()) joueur.setRotate(-90);
+            else if (targetY > joueur.getTranslateY()) joueur.setRotate(180);
+            else if (targetY < joueur.getTranslateY()) joueur.setRotate(0);
+
+            animationJoueur.play();
+        }
     }
     protected Image choixTexturesMur(ModeleJeu modele, Cellule cellule) {
         String chemin = ImageOutils.choixTextureMurComplet(modele, cellule);

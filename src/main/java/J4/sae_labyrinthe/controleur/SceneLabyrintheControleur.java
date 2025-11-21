@@ -8,6 +8,7 @@ import J4.sae_labyrinthe.vue.VueLabyrintheAbstraite;
 import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
 import J4.sae_labyrinthe.vue.VueLabyrintheMap;
 import J4.sae_labyrinthe.vue.VueLabyrinthePartielle;
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -28,6 +29,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import J4.sae_labyrinthe.utils.ParametresContreLaMontre;
 import javafx.scene.paint.Color;
+
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
@@ -53,6 +55,11 @@ public class SceneLabyrintheControleur {
     private int tempsEcoule = 0;
     private CheckBox modeDeVue;
     private Spinner<Integer> rangeVue = new Spinner<>(1, 5, RANGE);
+
+    private boolean isUp, isDown, isLeft, isRight;
+    private AnimationTimer gameLoop;
+    private long lastMoveTime = 0;
+    private static final long MOVE_COOLDOWN = 150_000_000;
 
 
     @FXML
@@ -135,10 +142,65 @@ public class SceneLabyrintheControleur {
      * Initialise la gestion du clavier pour les déplacements.
      */
     private void initialiserDeplacement() {
-        zoneLaby.setOnKeyPressed(this::gererDeplacement);
+        zoneLaby.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case Z, UP -> isUp = true;
+                case S, DOWN -> isDown = true;
+                case Q, LEFT -> isLeft = true;
+                case D, RIGHT -> isRight = true;
+            }
+            event.consume();
+        });
+
+        zoneLaby.setOnKeyReleased(event -> {
+            switch (event.getCode()) {
+                case Z, UP -> isUp = false;
+                case S, DOWN -> isDown = false;
+                case Q, LEFT -> isLeft = false;
+                case D, RIGHT -> isRight = false;
+            }
+            event.consume();
+        });
+
         zoneLaby.setOnMouseClicked(e -> zoneLaby.requestFocus());
         zoneLaby.setFocusTraversable(true);
         Platform.runLater(zoneLaby::requestFocus);
+
+        lancerBoucleDeMouvement();
+    }
+
+
+    private void lancerBoucleDeMouvement() {
+        gameLoop = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (pauseActive) return;
+
+                if (now - lastMoveTime >= MOVE_COOLDOWN) {
+
+                    String direction = null;
+
+                    if (isUp) direction = "z";
+                    else if (isDown) direction = "s";
+                    else if (isLeft) direction = "q";
+                    else if (isRight) direction = "d";
+
+                    if (direction != null) {
+                        modele.deplacerJoueur(direction);
+
+                        if (modele.getPositionJoueur().equals(modele.getSortie())) {
+                            ecranFinPartie();
+                            stop();
+                        } else if (modele.isCellAnItem(modele.getPositionJoueur())) {
+                            modele.prendreItem();
+                        }
+
+                        lastMoveTime = now;
+                    }
+                }
+            }
+        };
+        gameLoop.start();
     }
 
     /**
@@ -179,6 +241,7 @@ public class SceneLabyrintheControleur {
     }
 
     private void mettreEnPause() {
+        if (gameLoop != null) gameLoop.stop();
         pauseActive = true;
         arreterTimer();
         zoneLaby.setOnKeyPressed(null);
@@ -202,6 +265,7 @@ public class SceneLabyrintheControleur {
     }
 
     private void reprendrePartie() {
+        if (gameLoop != null) gameLoop.stop();
         pauseActive = false;
         zoneGlobale.getChildren().remove(menuPause);
         menuPause = null;
