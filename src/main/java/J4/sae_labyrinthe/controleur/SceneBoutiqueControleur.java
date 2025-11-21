@@ -23,10 +23,6 @@ public class SceneBoutiqueControleur {
     public Label invTeleport;
     public Label invSentir;
     public Label invVision;
-
-
-
-    // Messages d’erreur (à ajouter dans le FXML)
     @FXML private Label msgBriseMur;
     @FXML private Label msgTeleport;
     @FXML private Label msgSentir;
@@ -95,17 +91,17 @@ public class SceneBoutiqueControleur {
 
     @FXML
     public void acheterTeleportation(MouseEvent event) {
-        acheterItemEtMettreAJour("tp", invTeleport, msgTeleport);
+        acheterItemEtMettreAJour("teleportation", invTeleport, msgTeleport);
     }
 
     @FXML
     public void acheterSentirSortie(MouseEvent event) {
-        acheterItemEtMettreAJour("sentirsortie", invSentir, msgSentir);
+        acheterItemEtMettreAJour("sentir", invSentir, msgSentir);
     }
 
     @FXML
     public void acheterBaliseVision(MouseEvent event) {
-        acheterItemEtMettreAJour("plusvision", invVision, msgVision);
+        acheterItemEtMettreAJour("vision", invVision, msgVision);
     }
     @FXML
     void retourScenePrecendente(MouseEvent event) throws IOException {
