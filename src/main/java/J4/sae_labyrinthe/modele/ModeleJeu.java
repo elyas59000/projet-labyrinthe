@@ -197,7 +197,7 @@ public class ModeleJeu implements IModeleJeu {
         partieLibre =false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
         if(etapeChoisi.getNumero() > 3){
-            this.labyrinthe = new LabyrintheParfait(d.getCote()/2,d.getCote()/2,etapeChoisi,d.getDistance());
+            this.labyrinthe = new LabyrintheParfait(d.getCote()/2,d.getCote2()/2,etapeChoisi,d.getDistance());
         }else {
             this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote2(),d.getPourcentageMurs(),etapeChoisi);
         }

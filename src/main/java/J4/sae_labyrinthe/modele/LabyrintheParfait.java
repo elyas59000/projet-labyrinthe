@@ -203,14 +203,18 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
      * Choisit aléatoirement parmi les cellules à cette distance.
      */
     public void placerSortieA(int distanceVoulu) {
+
         int[][] dist = new int[hauteur][largeur];
         for (int i = 0; i < hauteur; i++) {
             Arrays.fill(dist[i], -1);
         }
 
         Queue<int[]> file = new LinkedList<>();
-        int startX = (this.entree.getX()-1)/2;
-        int startY = (this.entree.getY()-1)/2;
+
+        // Coordonnées jouables (pas dans la grille complète)
+        int startX = (this.entree.getX() - 1) / 2;
+        int startY = (this.entree.getY() - 1) / 2;
+
         dist[startY][startX] = 0;
         file.add(new int[]{startX, startY});
 
@@ -219,6 +223,7 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         int[] maxDistancePoint = new int[]{startX, startY};
         int maxDist = 0;
 
+        // Directions cardinales
         int[][] dirs = {{1,0}, {-1,0}, {0,1}, {0,-1}};
 
         while (!file.isEmpty()) {
@@ -234,23 +239,30 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
                 int nx = cx + dir[0];
                 int ny = cy + dir[1];
 
-                if (nx < 0 || nx >= hauteur || ny < 0 || ny >= largeur) continue;
+                // Si hors des cellules jouables : ignorer
+                if (nx < 0 || nx >= largeur || ny < 0 || ny >= hauteur) continue;
 
-                // Vérifier si le mur entre les cellules existe
+                // Coordonnées du mur dans la grande grille
                 int mx = (cx * 2 + 1) + dir[0];
                 int my = (cy * 2 + 1) + dir[1];
+
+                // Vérification : le mur doit être dans la grille complète
+                if (mx < 0 || mx >= gridHauteur || my < 0 || my >= gridLargeur) continue;
+
+                // Si mur → pas de passage
                 if (grille[mx][my].estMur()) continue;
 
-                if (dist[nx][ny] == -1) {
-                    dist[nx][ny] = dist[cx][cy] + 1;
+                if (dist[ny][nx] == -1) {
+                    dist[ny][nx] = dist[cy][cx] + 1;
                     file.add(new int[]{nx, ny});
 
-                    if (dist[nx][ny] >= distanceVoulu) {
+                    if (dist[ny][nx] >= distanceVoulu) {
                         candidats.add(new int[]{nx, ny});
                     }
                 }
             }
         }
+
         int[] choix;
 
         if (!candidats.isEmpty()) {
@@ -260,9 +272,11 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
             System.out.println("Aucune cellule trouvée à cette distance exacte.");
             choix = maxDistancePoint;
         }
-        sortie = grille[choix[0]*2+1][choix[1]*2+1];
+
+        sortie = grille[choix[1] * 2 + 1][choix[0] * 2 + 1];
         sortie.setMur(false);
     }
+
 
     @Override
     public Cellule positionAleaCell() {
