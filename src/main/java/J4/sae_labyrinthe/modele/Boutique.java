@@ -48,8 +48,6 @@ public class Boutique {
         }
 
         int prix = items.get(item);
-        System.out.println(prix);
-        System.out.println(joueur.getScore());
         if (joueur.getScore() >= prix) {
             joueur.ajouterItem(item);
             joueur.ajouterScore(-prix);
