@@ -43,10 +43,9 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
 
     private void creerEntree() {
         Random r = new Random();
-        int entreeX = r.nextInt(largeur - 2) + 1;
-        int entreeY = r.nextInt(hauteur - 2) + 1;
-        entree = grille[entreeY][entreeX];
-        entree.setMur(false);
+        int entreeX = r.nextInt(largeur);
+        int entreeY = r.nextInt(hauteur);
+        entree = grille[entreeY* 2 + 1][entreeX* 2 + 1];
     }
 
     private void initGrid() {
@@ -210,16 +209,26 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         }
 
         Queue<int[]> file = new LinkedList<>();
-        int startX = 0, startY = 0;
-        dist[startX][startY] = 0;
+        int startX = (this.entree.getX()-1)/2;
+        int startY = (this.entree.getY()-1)/2;
+        dist[startY][startX] = 0;
         file.add(new int[]{startX, startY});
 
         List<int[]> candidats = new ArrayList<>();
+
+        int[] maxDistancePoint = new int[]{startX, startY};
+        int maxDist = 0;
+
         int[][] dirs = {{1,0}, {-1,0}, {0,1}, {0,-1}};
 
         while (!file.isEmpty()) {
             int[] c = file.poll();
             int cx = c[0], cy = c[1];
+
+            if (dist[cy][cx] > maxDist) {
+                maxDist = dist[cy][cx];
+                maxDistancePoint = c;
+            }
 
             for (int[] dir : dirs) {
                 int nx = cx + dir[0];
@@ -228,29 +237,31 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
                 if (nx < 0 || nx >= hauteur || ny < 0 || ny >= largeur) continue;
 
                 // Vérifier si le mur entre les cellules existe
-                int mx = cx * 2 + 1 + dir[0];
-                int my = cy * 2 + 1 + dir[1];
+                int mx = (cx * 2 + 1) + dir[0];
+                int my = (cy * 2 + 1) + dir[1];
                 if (grille[mx][my].estMur()) continue;
 
                 if (dist[nx][ny] == -1) {
                     dist[nx][ny] = dist[cx][cy] + 1;
                     file.add(new int[]{nx, ny});
 
-                    if (dist[nx][ny] == distanceVoulu) {
+                    if (dist[nx][ny] >= distanceVoulu) {
                         candidats.add(new int[]{nx, ny});
                     }
                 }
             }
         }
+        int[] choix;
 
         if (!candidats.isEmpty()) {
             Random r = new Random();
-            int[] choix = candidats.get(r.nextInt(candidats.size()));
-            sortie = grille[choix[0]*2+1][choix[1]*2+1]; // conversion en coordonnées de grille
-            sortie.setMur(false);
+            choix = candidats.get(r.nextInt(candidats.size()));
         } else {
             System.out.println("Aucune cellule trouvée à cette distance exacte.");
+            choix = maxDistancePoint;
         }
+        sortie = grille[choix[0]*2+1][choix[1]*2+1];
+        sortie.setMur(false);
     }
 
     @Override

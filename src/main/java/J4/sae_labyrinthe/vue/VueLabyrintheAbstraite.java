@@ -96,12 +96,6 @@ public abstract class VueLabyrintheAbstraite extends Pane implements IObserver {
             animationJoueur.setToX(targetX);
             animationJoueur.setToY(targetY);
 
-
-            if (targetX > joueur.getTranslateX()) joueur.setRotate(90);
-            else if (targetX < joueur.getTranslateX()) joueur.setRotate(-90);
-            else if (targetY > joueur.getTranslateY()) joueur.setRotate(180);
-            else if (targetY < joueur.getTranslateY()) joueur.setRotate(0);
-
             animationJoueur.play();
         }
     }
