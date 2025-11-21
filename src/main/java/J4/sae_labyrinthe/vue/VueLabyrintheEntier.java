@@ -1,16 +1,8 @@
 package J4.sae_labyrinthe.vue;
 
 import J4.sae_labyrinthe.modele.*;
-import J4.sae_labyrinthe.modele.Item.IItem;
-import J4.sae_labyrinthe.modele.Item.IItem;
 import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
 
@@ -29,9 +21,6 @@ public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
         calculTailleCasesTexturees(L, H);
         if (aDecouvrir) initFog(L,H);
         dessineeLabyrinthe();
-        if (aDecouvrir) {
-            updateFog();
-        }
         updateVueEnfant();
     }
 
@@ -57,27 +46,14 @@ public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
         Canvas fogCanvas = new Canvas(LARGEUR_ZONE, HAUTEUR_ZONE);
         fogGC = fogCanvas.getGraphicsContext2D();
         fogCanvas.setMouseTransparent(true);
-
-        fogGC.setFill(Color.rgb(16, 16, 16, 1));
-        fogGC.fillRect(0, 0, LARGEUR_ZONE, HAUTEUR_ZONE);
         this.getChildren().add(fogCanvas);
     }
 
     private void updateFog() {
-        if (fogGC == null) return;
         fogGC.clearRect(0, 0, LARGEUR_ZONE, HAUTEUR_ZONE);
         Cellule pos = modele.getPositionJoueur();
-        HashMap<Cellule, IItem> mapWard = modele.getWards();
-        if (pos != null) {
-            fog.updateAround(pos.getX(), pos.getY(), RAYON_DECOUVERTE);
-        }if (!mapWard.isEmpty()) {
-            for (Map.Entry<Cellule, IItem> item : mapWard.entrySet()) {
-                Cellule c = item.getKey();
-                IItem i = item.getValue();
-                fog.updateAround(c.getX(), c.getY(), i.getValue());
-            }
-        }
-        fog.drawFog(fogGC, offsetX, offsetY, tileSize);}
+        fog.updateAround(pos.getX(), pos.getY(), RAYON_DECOUVERTE);
+        fog.drawFog(fogGC, offsetX, offsetY, tileSize);
     }
 
     @Override
@@ -93,23 +69,45 @@ public class VueLabyrintheEntier extends VueLabyrintheAbstraite {
         */
 
     }
+    protected void dessinerJoueur() {
+        Cellule pos = modele.getPositionJoueur();
+
+        double targetX = offsetX + pos.getX() * tileSize;
+        double targetY = offsetY + pos.getY() * tileSize;
+
+        joueur.setFitWidth(tileSize);
+        joueur.setFitHeight(tileSize);
+
+        double dist = Math.abs(targetX - joueur.getTranslateX()) + Math.abs(targetY - joueur.getTranslateY());
+
+        if (dist > tileSize * 1.5) {
+            animationJoueur.stop();
+            joueur.setTranslateX(targetX);
+            joueur.setTranslateY(targetY);
+        }
+        else {
+            animationJoueur.stop();
+            animationJoueur.setToX(targetX);
+            animationJoueur.setToY(targetY);
+
+
+            if (targetX > joueur.getTranslateX()) joueur.setRotate(90);
+            else if (targetX < joueur.getTranslateX()) joueur.setRotate(-90);
+            else if (targetY > joueur.getTranslateY()) joueur.setRotate(180);
+            else if (targetY < joueur.getTranslateY()) joueur.setRotate(0);
+
+            animationJoueur.play();
+        }
+    }
 
     public void setDecouvertePersistante(boolean decouvertePersistante) {
         this.decouvertePersistante = decouvertePersistante;
     }
     public void setaDecouvrir(boolean aDecouvrir) {
         this.aDecouvrir = aDecouvrir;
-
-        if (aDecouvrir && fogGC == null) {
-            int L = modele.getLabyrinthe().getLargeur();
-            int H = modele.getLabyrinthe().getHauteur();
-            initFog(L, H);
-            updateFog();
-        }
     }
 
     public void setRAYON_DECOUVERTE(int RAYON_DECOUVERTE) {
         this.RAYON_DECOUVERTE = RAYON_DECOUVERTE;
-        if(aDecouvrir) updateFog();
     }
 }
