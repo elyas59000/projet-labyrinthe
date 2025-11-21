@@ -199,7 +199,7 @@ public class ModeleJeu implements IModeleJeu {
         if(etapeChoisi.getNumero() > 3){
             this.labyrinthe = new LabyrintheParfait(d.getCote()/2,d.getCote()/2,etapeChoisi,d.getDistance());
         }else {
-            this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote(),d.getPourcentageMurs(),etapeChoisi);
+            this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote2(),d.getPourcentageMurs(),etapeChoisi);
         }
         this.positionJoueur = this.labyrinthe.getEntree();
     }

@@ -14,7 +14,14 @@ public class Etape{
         else if(NUM==3){
             genererDefis((NUM+3)*(1+NUM));
         }else if(NUM==4){
-            genererDefisDistance(10,7);
+            int cote1 = 8 + (int)(Math.random() * 7);
+            int cote2 = 6 + (int)(Math.random() * 4);
+            genererDefisDistance(cote1,cote2);
+        }
+        else if(NUM==5){
+            int cote1 = 15 + (int)(Math.random() * 20);
+            int cote2 = 15 + (int)(Math.random() * 20);
+            genererDefisDistance(cote1,cote2);
         }
     }
 
@@ -25,9 +32,9 @@ public class Etape{
     }
 
     private void genererDefisDistance(int cote, int cote2) {
-        defis[0] = new Defi("Facile", cote,cote2, 5);
-        defis[1] = new Defi("Moyen", cote, cote2,12);
-        defis[2] = new Defi("Difficile", cote,cote2, 20);
+        defis[0] = new Defi("Facile", cote,cote2, Math.max(cote, cote2)/3);
+        defis[1] = new Defi("Moyen", cote, cote2,Math.max(cote, cote2)/2);
+        defis[2] = new Defi("Difficile", cote,cote2, Math.max(cote, cote2));
     }
 
     public int getNumero() { return NUM; }

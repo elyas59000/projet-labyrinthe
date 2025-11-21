@@ -55,6 +55,10 @@ public class Defi {
         return cote;
     }
 
+    public int getCote2() {
+        return cote2;
+    }
+
     public double getPourcentageMurs() {
         return pourcentageMurs;
     }
