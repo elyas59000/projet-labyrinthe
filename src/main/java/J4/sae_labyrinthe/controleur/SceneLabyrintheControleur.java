@@ -104,6 +104,13 @@ public class SceneLabyrintheControleur {
                     vueMiniMap.setPrintJoueur(true);
                     vueMiniMap.setMurADecouvrir(true);
                     vueMiniMap.setDecouvertePersistante(true);
+                    int rayon = switch (modele.getDefiChoisi()) {
+                        case 1 -> 3;
+                        case 2 -> 2;
+                        case 3 -> 1;
+                        default -> 3;
+                    };
+                    vuePartielle.setRange(rayon);
                     setVueActive(vuePartielle,true);
 
                 }
