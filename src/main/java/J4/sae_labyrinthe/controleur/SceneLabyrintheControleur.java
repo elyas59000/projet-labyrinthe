@@ -10,6 +10,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -49,7 +50,11 @@ public class SceneLabyrintheControleur {
     private final VueLabyrinthePartielle vuePartielle = new VueLabyrinthePartielle(modele, RANGE);
     private final VueLabyrintheMap vueMiniMap= new VueLabyrintheMap(modele,false,false,false,false);
 
-    private VBox menuPause;
+// Avant :
+// private VBox menuPause;
+
+    // MAINTENANT : On stocke le résultat du FXML (qui est un StackPane)
+    private StackPane loadedPauseOverlay;
     private boolean pauseActive = false;
     private Timeline timeline;
     private int tempsEcoule = 0;
@@ -253,30 +258,39 @@ public class SceneLabyrintheControleur {
         pauseActive = true;
         arreterTimer();
         zoneLaby.setOnKeyPressed(null);
-        menuPause = new VBox(40);
-        menuPause.setAlignment(Pos.CENTER);
-        menuPause.setId("overlayPause"); // pour le CSS
-        Label titre = new Label("Jeu en pause");
-        titre.getStyleClass().add("pause-titre");
 
-        Button reprendre = new Button("Reprendre");
-        ajouterPause(reprendre);
-        reprendre.setOnAction(e -> reprendrePartie());
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/J4/sae_labyrinthe/fxml/ScenePause.fxml"));
 
-        Button quitter = new Button("Quitter");
-        ajouterPause(quitter);
-        quitter.setOnAction(e -> quitterPartie());
+            // 2. Charger le fichier FXML. Le résultat est notre StackPane "drap noir"
+            loadedPauseOverlay = loader.load();
 
-        menuPause.getChildren().addAll(titre, reprendre, quitter);
-        zoneGlobale.getChildren().add(menuPause);
-        StackPane.setAlignment(menuPause, Pos.CENTER);
+            VBox menuBox = (VBox) loadedPauseOverlay.getChildren().get(0);
+
+            Button btnReprendre = (Button) menuBox.getChildren().get(2);
+            Button btnQuitter = (Button) menuBox.getChildren().get(3);
+
+            btnReprendre.setOnAction(e -> reprendrePartie());
+            btnQuitter.setOnAction(e -> quitterPartie());
+
+            zoneGlobale.getChildren().add(loadedPauseOverlay);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Impossible de charger le FXML du menu pause !");
+        }
     }
 
     private void reprendrePartie() {
         if (gameLoop != null) gameLoop.stop();
         pauseActive = false;
-        zoneGlobale.getChildren().remove(menuPause);
-        menuPause = null;
+
+        // On retire l'overlay qu'on a chargé
+        if (loadedPauseOverlay != null) {
+            zoneGlobale.getChildren().remove(loadedPauseOverlay);
+            loadedPauseOverlay = null;
+        }
+
         initialiserDeplacement();
         timeline.play();
         Platform.runLater(zoneLaby::requestFocus);
@@ -308,26 +322,29 @@ public class SceneLabyrintheControleur {
     }
 
     private void ecranFinPartie() {
-        String text = "Vous avez atteint la sortie !";
         zoneLaby.setOnKeyPressed(null);
-        VBox ecranV = new VBox(20);
-        ecranV.setAlignment(Pos.CENTER);
-        ecranV.setId("overlayPause");
+        arreterTimer();
 
-        Label titre = new Label(text);
-        titre.getStyleClass().add("pause-titre");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/J4/sae_labyrinthe/fxml/OverlayVictoire.fxml"));
+            StackPane victoryOverlay = loader.load();
 
-        Button rejouer = new Button("Rejouer");
-        ajouterPause(rejouer);
-        rejouer.setOnAction(e -> relancerPartie());
+            Button btnRejouer = (Button) victoryOverlay.lookup("#btnRejouer");
+            Button btnQuitter = (Button) victoryOverlay.lookup("#btnQuitter");
 
-        Button quitter = new Button("Quitter");
-        ajouterPause(quitter);
-        quitter.setOnAction(e -> quitterPartie());
+            btnRejouer.setOnAction(e -> {
+                zoneGlobale.getChildren().remove(victoryOverlay);
+                relancerPartie();
+            });
 
-        ecranV.getChildren().addAll(titre, rejouer, quitter);
-        zoneGlobale.getChildren().add(ecranV);
-        StackPane.setAlignment(ecranV, Pos.CENTER);
+            btnQuitter.setOnAction(e -> quitterPartie());
+
+            zoneGlobale.getChildren().add(victoryOverlay);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur : Impossible de charger OverlayVictoire.fxml");
+        }
     }
 
     private void relancerPartie() {

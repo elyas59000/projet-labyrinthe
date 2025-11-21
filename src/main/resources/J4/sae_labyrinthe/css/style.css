@@ -76,10 +76,23 @@
 
 
 
-#overlayPause {
-    -fx-background-color: rgba(0, 0, 0, 0.75);
-    -fx-pref-width: 100%;
-    -fx-pref-height: 100%;
+#ScenePause {
+    -fx-background-color: rgba(0, 0, 0, 0.85); /* Fond sombre */
+}
+
+.menu-box {
+    -fx-background-color: #2b2b2b; /* Boîte grise opaque */
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+.pause-titre {
+    -fx-fill: white;
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
 }
 
 .pause-titre {

@@ -56,8 +56,8 @@ public class SceneModeLibreControleur {
 
     @FXML
     void initialize() {
-        champsHauteur.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(3, Integer.MAX_VALUE, 1));
-        champsLargeur.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(3, Integer.MAX_VALUE, 1));
+        champsHauteur.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(5, Integer.MAX_VALUE, 1));
+        champsLargeur.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(5,Integer.MAX_VALUE, 1));
         champsTauxMur.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
 
         setNumericOnly(champsHauteur);
