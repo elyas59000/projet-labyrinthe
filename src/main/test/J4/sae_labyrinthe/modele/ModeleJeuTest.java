@@ -125,11 +125,12 @@ class ModeleJeuTest {
     @Test
     void testDeplacerJoueur_DirectionInconnue() {
         // Arrange
-        modele.lancerPartieLibre(10, 10, 0, 0, null, false);
+        modele.lancerPartieLibre(10, 10, 0, 0, Biome.DESERT, false);
+
+        assertNotNull(modele.getPositionJoueur(), "La position de départ ne doit pas être nulle");
         Cellule depart = modele.getPositionJoueur();
 
-        // Act
-        modele.deplacerJoueur("zizou"); // N'importe quoi
+        modele.deplacerJoueur("zizou");
 
         // Assert
         assertEquals(depart, modele.getPositionJoueur(), "Le joueur ne doit pas bouger avec une commande invalide.");

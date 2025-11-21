@@ -153,9 +153,13 @@ class LabyrintheParfaitTest {
         Cellule ancienneSortie = laby.getSortie();
         laby.placerSortieA(distanceImpossible);
 
-        assertEquals(ancienneSortie, laby.getSortie(), "La sortie ne devrait pas changer si la distance est impossible.");
         assertNotNull(laby.getSortie());
         assertFalse(laby.getSortie().estMur());
+
+
+        assertNotEquals(laby.getEntree(), laby.getSortie());
+
+        assertTrue(unCheminExiste(laby), "La sortie de secours doit être accessible.");
 
     }
 }
