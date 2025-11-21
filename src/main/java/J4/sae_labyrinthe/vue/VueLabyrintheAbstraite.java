@@ -18,8 +18,8 @@ public abstract class VueLabyrintheAbstraite extends Pane implements IObserver {
     protected GraphicsContext gc;
     protected Image sortie;
     protected ImageView joueur;
-    protected final int LARGEUR_ZONE = 1280;
-    protected final int HAUTEUR_ZONE = 650;
+    protected final int LARGEUR_ZONE = 1500;
+    protected final int HAUTEUR_ZONE = 750;
     protected final int TAILLE_TEXTURE = 128;
     protected int tileSize;
     protected int offsetX;
@@ -46,32 +46,22 @@ public abstract class VueLabyrintheAbstraite extends Pane implements IObserver {
         offsetX = (LARGEUR_ZONE - tileSize * largeur) / 2;
         offsetY = (HAUTEUR_ZONE - tileSize * hauteur) / 2;
     }
-    protected void dessinerMur(Cellule c) {
-        int px = offsetX + c.getX() * tileSize;
-        int py = offsetY + c.getY() * tileSize;
+    protected void dessinerMur(Cellule c,int px,int py) {
         Image texture = choixTexturesMur(modele, c);
-        Image recolor = ImageOutils.recolorTexture(texture, modele.getBiome().getPalette());
-        gc.drawImage(recolor, px, py, tileSize, tileSize);
+        gc.drawImage(texture, px, py, tileSize, tileSize);
     }
-    protected void dessinerAngleInterieur(Cellule c) {
-        int px = offsetX + c.getX() * tileSize;
-        int py = offsetY + c.getY() * tileSize;
+    protected void dessinerAngleInterieur(Cellule c,int px,int py) {
         List<Image> listeCoin = choixTextureAngleInterne(modele,c);
         for(Image i : listeCoin){
-            Image recolored = ImageOutils.recolorTexture(i, modele.getBiome().getPalette());
-            gc.drawImage(recolored, px, py, tileSize, tileSize);
+            gc.drawImage(i, px, py, tileSize, tileSize);
         }
     }
-    protected void dessinerSol(Cellule c) {
-        int px = offsetX + c.getX() * tileSize;
-        int py = offsetY + c.getY() * tileSize;
+    protected void dessinerSol(Cellule c,int px,int py) {
         gc.drawImage(modele.getBiome().getSol(), px, py, tileSize, tileSize);
-        dessinerAngleInterieur(c);
+        dessinerAngleInterieur(c,px,py);
     }
-    protected void dessinerSortie(Cellule c) {
-        dessinerSol(c);
-        int px = offsetX + c.getX() * tileSize;
-        int py = offsetY + c.getY() * tileSize;
+    protected void dessinerSortie(Cellule c,int px,int py) {
+        dessinerSol(c,px,py);
         gc.drawImage(sortie, px, py, tileSize, tileSize);
     }
 
@@ -101,13 +91,13 @@ public abstract class VueLabyrintheAbstraite extends Pane implements IObserver {
     }
     protected Image choixTexturesMur(ModeleJeu modele, Cellule cellule) {
         String chemin = ImageOutils.choixTextureMurComplet(modele, cellule);
-        return CacheMemoire.getImage(chemin);
+        return CacheMemoire.getTextureForBiome(chemin,modele.getBiome());
     }
     protected  List<Image> choixTextureAngleInterne(ModeleJeu modele, Cellule cellule) {
         List<String> listeNomAngles=ImageOutils.choixTextureAngleInterne(modele,cellule);
         List<Image> listeImageAngles=new ArrayList<>();
         for(String nomAngle:listeNomAngles){
-            listeImageAngles.add(CacheMemoire.getImage(nomAngle));
+            listeImageAngles.add(CacheMemoire.getTextureForBiome(nomAngle,modele.getBiome()));
         }
         return  listeImageAngles;
     }

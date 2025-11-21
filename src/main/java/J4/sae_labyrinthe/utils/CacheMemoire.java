@@ -1,5 +1,6 @@
 package J4.sae_labyrinthe.utils;
 
+import J4.sae_labyrinthe.vue.Biome;
 import javafx.scene.image.Image;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Objects;
 public class CacheMemoire {
 
     private static final Map<String, Image> cache=new HashMap<>();
+    private static final Map<Biome, Map<String, Image>> cacheBiomes = new HashMap<>();
     private static final String path= "/J4/sae_labyrinthe/assets/textures/blocks/";
 
     public static void chargementTextures(){
@@ -111,6 +113,7 @@ public class CacheMemoire {
         chargementBiome();
         chargerAutre();
     }
+
     private static void chargementBiome(){
         String desert="/J4/sae_labyrinthe/assets/textures/biome/desert/";
         String sol="sol0.png";
@@ -123,9 +126,27 @@ public class CacheMemoire {
             cache.put(key, new Image(Objects.requireNonNull(CacheMemoire.class.getResourceAsStream(key))));
         }
     }
+
     private static void chargerAutre(){
         cache.put("souris0.png",new Image(Objects.requireNonNull(CacheMemoire.class.getResourceAsStream("/J4/sae_labyrinthe/assets/textures/souris0.png"))));
     }
+
+    public static void preloadAllBiomes() {
+        for (Biome biome : Biome.values()) {
+            Map<String, Image> recolored = new HashMap<>();
+            for (String key : cache.keySet()) {
+                Image base = cache.get(key);
+                Image recoloredImg = ImageOutils.recolorTexture(base, biome.getPalette());
+                recolored.put(key, recoloredImg);
+            }
+            cacheBiomes.put(biome, recolored);
+        }
+    }
+
+    public static Image getTextureForBiome(String textureKey, Biome biome) {
+        return cacheBiomes.get(biome).get(textureKey);
+    }
+
     public static Image getImage(String key) {
         return cache.get(key);
     }
