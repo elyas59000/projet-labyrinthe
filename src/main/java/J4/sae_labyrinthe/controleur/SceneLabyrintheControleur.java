@@ -49,6 +49,10 @@ public class SceneLabyrintheControleur {
     private final VueLabyrintheEntier vueEntiere = new VueLabyrintheEntier(modele,false,false);
     private final VueLabyrinthePartielle vuePartielle = new VueLabyrinthePartielle(modele, RANGE);
     private final VueLabyrintheMap vueMiniMap= new VueLabyrintheMap(modele,false,false,false,false);
+    public CheckBox printJoueur;
+    public CheckBox printSortie;
+    public CheckBox murADecouvrir;
+    public CheckBox decouvertePersistante;
 
 // Avant :
 // private VBox menuPause;
@@ -401,17 +405,58 @@ public class SceneLabyrintheControleur {
                 vuePartielle.setRange(newVal);
                 setVueActive(vuePartielle,true);
             }
+            if(printJoueur.isSelected()) {
+                vueMiniMap.setPrintJoueur(true);
+                setVueActive(vuePartielle,true);
+            }
         });
+
 
         modeDeVue.setOnAction(e -> {
             boolean vueLocaleActive = modeDeVue.isSelected();
             rangeVue.setDisable(!vueLocaleActive);
             if (vueLocaleActive) {
                 setVueActive(vuePartielle,true);
+                printJoueur.setDisable(false);
+                printSortie.setDisable(false);
+                murADecouvrir.setDisable(false);
             } else {
                 setVueActive(vueEntiere,false);
+                printJoueur.setDisable(true);
+                printSortie.setDisable(true);
+                murADecouvrir.setDisable(true);
+                printJoueur.setSelected(false);
+                printSortie.setSelected(false);
+                murADecouvrir.setSelected(false);
+                decouvertePersistante.setSelected(false);
             }
         });
+        printJoueur.setOnAction(e ->{
+            boolean printJ = printJoueur.isSelected();
+            setVueActive(vuePartielle,true);
+        });
+        printSortie.setOnAction(e ->{
+            boolean printS = printSortie.isSelected();
+            vueMiniMap.setPrintSortie(printS);
+            setVueActive(vuePartielle,true);
+        });
+        murADecouvrir.setOnAction(e ->{
+            boolean mur = murADecouvrir.isSelected();
+            if (mur){
+                vueMiniMap.setMurADecouvrir(true);
+                decouvertePersistante.setDisable(false);
+                setVueActive(vuePartielle,true);
+            }else {
+                decouvertePersistante.setDisable(true);
+                setVueActive(vuePartielle,true);
+            }
+        });
+        decouvertePersistante.setOnAction(e ->{
+            boolean decouverte = decouvertePersistante.isSelected();
+            vueMiniMap.setDecouvertePersistante(decouverte);
+            setVueActive(vuePartielle,true);
+        });
+
     }
 
     /**

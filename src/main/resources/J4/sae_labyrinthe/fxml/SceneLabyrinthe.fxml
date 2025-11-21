@@ -7,6 +7,8 @@
 <?import javafx.scene.layout.Region?> <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.text.Font?>
 <StackPane fx:id="zoneGlobale" stylesheets="@../css/styleLaby.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="J4.sae_labyrinthe.controleur.SceneLabyrintheControleur">
     <children>
         <BorderPane>
@@ -35,6 +37,38 @@
                     <BorderPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </BorderPane.margin>
+                    <CheckBox fx:id="printJoueur" text="Afficher le joueur" mnemonicParsing="false" disable="true">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                        <style>
+                            -fx-text-fill: black;
+                        </style>
+                    </CheckBox>
+                    <CheckBox fx:id="printSortie" text="Afficher la sortie" mnemonicParsing="false" disable="true">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                        <style>
+                            -fx-text-fill: black;
+                        </style>
+                    </CheckBox>
+                    <CheckBox fx:id="murADecouvrir" text="Mur à découvrir" mnemonicParsing="false" disable="true">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                        <style>
+                            -fx-text-fill: black;
+                        </style>
+                    </CheckBox>
+                    <CheckBox fx:id="decouvertePersistante" text="Découverte persistante" mnemonicParsing="false" disable="true">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                        <style>
+                            -fx-text-fill: black;
+                        </style>
+                    </CheckBox>
                 </HBox>
             </top>
 
