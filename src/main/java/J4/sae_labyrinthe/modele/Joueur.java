@@ -168,7 +168,7 @@ public class Joueur implements IJoueur, Serializable {
     }
 
     public String getQuantiteItem(String nomItem) {
-        if (nomItem == null) return "0";
+        if (nomItem == null && this.inventaires.isEmpty()) return "0";
 
         for (Map.Entry<IItem, Integer> entry : inventaires.entrySet()) {
             IItem item = entry.getKey();

@@ -107,6 +107,39 @@ Nous implémentons deux algorithmes de géneration pour le labyrinthe parfait :
 - **L'Algorithme de parcours en profondeur vue en TP**
 - **L'Algorithme de Fusions Aléatoire des Chemins (Kruskal)**
 
+
+# Structures de données dans LabyrintheParfait
+
+## Localisation de l'algorithme
+- **Classe** : `LabyrintheParfait`
+- **Méthode principale** : `generationFusionAleatoire()`,`generationLaby()`
+- **Méthodes auxiliaires** :
+    - `creuser(int cx, int cy)`
+    - `creuserMur(int x1, int y1, int x2, int y2)`
+    - `positionAleaCell()`
+    - `listAccesSortie()`
+    - `choisiCellAlea(List<Cellule> accessibles)`
+
+---
+
+## Structures de données utilisées
+
+### 3. Pile (`Stack<int[]>`)
+- **Utilisation** : Dans `generationLaby()` pour effectuer un parcours en profondeur (DFS) afin de générer le labyrinthe.
+- **Justification** : Permet de revenir sur les cellules précédentes lorsqu’un chemin n’a plus de voisins non visités, ce qui est essentiel pour un DFS itératif.
+
+### 4. Liste dynamique (`ArrayList`)
+- **Utilisation** :
+    - Stockage des voisins non visités dans `generationLaby()`.
+    - Stockage des murs candidats dans `generationFusionAleatoire()`.
+    - Stockage des cellules accessibles dans `listAccesSortie()`.
+    - Stockage des cellules candidates pour la sortie dans `placerSortieA()`.
+- **Justification** : Permet d’avoir un conteneur dynamique dont la taille varie selon le contexte. Permet aussi de mélanger aléatoirement les éléments via `Collections.shuffle()` pour générer des labyrinthes imprévisibles.
+
+### 5. Union-Find (`UnionFind`)
+- **Utilisation** : Dans `generationFusionAleatoire()` pour gérer la fusion des cellules lors de la suppression aléatoire des murs.
+- **Justification** : Permet de vérifier rapidement si deux cellules appartiennent au même ensemble et d’unir des ensembles, garantissant que le labyrinthe reste parfait (connecté et sans cycles).
+
 ### Pseudo code de l'Algorithme de parcours en profondeur
      
      Visite = tableau à deux dimensions de booléens de même taille que le labyrinthe. Ce tableau
