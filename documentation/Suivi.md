@@ -130,7 +130,11 @@
 >   - Adaptation des nouvelles vues crée par mes camarades à ce nouveau systeme
 >     - On a donc desormais 3 vues (entières, partielles, minimap) qui pour les 2 dernières prennent des paramètres pour modifier leur comportement (exemple : la minicarte peut afficher ou non le joueur ou/la sortie).
 > - Correction du bug du laby-parfait (inversion du i,j dans new Cellule lors de la création de la grille)
-> 
+> - Optimisation de l'affichage des vues, on peut charger des labys de 200*200 en moins de 1s.
+> - Creation des autres biomes : plaine ,neige, foret,grotte,enfer
+> - Creation d'une classe fog pour unifier le traitement du brouillard possible dans les vues entiere et minimap
+> - Revue de code dans le controleur du labyrinthe : on a maintenant une attribution correcte de vues attendues pour chaque etape de la progression + on ne fait plus jamais 2 new...vue 1 seule instance pour chacune des vues -> diminue la charge processeur.
+>
 >**Elyas** : 
 > - création de test pour le modéle et utils
 > 
