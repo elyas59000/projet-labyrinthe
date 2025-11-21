@@ -81,21 +81,40 @@ public class SceneLabyrintheControleur {
 
         }
 
-        if(!modele.isPartieLibre()){
-            switch (modele.etapeChoisi()) {
-                case 1,2,4 -> {
+        if (modele.isPartieLibre()) {
+            // === MODE LIBRE ===
+            afficherCheckBox();
+            if(modele.getLabyrinthe().getHauteur()>60 || modele.getLabyrinthe().getLargeur()>80) {
+                setVueActive(vuePartielle,true);
+                modeDeVue.setSelected(true);
+                rangeVue.setDisable(false);
+            } else {
+                // Gestion du brouillard en Mode Libre
+                if (modele.isAvecBrouillard()) {
+                    vueEntiere.setDecouvertePersistante(false);
+                    vueEntiere.setaDecouvrir(true);
+                    vueEntiere.setRAYON_DECOUVERTE(3);
                     setVueActive(vueEntiere, false);
-
+                } else {
+                    setVueActive(vueEntiere, false);
                 }
-
+            }
+        }
+        else if (modele.getPartieDuJourEnCours() || modele.isPartieContreLaMontre()) {
+            // === MODES SPÉCIAUX (Jour / Contre la Montre) ===
+            // On affiche la vue entière par défaut
+            setVueActive(vueEntiere, false);
+        }
+        else {
+            // === MODE PROGRESSION (Par étapes) ===
+            // On ne rentre ici que si c'est vraiment une étape de progression
+            switch (modele.etapeChoisi()) {
+                case 1,2,4 -> setVueActive(vueEntiere,false);
                 case 3 -> {
                     vuePartielle.setRange(3);
                     setVueActive(vuePartielle,true);
-
-
                 }
                 case 5 -> {
-
                     VueLabyrintheEntier vueAvecBrouillard = new VueLabyrintheEntier(modele, true, false);
                     int rayon = switch (modele.getDefiChoisi()) {
                         case 1 -> 3;
@@ -105,7 +124,6 @@ public class SceneLabyrintheControleur {
                     };
                     vueAvecBrouillard.setRAYON_DECOUVERTE(rayon);
                     setVueActive(vueAvecBrouillard, false);
-
                 }
                 case 6 -> {
                     vueMiniMap.setPrintJoueur(true);
@@ -119,25 +137,9 @@ public class SceneLabyrintheControleur {
                     };
                     vuePartielle.setRange(rayon);
                     setVueActive(vuePartielle,true);
-
                 }
-            }
-
-        }else{
-            afficherCheckBox();
-            if(modele.getLabyrinthe().getHauteur()>60 || modele.getLabyrinthe().getLargeur()>80) {
-                setVueActive(vuePartielle,true);
-                modeDeVue.setSelected(true);
-                rangeVue.setDisable(false);
-
-            }else{
-                if (modele.isAvecBrouillard()) {
-                    vueEntiere.setDecouvertePersistante(false);
-                    vueEntiere.setaDecouvrir(true);
-                    vueEntiere.setRAYON_DECOUVERTE(3);
-                    setVueActive(vueEntiere, false);
-                } else {
-                    // Sinon on utilise la vue standard pré-chargée
+                default -> {
+                    // Sécurité si l'étape est inconnue (ex: -1)
                     setVueActive(vueEntiere, false);
                 }
             }
