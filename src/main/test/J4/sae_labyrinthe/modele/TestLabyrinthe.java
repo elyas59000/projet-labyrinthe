@@ -45,7 +45,7 @@ public class TestLabyrinthe {
 
     @Test
     void testDeplacementJoueur() throws IOException {
-        modele.lancerPartieLibre(15,20,0,0,modele.getBiome());
+        modele.lancerPartieLibre(15,20,0,0,modele.getBiome(),false);
         assertEquals(0,((ModeleJeu)modele).getPositionJoueur().getX());
         assertEquals(0,((ModeleJeu)modele).getPositionJoueur().getY());
 
@@ -100,7 +100,7 @@ public class TestLabyrinthe {
     @Test
     void testDeplacementJoueurCollison() throws IOException {
 
-        modele.lancerPartieLibre(15, 20, 0,0,modele.getBiome());
+        modele.lancerPartieLibre(15, 20, 0,0,modele.getBiome(),false);
         Cellule positionInitiale = ((ModeleJeu) modele).getPositionJoueur();
         assertEquals(0, positionInitiale.getX());
         assertEquals(0, positionInitiale.getY());

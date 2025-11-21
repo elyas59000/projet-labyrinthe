@@ -7,10 +7,7 @@ import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.SceneManager;
 import J4.sae_labyrinthe.vue.Biome;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
@@ -38,6 +35,9 @@ public class SceneModeLibreControleur {
 
     @FXML
     private Spinner<Integer> champsDistance;
+
+    @FXML
+    private CheckBox checkBrouillard;
 
     private boolean modeParfaitActif = false;
 
@@ -130,6 +130,7 @@ public class SceneModeLibreControleur {
         }
         int d;
         int taux;
+        boolean avecBrouillard = checkBrouillard.isSelected();
         if (modeParfaitActif) {
             d = champsDistance.getValue();
             taux = 0;
@@ -138,7 +139,7 @@ public class SceneModeLibreControleur {
             d = 0;
         }
 
-        modeleJeu.lancerPartieLibre(l, h, taux,d,Biome.DESERT);
+        modeleJeu.lancerPartieLibre(l, h, taux,d,Biome.DESERT,avecBrouillard);
         SceneManager.chargerScene("SceneLabyrinthe");
     }
 
