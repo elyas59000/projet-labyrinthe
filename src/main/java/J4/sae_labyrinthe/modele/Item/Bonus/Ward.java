@@ -21,16 +21,11 @@ public class Ward implements IItem {
 
     @Override
     public void applyEffect() {
-        if (!applied) {
-            modele.setWard(modele.getPositionJoueur(), value);
-        }
-        applied=true;
-
+        // no effect, la presence meme de la ward est suffisante
     }
 
     @Override
     public void removeSelf() {
-        modele.removeWard();
         modele.removeItem(this);
     }
 
@@ -42,6 +37,11 @@ public class Ward implements IItem {
     @Override
     public int isBonus() {
         return 1;
+    }
+
+    @Override
+    public String getNom() {
+        return "vision";
     }
 
     @Override

@@ -1,12 +1,16 @@
 package J4.sae_labyrinthe.vue;
 
 import J4.sae_labyrinthe.modele.*;
+import J4.sae_labyrinthe.modele.Item.IItem;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class VueLabyrintheMap extends VueLabyrintheAbstraite {
 

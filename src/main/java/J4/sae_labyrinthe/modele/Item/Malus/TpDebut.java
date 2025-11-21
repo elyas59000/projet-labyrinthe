@@ -43,6 +43,11 @@ public class TpDebut implements IItem {
     }
 
     @Override
+    public String getNom() {
+        return "tpdebut";
+    }
+
+    @Override
     public String toString(){
         return "TpDebut";
     };

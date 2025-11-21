@@ -18,7 +18,6 @@ class BonusTest {
         modele = new ModeleJeu();
         modele.lancerPartieLibre(10, 10, 0, 0, null, false);
         modele.nouveauListItem();
-        modele.setWard(new HashMap<>());
     }
 
     @Test
@@ -31,20 +30,20 @@ class BonusTest {
 
 
         assertNotNull(modele.getPositionJoueur());
-        // On vérifie surtout que ça ne plante pas et que l'effet est appliqué
         assertEquals(1, tp.isBonus());
     }
 
     @Test
     void testWard() {
         Ward ward = new Ward(modele, 5);
-        assertTrue(modele.getWard().isEmpty(), "Pas de ward au début");
+
+        assertTrue(modele.getWards().isEmpty(), "Pas de ward au début");
 
         ward.applyEffect();
-        assertNotNull(modele.getWard(), "La ward doit être posée");
+        assertTrue(modele.getWards().isEmpty(), "La ward doit être posée");
 
         ward.removeSelf();
-        assertTrue(modele.getWard().isEmpty(), "La ward doit être retirée.");
+        assertTrue(modele.getWards().isEmpty(), "La ward doit être retirée.");
     }
 
     @Test

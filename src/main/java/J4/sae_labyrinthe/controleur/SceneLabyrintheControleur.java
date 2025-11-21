@@ -73,21 +73,46 @@ public class SceneLabyrintheControleur {
         zoneLaby.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         vueMiniMap.setPrefWidth(LARGEUR_MINI_MAP);vueMiniMap.setMaxWidth(LARGEUR_MINI_MAP);vueMiniMap.setMinWidth(LARGEUR_MINI_MAP);vueMiniMap.setPrefHeight(LARGEUR_MINI_MAP);vueMiniMap.setMinHeight(LARGEUR_MINI_MAP);vueMiniMap.setMaxHeight(LARGEUR_MINI_MAP);
         ILabyrinthe laby = modele.getLabyrinthe();
+
         info1.setText("Hauteur du Labyrinthe : " + (laby.getHauteur()-2) + " cases");
         info2.setText("Largeur du Labyrinthe : " + (laby.getLargeur()-2) + " cases");
         if(laby instanceof Labyrinthe) {
             info3.setText("Taux de mur : " + ((Labyrinthe) laby).getPourcentageMurs() + " %");
-        }
-        modele.genererItems(5);
-        modele.nouveauListItem();
 
-        if(!modele.isPartieLibre()){
+        }
+
+        if (modele.isPartieLibre()) {
+            // === MODE LIBRE ===
+            afficherCheckBox();
+            if(modele.getLabyrinthe().getHauteur()>60 || modele.getLabyrinthe().getLargeur()>80) {
+                setVueActive(vuePartielle,true);
+                modeDeVue.setSelected(true);
+                rangeVue.setDisable(false);
+            } else {
+                // Gestion du brouillard en Mode Libre
+                if (modele.isAvecBrouillard()) {
+                    vueEntiere.setDecouvertePersistante(false);
+                    vueEntiere.setaDecouvrir(true);
+                    vueEntiere.setRAYON_DECOUVERTE(3);
+                    setVueActive(vueEntiere, false);
+                } else {
+                    setVueActive(vueEntiere, false);
+                }
+            }
+        }
+        else if (modele.getPartieDuJourEnCours() || modele.isPartieContreLaMontre()) {
+            // === MODES SPÉCIAUX (Jour / Contre la Montre) ===
+            // On affiche la vue entière par défaut
+            setVueActive(vueEntiere, false);
+        }
+        else {
+            // === MODE PROGRESSION (Par étapes) ===
+            // On ne rentre ici que si c'est vraiment une étape de progression
             switch (modele.etapeChoisi()) {
                 case 1,2,4 -> setVueActive(vueEntiere,false);
                 case 3 -> {
                     vuePartielle.setRange(3);
                     setVueActive(vuePartielle,true);
-
                 }
                 case 5 -> {
                     VueLabyrintheEntier vueAvecBrouillard = new VueLabyrintheEntier(modele, true, false);
@@ -112,24 +137,9 @@ public class SceneLabyrintheControleur {
                     };
                     vuePartielle.setRange(rayon);
                     setVueActive(vuePartielle,true);
-
                 }
-            }
-        }else{
-            afficherCheckBox();
-            if(modele.getLabyrinthe().getHauteur()>60 || modele.getLabyrinthe().getLargeur()>80) {
-                setVueActive(vuePartielle,true);
-                modeDeVue.setSelected(true);
-                rangeVue.setDisable(false);
-
-            }else{
-                if (modele.isAvecBrouillard()) {
-                    vueEntiere.setDecouvertePersistante(false);
-                    vueEntiere.setaDecouvrir(true);
-                    vueEntiere.setRAYON_DECOUVERTE(3);
-                    setVueActive(vueEntiere, false);
-                } else {
-                    // Sinon on utilise la vue standard pré-chargée
+                default -> {
+                    // Sécurité si l'étape est inconnue (ex: -1)
                     setVueActive(vueEntiere, false);
                 }
             }
@@ -219,10 +229,7 @@ public class SceneLabyrintheControleur {
                         if (modele.getPositionJoueur().equals(modele.getSortie())) {
                             ecranFinPartie();
                             stop();
-                        } else if (modele.isCellAnItem(modele.getPositionJoueur())) {
-                            modele.prendreItem();
                         }
-
                         lastMoveTime = now;
                     }
                 }
@@ -282,6 +289,7 @@ public class SceneLabyrintheControleur {
             String sceneCible;
             if (modele.isPartieContreLaMontre()) {
                 sceneCible = "SceneContreLaMontre";
+                modele.setPartieContreLaMontre(false);
             } else {
                 sceneCible = modele.getPartie();
             }

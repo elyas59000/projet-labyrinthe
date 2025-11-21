@@ -1,9 +1,19 @@
 package J4.sae_labyrinthe.modele;
 
-import J4.sae_labyrinthe.utils.UnionFind;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Random;
+import java.util.Stack;
 
-import java.io.*;
-import java.util.*;
+import J4.sae_labyrinthe.utils.UnionFind;
 
 public class LabyrintheParfait implements ILabyrinthe, Serializable {
     private static final long serialVersionUID = 1L;
@@ -37,7 +47,7 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         generationFusionAleatoire();
 
         creerEntree();
-        sortie = grille[gridHauteur - 2][gridLargeur - 2];
+        sortie = grille[gridHauteur / 2 - 1][gridLargeur / 2- 1];
         placerSortieA(distance);
     }
 
@@ -56,6 +66,72 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
             }
         }
     }
+
+    /**
+     *
+     * @return Cellule aleatoire de laquelle on peut acceder a la sortie
+     */
+    public Cellule positionAleaCell() {
+        // Assure que la sortie existe et est libre
+        if (sortie == null) {
+            return null;
+        }
+
+        List<Cellule> accessibles = listAccesSortie();
+
+        return choisiCellAlea(accessibles);
+    }
+
+    public List<Cellule> listAccesSortie(){
+        boolean[][] visite = new boolean[hauteur][largeur];
+        Queue<int[]> file = new LinkedList<>();
+        List<Cellule> accessibles = new ArrayList<>();
+
+        // Convertir la sortie (coordonnées grille) en coordonnées jouables
+        int startX = (sortie.getX() - 1) / 2;
+        int startY = (sortie.getY() - 1) / 2;
+        visite[startY][startX] = true;
+        file.add(new int[]{startX, startY});
+
+        int[][] dirs = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+
+        while (!file.isEmpty()) {
+            int[] c = file.poll();
+            int cx = c[0], cy = c[1];
+
+            // Ajouter la cellule correspondante dans la grille (conversion en coords grille)
+            accessibles.add(grille[cy * 2 + 1][cx * 2 + 1]);
+
+            for (int[] d : dirs) {
+                int nx = cx + d[0];
+                int ny = cy + d[1];
+                if (nx >= 0 && nx < largeur && ny >= 0 && ny < hauteur) {
+                    // vérifier le mur entre (cx,cy) et (nx,ny) en coordonnées grille
+                    int mx = cx * 2 + 1 + d[0];
+                    int my = cy * 2 + 1 + d[1];
+                    if (!visite[ny][nx] && !grille[my][mx].estMur()) {
+                        visite[ny][nx] = true;
+                        file.add(new int[]{nx, ny});
+                    }
+                }
+            }
+        }
+        return accessibles;
+    }
+
+    public Cellule choisiCellAlea(List<Cellule> accessibles){
+        // Choisir aléatoirement une cellule accessible différente de la sortie
+        Random r = new Random();
+        if (accessibles == null || accessibles.isEmpty()) return null;
+        if (accessibles.size() == 1) return accessibles.get(0);
+
+        Cellule choisie;
+        do {
+            choisie = accessibles.get(r.nextInt(accessibles.size()));
+        } while (choisie == sortie && accessibles.size() > 1);
+        return choisie;
+    }
+
 
     private void generationLaby() {
         boolean[][] visite = new boolean[hauteur][largeur]; // cellules jouables
@@ -210,11 +286,8 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         }
 
         Queue<int[]> file = new LinkedList<>();
-
-        // Coordonnées jouables (pas dans la grille complète)
-        int startX = (this.entree.getX() - 1) / 2;
-        int startY = (this.entree.getY() - 1) / 2;
-
+        int startX = (this.entree.getX()-1)/2;
+        int startY = (this.entree.getY()-1)/2;
         dist[startY][startX] = 0;
         file.add(new int[]{startX, startY});
 
@@ -239,8 +312,9 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
                 int nx = cx + dir[0];
                 int ny = cy + dir[1];
 
-                // Si hors des cellules jouables : ignorer
                 if (nx < 0 || nx >= largeur || ny < 0 || ny >= hauteur) continue;
+
+
 
                 // Coordonnées du mur dans la grande grille
                 int mx = (cx * 2 + 1) + dir[0];
@@ -277,12 +351,6 @@ public class LabyrintheParfait implements ILabyrinthe, Serializable {
         sortie.setMur(false);
     }
 
-
-    @Override
-    public Cellule positionAleaCell() {
-        // TODO : cf Labyrinthe simple
-        return null;
-    }
     public boolean posValide(int x, int y) {
         return x >= 0 && x < largeur && y >= 0 && y < hauteur;
     }

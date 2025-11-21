@@ -45,6 +45,11 @@ public class TP implements IItem {
     }
 
     @Override
+    public String getNom() {
+        return "teleportation";
+    }
+
+    @Override
     public String toString(){
         return "TP";
     };
