@@ -73,23 +73,29 @@ public class SceneLabyrintheControleur {
         zoneLaby.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         vueMiniMap.setPrefWidth(LARGEUR_MINI_MAP);vueMiniMap.setMaxWidth(LARGEUR_MINI_MAP);vueMiniMap.setMinWidth(LARGEUR_MINI_MAP);vueMiniMap.setPrefHeight(LARGEUR_MINI_MAP);vueMiniMap.setMinHeight(LARGEUR_MINI_MAP);vueMiniMap.setMaxHeight(LARGEUR_MINI_MAP);
         ILabyrinthe laby = modele.getLabyrinthe();
+
         info1.setText("Hauteur du Labyrinthe : " + (laby.getHauteur()-2) + " cases");
         info2.setText("Largeur du Labyrinthe : " + (laby.getLargeur()-2) + " cases");
         if(laby instanceof Labyrinthe) {
             info3.setText("Taux de mur : " + ((Labyrinthe) laby).getPourcentageMurs() + " %");
+
         }
-        modele.genererItems(5);
-        modele.nouveauListItem();
 
         if(!modele.isPartieLibre()){
             switch (modele.etapeChoisi()) {
-                case 1,2,4 -> setVueActive(vueEntiere,false);
+                case 1,2,4 -> {
+                    setVueActive(vueEntiere, false);
+
+                }
+
                 case 3 -> {
                     vuePartielle.setRange(3);
                     setVueActive(vuePartielle,true);
 
+
                 }
                 case 5 -> {
+
                     VueLabyrintheEntier vueAvecBrouillard = new VueLabyrintheEntier(modele, true, false);
                     int rayon = switch (modele.getDefiChoisi()) {
                         case 1 -> 3;
@@ -99,6 +105,7 @@ public class SceneLabyrintheControleur {
                     };
                     vueAvecBrouillard.setRAYON_DECOUVERTE(rayon);
                     setVueActive(vueAvecBrouillard, false);
+
                 }
                 case 6 -> {
                     vueMiniMap.setPrintJoueur(true);
@@ -115,6 +122,7 @@ public class SceneLabyrintheControleur {
 
                 }
             }
+
         }else{
             afficherCheckBox();
             if(modele.getLabyrinthe().getHauteur()>60 || modele.getLabyrinthe().getLargeur()>80) {
