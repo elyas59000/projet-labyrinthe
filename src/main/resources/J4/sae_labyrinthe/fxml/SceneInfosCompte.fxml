@@ -41,12 +41,12 @@
             <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
          </GridPane.margin>
       </VBox>
-      <Button onMouseClicked="#allerSceneModifProfil" prefHeight="70.0" prefWidth="158.0" text="Modifier profil" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Button onMouseClicked="#allerSceneModifProfil" prefHeight="70.0" prefWidth="158.0" text="MODIFIER PROFIL" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="50.0" right="50.0" />
          </GridPane.margin>
       </Button>
-      <Button id="buttonDeconnexion" onMouseClicked="#deconnexion" prefHeight="70.0" prefWidth="267.0" text="Déconnexion" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Button id="buttonDeconnexion" onMouseClicked="#deconnexion" prefHeight="70.0" prefWidth="267.0" text="DECONNEXION" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="50.0" />
          </GridPane.margin>
