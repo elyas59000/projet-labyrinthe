@@ -71,10 +71,15 @@ public abstract class VueLabyrintheAbstraite extends Pane implements IObserver {
         double targetX = offsetX + pos.getX() * tileSize;
         double targetY = offsetY + pos.getY() * tileSize;
 
+        double currentX = joueur.getTranslateX();
+        double currentY = joueur.getTranslateY();
+
+        double dist = Math.abs(targetX - currentX) + Math.abs(targetY - currentY);
+
         joueur.setFitWidth(tileSize);
         joueur.setFitHeight(tileSize);
 
-        double dist = Math.abs(targetX - joueur.getTranslateX()) + Math.abs(targetY - joueur.getTranslateY());
+        joueur.toFront();
 
         if (dist > tileSize * 1.5) {
             animationJoueur.stop();
@@ -82,13 +87,27 @@ public abstract class VueLabyrintheAbstraite extends Pane implements IObserver {
             joueur.setTranslateY(targetY);
         }
         else {
+            if (targetY < currentY - 0.1) {
+                joueur.setImage(CacheMemoire.getImage("souris2.png")); // Dos
+            }
+            else if (targetY > currentY + 0.1) {
+                joueur.setImage(CacheMemoire.getImage("souris3.png")); // Face
+            }
+            else if (targetX < currentX - 0.1) {
+                joueur.setImage(CacheMemoire.getImage("souris1.png")); // Gauche
+            }
+            else if (targetX > currentX + 0.1) {
+                joueur.setImage(CacheMemoire.getImage("souris0.png")); // Droite
+            }
+
             animationJoueur.stop();
             animationJoueur.setToX(targetX);
             animationJoueur.setToY(targetY);
-
             animationJoueur.play();
         }
     }
+
+
     protected Image choixTexturesMur(ModeleJeu modele, Cellule cellule) {
         String chemin = ImageOutils.choixTextureMurComplet(modele, cellule);
         return CacheMemoire.getTextureForBiome(chemin,modele.getBiome());

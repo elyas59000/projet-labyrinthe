@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.CheckBox?>
 
 <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="J4.sae_labyrinthe.controleur.SceneModeLibreControleur">
    <columnConstraints>
@@ -80,6 +81,15 @@
                             text="Distance minimale :"/>
 
                       <Spinner fx:id="champsDistance" editable="true" prefHeight="42.0" prefWidth="125.0"/>
+                  </children>
+              </HBox>
+              <HBox prefHeight="100.0" prefWidth="200.0" spacing="95.0">
+                  <children>
+                      <Text id="textBrouillard" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Brouillard :"> </Text>
+                      <CheckBox fx:id="checkBrouillard" mnemonicParsing="false">
+                          <font>
+                              <Font size="16.0" /> </font>
+                      </CheckBox>
                   </children>
               </HBox>
 

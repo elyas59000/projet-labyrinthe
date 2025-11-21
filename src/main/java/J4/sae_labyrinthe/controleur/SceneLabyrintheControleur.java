@@ -123,7 +123,15 @@ public class SceneLabyrintheControleur {
                 rangeVue.setDisable(false);
 
             }else{
-                setVueActive(vueEntiere,false);
+                if (modele.isAvecBrouillard()) {
+                    vueEntiere.setDecouvertePersistante(false);
+                    vueEntiere.setaDecouvrir(true);
+                    vueEntiere.setRAYON_DECOUVERTE(3);
+                    setVueActive(vueEntiere, false);
+                } else {
+                    // Sinon on utilise la vue standard pré-chargée
+                    setVueActive(vueEntiere, false);
+                }
             }
         }
 
@@ -318,13 +326,13 @@ public class SceneLabyrintheControleur {
         try {
             if (modele.isPartieContreLaMontre()) {
                 modele.lancerContreLaMontre(ParametresContreLaMontre.getInstance());
-
             }
             else if (modele.isPartieLibre()) {
                 int t;
                 int l = modele.getLabyrinthe().getLargeur();
                 int h = modele.getLabyrinthe().getHauteur();
                 int d;
+                boolean brouillard = modele.isAvecBrouillard();
                 if(modele.getLabyrinthe() instanceof LabyrintheParfait) {
                     t = 0;
                     d = (int) ((LabyrintheParfait)modele.getLabyrinthe()).getDistance();
@@ -340,7 +348,8 @@ public class SceneLabyrintheControleur {
                         h,
                         t,
                         d,
-                        modele.getBiome());
+                        modele.getBiome(),
+                        brouillard);
             } else if (modele.getPartieDuJourEnCours()) {
                 modele.lancerLabyrintheDuJour();
             } else {
