@@ -60,8 +60,8 @@ class MalusTest {
 
     @Test
     void testTpDebut_TeleporteAuDepart() {
-        modele.deplacerJoueur("d");
-        modele.deplacerJoueur("s");
+
+        modele.setPositionJoueur(modele.getLabyrinthe().getSortie());
         assertNotEquals(modele.getLabyrinthe().getEntree(), modele.getPositionJoueur());
 
         TpDebut malus = new TpDebut(modele);
