@@ -136,6 +136,7 @@ public class SceneLabyrintheControleur {
      */
     private void initialiserDeplacement() {
         zoneLaby.setOnKeyPressed(this::gererDeplacement);
+        zoneLaby.setOnMouseClicked(e -> zoneLaby.requestFocus());
         zoneLaby.setFocusTraversable(true);
         Platform.runLater(zoneLaby::requestFocus);
     }
@@ -146,6 +147,7 @@ public class SceneLabyrintheControleur {
     private void gererDeplacement(KeyEvent event) {
         String direction = correspondanceTouche(event.getCode());
         if (direction == null) return;
+        event.consume();
         modele.deplacerJoueur(direction);
         if (modele.getPositionJoueur().equals(modele.getSortie())) {
             ecranFinPartie();
