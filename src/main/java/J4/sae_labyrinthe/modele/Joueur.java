@@ -1,6 +1,10 @@
 package J4.sae_labyrinthe.modele;
 
+import J4.sae_labyrinthe.modele.Item.IItem;
+
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Classe représentant un joueur dans le jeu du labyrinthe.
@@ -20,6 +24,7 @@ public class Joueur implements IJoueur, Serializable {
     private int etapeFini;
     private int score;
     private double tempsMoyenDansLabyrinthe;
+    private Map<IItem, Integer> inventaires;
 
 
     /**
@@ -36,6 +41,7 @@ public class Joueur implements IJoueur, Serializable {
         this.etapeFini = 0;
         this.score = 0;
         this.tempsMoyenDansLabyrinthe = 0.0;
+        this.inventaires = new HashMap<>();
     }
 
     /**
@@ -149,5 +155,15 @@ public class Joueur implements IJoueur, Serializable {
 
     public int getEtapeFini() {
         return etapeFini;
+    }
+
+    public void ajouterItem(IItem bonus){
+        if(this.inventaires.putIfAbsent(bonus, 1) != null)  this.inventaires.put(bonus,this.inventaires.get(bonus) + 1);
+    }
+
+    public void retirerItem(IItem bonus){
+        if(this.inventaires.get(bonus) != null && this.inventaires.get(bonus) != 0){
+            this.inventaires.put(bonus,this.inventaires.get(bonus)-1);
+        }
     }
 }

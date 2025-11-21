@@ -29,12 +29,14 @@ public class SceneMenuPrincipalControleur implements IObserver {
     private final ModeleJeu modeleJeu=ModeleJeuSingleton.getInstance();
 
 
+
     @FXML
     private void initialize() {
         modeleJeu.add(this);
         update();
     }
-
+    @FXML
+    public Button buttonBoutique;
     @FXML
     private ImageView iconPP;
 
@@ -150,6 +152,7 @@ public class SceneMenuPrincipalControleur implements IObserver {
                 buttonModeProgression.setDisable(true);
                 //conPP.setImage(imagePPDefault);
                 buttonModeSupplementaire.setDisable(true);
+                buttonBoutique.setDisable(true);
 
             } else {
                 textHintConnexion.setText("Connecté – " + joueur.getNom());
@@ -157,6 +160,7 @@ public class SceneMenuPrincipalControleur implements IObserver {
                 buttonModeProgression.setDisable(false);
                 //iconPP.setImage(modeleJeu.getJoueurActuel().getImagePP());
                 buttonModeSupplementaire.setDisable(false);
+                buttonBoutique.setDisable(false);
             }
 
     }

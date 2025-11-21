@@ -887,4 +887,9 @@ public class ModeleJeu implements IModeleJeu {
 
     public boolean isPartieContreLaMontre() { return partieContreLaMontre; }
     public int getTempsLimite() { return tempsLimite; }
+
+    public void utiliserItem(IItem bonus){
+        bonus.applyEffect();
+        joueurActuel.retirerItem(bonus);
+    }
 }

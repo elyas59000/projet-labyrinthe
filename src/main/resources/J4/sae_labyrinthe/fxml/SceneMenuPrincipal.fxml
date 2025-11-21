@@ -44,6 +44,13 @@
                         prefHeight="70.0"
                         prefWidth="480.0"
                         text="Mode Supplémentaire" />
+                <Button fx:id="buttonBoutique"
+                        maxWidth="1.7976931348623157E308"
+                        disable="true"
+                        onMouseClicked="#ouvrirSceneModeSupplementaire"
+                        prefHeight="70.0"
+                        prefWidth="480.0"
+                        text="Boutique" />
 
             </children>
         </VBox>

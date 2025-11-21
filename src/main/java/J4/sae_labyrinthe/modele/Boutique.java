@@ -19,6 +19,11 @@ public class Boutique {
     // Constructeur privé pour empêcher l’instanciation
     private Boutique() {
         items = new HashMap<>();
+        items.put(BonusFactory.creerBonus("brisemur"),10);
+        items.put(BonusFactory.creerBonus("tp"),5);
+        items.put(BonusFactory.creerBonus("Ward"),7);
+        items.put(BonusFactory.creerBonus("senitirsortie"),15);
+        items.put(BonusFactory.creerBonus("plusvision"),12);
     }
 
     // Méthode d'accès à l'instance unique
@@ -52,7 +57,7 @@ public class Boutique {
 
         int prix = items.get(item);
         if (joueur.getScore() >= prix) {
-            item.applyEffect();
+            joueur.ajouterItem(item);
             joueur.ajouterScore(-prix);
             return true;
         } else {
@@ -64,7 +69,7 @@ public class Boutique {
      * Retourne la HashMap complète (encapsulation possible)
      */
     public Map<IItem, Integer> getItems() {
-        return new HashMap<>(items); // renvoie une copie pour protéger la boutique
+        return new HashMap<>(items);
     }
 }
 
