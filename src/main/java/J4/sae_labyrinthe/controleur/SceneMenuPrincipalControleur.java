@@ -164,4 +164,9 @@ public class SceneMenuPrincipalControleur implements IObserver {
             }
 
     }
+
+    public void ouvrirSceneBoutique(MouseEvent mouseEvent) throws IOException {
+        modeleJeu.remove(this);
+        SceneManager.chargerScene("SceneBoutique");
+    }
 }

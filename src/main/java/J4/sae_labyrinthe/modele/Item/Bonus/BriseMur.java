@@ -30,6 +30,11 @@ public class BriseMur implements IItem {
         return 0;
     }
 
+    @Override
+    public String getNom() {
+        return "brisemur";
+    }
+
 
     @Override
     public String toString(){

@@ -2,14 +2,12 @@ package J4.sae_labyrinthe.modele;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import J4.sae_labyrinthe.exception.ValidationException;
 import J4.sae_labyrinthe.modele.Item.*;
 import J4.sae_labyrinthe.modele.Item.Bonus.*;
-import J4.sae_labyrinthe.modele.Item.Malus.MixCtrl;
 import J4.sae_labyrinthe.modele.Item.Malus.MoinsVision;
 import J4.sae_labyrinthe.modele.Item.Malus.TpDebut;
 import J4.sae_labyrinthe.utils.*;
@@ -36,6 +34,7 @@ public class ModeleJeu implements IModeleJeu {
     private Etape etapeChoisi;
     private int defiChoisi;
     private boolean partieLibre;
+    private boolean brouillard = false;
     private boolean typeDeVue; /* On part du principe que true -> globale et false -> local*/
     private boolean partieDuJourEnCours = false;
     private boolean partieContreLaMontre =false;
@@ -151,8 +150,9 @@ public class ModeleJeu implements IModeleJeu {
      * @author Nathan Philippe
      */
     @Override
-    public void lancerPartieLibre(int largeur, int hauteur, int tauxMur, int distance, Biome biome) {
+    public void lancerPartieLibre(int largeur, int hauteur, int tauxMur, int distance, Biome biome, boolean brouillard) {
         partieLibre =true;
+        this.brouillard = brouillard;
         if(tauxMur == 0){
             this.labyrinthe = new LabyrintheParfait(largeur/2,hauteur/2,distance);
 
@@ -176,6 +176,7 @@ public class ModeleJeu implements IModeleJeu {
         this.debutLabyrintheDuJour = LocalDateTime.now();
         this.partieDuJourEnCours = true;
         this.biome=Biome.DESERT;
+        this.brouillard = false;
         //this.biome=Biome.values()[(int)(Math.random() * Biome.values().length)];
     }
 
@@ -197,9 +198,10 @@ public class ModeleJeu implements IModeleJeu {
     @Override
     public void lancerPartieProgression() {
         partieLibre =false;
+        this.brouillard = false;
         Defi d = etapeChoisi.getDefiParDifficulte(defiChoisi);
         if(etapeChoisi.getNumero() > 3){
-            this.labyrinthe = new LabyrintheParfait(d.getCote()/2,d.getCote()/2,etapeChoisi,d.getDistance());
+            this.labyrinthe = new LabyrintheParfait(d.getCote()/2,d.getCote2()/2,etapeChoisi,d.getDistance());
         }else {
             this.labyrinthe = new Labyrinthe(d.getCote(),d.getCote2(),d.getPourcentageMurs(),etapeChoisi);
         }
@@ -386,6 +388,10 @@ public class ModeleJeu implements IModeleJeu {
      */
     public Cellule getSortie(){
         return labyrinthe.getSortie();
+    }
+
+    public boolean isAvecBrouillard() {
+        return this.brouillard;
     }
 
     public int getDefiChoisi(){
@@ -860,6 +866,7 @@ public class ModeleJeu implements IModeleJeu {
         this.partieContreLaMontre = true;
         this.partieLibre = false;
         this.partieDuJourEnCours = false;
+        this.brouillard = false;
 
         this.tempsLimite = params.getTemps();
 

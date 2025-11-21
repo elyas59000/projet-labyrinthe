@@ -23,6 +23,11 @@ public class Etape{
             int cote2 = 15 + (int)(Math.random() * 20);
             genererDefisDistance(cote1,cote2);
         }
+        else if(NUM==6){
+            int cote1 = 20 + (int)(Math.random() * 25);
+            int cote2 = 20 + (int)(Math.random() * 25);
+            genererDefisDistance(cote1,cote2);
+        }
     }
 
     private void genererDefis(int cote) {

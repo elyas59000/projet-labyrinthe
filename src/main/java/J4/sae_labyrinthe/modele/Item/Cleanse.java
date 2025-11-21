@@ -30,6 +30,11 @@ public class Cleanse implements IItem {
     public int isBonus() {return 0;}
 
     @Override
+    public String getNom() {
+        return "cleanse";
+    }
+
+    @Override
     public String toString(){
         return "Cleanse";
     };

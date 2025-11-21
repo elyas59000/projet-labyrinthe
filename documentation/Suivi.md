@@ -132,6 +132,7 @@
 > - Correction du bug du laby-parfait (inversion du i,j dans new Cellule lors de la création de la grille)
 > 
 >**Elyas** : 
+> - création de test pour le modéle et utils
 > 
 > 
 > **Adam**:

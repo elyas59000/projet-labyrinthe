@@ -54,6 +54,11 @@ public class MoinsVision implements IItem {
     }
 
     @Override
+    public String getNom() {
+        return "moinsvision";
+    }
+
+    @Override
     public String toString() {
         return  "MoinsVision";
     }

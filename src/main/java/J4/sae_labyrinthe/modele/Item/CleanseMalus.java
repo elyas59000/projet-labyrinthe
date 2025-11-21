@@ -35,6 +35,11 @@ public class CleanseMalus implements IItem {
     public int isBonus() {return 0;}
 
     @Override
+    public String getNom() {
+        return this.toString();
+    }
+
+    @Override
     public String toString(){
         return "CleanseMalus";
     };

@@ -40,6 +40,11 @@ public class Ward implements IItem {
     }
 
     @Override
+    public String getNom() {
+        return "vision";
+    }
+
+    @Override
     public String toString(){
         return "Ward";
     };

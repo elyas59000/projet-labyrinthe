@@ -31,6 +31,11 @@ public class MixCtrl implements IItem {
     }
 
     @Override
+    public String getNom() {
+        return "mixctrl";
+    }
+
+    @Override
     public String toString(){
         return "MixCtrl";
     };

@@ -129,6 +129,9 @@ public class CacheMemoire {
 
     private static void chargerAutre(){
         cache.put("souris0.png",new Image(Objects.requireNonNull(CacheMemoire.class.getResourceAsStream("/J4/sae_labyrinthe/assets/textures/souris0.png"))));
+        cache.put("souris1.png",new Image(Objects.requireNonNull(CacheMemoire.class.getResourceAsStream("/J4/sae_labyrinthe/assets/textures/souris1.png"))));
+        cache.put("souris2.png",new Image(Objects.requireNonNull(CacheMemoire.class.getResourceAsStream("/J4/sae_labyrinthe/assets/textures/souris2.png"))));
+        cache.put("souris3.png",new Image(Objects.requireNonNull(CacheMemoire.class.getResourceAsStream("/J4/sae_labyrinthe/assets/textures/souris3.png"))));
     }
 
     public static void preloadAllBiomes() {

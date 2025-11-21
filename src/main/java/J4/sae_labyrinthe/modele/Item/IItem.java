@@ -18,4 +18,6 @@ public interface IItem {
      * @return 1 si bonus, 0 si neutral, -1 si malus
      */
     public int isBonus();
+
+    String getNom();
 }
