@@ -289,6 +289,7 @@ public class SceneLabyrintheControleur {
             String sceneCible;
             if (modele.isPartieContreLaMontre()) {
                 sceneCible = "SceneContreLaMontre";
+                modele.setPartieContreLaMontre(false);
             } else {
                 sceneCible = modele.getPartie();
             }

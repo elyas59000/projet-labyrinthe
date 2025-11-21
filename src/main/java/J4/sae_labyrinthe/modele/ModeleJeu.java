@@ -435,13 +435,17 @@ public class ModeleJeu implements IModeleJeu {
 
     public String getPartie(){
         if(partieLibre){
+            partieLibre = false;
             return "SceneModeLibre";
         }
         else if(partieDuJourEnCours){
             partieDuJourEnCours = false;
             return "SceneLabyrintheDuJour";
         }
-        else{
+        else if (partieContreLaMontre) {
+            partieContreLaMontre = false;
+            return "SceneModeContreLaMontre";
+        } else{
             return "SceneProg";
         }
     }
@@ -890,7 +894,9 @@ public class ModeleJeu implements IModeleJeu {
         notifierObservateurs();
     }
 
-    public boolean isPartieContreLaMontre() { return partieContreLaMontre; }
+    public boolean isPartieContreLaMontre() {
+        return partieContreLaMontre;
+    }
     public int getTempsLimite() { return tempsLimite; }
 
     public void utiliserItem(IItem bonus){
@@ -900,5 +906,9 @@ public class ModeleJeu implements IModeleJeu {
 
     public void nouveauMapItem(){
         items = new HashMap<Cellule, IItem>();
+    }
+
+    public void setPartieContreLaMontre(boolean partieContreLaMontre) {
+        this.partieContreLaMontre = partieContreLaMontre;
     }
 }
