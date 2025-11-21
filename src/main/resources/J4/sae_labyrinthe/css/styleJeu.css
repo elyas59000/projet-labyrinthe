@@ -47,11 +47,11 @@ button:pressed {
 }
 
 #bouton_rouge {
-    -fx-base-color: #d95e74;
+    -fx-base-color: #c3062a;
 }
 
 #bouton_orange {
-    -fx-base-color: #f2a43b;
+    -fx-base-color: #ef8700;
 }
 /*#####################################"*/
 
