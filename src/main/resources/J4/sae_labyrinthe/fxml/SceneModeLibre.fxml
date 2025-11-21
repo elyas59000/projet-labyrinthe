@@ -50,8 +50,8 @@
       <VBox id="vboxLibre" alignment="CENTER" maxWidth="617.0" prefHeight="358.0" prefWidth="430.0" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
           <HBox alignment="CENTER" spacing="30">
               <children>
-                  <Button fx:id="btnAleatoire" text="Labyrinthe Aléatoire" onMouseClicked="#modeAleatoire"/>
-                  <Button fx:id="btnParfait" text="Labyrinthe Parfait" onMouseClicked="#modeParfait"/>
+                  <Button fx:id="btnAleatoire" text="LABYRINTHE ALEATOIRE" onMouseClicked="#modeAleatoire"/>
+                  <Button fx:id="btnParfait" text="LABYRINTHE PARFAIT" onMouseClicked="#modeParfait"/>
               </children>
           </HBox>
 

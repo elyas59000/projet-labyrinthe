@@ -34,23 +34,23 @@
         <VBox alignment="CENTER" fillWidth="true" spacing="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <children>
                 <!-- maxWidth mis à une très grande valeur pour permettre l'étirement -->
-                <Button fx:id="buttonModeProgression" disable="true" maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneProgression" prefHeight="70.0" prefWidth="480.0" text="Mode Progression" />
-                <Button maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneLibre" prefHeight="70.0" prefWidth="480.0" text="Mode Libre" />
-                <Button maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneScores" prefHeight="70.0" prefWidth="480.0" text="Scores" />
+                <Button fx:id="buttonModeProgression" disable="true" maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneProgression" prefHeight="70.0" prefWidth="480.0" text="MODE PROGRESSION" />
+                <Button maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneLibre" prefHeight="70.0" prefWidth="480.0" text="MODE LIBRE" />
+                <Button maxWidth="1.7976931348623157E308" onMouseClicked="#ouvrirSceneScores" prefHeight="70.0" prefWidth="480.0" text="SCORES" />
                 <Button fx:id="buttonModeSupplementaire"
                         maxWidth="1.7976931348623157E308"
                         disable="true"
                         onMouseClicked="#ouvrirSceneModeSupplementaire"
                         prefHeight="70.0"
                         prefWidth="480.0"
-                        text="Mode Supplémentaire" />
+                        text="MODE SUPPLEMENTAIRE" />
                 <Button fx:id="buttonBoutique"
                         maxWidth="1.7976931348623157E308"
                         disable="true"
                         onMouseClicked="#ouvrirSceneBoutique"
                         prefHeight="70.0"
                         prefWidth="480.0"
-                        text="Boutique" />
+                        text="BOUTIQUE" />
 
             </children>
         </VBox>

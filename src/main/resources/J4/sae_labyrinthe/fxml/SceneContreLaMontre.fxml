@@ -33,12 +33,12 @@
                         style="-fx-font-size: 16px;"
                         onMouseClicked="#jouerContreLaMontre"/>
 
-                <Button text="Paramètres de jeu"
+                <Button text="PARAMETRES DE JEU"
                         prefWidth="250"
                         style="-fx-font-size: 16px;"
                         onMouseClicked="#ouvrirParametres"/>
 
-                <Button text="Retour au menu"
+                <Button text="RETOUR AU MENU"
                         prefWidth="250"
                         style="-fx-font-size: 16px;"
                         onMouseClicked="#revenirMenu"/>

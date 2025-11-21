@@ -21,17 +21,17 @@
 
         <VBox spacing="20" alignment="CENTER">
 
-            <Button text="Jouer"
+            <Button text="JOUER"
                     prefWidth="250"
                     style="-fx-font-size: 18px;"
                     onMouseClicked="#jouerLabyrintheDuJour"/>
 
-            <Button text="Scores"
+            <Button text="SCORES"
                     prefWidth="250"
                     style="-fx-font-size: 18px;"
                     onMouseClicked="#ouvrirScoresDuJour"/>
 
-            <Button text="Retour"
+            <Button text="RETOUR"
                     prefWidth="200"
                     style="-fx-font-size: 16px;"
                     onMouseClicked="#revenirMenu"/>

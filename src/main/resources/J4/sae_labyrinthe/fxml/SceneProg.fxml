@@ -9,12 +9,12 @@
 <?import javafx.scene.image.Image?>
 <AnchorPane id="vboxProg" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="J4.sae_labyrinthe.controleur.SceneProgrControleur">
    <children>
-      <Button fx:id="etape1" layoutX="364.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape1" text="Etape 1" />
-      <Button fx:id="etape2" disable="true" layoutX="578.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape2" text="Etape2" />
-      <Button fx:id="etape3" disable="true" layoutX="790.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape3" text="Etape3" />
-       <Button fx:id="etape4" disable="true" layoutX="1002.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape4" text="Etape4" />
-       <Button fx:id="etape5" disable="true" layoutX="1214.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape5" text="Etape5" />
-       <Button fx:id="etape6" disable="true" layoutX="1426.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape6" text="Etape6" />
+      <Button fx:id="etape1" layoutX="364.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape1" text="ETAPE 1" />
+      <Button fx:id="etape2" disable="true" layoutX="578.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape2" text="ETAPE 2" />
+      <Button fx:id="etape3" disable="true" layoutX="790.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape3" text="ETAPE 3" />
+       <Button fx:id="etape4" disable="true" layoutX="1002.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape4" text="ETAPE 4" />
+       <Button fx:id="etape5" disable="true" layoutX="1214.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape5" text="ETAPE 5" />
+       <Button fx:id="etape6" disable="true" layoutX="1426.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ouvrirEtape6" text="ETAPE 6" />
       <Text id="titreProg" layoutX="588.0" textAlignment="CENTER" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Progression" />
       <Button layoutX="57.0" layoutY="631.0" mnemonicParsing="false" onMouseClicked="#retourScenePrecendente">
          <graphic>
