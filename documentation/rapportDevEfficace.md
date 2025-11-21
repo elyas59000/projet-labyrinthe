@@ -1,11 +1,11 @@
 # Investissement dans le projet
 
 --- 
-1. Nathan : 22 %
-2. Clément : 22 %
-3. Anas : 22 %
-4. Elyas : 14 %
-5. Adam : 20 %
+1. Nathan : 24 %
+2. Clément : 24 %
+3. Anas : 24 %
+4. Elyas : 11 %
+5. Adam : 17 %
 
 --- 
 # Structure de données pour les labyrinthes
@@ -19,6 +19,84 @@ Nous utilisons **Union-Find** pour gérer les ensembles de cellules connectées.
 
 --- 
 # Algorithmes de génération
+
+## Labyrinthe Aléatoire
+### Localisation de l'algorithme
+1. Classe : Labyrinthe
+2. Méthode principale : genererLabyrinthe()
+3. Méthodes auxiliaires :
+- creerCellule()
+- creerEntreeSortie()
+- genererChemin()
+- placerMursAvecChemin()
+
+
+### Structure de données utilisées
+1. File (Queue via LinkedList)
+   - Utilisation : Dans la méthode 'genererChemin'. 
+   - Justification : Indispensable pour effectuer un parcours en largeur (BFS).
+   - Elle stocke les cellules à visiter selon le principe FIFO (First In, First
+     Out), ce qui garantit l'exploration des voisins immédiats avant de
+     s'éloigner. Cela assure de trouver un chemin valide sur la grille vide.
+
+2. Liste dynamique (ArrayList)
+   - Utilisation : Dans 'placerMursAvecChemin' pour stocker les murs candidats.
+   - Justification : Nécessaire pour stocker un nombre variable de cellules
+   éligibles (cellules qui ne sont ni entrée, ni sortie, ni sur le chemin).
+   - Elle permet surtout l'utilisation de 'Collections.shuffle()' pour mélanger
+   aléatoirement les candidats et garantir une distribution imprévisible
+   des murs.
+
+
+### Pseudo code
+
+
+    1. INITIALISATION
+    Créer une matrice "grille" de (hauteur x largeur)
+    Initialiser toutes les cellules internes comme vides (non-mur)
+    Marquer les cellules de bordure (périphérie) comme murs
+
+    2. CHOIX DES POINTS
+    Choisir aléatoirement une cellule "Entrée" (x, y)
+    Choisir aléatoirement une cellule "Sortie" (x, y)
+    Tant que la distance de Manhattan entre Entrée et Sortie est trop faible :
+    Rechoisir Sortie
+
+    3. RÉSERVATION DU CHEMIN (BFS)
+    Créer une File "F" vide
+    Créer un tableau "Visite" de booléens (faux partout)
+    Créer un tableau "Parent" pour reconstruire le trajet
+
+    Enfiler Entrée dans F
+    Marquer Entrée dans Visite
+
+    Tant que F n'est pas vide :
+    Cellule C = défiler de F
+    Si C est Sortie : Stopper la recherche
+
+       Pour chaque Voisin V de C :
+           Si V est dans la grille, non mur et non visité dans Visite :
+               Marquer V dans Visite
+               Parent[V] = C  // On mémorise d'où on vient
+               Enfiler V dans F
+
+    Reconstruire la liste "CheminGaranti" en remontant de Sortie vers Entrée via le tableau Parent
+
+    4. PLACEMENT DES MURS ALÉATOIRES
+    Créer une liste "Candidats" vide
+
+    Pour chaque cellule C de la grille (hors bordures) :
+    Si C n'est PAS dans "CheminGaranti" ET C ≠ Entrée ET C ≠ Sortie :
+    Ajouter C à "Candidats"
+
+    Mélanger aléatoirement la liste "Candidats" (Shuffle)
+    Calculer NombreMurs = (largeur * hauteur * pourcentageMurs / 100)
+
+    Pour i allant de 0 à NombreMurs (ou taille max de Candidats) :
+    Cellule MurAlea = Candidats[i]
+    Transformer MurAlea en MUR dans la grille
+
+    Retourner grille
 
 
 
@@ -69,17 +147,45 @@ Nous implémentons deux algorithmes de géneration pour le labyrinthe parfait :
 
 --- 
 # Efficacité
+## Labyrinthe Aléatoire
 
+| Largeur  | Hauteur    | Pourcentage de Murs | Temps (ms)  |
+|----------|------------|---------------------|-------------|
+| 20       | 10         | 40                  | 0           |
+| 100      | 50         | 10                  | 4           |
+| 100      | 50         | 40                  | 0           |
+| 200      | 100        | 10                  | 12          |
+| 200      | 100        | 40                  | 6           |
+| 200      | 100        | 10                  | 8           |
+| 1000     | 500        | 40                  | 70          |
+
+
+### Voici le tableau de temps avec mon algorithme de la V1
+Cette algorithme tester creer les murs puis a chaque creation de mur faisais un parcour du labyrinthe 
+pour savoir si un chemin était possible.
+
+| Largeur  | Hauteur    | Pourcentage de Murs | Temps (ms) |
+|----------|------------|---------------------|------------|
+| 20       | 10         | 40                  | 5          |
+| 100      | 50         | 10                  | 76         |
+| 100      | 50         | 40                  | 125        |
+| 200      | 100        | 10                  | 639        |
+| 200      | 100        | 40                  | 1588       |
+| 200      | 100        | 10                  | 3015       |
+| 1000     | 500        | 40                  | ?          |
+
+On peut voir un changement énorme, il fallait absolument changé cet algorithme de génération.
+Car il était vraiment très très long.
 ## Labyrinthe Parfait
 
 ### Algorithme de parcours en profondeur
 
 | Largeur | Hauteur | Distance | Temps (ms) |
-|---------|----------|-----------|------------|
-| 20      | 10       | 15        | 1          |
-| 100     | 50       | 70        | 6          |
-| 200     | 100      | 150       | 16         |
-| 1000    | 500      | 700       | 147        |
+|---------|---------|----------|------------|
+| 20      | 10      | 15       | 1          |
+| 100     | 50      | 70       | 6          |
+| 200     | 100     | 150      | 16         |
+| 1000    | 500     | 700      | 147        |
 
 ### Algorithme de Fusions aléatoires des chemins 
 
@@ -94,7 +200,30 @@ Nous implémentons deux algorithmes de géneration pour le labyrinthe parfait :
 
 --- 
 # Complément et Bilan
---- 
 
+--- 
+## Complément
+
+--- 
+### Effort sur l'éfficacité
+
+- Amélioration IMPORTANTE de l'éfficacité de la génération du labyrinthe aléatoire (Classe Labyrinthe)
+- Bonne gestion de l'initialisation des vues pour avoir une génération rapide en jeu (Classe des vues et SceneLabyrintheControleur)
+- Gestion de la vue Partielle si le labyrinthe est trop grand (Classe SceneLabyrintheControleur)
+- Utilisation d'un cache Memoire pour stocker les images (Classe CacheMemoire)
+
+## Bilan 
+
+### Difficulté rencontré
+
+- Génération du labyrinthe aléatoire très longue pour la V1
+- Beaucoup de très gros problèmes de merge
+- Gerer les vues pour que le labyrinthe ne soit pas long a lancé en jeu
+
+### Améliorations envisageables
+
+- Decomposition des méthodes
+- Des commentaires pour expliquer qu'est ce que font certaines méthodes
+- Un meilleur rangement des méthodes dans les classes
 
 --- 
