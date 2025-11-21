@@ -54,6 +54,7 @@
 > - Creation d'une méthode pour les vues permettant de fusionner deux images avec une des deux étant le fond
 > - ajout du tableau des scores
 > - Correction de plusieurs problèmes apparus
+> 
 > **Nathan** : 
 > - Ajout de séparateur pour la vue partiel (plus actif)
 > - Ajout élement de sortie des labyrinthes
@@ -83,6 +84,16 @@
 ## Semaine 4 jusqu'au rendu final
 
 > **Anas** : 
+> - Creation du labyrinthe parfait : 
+>  - Algorithme de creation du TP dev efficace avec un parcours en profondeur
+>  - Nouvelle algorithme de creation avec Structure UnionFind
+>  - Ajout de la méthode de distance minimale pour la sortie
+> - Creation de la boutique permettant D'acheter des Bonus avec des points de scores
+> - Création de l'inventaire permettant l'utilsation des Bonuse en jeu par le joueur
+> - Correction des inversion de coordonées entre les deux labyrinthes
+> - Mise en place des test de  performance pour les deux labyrinthes
+> - Correction de divers problèmes et conflits survenu 
+> - Realisation du diagramme de classe UML final
 > 
 > 
 > **Nathan** : 
@@ -120,7 +131,7 @@
 >     - On a donc desormais 3 vues (entières, partielles, minimap) qui pour les 2 dernières prennent des paramètres pour modifier leur comportement (exemple : la minicarte peut afficher ou non le joueur ou/la sortie).
 > - Correction du bug du laby-parfait (inversion du i,j dans new Cellule lors de la création de la grille)
 > 
-> - **Elyas** : 
+>**Elyas** : 
 > 
 > 
 > **Adam**:
@@ -141,4 +152,6 @@
 > - décomposition de méthodes de Labyrinthe
 > - ajout de styles
 > - correction des fautes dans le suivi
+
+
 
