@@ -4,10 +4,7 @@ import java.io.IOException;
 
 import J4.sae_labyrinthe.modele.*;
 import J4.sae_labyrinthe.utils.SceneManager;
-import J4.sae_labyrinthe.vue.VueLabyrintheAbstraite;
-import J4.sae_labyrinthe.vue.VueLabyrintheEntier;
-import J4.sae_labyrinthe.vue.VueLabyrintheMap;
-import J4.sae_labyrinthe.vue.VueLabyrinthePartielle;
+import J4.sae_labyrinthe.vue.*;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -93,12 +90,15 @@ public class SceneLabyrintheControleur {
 
                 }
                 case 5 -> {
-                    switch (modele.getDefiChoisi()) {
-                        case 1 -> vuePartielle.setRange(6);
-                        case 2 -> vuePartielle.setRange(5);
-                        case 3 -> vuePartielle.setRange(4);
-                    }
-                    setVueActive(vuePartielle,false);
+                    VueLabyrintheEntier vueAvecBrouillard = new VueLabyrintheEntier(modele, true, false);
+                    int rayon = switch (modele.getDefiChoisi()) {
+                        case 1 -> 3;
+                        case 2 -> 2;
+                        case 3 -> 1;
+                        default -> 3;
+                    };
+                    vueAvecBrouillard.setRAYON_DECOUVERTE(rayon);
+                    setVueActive(vueAvecBrouillard, false);
                 }
                 case 6 -> {
                     vueMiniMap.setPrintJoueur(true);
@@ -238,11 +238,11 @@ public class SceneLabyrintheControleur {
         titre.getStyleClass().add("pause-titre");
 
         Button reprendre = new Button("Reprendre");
-        reprendre.getStyleClass().add("pause-bouton");
+        ajouterPause(reprendre);
         reprendre.setOnAction(e -> reprendrePartie());
 
         Button quitter = new Button("Quitter");
-        quitter.getStyleClass().add("pause-bouton");
+        ajouterPause(quitter);
         quitter.setOnAction(e -> quitterPartie());
 
         menuPause.getChildren().addAll(titre, reprendre, quitter);
@@ -295,11 +295,11 @@ public class SceneLabyrintheControleur {
         titre.getStyleClass().add("pause-titre");
 
         Button rejouer = new Button("Rejouer");
-        rejouer.getStyleClass().add("pause-bouton");
+        ajouterPause(rejouer);
         rejouer.setOnAction(e -> relancerPartie());
 
         Button quitter = new Button("Quitter");
-        quitter.getStyleClass().add("pause-bouton");
+        ajouterPause(quitter);
         quitter.setOnAction(e -> quitterPartie());
 
         ecranV.getChildren().addAll(titre, rejouer, quitter);
@@ -453,11 +453,11 @@ public class SceneLabyrintheControleur {
         titre.setStyle("-fx-text-fill: #ff5555;");
 
         Button rejouer = new Button("Réessayer");
-        rejouer.getStyleClass().add("pause-bouton");
+        ajouterPause(rejouer);
         rejouer.setOnAction(e -> relancerPartie());
 
         Button quitter = new Button("Quitter");
-        quitter.getStyleClass().add("pause-bouton");
+        ajouterPause(quitter);
         quitter.setOnAction(e -> quitterPartie());
 
         ecranV.getChildren().addAll(titre, rejouer, quitter);
@@ -465,5 +465,7 @@ public class SceneLabyrintheControleur {
         StackPane.setAlignment(ecranV, Pos.CENTER);
     }
 
-
+    private void ajouterPause(Button b){
+        b.getStyleClass().add("pause-bouton");
+    }
 }
