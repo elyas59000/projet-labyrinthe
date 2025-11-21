@@ -16,14 +16,13 @@ public class Boutique {
     // La boutique : clé = item, valeur = prix
     private Map<IItem, Integer> items;
 
-    // Constructeur privé pour empêcher l’instanciation
     private Boutique() {
         items = new HashMap<>();
-        items.put(BonusFactory.creerBonus("brisemur"),10);
-        items.put(BonusFactory.creerBonus("tp"),5);
-        items.put(BonusFactory.creerBonus("Ward"),7);
-        items.put(BonusFactory.creerBonus("sentirsortie"),15);
-        items.put(BonusFactory.creerBonus("plusvision"),12);
+        items.put(BonusFactory.creerBonus("brisemur"), 100);
+        items.put(BonusFactory.creerBonus("tp"), 5);
+        items.put(BonusFactory.creerBonus("Ward"), 7);
+        items.put(BonusFactory.creerBonus("sentirsortie"), 15);
+        items.put(BonusFactory.creerBonus("plusvision"), 12);
     }
 
     // Méthode d'accès à l'instance unique
@@ -38,13 +37,6 @@ public class Boutique {
         if (item != null && prix >= 0) {
             items.put(item, prix);
         }
-    }
-
-    /**
-     * Retire un item de la boutique
-     */
-    public void retirerItem(IItem item) {
-        items.remove(item);
     }
 
     /**
@@ -71,6 +63,32 @@ public class Boutique {
     public Map<IItem, Integer> getItems() {
         return new HashMap<>(items);
     }
+
+    public int getPrixItemByNom(String nom) {
+        if (nom == null) return -1;
+
+        for (Map.Entry<IItem, Integer> entry : items.entrySet()) {
+            IItem item = entry.getKey();
+            if (item.getNom().equalsIgnoreCase(nom)) {
+                return entry.getValue();
+            }
+        }
+        return -1;
+
+
+    }
+    public IItem getItemByNom(String nom) {
+        if (nom == null) return null;
+
+        for (IItem item : items.keySet()) {
+            if (item.getNom().equalsIgnoreCase(nom)) {
+                return item;
+            }
+        }
+
+        return null; // si non trouvé
+    }
+
 }
 
 

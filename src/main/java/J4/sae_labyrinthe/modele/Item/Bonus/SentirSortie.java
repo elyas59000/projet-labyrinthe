@@ -31,6 +31,11 @@ public class SentirSortie implements IItem {
     }
 
     @Override
+    public String getNom() {
+        return "sentir";
+    }
+
+    @Override
     public String toString(){
         return "SentirSortie";
     };

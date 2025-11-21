@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="J4.sae_labyrinthe.controleur.SceneBoutiqueControleur">
@@ -42,9 +41,7 @@
             <!-- Brise-mur -->
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
-                    <image>
-                        <Image url="@../assets/icons/brise_mur.png"/>
-                    </image>
+                    <image><Image url="@../assets/icons/brise_mur.png"/></image>
                 </ImageView>
                 <Label text="Brise-mur :" />
                 <Label fx:id="invBriseMur" text="0" style="-fx-font-weight: bold;" />
@@ -53,9 +50,7 @@
             <!-- Téléportation -->
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
-                    <image>
-                        <Image url="@../assets/icons/teleport.png"/>
-                    </image>
+                    <image><Image url="@../assets/icons/teleport.png"/></image>
                 </ImageView>
                 <Label text="Téléportation :" />
                 <Label fx:id="invTeleport" text="0" style="-fx-font-weight: bold;" />
@@ -64,9 +59,7 @@
             <!-- Sentir sortie -->
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
-                    <image>
-                        <Image url="@../assets/icons/vision.png"/>
-                    </image>
+                    <image><Image url="@../assets/icons/vision.png"/></image>
                 </ImageView>
                 <Label text="Sentir sortie :" />
                 <Label fx:id="invSentir" text="0" style="-fx-font-weight: bold;" />
@@ -75,9 +68,7 @@
             <!-- Balise vision -->
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
-                    <image>
-                        <Image url="@../assets/icons/vision.png"/>
-                    </image>
+                    <image><Image url="@../assets/icons/vision.png"/></image>
                 </ImageView>
                 <Label text="Balise vision :" />
                 <Label fx:id="invVision" text="0" style="-fx-font-weight: bold;" />
@@ -85,71 +76,84 @@
         </VBox>
     </left>
 
+
     <!-- BOUTONS D'ACHAT -->
     <center>
-        <VBox spacing="20" alignment="CENTER">
+        <VBox spacing="25" alignment="CENTER">
 
             <!-- Brise-mur -->
-            <Button onMouseClicked="#acheterBriseMur" prefWidth="280">
-                <graphic>
-                    <HBox spacing="15" alignment="CENTER_LEFT">
-                        <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
-                            <image>
-                                <Image url="@../assets/icons/brise_mur.png"/>
-                            </image>
-                        </ImageView>
-                        <Label text="Acheter Brise-mur" style="-fx-font-size: 18px;" />
-                        <Label fx:id="prixBriseMur" text="10" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
-                    </HBox>
-                </graphic>
-            </Button>
+            <VBox alignment="CENTER">
+                <Button onMouseClicked="#acheterBriseMur" prefWidth="280">
+                    <graphic>
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
+                                <image><Image url="@../assets/icons/brise_mur.png"/></image>
+                            </ImageView>
+                            <Label text="Acheter Brise-mur" style="-fx-font-size: 18px;" />
+                            <Label fx:id="prixBriseMur" text="10"
+                                   style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+                        </HBox>
+                    </graphic>
+                </Button>
+                <Label fx:id="msgBriseMur" text="" textFill="red" />
+            </VBox>
+
 
             <!-- Téléportation -->
-            <Button onMouseClicked="#acheterTeleportation" prefWidth="280">
-                <graphic>
-                    <HBox spacing="15" alignment="CENTER_LEFT">
-                        <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
-                            <image>
-                                <Image url="@../assets/icons/teleport.png"/>
-                            </image>
-                        </ImageView>
-                        <Label text="Acheter Téléportation" style="-fx-font-size: 18px;" />
-                        <Label fx:id="prixTeleport" text="20" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
-                    </HBox>
-                </graphic>
-            </Button>
+            <VBox alignment="CENTER">
+                <Button onMouseClicked="#acheterTeleportation" prefWidth="280">
+                    <graphic>
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
+                                <image><Image url="@../assets/icons/teleport.png"/></image>
+                            </ImageView>
+                            <Label text="Acheter Téléportation" style="-fx-font-size: 18px;" />
+                            <Label fx:id="prixTeleport" text="20"
+                                   style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+                        </HBox>
+                    </graphic>
+                </Button>
+                <Label fx:id="msgTeleport" text="" textFill="red" />
+            </VBox>
+
 
             <!-- Sentir sortie -->
-            <Button onMouseClicked="#acheterSentirSortie" prefWidth="280">
-                <graphic>
-                    <HBox spacing="15" alignment="CENTER_LEFT">
-                        <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
-                            <image>
-                                <Image url="@../assets/icons/vision.png"/>
-                            </image>
-                        </ImageView>
-                        <Label text="Acheter Sentir Sortie" style="-fx-font-size: 18px;" />
-                        <Label fx:id="prixSentir" text="15" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
-                    </HBox>
-                </graphic>
-            </Button>
+            <VBox alignment="CENTER">
+                <Button onMouseClicked="#acheterSentirSortie" prefWidth="280">
+                    <graphic>
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
+                                <image><Image url="@../assets/icons/vision.png"/></image>
+                            </ImageView>
+                            <Label text="Acheter Sentir Sortie" style="-fx-font-size: 18px;" />
+                            <Label fx:id="prixSentir" text="15"
+                                   style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+                        </HBox>
+                    </graphic>
+                </Button>
+                <Label fx:id="msgSentir" text="" textFill="red" />
+            </VBox>
+
 
             <!-- Balise de vision -->
-            <Button onMouseClicked="#acheterBaliseVision" prefWidth="280">
-                <graphic>
-                    <HBox spacing="15" alignment="CENTER_LEFT">
-                        <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
-                            <image>
-                                <Image url="@../assets/icons/vision.png"/>
-                            </image>
-                        </ImageView>
-                        <Label text="Acheter Balise Vision" style="-fx-font-size: 18px;" />
-                        <Label fx:id="prixVision" text="25" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
-                    </HBox>
-                </graphic>
-            </Button>
+            <VBox alignment="CENTER">
+                <Button onMouseClicked="#acheterBaliseVision" prefWidth="280">
+                    <graphic>
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
+                                <image><Image url="@../assets/icons/vision.png"/></image>
+                            </ImageView>
+                            <Label text="Acheter Balise Vision" style="-fx-font-size: 18px;" />
+                            <Label fx:id="prixVision" text="25"
+                                   style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+                        </HBox>
+                    </graphic>
+                </Button>
+                <Label fx:id="msgVision" text="" textFill="red" />
+            </VBox>
 
-            <!-- Retour -->
+
+            <!-- RETOUR -->
             <Button onMouseClicked="#retourScenePrecendente"
                     prefWidth="200"
                     style="-fx-font-size: 16px;">
@@ -164,4 +168,3 @@
     </padding>
 
 </BorderPane>
-
