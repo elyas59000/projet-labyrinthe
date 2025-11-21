@@ -1,7 +1,6 @@
 package J4.sae_labyrinthe.controleur;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
@@ -9,19 +8,11 @@ import J4.sae_labyrinthe.utils.SaveScoreDuJour;
 import J4.sae_labyrinthe.utils.SceneManager;
 import J4.sae_labyrinthe.utils.ScoreDuJour;
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
 
 public class SceneLabyrintheDuJourControleur  {
 
     private final ModeleJeu modele = ModeleJeuSingleton.getInstance();
 
-    @FXML
-    private Text txtDescription;
-
-    @FXML
-    void initialize() {
-        txtDescription.setText("Labyrinthe du jour - " + LocalDate.now());
-    }
 
     @FXML
     void jouerLabyrintheDuJour() {

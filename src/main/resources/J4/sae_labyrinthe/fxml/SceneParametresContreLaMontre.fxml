@@ -21,7 +21,7 @@
         <VBox alignment="CENTER" spacing="10">
             <padding><Insets top="20" bottom="10"/></padding>
             <Text text="Paramètres de la partie"
-                  style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+                  style="-fx-font-size: 28px; -fx-font-weight: bold;-fx-fill: black;"/>
         </VBox>
     </top>
 
@@ -30,20 +30,20 @@
 
             <CheckBox fx:id="checkParfait"
                       text="Labyrinthe Parfait (Chemin unique)"
-                      style="-fx-font-size: 16px;"/>
+                      style="-fx-font-size: 18px; -fx-text-fill: black; -fx-font-weight: bold;"/>
 
             <GridPane hgap="15" vgap="15" alignment="CENTER">
-                <Label text="Largeur :" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                <Label text="Largeur :" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold; -fx-text-fill: black; -fx-font-size: 18px;"/>
                 <Slider fx:id="sliderLargeur" min="10" max="50" value="15"
                         showTickLabels="true" showTickMarks="true" prefWidth="200"
                         GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-                <Label text="Hauteur :" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                <Label text="Hauteur :" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold; -fx-text-fill: black; -fx-font-size: 18px;"/>
                 <Slider fx:id="sliderHauteur" min="10" max="50" value="15"
                         showTickLabels="true" showTickMarks="true" prefWidth="200"
                         GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-                <Label text="Temps (sec) :" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                <Label text="Temps (sec) :" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold; -fx-text-fill: black; -fx-font-size: 18px;"/>
                 <Slider fx:id="sliderTemps" min="30" max="300" value="60" majorTickUnit="30"
                         showTickLabels="true" showTickMarks="true" prefWidth="200"
                         GridPane.rowIndex="2" GridPane.columnIndex="1"/>
@@ -55,13 +55,13 @@
 
             <StackPane>
                 <VBox fx:id="boxTauxMur" spacing="5" alignment="CENTER">
-                    <Label text="Densité des murs (%)" style="-fx-font-weight: bold;"/>
+                    <Label text="Densité des murs (%)" style="-fx-font-weight: bold; -fx-text-fill: black; -fx-font-size: 18px;"/>
                     <Slider fx:id="sliderTauxMur" min="10" max="60" value="30"
                             showTickLabels="true" showTickMarks="true" prefWidth="250"/>
                 </VBox>
 
                 <VBox fx:id="boxDistanceMini" spacing="5" alignment="CENTER" visible="false">
-                    <Label text="Distance minimale Sortie" style="-fx-font-weight: bold;"/>
+                    <Label text="Distance minimale Sortie" style="-fx-font-weight: bold; -fx-text-fill: black; -fx-font-size: 18px;"/>
                     <Slider fx:id="sliderDistanceMin" min="5" max="50" value="15"
                             showTickLabels="true" showTickMarks="true" prefWidth="250"/>
                 </VBox>
@@ -71,7 +71,7 @@
     </center>
 
     <bottom>
-        <HBox spacing="20" alignment="CENTER">
+        <HBox spacing="60" alignment="CENTER">
             <padding><Insets bottom="30"/></padding>
 
             <Button text="🎲 Aléatoire"

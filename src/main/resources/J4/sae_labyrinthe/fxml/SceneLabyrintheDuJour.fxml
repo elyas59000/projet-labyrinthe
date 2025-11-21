@@ -8,6 +8,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@../css/style.css"
             fx:controller="J4.sae_labyrinthe.controleur.SceneLabyrintheDuJourControleur">
 
     <top>
@@ -17,13 +18,8 @@
     </top>
 
     <center>
-        <Text fx:id="txtDescription"
-              text="Un nouveau labyrinthe chaque jour !"
-              style="-fx-font-size: 18px;"/>
 
         <VBox spacing="20" alignment="CENTER">
-            <Text text="Un nouveau labyrinthe chaque jour !"
-                  style="-fx-font-size: 18px;"/>
 
             <Button text="Jouer"
                     prefWidth="250"

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1"
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css"
       fx:controller="J4.sae_labyrinthe.controleur.SceneScoreDuJourControleur">
 
     <Text text="Scores du jour" style="-fx-font-size: 24px;"/>

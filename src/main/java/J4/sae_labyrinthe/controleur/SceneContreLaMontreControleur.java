@@ -1,22 +1,12 @@
 package J4.sae_labyrinthe.controleur;
 
 import java.io.IOException;
-import J4.sae_labyrinthe.modele.ModeleJeu;
 import J4.sae_labyrinthe.modele.ModeleJeuSingleton;
 import J4.sae_labyrinthe.utils.ParametresContreLaMontre;
 import J4.sae_labyrinthe.utils.SceneManager;
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
 
 public class SceneContreLaMontreControleur {
-
-    @FXML
-    private Text txtDescription;
-
-    @FXML
-    void initialize() {
-        txtDescription.setText("Complète le labyrinthe avant la fin du chrono !");
-    }
 
     @FXML
     void jouerContreLaMontre() {

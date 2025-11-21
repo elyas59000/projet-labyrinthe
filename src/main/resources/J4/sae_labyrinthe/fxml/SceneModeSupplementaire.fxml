@@ -8,6 +8,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@../css/style.css"
             fx:controller="J4.sae_labyrinthe.controleur.SceneModeSupplementaireControleur">
 
     <!-- Titre centré en haut -->
