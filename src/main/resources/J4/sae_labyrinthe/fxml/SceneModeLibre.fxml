@@ -2,6 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -12,91 +14,111 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.control.CheckBox?>
 
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="J4.sae_labyrinthe.controleur.SceneModeLibreControleur">
-   <columnConstraints>
-      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="30.0" />
-      <ColumnConstraints halignment="CENTER" hgrow="NEVER" percentWidth="40.0" />
-      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="30.0" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
-      <RowConstraints fillHeight="false" percentHeight="60.0" valignment="CENTER" vgrow="NEVER" />
-      <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
-   </rowConstraints>
-   <children>
-      <Text id="titreLibre" strokeType="OUTSIDE" strokeWidth="0.0" text="Mode Libre" GridPane.columnIndex="1"> </Text>
-      <Button onMouseClicked="#lancerPartieLibre" prefHeight="70.0" prefWidth="110.0" text="JOUER ▶ " GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
-         <GridPane.margin>
-            <Insets bottom="50.0" right="50.0" />
-         </GridPane.margin>
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
-      <Button onMouseClicked="#retourScenePrecedente" prefHeight="70.0" prefWidth="70.0" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
-         <graphic>
-            <ImageView fitHeight="40.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../assets/icons/back.png" />
-               </image>
-            </ImageView>
-         </graphic>
-         <GridPane.margin>
-            <Insets bottom="50.0" left="50.0" />
-         </GridPane.margin>
-      </Button>
-      <VBox id="vboxLibre" alignment="CENTER" maxWidth="617.0" prefHeight="358.0" prefWidth="430.0" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-          <HBox alignment="CENTER" spacing="30">
-              <children>
-                  <Button fx:id="btnAleatoire" text="Labyrinthe Aléatoire" onMouseClicked="#modeAleatoire"/>
-                  <Button fx:id="btnParfait" text="Labyrinthe Parfait" onMouseClicked="#modeParfait"/>
-              </children>
-          </HBox>
+    <columnConstraints>
+        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="30.0" />
+        <ColumnConstraints halignment="CENTER" hgrow="NEVER" percentWidth="40.0" />
+        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="30.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
+        <RowConstraints fillHeight="false" percentHeight="60.0" valignment="CENTER" vgrow="NEVER" />
+        <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <!-- Titre -->
+        <Text id="titreLibre" strokeType="OUTSIDE" strokeWidth="0.0" text="Mode Libre" GridPane.columnIndex="1" />
 
-          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0">
-               <children>
-                  <Text id="textLargeur" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Largeur du labyrinthe :"> </Text>
-                  <Spinner fx:id="champsLargeur" editable="true" prefHeight="42.0" prefWidth="125.0" />
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-               <children>
-                  <Text id="textHauteur" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Hauteur du labyrinthe :"> </Text>
-                  <Spinner fx:id="champsHauteur" editable="true" prefHeight="42.0" prefWidth="125.0" />
-               </children>
-            </HBox>
-              <HBox fx:id="boxTauxMur" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
-              <children>
-                  <Text id="textMur" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Taux de mur :"> </Text>
-                  <Spinner fx:id="champsTauxMur" editable="true" prefHeight="42.0" prefWidth="125.0" />
-               </children>
-            </HBox>
-              <HBox fx:id="boxDistance" prefHeight="100.0" prefWidth="200.0" spacing="40.0" visible="false" managed="false">
-                  <children>
-                      <Text id="textDistance" strokeType="OUTSIDE" strokeWidth="0.0"
-                            style="-fx-font-weight: bold; -fx-font-style: italic;"
-                            text="Distance minimale :"/>
+        <!-- Bouton Jouer -->
+        <Button onMouseClicked="#lancerPartieLibre" prefHeight="70.0" prefWidth="110.0" text="JOUER ▶ " GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+            <GridPane.margin>
+                <Insets bottom="50.0" right="50.0" />
+            </GridPane.margin>
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Button>
 
-                      <Spinner fx:id="champsDistance" editable="true" prefHeight="42.0" prefWidth="125.0"/>
-                  </children>
-              </HBox>
-              <HBox prefHeight="100.0" prefWidth="200.0" spacing="95.0">
-                  <children>
-                      <Text id="textBrouillard" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Brouillard :"> </Text>
-                      <CheckBox fx:id="checkBrouillard" mnemonicParsing="false">
-                          <font>
-                              <Font size="16.0" /> </font>
-                      </CheckBox>
-                  </children>
-              </HBox>
+        <!-- Bouton Retour -->
+        <Button onMouseClicked="#retourScenePrecedente" prefHeight="70.0" prefWidth="70.0" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
+            <graphic>
+                <ImageView fitHeight="40.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../assets/icons/back.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <GridPane.margin>
+                <Insets bottom="50.0" left="50.0" />
+            </GridPane.margin>
+        </Button>
 
-          </children>
-         <GridPane.margin>
-            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
-         </GridPane.margin>
-      </VBox>
-   </children>
+        <!-- VBox principale (paramètres du labyrinthe) -->
+        <VBox id="vboxLibre" alignment="CENTER" maxWidth="617.0" prefHeight="358.0" prefWidth="430.0" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <HBox alignment="CENTER" spacing="30">
+                <children>
+                    <Button fx:id="btnAleatoire" text="Labyrinthe Aléatoire" onMouseClicked="#modeAleatoire"/>
+                    <Button fx:id="btnParfait" text="Labyrinthe Parfait" onMouseClicked="#modeParfait"/>
+                </children>
+            </HBox>
+
+            <children>
+                <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+                    <children>
+                        <Text id="textLargeur" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Largeur du labyrinthe :"/>
+                        <Spinner fx:id="champsLargeur" editable="true" prefHeight="42.0" prefWidth="125.0" />
+                    </children>
+                </HBox>
+
+                <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                    <children>
+                        <Text id="textHauteur" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Hauteur du labyrinthe :"/>
+                        <Spinner fx:id="champsHauteur" editable="true" prefHeight="42.0" prefWidth="125.0" />
+                    </children>
+                </HBox>
+
+                <HBox fx:id="boxTauxMur" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+                    <children>
+                        <Text id="textMur" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Taux de mur :"/>
+                        <Spinner fx:id="champsTauxMur" editable="true" prefHeight="42.0" prefWidth="125.0" />
+                    </children>
+                </HBox>
+
+                <HBox fx:id="boxDistance" prefHeight="100.0" prefWidth="200.0" spacing="40.0" visible="false" managed="false">
+                    <children>
+                        <Text id="textDistance" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Distance minimale :"/>
+                        <Spinner fx:id="champsDistance" editable="true" prefHeight="42.0" prefWidth="125.0"/>
+                    </children>
+                </HBox>
+
+                <HBox prefHeight="100.0" prefWidth="200.0" spacing="95.0">
+                    <children>
+                        <Text id="textBrouillard" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;-fx-fill: white;" text="Brouillard :"/>
+                        <CheckBox fx:id="checkBrouillard" mnemonicParsing="false">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </CheckBox>
+                    </children>
+                </HBox>
+            </children>
+
+            <GridPane.margin>
+                <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+            </GridPane.margin>
+            <HBox alignment="CENTER" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <children>
+                    <Text id="textBiome" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;-fx-fill: white;" text="Choisir un biome :"/>
+                    <ComboBox fx:id="comboBiome" prefWidth="150.0">
+                    </ComboBox>
+                </children>
+            </HBox>
+        </VBox>
+
+        <!-- HBox pour choisir le biome (séparé) -->
+
+    </children>
 </GridPane>
